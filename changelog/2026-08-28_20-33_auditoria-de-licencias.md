@@ -105,6 +105,41 @@ trampa para que no se repita.
 - **El detalle se queda en `data/processed/`.** Las coordenadas ya vienen ofuscadas ~200 m por
   Inside Airbnb; la agregación por barrio para lo que se publica es tarea de `export.py`.
 
+## Alojamiento estudiantil: comprobado, NO es un falso positivo
+
+Se revisó si los anuncios que se presentan como residencia de estudiantes eran un falso positivo
+sistemático, igual que lo habían sido los hoteles. **No lo son**, y el motivo es instructivo.
+
+En el núcleo de 727 hay 9 anuncios con marcadores de este tipo (*Student Only*, *Language Course*,
+*aparto*). La diferencia con los hoteles es decisiva: aquellos **declaraban una licencia `HB-` real
+y verificable**; estos no declaran nada y operan con **mínimos de 2 y 3 noches**. Alquilar un
+estudio dos noches es uso turístico con independencia de a quién se le alquile.
+
+El caso de **La Fabrica &Co** lo enseña con claridad — 10 anuncios en la misma torre del Poblenou:
+
+| Estancia mínima | Anuncios | Qué declaran |
+|---|---|---|
+| 31 noches | 3 | `Exempt - seasonal rental` |
+| 2–3 noches | 7 | nada |
+
+Mismo operador, mismo edificio, mismo producto: la exención se declara solo donde la duración
+podría sostenerla. **BLAU Student Housing** repite el patrón — 5 anuncios, todos a 3 noches
+mínimo, ninguno declara nada, y uno acumula 596 reseñas en doce meses.
+
+Impacto en la cifra: 9 de 727, así que no la mueve. Pero descarta la hipótesis de que ese grupo
+estuviera mal clasificado.
+
+## Hueco conocido: las licencias de albergue (`AJ`) no son verificables
+
+203 anuncios declaran una licencia `AJ` (albergue). **No se pueden contrastar**: el Registre de
+Turisme de Catalunya no incluye esa categoría — sus tipos son HUT, hoteles, apartaments turístics,
+turisme rural, càmpings, llars compartides y autocaravanes. Los albergues se registran por otra
+vía.
+
+Consecuencia práctica: se clasifican como `licencia_otro_regimen`, es decir, **declarada pero no
+verificada**. Es el mismo trato que reciben los hoteles cuya `HB-` sí podría comprobarse, así que
+conviene no confundir ambos casos al interpretar esa categoría.
+
 ## Por qué no se cruza por dirección
 
 Sería lo natural para rescatar candidatos cuya licencia existe pero está mal transcrita. **No es
