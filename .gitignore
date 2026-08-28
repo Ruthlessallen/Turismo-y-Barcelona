@@ -1,0 +1,67 @@
+# Dependencias
+node_modules/
+.pnpm-debug.log*
+
+# Python (pipeline/)
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Datos crudos: no se versionan.
+#  1. Contienen nombre y apellidos de titulares persona física (844 registros en el Registre de
+#     Turisme). Son públicos en origen, pero republicarlos aquí es una distribución distinta.
+#  2. Son pesados (~90 MB) y redescargables: `python pipeline/sources/descargar_fuentes.py`.
+# Lo derivado (data/processed/) sí se versiona: ya viene sin datos personales.
+data/raw/*
+!data/raw/README.md
+
+# Variables de entorno (nunca commitear valores reales)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Builds
+dist/
+build/
+.next/
+out/
+.nuxt/
+.output/
+.vercel/
+
+# Cache
+.cache/
+.parcel-cache/
+.turbo/
+.eslintcache
+
+# Testing
+coverage/
+.nyc_output/
+
+# TypeScript
+*.tsbuildinfo
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Claude Code
+# Nota: .mcp.json SÍ se commitea (las claves van como ${VARIABLE}, nunca el valor real).
+.claude/settings.local.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
