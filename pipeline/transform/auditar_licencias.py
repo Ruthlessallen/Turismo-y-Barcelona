@@ -42,30 +42,42 @@ RUTA_SALIDA = RAIZ / "data" / "processed" / "airbnb_situacion_licencia.csv"
 PATRON_REGIONAL = re.compile(
     r"Barcelona\s*-\s*Regional registration number\s*(?:<br\s*/?>)*\s*([^<]*)", re.I
 )
-PATRON_HUTB = re.compile(r"^HUTB[-\s]*(\d+)", re.I)
+PATRON_LICENCIA = re.compile(r"^(HUTB|HB|ATB|AJ|HCC|ATCC)[-\s]*(\d+)", re.I)
 PATRON_EXENCION = re.compile(r"^Exempt\s*-?\s*", re.I)
 
-# Umbral legal del régimen VUT: a partir de 32 noches es alquiler de temporada.
+# Umbral legal del régimen VUT. La normativa catalana define estancia turística como
+# "període de temps continu igual o inferior a 31 dies": hasta 31 noches es uso turístico
+# (exige HUT), a partir de 32 es alquiler de temporada y queda fuera del régimen.
 MAX_NOCHES_VUT = 31
 
+# La sección regional no solo declara HUTB: también aparecen licencias de otros regímenes
+# (hoteles, albergues, apartamentos turísticos). Un anuncio con una de estas SÍ está
+# acreditado — simplemente no bajo el régimen VUT — y no puede contarse como candidato.
+PREFIJOS_NO_VUT = {"HB": "hotel", "HCC": "hotel", "ATB": "apartament_turistic",
+                   "ATCC": "apartament_turistic", "AJ": "alberg"}
 
-def leer_licencia(texto: object) -> tuple[int | None, str | None]:
-    """Extrae `(numero_hutb, motivo_exencion)` del campo `license` de Inside Airbnb.
 
-    Devuelve `(None, None)` cuando el anuncio no declara nada en la sección regional.
+def leer_licencia(texto: object) -> tuple[str | None, int | None, str | None]:
+    """Lee la sección regional del campo `license` de Inside Airbnb.
+
+    Devuelve `(prefijo, numero, motivo_exencion)`. El prefijo distingue el régimen:
+    `HUTB` es vivienda de uso turístico; `HB`/`ATB`/`AJ` son otros tipos de establecimiento.
+    Todo a `None` cuando el anuncio no declara nada.
     """
     if not isinstance(texto, str):
-        return None, None
+        return None, None, None
     encontrado = PATRON_REGIONAL.search(texto)
     if not encontrado:
-        return None, None
+        return None, None, None
 
     valor = encontrado.group(1).strip()
     if PATRON_EXENCION.match(valor):
-        return None, PATRON_EXENCION.sub("", valor).strip().lower() or "sin especificar"
+        return None, None, PATRON_EXENCION.sub("", valor).strip().lower() or "sin especificar"
 
-    hutb = PATRON_HUTB.match(valor)
-    return (int(hutb.group(1)) if hutb else None), None
+    licencia = PATRON_LICENCIA.match(valor)
+    if not licencia:
+        return None, None, None
+    return licencia.group(1).upper(), int(licencia.group(2)), None
 
 
 def cargar_licencias_oficiales() -> tuple[set[str], int]:
@@ -96,24 +108,29 @@ def localizar_airbnb() -> Path:
 def clasificar(anuncios: pd.DataFrame, oficiales: set[str], num_maximo: int) -> pd.DataFrame:
     """Añade las columnas de situación de licencia al conjunto de anuncios."""
     leido = anuncios["license"].apply(leer_licencia)
-    anuncios["hutb_num"] = [r[0] for r in leido]
-    anuncios["exencion"] = [r[1] for r in leido]
-    anuncios["hutb"] = anuncios["hutb_num"].apply(
-        lambda n: f"HUTB-{int(n):06d}" if pd.notna(n) else None
+    anuncios["prefijo_licencia"] = [r[0] for r in leido]
+    anuncios["numero_licencia"] = [r[1] for r in leido]
+    anuncios["exencion"] = [r[2] for r in leido]
+
+    es_vut = anuncios["prefijo_licencia"] == "HUTB"
+    anuncios["hutb"] = None
+    anuncios.loc[es_vut, "hutb"] = anuncios.loc[es_vut, "numero_licencia"].apply(
+        lambda n: f"HUTB-{int(n):06d}"
     )
     anuncios["licencia_existe"] = anuncios["hutb"].isin(oficiales)
+    anuncios["regimen_declarado"] = anuncios["prefijo_licencia"].map(PREFIJOS_NO_VUT)
 
     # Un número por encima del último emitido no puede corresponder a ninguna licencia real,
     # así que no se explica como error de transcripción.
     anuncios["fuera_de_rango"] = (
-        anuncios["hutb_num"].notna()
-        & ~anuncios["licencia_existe"]
-        & (anuncios["hutb_num"] > num_maximo)
+        es_vut & ~anuncios["licencia_existe"] & (anuncios["numero_licencia"] > num_maximo)
     )
 
     def situacion(fila: pd.Series) -> str:
         if pd.notna(fila["hutb"]):
             return "licencia_verificada" if fila["licencia_existe"] else "licencia_no_encontrada"
+        if pd.notna(fila["regimen_declarado"]):
+            return "licencia_otro_regimen"  # hotel, albergue o apartamento turístico
         if pd.notna(fila["exencion"]):
             return "exencion_declarada"
         return "sin_declarar"
@@ -124,6 +141,12 @@ def clasificar(anuncios: pd.DataFrame, oficiales: set[str], num_maximo: int) -> 
     anuncios["sujeto_a_vut"] = (anuncios["room_type"] == "Entire home/apt") & (
         anuncios["minimum_nights"] <= MAX_NOCHES_VUT
     )
+
+    # Un anuncio sin reseñas recientes puede ser un alta nueva o un anuncio ya inactivo que
+    # sigue publicado. No se excluye —no hay forma de distinguirlos con certeza— pero se marca:
+    # una cifra de candidatos sin este matiz sobreestima la oferta realmente en circulación.
+    ultima = pd.to_datetime(anuncios.get("last_review"), errors="coerce")
+    anuncios["actividad_reciente"] = ultima >= pd.Timestamp("2025-01-01")
 
     # La conclusión operativa. "Candidato", nunca "infractor": el campo lo rellena el anfitrión
     # y una licencia real mal escrita cae exactamente aquí.
@@ -151,6 +174,19 @@ def informe(anuncios: pd.DataFrame, num_maximo: int) -> None:
         "(incluye anuncios no sujetos al régimen VUT)"
     )
 
+    # Dos matices que cambian la lectura de la cifra principal.
+    activos = candidatos[candidatos["actividad_reciente"]]
+    print(f"\nCandidatos con actividad reciente (reseña en 2025+): {len(activos):,}")
+    print(f"  sin reseñas o anteriores a 2025                  : {len(candidatos) - len(activos):,}"
+          "  ← pueden ser anuncios inactivos aún publicados")
+
+    en_frontera = candidatos["minimum_nights"] == MAX_NOCHES_VUT
+    print(f"\nCandidatos con estancia mínima de exactamente {MAX_NOCHES_VUT} noches: {int(en_frontera.sum()):,}")
+    print("  justo en el límite del régimen VUT: una noche más quedarían exentos")
+
+    print(f"\nCandidatos activos y fuera de la frontera: {len(activos[~(activos['minimum_nights'] == MAX_NOCHES_VUT)]):,}"
+          "  ← el núcleo más sólido")
+
     por_host = candidatos.groupby("host_id").size()
     if not por_host.empty:
         grandes = por_host[por_host >= 5]
@@ -173,8 +209,10 @@ def main() -> None:
         "id", "name", "host_id", "host_name", "calculated_host_listings_count",
         "neighbourhood_group", "neighbourhood", "latitude", "longitude",
         "room_type", "minimum_nights", "price", "availability_365", "number_of_reviews",
-        "license", "hutb", "exencion", "licencia_existe", "fuera_de_rango",
-        "situacion", "sujeto_a_vut", "candidato_sin_licencia",
+        "last_review", "number_of_reviews_ltm",
+        "license", "prefijo_licencia", "hutb", "regimen_declarado", "exencion",
+        "licencia_existe", "fuera_de_rango",
+        "situacion", "sujeto_a_vut", "actividad_reciente", "candidato_sin_licencia",
     ]
     salida = anuncios[[c for c in columnas if c in anuncios]]
 
