@@ -23,32 +23,36 @@ noches). El resto son habitaciones o alquileres de temporada, con otro régimen 
 |---|---|---|
 | Licencia verificada en el registro | 6.006 | 66,8% |
 | Exención declarada | 1.029 | 11,4% |
-| No declara nada | 1.366 | 15,2% |
+| No declara nada | 1.177 | 13,1% |
 | Declara una licencia que no existe | 521 | 5,8% |
+| Declara HUTB solo en el número nacional (no verificable) | 189 | 2,1% |
 | Licencia de otro régimen (hotel, albergue, AT) | 74 | 0,8% |
-| **Candidatos sin licencia válida** | **1.887** | **21,0%** |
+| **Candidatos sin licencia válida** | **1.698** | **18,9%** |
 
 ### La cifra tiene capas — y conviene enseñarlas todas
 
-1.887 es el **techo**, no la conclusión. Dos matices lo reducen:
+1.698 es el **techo**, no la conclusión. Dos matices lo reducen:
 
 | | Anuncios |
 |---|---|
-| Candidatos (techo) | 1.887 |
-| — sin reseñas o anteriores a 2025 (posibles anuncios inactivos aún publicados) | 830 |
+| Candidatos (techo) | 1.698 |
+| — sin reseñas o anteriores a 2025 (posibles anuncios inactivos aún publicados) | 760 |
 | — con estancia mínima de **exactamente 31 noches** (justo en la frontera legal) | 828 |
-| **= Núcleo: activos y fuera de la frontera** | **727** |
+| **= Núcleo: activos y fuera de la frontera** | **608** |
 
-Los dos grupos se solapan, por eso no restan aritméticamente. El **núcleo de 727** es la cifra más
-defendible; el 1.887 solo es honesto si se acompaña de estos matices.
+Los dos grupos se solapan, por eso no restan aritméticamente. El **núcleo de 608** es la cifra más
+defendible; el 1.698 solo es honesto si se acompaña de estos matices.
+
+De ese núcleo, **el 95,9% tiene al menos una reseña en los últimos doce meses**, con 13 de mediana:
+no son anuncios dormidos, sino explotación continuada.
 
 **Números imposibles.** De las licencias declaradas que no constan, **889 tienen un número por
 encima del último emitido por la Generalitat** (HUTB-80024): aparecen valores como `987654`,
 `990666`, `995187`. Ahí no cabe explicarlo como error de tecleo. Entre los candidatos, 395 están
 en ese caso.
 
-**Concentración.** 1.030 de los candidatos pertenecen a **46 anfitriones con 5 o más anuncios**
-cada uno, mientras que la mayoría de anfitriones (unos 590) tiene un solo anuncio. Son dos
+**Concentración.** 878 de los candidatos pertenecen a **41 anfitriones con 5 o más anuncios** cada
+uno, mientras que la mayoría de los 702 anfitriones implicados tiene un solo anuncio. Son dos
 fenómenos distintos y conviene no mezclarlos al contarlos.
 
 **La frontera de las 31 noches.** 828 candidatos fijan la estancia mínima en exactamente 31
@@ -62,7 +66,7 @@ de estos datos; lo que sí puede decirse es dónde está la línea legal.
 anunciadas en Airbnb. No es indicio de nada irregular — pueden estar en otras plataformas,
 alquiladas por temporadas o vacías —, pero dimensiona cuánto del parque legal es visible aquí.
 
-## Tres errores encontrados, y lo que costaba cada uno
+## Cuatro errores encontrados, y lo que costaba cada uno
 
 ### 1. La sección regional no solo lleva HUTB
 También aparecen licencias de otros regímenes: **670 hoteles (`HB-`), 203 albergues (`AJ`) y 28
@@ -71,12 +75,31 @@ apartamentos turísticos (`ATB-`)**. El parser inicial solo buscaba `HUTB` y tra
 con la categoría `licencia_otro_regimen`.
 
 ### 2. Un anuncio publicado no es un anuncio activo
-**830 de los candidatos no tienen ninguna reseña o la última es anterior a 2025**, y ninguno tiene
+**760 de los candidatos no tienen ninguna reseña o la última es anterior a 2025**, y ninguno tiene
 reseñas en los últimos 12 meses. Pueden ser altas recientes o anuncios inactivos que siguen
 publicados; no hay forma de distinguirlos con certeza desde los datos. No se excluyen, pero ahora
 se marcan (`actividad_reciente`): sin ese matiz la cifra sobreestima la oferta en circulación.
 
-### 3. El error que casi cambia el titular
+### 3. Un HUTB declarado solo en el número nacional
+**189 anuncios sujetos a VUT** dejan vacía la sección regional pero incrustan un HUTB en el número
+nacional (`ESFCTU...HUTB-0002190`). Contarlos como "no declara nada" era incorrecto: sí declaran.
+
+Lo tentador sería extraer ese número y darlo por bueno — el 96,4% de los así extraídos existen en
+el registro. **Sería un error.** Sobre los 6.468 anuncios que traen ambos números, el nacional
+coincide con el regional solo el **95,2%** de las veces, y los desajustes no son truncamientos
+sino números distintos:
+
+| Regional | Nacional incrustado | |
+|---|---|---|
+| `HUTB-009269` | `HUTB-0009269` | coincide |
+| `HUTB-007986` | `HUTB-0041843` | número distinto |
+| `HUTB-076696` | `HUTB-076698-537` | difiere en 2 |
+
+Que el 96% "exista" no valida nada: el espacio de numeración está lo bastante poblado como para
+que un número equivocado exista igualmente. Así que se crea la categoría `hutb_no_verificable`
+—declaran licencia, no podemos leer cuál— y se excluyen de candidatos sin darlos por verificados.
+
+### 4. El error que casi cambia el titular
 
 El campo `license` contiene **dos** números y confundirlos altera el resultado por completo:
 
@@ -110,7 +133,7 @@ trampa para que no se repita.
 Se revisó si los anuncios que se presentan como residencia de estudiantes eran un falso positivo
 sistemático, igual que lo habían sido los hoteles. **No lo son**, y el motivo es instructivo.
 
-En el núcleo de 727 hay 9 anuncios con marcadores de este tipo (*Student Only*, *Language Course*,
+En el núcleo hay 9 anuncios con marcadores de este tipo (*Student Only*, *Language Course*,
 *aparto*). La diferencia con los hoteles es decisiva: aquellos **declaraban una licencia `HB-` real
 y verificable**; estos no declaran nada y operan con **mínimos de 2 y 3 noches**. Alquilar un
 estudio dos noches es uso turístico con independencia de a quién se le alquile.

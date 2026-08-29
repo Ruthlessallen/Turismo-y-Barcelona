@@ -45,6 +45,15 @@ PATRON_REGIONAL = re.compile(
 PATRON_LICENCIA = re.compile(r"^(HUTB|HB|ATB|AJ|HCC|ATCC)[-\s]*(\d+)", re.I)
 PATRON_EXENCION = re.compile(r"^Exempt\s*-?\s*", re.I)
 
+# Algunos anuncios dejan vacía la sección regional pero incrustan un HUTB en el número nacional
+# (`ESFCTU...HUTB-0002190`). Sirve para saber que **declaran algo**, pero NO para verificar cuál:
+# comprobado sobre los 6.468 anuncios que traen ambos números, el nacional coincide con el
+# regional solo el 95,2% de las veces, y los desajustes no son truncamientos sino números
+# distintos (regional HUTB-007986 frente a nacional HUTB-0041843). Dar por buena esa extracción
+# produciría coincidencias falsas, porque el espacio de numeración está lo bastante poblado como
+# para que un número equivocado exista igualmente en el registro.
+PATRON_HUTB_EN_NACIONAL = re.compile(r"HUTB-?\d+", re.I)
+
 # Umbral legal del régimen VUT. La normativa catalana define estancia turística como
 # "període de temps continu igual o inferior a 31 dies": hasta 31 noches es uso turístico
 # (exige HUT), a partir de 32 es alquiler de temporada y queda fuera del régimen.
@@ -66,18 +75,23 @@ def leer_licencia(texto: object) -> tuple[str | None, int | None, str | None]:
     """
     if not isinstance(texto, str):
         return None, None, None
+
     encontrado = PATRON_REGIONAL.search(texto)
-    if not encontrado:
-        return None, None, None
+    if encontrado:
+        valor = encontrado.group(1).strip()
+        if PATRON_EXENCION.match(valor):
+            return None, None, PATRON_EXENCION.sub("", valor).strip().lower() or "sin especificar"
+        licencia = PATRON_LICENCIA.match(valor)
+        if licencia:
+            return licencia.group(1).upper(), int(licencia.group(2)), None
 
-    valor = encontrado.group(1).strip()
-    if PATRON_EXENCION.match(valor):
-        return None, None, PATRON_EXENCION.sub("", valor).strip().lower() or "sin especificar"
+    # Sin sección regional utilizable: si el número nacional incrusta un HUTB, el anuncio está
+    # declarando una licencia aunque no podamos leer cuál (ver PATRON_HUTB_EN_NACIONAL). Se marca
+    # con prefijo propio para no confundirlo ni con una licencia verificada ni con "no declara".
+    if PATRON_HUTB_EN_NACIONAL.search(texto):
+        return "HUTB_SOLO_NACIONAL", None, None
 
-    licencia = PATRON_LICENCIA.match(valor)
-    if not licencia:
-        return None, None, None
-    return licencia.group(1).upper(), int(licencia.group(2)), None
+    return None, None, None
 
 
 def cargar_licencias_oficiales() -> tuple[set[str], int]:
@@ -129,6 +143,8 @@ def clasificar(anuncios: pd.DataFrame, oficiales: set[str], num_maximo: int) -> 
     def situacion(fila: pd.Series) -> str:
         if pd.notna(fila["hutb"]):
             return "licencia_verificada" if fila["licencia_existe"] else "licencia_no_encontrada"
+        if fila["prefijo_licencia"] == "HUTB_SOLO_NACIONAL":
+            return "hutb_no_verificable"  # declara HUTB solo en el número nacional
         if pd.notna(fila["regimen_declarado"]):
             return "licencia_otro_regimen"  # hotel, albergue o apartamento turístico
         if pd.notna(fila["exencion"]):
