@@ -34,6 +34,11 @@ Ficheros descargados el 27-28/08/2026 para verificar las fuentes candidatas de
 - `insideairbnb_barcelona_2026-06-24_listings.csv` — Inside Airbnb, 15.430 anuncios de la ciudad de
   Barcelona a fecha del snapshot. El campo `license` trae el nº HUTB en ~48% de los casos (ver
   `data-model.md` → `oferta_airbnb`).
+- `insideairbnb_barcelona_2026-06-24_reviews.csv` — 1.033.523 reseñas (`listing_id` + fecha), de
+  11.822 anuncios, entre 2010 y julio de 2026. Sirve para estimar duraciones de estancia a partir
+  del hueco entre reseñas consecutivas. Se eligió la versión ligera sobre `data/reviews.csv.gz`
+  (133 MB) porque aquella añade nombre del huésped y texto del comentario: datos personales que no
+  hacen falta.
 
 ## registre_turisme/
 - `muestra_5_registros.json` — la primera muestra de 5 filas que se usó solo para comprobar la

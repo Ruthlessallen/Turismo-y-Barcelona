@@ -59,6 +59,11 @@ PATRON_HUTB_EN_NACIONAL = re.compile(r"HUTB-?\d+", re.I)
 # (exige HUT), a partir de 32 es alquiler de temporada y queda fuera del régimen.
 MAX_NOCHES_VUT = 31
 
+# Un anuncio sin reseñas desde 2025 o antes no describe oferta en circulación: sin clientes, la
+# licencia que le falte no dice nada sobre el mercado. Se exige actividad dentro del año del
+# snapshot (2026-06-24), de modo que 2025 y anteriores quedan fuera aunque sigan publicados.
+INICIO_ACTIVIDAD = pd.Timestamp("2026-01-01")
+
 # La sección regional no solo declara HUTB: también aparecen licencias de otros regímenes
 # (hoteles, albergues, apartamentos turísticos). Un anuncio con una de estas SÍ está
 # acreditado — simplemente no bajo el régimen VUT — y no puede contarse como candidato.
@@ -158,17 +163,32 @@ def clasificar(anuncios: pd.DataFrame, oficiales: set[str], num_maximo: int) -> 
         anuncios["minimum_nights"] <= MAX_NOCHES_VUT
     )
 
-    # Un anuncio sin reseñas recientes puede ser un alta nueva o un anuncio ya inactivo que
-    # sigue publicado. No se excluye —no hay forma de distinguirlos con certeza— pero se marca:
-    # una cifra de candidatos sin este matiz sobreestima la oferta realmente en circulación.
+    # Solo cuenta la oferta con clientes: sin reservas recientes, la falta de licencia no describe
+    # actividad real. Se exige reseña dentro del año del snapshot, así que 2025 y anterior quedan
+    # fuera aunque el anuncio siga publicado.
     ultima = pd.to_datetime(anuncios.get("last_review"), errors="coerce")
-    anuncios["actividad_reciente"] = ultima >= pd.Timestamp("2025-01-01")
+    anuncios["actividad_reciente"] = ultima >= INICIO_ACTIVIDAD
+
+    # Un anfitrión puede acreditar licencia en unos anuncios y no en otros. Saberlo cambia la
+    # lectura del caso: quien ya ha declarado una licencia válida en otro anuncio no es alguien
+    # que ignore el trámite.
+    con_licencia = anuncios.loc[anuncios["situacion"] == "licencia_verificada", "host_id"]
+    anuncios["host_acredita_en_otro"] = anuncios["host_id"].isin(set(con_licencia)) & (
+        anuncios["situacion"] != "licencia_verificada"
+    )
+
+    sin_acreditar = (
+        anuncios["sujeto_a_vut"]
+        & anuncios["actividad_reciente"]
+        & anuncios["situacion"].isin(["sin_declarar", "licencia_no_encontrada"])
+    )
 
     # La conclusión operativa. "Candidato", nunca "infractor": el campo lo rellena el anfitrión
-    # y una licencia real mal escrita cae exactamente aquí.
-    anuncios["candidato_sin_licencia"] = anuncios["sujeto_a_vut"] & anuncios["situacion"].isin(
-        ["sin_declarar", "licencia_no_encontrada"]
-    )
+    # y una licencia real mal escrita cae exactamente aquí. Quien acredita licencia en otro anuncio
+    # suyo se aparta a su propia categoría: conoce el trámite, así que la falta apunta más a un
+    # descuido al rellenar el campo que a operar al margen del registro.
+    anuncios["candidato_sin_licencia"] = sin_acreditar & ~anuncios["host_acredita_en_otro"]
+    anuncios["candidato_host_con_licencia"] = sin_acreditar & anuncios["host_acredita_en_otro"]
     return anuncios
 
 
@@ -190,18 +210,19 @@ def informe(anuncios: pd.DataFrame, num_maximo: int) -> None:
         "(incluye anuncios no sujetos al régimen VUT)"
     )
 
-    # Dos matices que cambian la lectura de la cifra principal.
-    activos = candidatos[candidatos["actividad_reciente"]]
-    print(f"\nCandidatos con actividad reciente (reseña en 2025+): {len(activos):,}")
-    print(f"  sin reseñas o anteriores a 2025                  : {len(candidatos) - len(activos):,}"
-          "  ← pueden ser anuncios inactivos aún publicados")
+    sin_actividad = sujetos[~sujetos["actividad_reciente"] & sujetos["situacion"].isin(
+        ["sin_declarar", "licencia_no_encontrada"])]
+    print(f"\nExcluidos por última reseña anterior a {INICIO_ACTIVIDAD:%Y} (o sin reseñas): "
+          f"{len(sin_actividad):,}")
 
     en_frontera = candidatos["minimum_nights"] == MAX_NOCHES_VUT
     print(f"\nCandidatos con estancia mínima de exactamente {MAX_NOCHES_VUT} noches: {int(en_frontera.sum()):,}")
     print("  justo en el límite del régimen VUT: una noche más quedarían exentos")
+    print(f"Candidatos fuera de la frontera: {len(candidatos) - int(en_frontera.sum()):,}")
 
-    print(f"\nCandidatos activos y fuera de la frontera: {len(activos[~(activos['minimum_nights'] == MAX_NOCHES_VUT)]):,}"
-          "  ← el núcleo más sólido")
+    aparte = anuncios[anuncios["candidato_host_con_licencia"]]
+    print(f"\nCaso aparte — anfitrión acredita licencia en otro anuncio suyo: {len(aparte):,}")
+    print(f"  anfitriones distintos: {aparte['host_id'].nunique():,}")
 
     por_host = candidatos.groupby("host_id").size()
     if not por_host.empty:
@@ -228,7 +249,8 @@ def main() -> None:
         "last_review", "number_of_reviews_ltm",
         "license", "prefijo_licencia", "hutb", "regimen_declarado", "exencion",
         "licencia_existe", "fuera_de_rango",
-        "situacion", "sujeto_a_vut", "actividad_reciente", "candidato_sin_licencia",
+        "situacion", "sujeto_a_vut", "actividad_reciente", "host_acredita_en_otro",
+        "candidato_sin_licencia", "candidato_host_con_licencia",
     ]
     salida = anuncios[[c for c in columnas if c in anuncios]]
 

@@ -57,6 +57,14 @@ DESCARGAS: dict[str, list[tuple[str, str, str | None]]] = {
             "https://data.insideairbnb.com/spain/catalonia/barcelona/2026-06-24/visualisations/listings.csv",
             None,
         ),
+        # Solo `listing_id` + fecha. La versión detallada (`data/reviews.csv.gz`, 133 MB) añade
+        # nombre del huésped y texto del comentario: datos personales que no hacen falta para
+        # estimar duraciones de estancia a partir del hueco entre reseñas consecutivas.
+        (
+            "airbnb/insideairbnb_barcelona_2026-06-24_reviews.csv",
+            "https://data.insideairbnb.com/spain/catalonia/barcelona/2026-06-24/visualisations/reviews.csv",
+            None,
+        ),
     ],
 }
 
