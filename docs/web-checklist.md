@@ -1,137 +1,186 @@
 # Checklist de la web interactiva
 
-Lista de trabajo para la Fase 2 de `roadmap.md`: qué páginas tiene la web y qué dato lleva cada
-una. **No es un acuerdo cerrado ni una ficha de feature** — es el guion que se va marcando, y cada
-bloque pasará por `/feature` cuando toque construirlo.
+Guion de trabajo para la Fase 2 de `roadmap.md`. **No es un acuerdo cerrado ni una ficha de
+feature**: es la lista que se va marcando, y cada bloque pasará por `/feature` cuando toque
+construirlo.
 
-Estado: **sin empezar.** Todo lo de aquí se apoya en datos que ya existen en `data/processed/`
-salvo lo marcado con ⚠️.
-
----
-
-## Estructura: cuatro páginas
-
-Las licencias de apartamentos van en página propia porque el análisis ya no cabe al lado de nada
-más — ver `pipeline/notebooks/03_auditoria_licencias.ipynb`.
-
-| Página | Qué responde |
-|---|---|
-| 1 · Mapa principal | Dónde está la oferta turística, sobre el territorio |
-| 2 · KPIs generales | Cuánta hay, de cada tipo |
-| 3 · Licencias de apartamentos | Cuánta acredita licencia y cuánta no |
-| 4 · Serie temporal | Cómo hemos llegado hasta aquí |
+Estado: **sin empezar.** Lo marcado ⚠️ depende de datos que todavía no tenemos.
 
 ---
 
-## 1 · Página principal — mapa geolocalizado
+## La regla que ordena toda la web
+
+Cada cifra es **medida** o **proyectada**, nunca las dos cosas, y se ve a simple vista cuál es cuál.
+`design-system.md` ya lo exige como regla de integridad, no de estilo.
+
+- **Medido** — sale de una fuente, con su fecha y su enlace.
+- **Proyectado** — sale de un cálculo con supuestos, y los supuestos se enseñan al lado del
+  resultado. Si el lector no puede ver de qué depende un número, ese número no se publica.
+
+Una proyección con los supuestos a la vista es un argumento. Sin ellos es una invención con
+aspecto de dato.
+
+---
+
+## El recorrido: cinco pasos
+
+El mapa **no es la web**: es un componente del paso 1. La web cuenta una secuencia.
+
+| Paso | Qué responde | Naturaleza |
+|---|---|---|
+| 1 · Qué hay hoy | La foto de la oferta turística | medido |
+| 2 · Qué desaparece en 2028 | Las ~10.000 licencias VUT | medido |
+| 3 · **Qué NO desaparece** | La oferta que ya opera sin licencia | medido |
+| 4 · Quién puede absorberlo | Capacidad hotelera y su límite legal | medido + proyectado |
+| 5 · Qué pasa con el precio | El mecanismo de presión sobre la tarifa | proyectado |
+
+**El paso 3 es el eje.** Es el hallazgo propio del proyecto y lo que no está contando nadie más:
+eliminar 10.000 licencias no elimina la oferta, porque una parte ya opera sin depender de ellas.
+
+---
+
+## 1 · Qué hay hoy
 
 - [ ] Mapa con tres capas conmutables: **apartamentos turísticos**, **hoteles**, **bares y
       restaurantes**
-- [ ] Filtro por municipio y por barrio (`FilterBar`)
-- [ ] Clustering por densidad, no un punto por registro — en Ciutat Vella se solapan
-- [ ] Capa opcional de zonas **PEUAT**, que explica visualmente dónde no pueden abrir hoteles nuevos
+- [ ] Filtro por municipio y barrio (`FilterBar`)
+- [ ] Clustering por densidad — en Ciutat Vella los puntos se solapan (117 hoteles en un solo CP)
+- [ ] Capa de zonas **PEUAT**, que enseña dónde no pueden abrir hoteles nuevos
+- [ ] `StatTile` por categoría, con **plazas además de establecimientos**: un hotel de 400
+      habitaciones y un VUT de 4 plazas no pesan igual
 
-**Precisión geográfica — el punto que condiciona todo el diseño:**
+**Cifras disponibles:** 15.406 anuncios de Airbnb · 1.442 hoteles en la provincia (754 en la
+ciudad) · 162.439 plazas y 84.759 habitaciones · 24.075 licencias VUT.
 
-- Barcelona ciudad tiene **coordenadas reales** (`nivel_geo = coordenada`)
-- El resto de la provincia solo tiene **municipio** (`nivel_geo = municipio`) → ahí no hay puntos,
-  hay coropletas
-- Los anuncios de Airbnb vienen **desplazados ~200 m** por Inside Airbnb
+**Tres precisiones geográficas que no pueden pintarse igual:**
 
-Las tres precisiones no pueden pintarse igual sin mentir. El mapa debe distinguirlas visualmente y
-decirlo en la leyenda, no solo en una nota al pie.
+| Fuente | Precisión |
+|---|---|
+| Barcelona ciudad | coordenada real (`nivel_geo = coordenada`) |
+| Resto de la provincia | solo municipio → coropleta, no puntos |
+| Anuncios de Airbnb | coordenada **desplazada ~200 m** por Inside Airbnb |
 
-⚠️ **Bares y restaurantes está sin construir.** La fuente (Diputació de Barcelona, censo de
-actividades) está verificada pero no integrada: falta clasificar la actividad, que viene como texto
-libre (`BAR`, `RESTAURANT`...), no como código estable.
-
----
-
-## 2 · Página de KPIs generales
-
-- [ ] `StatTile` por categoría: **hoteles**, **apartamentos turísticos (AT)**, **VUT**, **bares y
-      restaurantes**
-- [ ] Plazas además de establecimientos — un hotel de 400 habitaciones y un VUT de 4 plazas no
-      pesan igual
-- [ ] Desglose provincia / ciudad de Barcelona
-- [ ] Comparativa entre municipios (`ComparisonBarChart`)
+Pintarlas con el mismo símbolo sería mentir sobre lo que sabemos. La leyenda debe distinguirlas.
 
 **No mezclar VUT y AT en el mismo total.** Son figuras legales distintas y la eliminación de 2028
-solo afecta a los VUT: los Apartaments Turístics siguen. Confundirlos es el error más fácil de
-cometer en toda la web (ver `docs/prd.md`).
+solo afecta a los VUT: los Apartaments Turístics siguen. Es el error más fácil de cometer en toda
+la web.
+
+⚠️ **Bares y restaurantes sin integrar.** La fuente está verificada pero falta clasificar la
+actividad, que viene como texto libre (`BAR`, `RESTAURANT`), no como código estable.
 
 ---
 
-## 3 · Página de licencias de apartamentos
+## 2 · Qué desaparece en 2028
 
-Traslada a la web el embudo del notebook 03. Cada cifra **por anuncios y por anfitriones**.
+- [ ] Serie del parque legal por trimestre, **2018-T2 → 2026-T1** (`TimeSeriesChart`)
+- [ ] **Altas y bajas** por trimestre, no solo el stock: el saldo neto esconde el movimiento
+- [ ] Serie por barrio y distrito, con mapa temporal
 
-- [ ] Embudo completo, del total a los que no acreditan licencia, con lo descartado en cada paso visible
+**Dato que rompe el relato habitual:** las licencias **no están congeladas**. Caen hasta 9.300 en
+2022-T2 y desde entonces suben a **10.730** — un neto de **+1.127 desde 2018**, con 2.048 altas y
+921 bajas. El PEUAT bloquea licencias *hoteleras*, no estas.
+
+Merece explicación en la propia página: que el parque crezca hasta el año anterior a su
+eliminación es parte de la historia.
+
+---
+
+## 3 · Qué NO desaparece ← el eje
+
+Traslada el embudo del notebook 03. Cada cifra **por anuncios y por anfitriones**: un anfitrión con
+300 pisos y 300 anfitriones con uno cada uno describen mercados distintos.
+
+- [ ] Embudo completo, con lo descartado en cada paso a la vista
 - [ ] Desglose por situación: verificada / no declara / número imposible / plausible inexistente /
       otro régimen / se asume por el anfitrión
-- [ ] Top barrios, **por volumen y por tasa** — no solo volumen, o siempre gana el Eixample
-- [ ] Concentración por anfitrión: cuántos tienen uno solo y cuántos anuncios acumulan los grandes
-- [ ] Mapa de la oferta sin licencia, **agregado por barrio**, nunca por anuncio
+- [ ] Top barrios **por volumen y por tasa** — solo por volumen siempre gana el Eixample
+- [ ] Concentración por anfitrión
+- [ ] Mapa **agregado por barrio**, nunca por anuncio
 
-**Reglas que no se negocian en esta página:**
+**Cifras:** de 8.996 anuncios sujetos al régimen VUT, **399 no acreditan licencia** (258
+anfitriones) y 274 más quedan aparte porque su anfitrión sí la acredita en otro anuncio. De los
+399, **el 95,9% tiene reseñas en 2026** y el 92,6% de los huecos entre reseñas son de 31 días o
+menos: no son anuncios dormidos.
 
-- Se dice **"sin licencia acreditada"**, nunca "ilegal" ni "infractor". Describe lo observado —que el anuncio no acredita una licencia válida—, no una situación legal. El campo lo rellena el anfitrión sin
-  validación técnica: una licencia real mal escrita cae en el mismo grupo
-- **Nada resoluble a nivel de vivienda** — ni el mapa, ni una tabla, ni un tooltip
-- Los criterios de exclusión se explican en la propia página, no en un anexo: sin ellos la cifra no
-  significa nada
-- El umbral de las 31 noches se explica bien: mide **cada cesión por separado**, no el acumulado
-  del año
+**Reglas que no se negocian aquí:**
 
----
-
-## 4 · Página de serie temporal
-
-- [ ] Evolución del **parque legal de VUT** por trimestre, 2018-T2 → 2026-T1 (`TimeSeriesChart`)
-- [ ] **Altas y bajas** por trimestre, no solo el stock: el saldo neto esconde el movimiento
-- [ ] Serie por barrio y distrito
-- [ ] Mapa temporal: cómo se ha ido moviendo la licencia por la ciudad
-- [ ] Evolución de hoteles ⚠️
-
-**Lo que ya está comprobado (2026-08-29):** cada fichero trimestral es una **foto del stock
-activo**, no un acumulado, así que altas y bajas se pueden separar cruzando por `N_EXPEDIENT`.
-Verificado sobre 2018-T2 → 2019-T2: 9.509 en ambos, 94 bajas, 67 altas, y la aritmética cuadra
-exactamente con el total del trimestre siguiente.
-
-**Dos obstáculos técnicos ya identificados:**
-
-- **El esquema cambia entre trimestres** — 16 columnas en 2018, 21 en 2026.
-  `NUMERO_REGISTRE_GENERALITAT` (el HUTB) no existe en los ficheros antiguos, así que hacia atrás
-  solo se puede seguir por expediente
-- **Hay ficheros mal formados** — el header de 2018 declara 16 columnas y las filas traen 17
-  (`LONGITUD_X -LATITUD_Y` es un nombre para dos columnas); algunos traen BOM. Hay que parsear con
-  detección, no con `read_csv` a secas
-
-⚠️ **La serie de hoteles no existe todavía.** Open Data BCN sirve un snapshot único, no una serie.
-Habría que buscar otra fuente o construirla guardando snapshots desde ahora.
-
-⚠️ **No habrá serie de anuncios de Airbnb.** Inside Airbnb solo publica el snapshot actual
-(probadas ocho fechas anteriores, todas 403) y el archivo de montera34 se corta en 2019-03. Sin
-snapshots históricos no se puede calcular el % sin licencia de años pasados — y aunque se
-consiguieran, habría que cruzar cada uno contra el registro **de su trimestre**, no contra el de
-hoy, porque una licencia dada de baja hoy figura como inexistente.
+- Se dice **"sin licencia acreditada"**, nunca "ilegal" ni "infractor". Describe lo observado —que
+  el anuncio no acredita una licencia válida—, no una situación legal. El campo lo rellena el
+  anfitrión sin validación: una licencia real mal escrita cae en el mismo grupo.
+- **Nada resoluble a nivel de vivienda** — ni mapa, ni tabla, ni tooltip.
+- Los criterios de exclusión se explican **en la página**, no en un anexo: sin ellos la cifra no
+  significa nada.
+- El umbral de 31 noches se explica bien: mide **cada cesión por separado**, no el acumulado anual.
 
 ---
 
-## Un supuesto que la web debe dejar explícito
+## 4 · Quién puede absorberlo
 
-Eliminar ~10.000 licencias VUT **no elimina la oferta turística de la ciudad**. Los anuncios que
-hoy no acreditan licencia no dependen de tenerla, así que no hay motivo para esperar que
-desaparezcan con ella. Cualquier proyección de M-06 (absorción hotelera) que dé por hecho que la
-oferta baja a cero se equivoca en el punto de partida.
+- [ ] Capacidad hotelera frente a las plazas que se liberan
+- [ ] **Habitaciones necesarias, no plazas** — ver abajo
+- [ ] El límite del PEUAT sobre el mapa: en 3 de sus 4 zonas no se conceden licencias nuevas
+- [ ] Restauración que quedaría afectada ⚠️
 
-Es un supuesto del análisis, no un dato medido, y debe aparecer como tal.
+**El error que hay que evitar:** convertir plazas de VUT en plazas de hotel una a una. Los 8.490
+anuncios sujetos a VUT suman **40.015 plazas**, pero con una capacidad mediana de 4 personas por
+piso y **1,88 plazas por habitación** de hotel, harían falta **27.151 habitaciones**, no 21.285.
+Un grupo de 6 no cabe en una habitación: necesita tres.
+
+La capacidad puede pesar más que el precio en la sustitución.
+
+---
+
+## 5 · Qué pasa con el precio
+
+- [ ] Serie de ADR y viajeros del INE, mensual **2020-12 → 2026-06**
+- [ ] La comparación capacidad vs precio, que es el argumento central
+- [ ] Escenario 2028 con los supuestos visibles y ajustables
+
+**El dato que sostiene el argumento** — capacidad plana, precio disparado:
+
+| Año | Plazas hoteleras | Viajeros | ADR medio |
+|---|---|---|---|
+| 2022 | 83.176 | 7,6 M | 139 € |
+| 2023 | 85.096 | 8,3 M | 161 € |
+| 2024 | 86.591 | 8,4 M | 175 € |
+| 2025 | 87.471 | 9,1 M | 176 € |
+| 2026 | 87.506 | — | 193 € |
+
+**+5% de capacidad en cuatro años frente a +39% de tarifa.** Ese es el mecanismo, ya medido.
+
+**Sobre la elasticidad, y por qué hay que ser honesto con ella:** la correlación cruda entre
+presión (viajeros por plaza) y ADR es +0,90, pero se desploma al quitar efectos —+0,80 sin la
+recuperación pos-COVID, **+0,32** desestacionalizada. Lo primero era recuperación, lo segundo era
+agosto. La elasticidad que queda es **+0,48**: el precio sube *menos* que proporcionalmente a la
+presión.
+
+Publicar el +0,90 sería engañoso. Se publica el +0,48 y se explica por qué es más bajo de lo que
+parecía.
+
+---
+
+## Lo que NO se puede responder, y hay que decirlo
+
+- **El % de oferta sin licencia en años pasados.** Inside Airbnb solo publica el snapshot actual
+  y el archivo de montera34 se corta en 2019-03. Y aunque hubiera snapshots, habría que cruzarlos
+  contra el registro **de su trimestre**, porque una licencia dada de baja hoy figura como
+  inexistente.
+- **La probabilidad de que un anuncio siga tras 2028.** No es medible. Lo que sí se puede decir, y
+  es más fuerte: 399 anuncios operan hoy sin acreditar licencia, así que su actividad no depende de
+  tenerla.
+- **Cuánto subirá el precio en euros.** El mecanismo se puede enseñar; la magnitud exacta no, con
+  una elasticidad estimada sobre 42 meses de una sola ciudad.
+- ⚠️ **Serie histórica de hoteles.** Open Data BCN sirve un snapshot único. El INE sí da plazas
+  mensuales agregadas desde 2020, que cubre parte del hueco.
 
 ---
 
 ## Pendiente de decidir
 
-- [ ] ¿Los bares y restaurantes son una capa del mapa o merecen su propia página?
-- [ ] ¿La comparativa entre municipios va en KPIs o es la Fase 3 (M-07)?
-- [ ] Los `HB-` de hotel **sí serían verificables** contra el registro que ya tenemos; los `AJ` de
-      albergue no. Hoy se tratan igual en la web: ¿conviene separarlos?
+- [ ] ¿Bares y restaurantes son una capa del mapa o merecen página propia?
+- [ ] ¿La comparativa entre municipios va en el paso 1 o es Fase 3 (M-07)?
+- [ ] Los `HB-` de hotel **sí serían verificables** contra el registro; los `AJ` de albergue no.
+      Hoy se tratan igual: ¿conviene separarlos?
+- [ ] Precio de hotel: hay 395 con precio real (52%, sesgado a grandes) y el ADR del INE, que es
+      oficial pero agregado. ¿Cuál manda en la web?
