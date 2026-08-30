@@ -135,7 +135,7 @@ Soporta M-01/M-02/M-03 (licencias por municipio) y M-07 (comparativa territorial
 
 ### ListingClusterMap
 Mapa de puntos agrupados en clusters para la oferta anunciada en Airbnb (M-08), coloreados por
-estado del cruce con el registro oficial (paleta categórica: con licencia encontrada / candidato
+estado del cruce con el registro oficial (paleta categórica: con licencia encontrada / sin licencia acreditada
 sin licencia detectada — nunca la palabra "ilegal" en la interfaz, ver `prd.md` → WON'T).
 
 **Restricción técnica, no solo de estilo:** el componente tiene un zoom máximo por debajo del cual

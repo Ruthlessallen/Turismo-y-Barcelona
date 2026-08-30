@@ -234,7 +234,7 @@ licencia declarado.
    nunca junto a los "sin licencia".
 3. Si no hay número parseable y no está exento, fallback por dirección aproximada (ver
    `licencia_vut.direccion`) — esto sí es una estimación con margen de error, de ahí que el
-   dashboard público hable siempre de "candidato sin licencia detectada", nunca de "ilegal
+   dashboard público hable siempre de "sin licencia acreditada", nunca de "ilegal
    confirmado" (ver `prd.md` → WON'T), y con más razón todavía para este método que para el match
    directo.
 

@@ -65,6 +65,16 @@ DESCARGAS: dict[str, list[tuple[str, str, str | None]]] = {
             "https://data.insideairbnb.com/spain/catalonia/barcelona/2026-06-24/visualisations/reviews.csv",
             None,
         ),
+        # Fichero detallado: 90 columnas frente a las 19 del resumido. Hace falta sobre todo por
+        # `accommodates`, que es lo que permite pasar de precio por anuncio a **precio por persona
+        # y noche** — la única forma de comparar un piso entero con una habitación de hotel sin
+        # que todos los pisos parezcan baratos. Trae además `bedrooms`, `property_type` y
+        # `amenities`, útiles como variables de agrupación.
+        (
+            "airbnb/insideairbnb_barcelona_2026-06-24_listings_detalle.csv.gz",
+            "https://data.insideairbnb.com/spain/catalonia/barcelona/2026-06-24/data/listings.csv.gz",
+            None,
+        ),
     ],
 }
 

@@ -103,13 +103,13 @@ sirve por igual a varios perfiles:
   seleccionado, cuando el usuario consulta el mapa de oferta anunciada, entonces ve la ubicación de
   los anuncios activos de Airbnb **agrupados en clusters** (nunca puntos individuales sueltos), en
   tres categorías: con licencia HUTB verificada, exento (alquiler de temporada, hostel... — no es
-  "sin licencia", es una categoría legal distinta), y candidato sin licencia detectada. El método
+  "sin licencia", es una categoría legal distinta), y sin licencia acreditada. El método
   principal de cruce es **directo por número de licencia** (Airbnb obliga a declararlo en Barcelona
   y ~la mitad de los anuncios lo trae parseable); solo cuando no hay número declarado ni exención,
   cae a un fallback por dirección aproximada.
   *Negativo:* el fallback por dirección parte de coordenadas ofuscadas ~200m por Inside Airbnb, así
   que es una estimación con margen de error, nunca una certeza — el dashboard etiqueta ese caso como
-  "candidato sin licencia detectada", nunca como "ilegal confirmado" (ver WON'T). El match directo
+  "sin licencia acreditada", nunca como "ilegal confirmado" (ver WON'T). El match directo
   por número de licencia no tiene ese margen de error: es una comparación exacta contra el registro.
   *Límite de cobertura:* Inside Airbnb solo publica datos para la ciudad de Barcelona, no para el
   resto de la provincia — este mapa queda acotado a la ciudad salvo que aparezca otra fuente para
