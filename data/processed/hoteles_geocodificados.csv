@@ -1,0 +1,310 @@
+licencia_id,nombre_comercial,direccion_consultada,lat,lon,etiqueta_icgc,geocodificado
+HB-000005,Hostal Abrevadero,"Carrer Vila i Vilà 79, Barcelona",41.3741977,2.16847754,,True
+HB-000006,Hostal Valls,"Carrer Laforja 82, Barcelona",41.39730878,2.14663789,,True
+HB-000019,Hostal París,"Carrer Cardenal Casañas 4, Barcelona",41.38151775,2.17345019,,True
+HB-000033,Hostal Operaramblas,"Carrer Sant Pau 20, Barcelona",41.38023634,2.17288382,,True
+HB-000036,Jardí,"Plaça Sant Josep Oriol 1, Barcelona",41.38250273,2.17396256,,True
+HB-000043,Montecarlo,"Carrer Rambla 124, Barcelona",41.37394283,2.16883799,,True
+HB-000050,Comercio,"Carrer Escudellers 15, Barcelona",41.37936108,2.17607158,,True
+HB-000081,Palermo,"Carrer Boqueria 21, Barcelona",41.38149616,2.17407083,,True
+HB-000087,Fontanella Green House,"Via Laietana 71, Barcelona",41.38827082,2.17284373,,True
+HB-000089,HOSTAL LEVANTE,"Carrer Baixada de Sant Miquel 2, Barcelona",41.38134104,2.1765847,,True
+HB-000090,Layetana,"Plaça Ramon Berenguer el Gran 2, Barcelona",41.38460127,2.17744791,,True
+HB-000094,Hostal Residencia Europa,"Carrer Boqueria 18, Barcelona",41.38152139,2.1744338,,True
+HB-000097,Residencia 45,"Carrer Tallers 45, Barcelona",41.38479637,2.16797334,,True
+HB-000157,Hostal Oliva,"Passeig Gràcia 32, Barcelona",41.39081934,2.16709172,,True
+HB-000320,Goya,"Carrer Pau Claris 74, Barcelona",41.38938401,2.17174449,,True
+HB-000362,Lima,"Carrer Fontanella 16, Barcelona",41.38798429,2.17249943,,True
+HB-000439,Ciudad Condal,"Carrer Mallorca 255, Barcelona",41.39337193,2.16175861,,True
+HB-000443,Lourdes,"Carrer Princesa 14, Barcelona",41.38484012,2.17991866,,True
+HB-000448,Lirio,"Carrer Nou de Sant Francesc 23, Barcelona",41.37875896,2.17777534,,True
+HB-000454,Barcelona Center Inn,"Carrer Gran Via Corts Catalanes 688, Barcelona",41.39318936,2.17372725,,True
+HB-000456,Capitol,"Carrer Rambla 138, Barcelona",41.37312077,2.16798258,,True
+HB-000457,SOM NIT PORT VELL,"Carrer Reina Cristina 2, Barcelona",41.38135744,2.18321589,,True
+HB-000467,Palmera,"Carrer Jerusalem 30, Barcelona",41.38189524,2.1707537,,True
+HB-000478,Turisol,"Passatge Escudellers 7, Barcelona",41.37888779,2.1767219,,True
+HB-000485,Outsite Barcelona,"Carrer Simó Oller 1, Barcelona",41.37997958,2.17989358,,True
+HB-000491,Bienestar,"Carrer Quintana 3, Barcelona",41.38128194,2.17433758,,True
+HB-000502,Hostal Ruta de Francia,"Carrer Castillejos 204, Barcelona",41.4037968,2.18205223,,True
+HB-000508,Hostal Rembrandt,"Carrer Portaferrissa 23, Barcelona",41.38378347,2.17349131,,True
+HB-000516,som nit triomf,"Carrer Trafalgar 39, Barcelona",41.39002266,2.17710554,,True
+HB-000701,GAT RAVAL,"Carrer de Joaquín Costa 44, Barcelona",41.38280939,2.16558179,,True
+HB-000723,Orleans,"Avinguda Marquès de l'Argentera 13, Barcelona",41.38440389,2.18453051,,True
+HB-000739,Portugal,"Carrer de Josep Anselm Clavé 27, Barcelona",41.37788792,2.17821929,,True
+HB-000776,Boutique Barcelona,"Carrer Pau Claris 145, Barcelona",41.39388061,2.16541959,,True
+HB-000782,Hostal BCN Ramblas,"Carrer Rambla 96, Barcelona",41.37570639,2.17066133,,True
+HB-000801,Hostal Central Barcelona,"Carrer Diputació 346, Barcelona",41.39644632,2.17528966,,True
+HB-000838,Aribau,"Carrer Aribau 37, Barcelona",41.38758673,2.16021558,,True
+HB-000845,Hostal Santcarlo,"Plaça Urquinaona 5, Barcelona",41.38948805,2.17295069,,True
+HB-000855,Amílcar,"Carrer Amílcar 118, Barcelona",41.42385563,2.17258536,,True
+HB-000862,Norma,"Carrer Gran de Gràcia 87, Barcelona",41.40059298,2.15444412,,True
+HB-000899,Parisien,"Carrer Rambla 114, Barcelona",41.37437511,2.16928131,,True
+HB-000935,Mimi Las Ramblas,"Carrer Nou de la Rambla 1, Barcelona",41.37916642,2.17442328,,True
+HB-000952,Girona,"Carrer Girona 24, Barcelona",41.39190984,2.17517259,,True
+HB-000957,VAGANTO HOTEL S.L.,"Carrer d'en Fontrodona 1, Barcelona",41.37469466,2.16781434,,True
+HB-000975,Fernando,"Carrer Ferran 31, Barcelona",41.38142014,2.17545488,,True
+HB-001130,Hostal Razio Central Station BCN,"Carrer Hospital 93, Barcelona",41.38016898,2.16957164,,True
+HB-001131,Albi,"Carrer Avinyó 58, Barcelona",41.38019022,2.17929159,,True
+HB-001135,Bresus,"Carrer Sant Pere més Alt 61, Barcelona",41.38917081,2.17803777,,True
+HB-001137,Canaletas,"Carrer Rambla 133, Barcelona",41.37321597,2.16832506,,True
+HB-001187,Cerdanya Pensió,"Carrer Girona 35, Barcelona",41.39251473,2.17400032,,True
+HB-001199,Colmenero,"Carrer Petritxol 12, Barcelona",41.38288232,2.17289696,,True
+HB-001206,Villanueva,"Plaça Reial 2, Barcelona",41.38010135,2.17477304,,True
+HB-001216,Solarium,"Carrer Guàrdia 13, Barcelona",41.37777199,2.17415488,,True
+HB-001276,Coral,"Carrer Calella 1, Barcelona",41.38148514,2.17856331,,True
+HB-001278,Sol y K,"Carrer Cervantes 2, Barcelona",41.38107387,2.17740529,,True
+HB-001579,PENSION AROSA,"Avinguda del Portal de l'Àngel 14, Barcelona",41.38539309,2.17351036,,True
+HB-001619,Noya,"Carrer Rambla 133, Barcelona",41.37321597,2.16832506,,True
+HB-001620,Ciudadela,"Carrer Comerç 33, Barcelona",41.38470818,2.18469377,,True
+HB-001665,Hostal Eixample,"Carrer Ausias Marc 19, Barcelona",41.39080402,2.17470887,,True
+HB-001678,Benidorm,"Carrer Rambla 37, Barcelona",41.37778256,2.17298709,,True
+HB-001690,El Puchi Barcelona,"Carrer Gran Via Corts Catalanes 576, Barcelona",41.38433247,2.16193662,,True
+HB-001705,Venècia,"Carrer Junta del Comerç 13, Barcelona",41.37992219,2.17146078,,True
+HB-001709,Francia,"Carrer Rera Palau 4, Barcelona",,,,False
+HB-001747,Hostal Mont Thabor,"Carrer Rambla 86, Barcelona",41.37604423,2.1710122,,True
+HB-001748,Picasso,"Carrer Rambla 25, Barcelona",41.37809151,2.17330758,,True
+HB-001755,Nuevo Colón,"Avinguda Marquès de l'Argentera 19, Barcelona",41.38499288,2.18503212,,True
+HB-001821,Hostal Ambos Mundos,"Plaça Reial 10, Barcelona",41.38022221,2.17559994,,True
+HB-001847,Santo Domingo,"Carrer Sant Domènec del Call 3, Barcelona",41.39960836,2.15608949,,True
+HB-001862,Las Flores,"Carrer Rambla 79, Barcelona",41.37642196,2.17157676,,True
+HB-001883,Hostal Apolo,"Carrer Lafont 1, Barcelona",41.37380146,2.16942541,,True
+HB-001931,Palacio,"Passeig Isabel II 10, Barcelona",41.38193324,2.18303623,,True
+HB-001951,Chic  Basic Tallers,"Carrer Tallers 82, Barcelona",41.38526097,2.16431198,,True
+HB-002004,Dani,"Carrer Tallers 9, Barcelona",41.38468756,2.16972063,,True
+HB-002040,Hostal Felipe II,"Carrer Mallorca 329, Barcelona",41.3982317,2.16820769,,True
+HB-002044,Casa de Barca,"Carrer Girona 4, Barcelona",41.39090744,2.17649293,,True
+HB-002097,HOSTAL FINA,"Carrer de la Portaferrissa 11, Barcelona",41.38346329,2.17267617,,True
+HB-002108,Alamar,"Carrer Comtessa de Sobradiel 1, Barcelona",41.38075666,2.17804835,,True
+HB-002151,HOSTAL SANTA ANNA,"Carrer de Santa Anna 23, Barcelona",41.38542036,2.17156569,,True
+HB-002161,Pensió Bertolin,"Carrer del Carme 116, Barcelona",41.37976358,2.16625073,,True
+HB-002211,Hosteria Grau,"Carrer Ramelleres 27, Barcelona",41.38473225,2.16814766,,True
+HB-002282,La Calma,"Carrer Lleona 8, Barcelona",41.38096628,2.17608165,,True
+HB-002357,Hostal Lesseps,"Carrer Gran de Gràcia 239, Barcelona",41.40537782,2.15067405,,True
+HB-002406,Nitzs BCN,"Carrer Calella 1, Barcelona",41.38148514,2.17856331,,True
+HB-002491,Hostal Sans,"Carrer Antoni de Capmany 82, Barcelona",41.37503135,2.13542446,,True
+HB-002600,Lleida,"Carrer Còrsega 201, Barcelona",41.39054569,2.1512164,,True
+HB-002608,Alberdi,"Carrer Torrent de l' Olla 95, Barcelona",41.40189969,2.15735782,,True
+HB-002619,Lausanne,"Avinguda Portal de l'Àngel 24, Barcelona",41.3859101,2.17286707,,True
+HB-002662,Hostal La Terrassa,"Carrer Junta del Comerç 11, Barcelona",41.37999769,2.17139567,,True
+HB-002694,Hostal Cèntric,"Carrer Casanova 13, Barcelona",41.38245621,2.16249035,,True
+HB-002714,Hamsa House Hotel,"Carrer Nou de Zurbano 4, Barcelona",41.37951203,2.17556505,,True
+HB-002721,Hostal Hill,"Carrer Provença 323, Barcelona",41.39903231,2.16700076,,True
+HB-002741,Teruel,"Plaça Bonsuccés 6, Barcelona",41.38382674,2.16963089,,True
+HB-002775,Hostal Barcelona,"Carrer Roser 40, Barcelona",41.37290068,2.16628973,,True
+HB-002835,Laforja,"Carrer Laforja 63, Barcelona",41.39707911,2.14652315,,True
+HB-002851,RIO DE CASTRO,"Avinguda del Paral·lel 119, Barcelona",41.37480558,2.16072275,,True
+HB-002875,Aris,"Carrer Fontanella 14, Barcelona",41.38792459,2.1724482,,True
+HB-002895,Elkano,"Carrer Elkano 78, Barcelona",41.37409817,2.16021961,,True
+HB-002907,Hostal Conde Guell,"Carrer Comte de Güell 32, Barcelona",41.37742895,2.12266419,,True
+HB-002927,HOTEL BRICK (antigo Hotel Climent),"Gran Via de les Corts Catalanes 304, Barcelona",41.37246036,2.14621603,,True
+HB-002935,Hostal Ballestero,"Carrer Manuel Sancho 2, Barcelona",41.43039981,2.18182606,,True
+HB-002961,Mozart,"Carrer Mozart 15, Barcelona",41.39931984,2.15823272,,True
+HB-003049,Hostal Ramos,"Carrer Hospital 36, Barcelona",41.38089431,2.17160827,,True
+HB-003078,Peiró,"Carrer Lafont 1, Barcelona",41.37380146,2.16942541,,True
+HB-003116,Casablanca,"Via Laietana 23, Barcelona",41.38376272,2.17881444,,True
+HB-003147,Brustar Gòtic,"Ronda Sant Pere 53, Barcelona",41.39151227,2.17914274,,True
+HB-003250,Mari Luz Eva,"Carrer Palau 4, Barcelona",41.38121646,2.17790151,,True
+HB-003292,Hostal Drassanes,"Carrer Ample 7, Barcelona",41.37898963,2.17891049,,True
+HB-003336,Hostal River,"Carrer Sant Pau 15, Barcelona",41.37963379,2.17261791,,True
+HB-003356,Sant Antoni Hostal - Sustainable tourism,"Carrer de Villarroel 47, Barcelona",41.38246492,2.16021696,,True
+HB-003376,Portbou,"Carrer Comerç 29, Barcelona",41.38489519,2.18444724,,True
+HB-003451,Hostal Barcelona Rambla,"Carrer Nou de la Rambla 50, Barcelona",41.37749523,2.17252112,,True
+HB-003566,Nou Raval,"Carrer Hospital 107, Barcelona",41.37990177,2.16870122,,True
+HB-003657,Som Nit Triomf,"Carrer Trafalgar 39, Barcelona",41.39002266,2.17710554,,True
+HB-003662,Miami,"Carrer Verge 16, Barcelona",41.38374571,2.16473734,,True
+HB-003669,Hostal Baires,"Carrer Avinyó 37, Barcelona",41.38031411,2.17915522,,True
+HB-003673,Bèjar,"Carrer Béjar 36, Barcelona",41.37705203,2.14556239,,True
+HB-003693,San Ramón,"Carrer Sant Ramon 15, Barcelona",41.37782083,2.1718912,,True
+HB-003726,Romay,"Carrer Avinyó 58, Barcelona",41.38019022,2.17929159,,True
+HB-003748,Canadiense,"Baixada Sant Miquel 1, Barcelona",41.38140374,2.17652833,,True
+HB-003766,Madrazo,"Carrer Madrazo 103, Barcelona",41.3982616,2.14654964,,True
+HB-003777,Limehome,"Carrer de Fontcoberta 4, Barcelona",41.39477739,2.12451106,,True
+HB-003781,Barcelona Gotic,"Carrer Avinyó 42, Barcelona",41.38049051,2.17834896,,True
+HB-003800,Barcelona City Seven,"Carrer Aribau 233, Barcelona",41.39750708,2.14753688,,True
+HB-003827,ELLA HOSTEL RAMBLAS,"Carrer dels Tallers 6, Barcelona",41.38475182,2.16976504,,True
+HB-003841,Radio,"Carrer Sant Vicenç 39, Barcelona",41.38221885,2.16414698,,True
+HB-003871,Alogar,"Carrer Laforja 98, Barcelona",41.39650194,2.14528281,,True
+HB-003872,Bèjar 2,"Carrer Bèjar 37, Barcelona",41.37701811,2.14541505,,True
+HB-003875,LA FRANÇA TRAVELLERS,"Carrer de la França Xica 40, Barcelona",41.37222673,2.157411,,True
+HB-003889,Barcelona City Street,"Carrer Dènia 34, Barcelona",41.39901992,2.14818825,,True
+HB-003894,La Paloma,"Carrer Paloma 24, Barcelona",41.38197812,2.16420298,,True
+HB-003924,Delfos,"Ronda Sant Antoni 61, Barcelona",41.38465103,2.16371175,,True
+HB-003943,Gimón,"Carrer Mallorca 537, Barcelona",41.40941181,2.18313848,,True
+HB-003960,Hostal Mare Nostrum,"Carrer Sant Pau 2, Barcelona",41.38091751,2.17315716,,True
+HB-003974,Iznajar,"Carrer Carme 38, Barcelona",41.38204935,2.16976815,,True
+HB-004005,HOSTAL SOFIA,"Avinguda de Roma 1, Barcelona",41.38101786,2.14378351,,True
+HB-004028,Lazza,"Carrer Indústria 81, Barcelona",41.4057108,2.16911983,,True
+HB-004039,Hostal Eden,"Carrer Balmes 55, Barcelona",41.38949575,2.1622051,,True
+HB-004077,Brustar Sant Pau Aristol,"Carrer Cartagena 369, Barcelona",41.41336455,2.17127138,,True
+HB-004080,Hostalet de Barcelona,"Carrer Casanova 155, Barcelona",41.39101712,2.15115918,,True
+HB-004083,Petit,"Carrer Laforja 67, Barcelona",41.39691661,2.14624897,,True
+HB-004092,Goya Principal,"Carrer Pau Claris 74, Barcelona",41.38938401,2.17174449,,True
+HB-004104,Que Tal,"Carrer Mallorca 290, Barcelona",41.39645088,2.166216,,True
+HB-004107,BCN Condal Apartments,"Carrer de Còrsega 546, Barcelona",41.40662721,2.17291317,,True
+HB-004112,Praktik Rambla,"Rambla Catalunya 27, Barcelona",41.38906064,2.16593789,,True
+HB-004116,Hostal del Palau,"Carrer Sant Pere Mes Alt 6, Barcelona",41.38722238,2.1754495,,True
+HB-004120,Hostal Eden II,"Carrer Balmes 55, Barcelona",41.38949575,2.1622051,,True
+HB-004126,Girona,"Carrer Girona 24, Barcelona",41.39190984,2.17517259,,True
+HB-004128,STANDBYME RAMBLAS,"Carrer rambla 100, Barcelona",41.37560091,2.17055571,,True
+HB-004144,Hostal Poble Nou,"Carrer Taulat 30, Barcelona",41.39830854,2.20438128,,True
+HB-004150,HOSTAL SOFIA2,"Avinguda de Roma 1, Barcelona",41.38101786,2.14378351,,True
+HB-004152,HOSTAL CENTRO,"Carrer de Balmes 83, Barcelona",41.39099101,2.16022488,,True
+HB-004171,Betrés,"Carrer Breda 3, Barcelona",41.38602616,2.14062138,,True
+HB-004191,HOSTAL BALER SCP,"Carrer Torre den Damians 11, Barcelona",41.37603894,2.14402622,,True
+HB-004192,Hostal Centro 2,"Carrer Balmes 83, Barcelona",41.39099101,2.16022488,,True
+HB-004193,Barcelona City Centre,"Carrer Balmes 60, Barcelona",41.38960627,2.16243068,,True
+HB-004196,Barna Hostal,"Rambla Catalunya 102, Barcelona",41.39391108,2.15983193,,True
+HB-004198,Absolut,"Carrer de Casanova 72, Barcelona",41.38550145,2.15883,,True
+HB-004206,Hostal Eden III,"Carrer Balmes 55, Barcelona",41.38949575,2.1622051,,True
+HB-004222,"Inn Ninot Barcelona, S.L.","Carrer de Muntaner 175, Barcelona",41.39187227,2.15227872,,True
+HB-004225,Barcelona Center Inn,"Carrer Bailèn 47, Barcelona",41.39424719,2.17396557,,True
+HB-004232,Raval Rooms,"Carrer Hospital 149, Barcelona",41.37946319,2.16664817,,True
+HB-004241,Fashion House,"Carrer Bruc 13, Barcelona",41.39022887,2.1747675,,True
+HB-004245,Hostal LK Barcelona,"Carrer Consell de Cent 30, Barcelona",41.37633001,2.14558182,,True
+HB-004250,MEDICAL HOME BARCELONA MADRID SL,"Gran Via de les Corts Catalanes 660, Barcelona",41.39111277,2.17096072,,True
+HB-004255,Luxtal,"Carrer Tarragona 177, Barcelona",41.37966677,2.1430828,,True
+HB-004264,Hostal Ciudad Condal 2,"Carrer Mallorca 253, Barcelona",41.39330502,2.16166969,,True
+HB-004285,GRACIA GARDEN,"Carrer Gran de Gràcia 14, Barcelona",41.39829104,2.15744484,,True
+HB-004288,Barcelona City North,"Carrer Saragossa 95, Barcelona",41.40370126,2.14662564,,True
+HB-004292,Hostal Agua Alegre,"Carrer Roger de Lluria 47, Barcelona",41.39291014,2.16896321,,True
+HB-004307,Hostal HMB,"Carrer Francisco Giner 5, Barcelona",41.39847748,2.1598078,,True
+HB-004312,BCN Port,"Avinguda Paral.lel 15, Barcelona",41.37448067,2.17473487,,True
+HB-004316,Suitesbarcelona,"Rambla Catalunya 103, Barcelona",41.39332113,2.16010362,,True
+HB-004344,Hostal Central,"Ronda Universitat 11, Barcelona",41.38644605,2.16561028,,True
+HB-004355,Hostal Caballero San Juan - Ramblas Rooms,"Passeig Sant Joan 1, Barcelona",41.39177098,2.17923545,,True
+HB-004361,Martina,"Carrer Bailen 42, Barcelona",41.39369461,2.17507165,,True
+HB-004365,LIMONAIA 1,"Carrer Rosselló 242, Barcelona",41.39620261,2.16134209,,True
+HB-004366,Limonaia 2,"Carrer Rosselló 242, Barcelona",41.39620261,2.16134209,,True
+HB-004367,LIMONAIA 3,"Carrer Rosselló 242, Barcelona",41.39620261,2.16134209,,True
+HB-004368,Hostal Plaza Goya Bcn 1,"Carrer Sepúlveda 187, Barcelona",41.38412229,2.16354684,,True
+HB-004386,The Praktik,"Carrer Diputació 325, Barcelona",41.39376515,2.17133942,,True
+HB-004388,Blanc Guesthouse,"Carrer Tuset 27, Barcelona",41.39655222,2.1509142,,True
+HB-004402,Somnio Hostel,"Carrer Diputació 251, Barcelona",41.389052,2.16507609,,True
+HB-004409,Oliveta,"Carrer Poeta Cabanyes 16, Barcelona",41.37415368,2.16553563,,True
+HB-004413,Antonio Moreno,"Carrer Valencia 583, Barcelona",41.40872348,2.18449844,,True
+HB-004416,Luxor BCN,"Carrer Teodora Lamadrid 4, Barcelona",41.40593534,2.13799207,,True
+HB-004443,Eos,"Carrer Gran Via Corts Catalanes 575, Barcelona",41.38517336,2.16217755,,True
+HB-004457,Barcelona House,"Carrer Escudellers 19, Barcelona",41.3794181,2.1761357,,True
+HB-004464,Hostemplo,"Carrer Sicília 276, Barcelona",41.40086452,2.17460967,,True
+HB-004469,Monrooms Barcelona,"Carrer Mare de Deu del Coll 14, Barcelona",41.40862139,2.15003072,,True
+HB-004470,ANBA,"Ronda de Sant Pere 27, Barcelona",41.38989939,2.17483637,,True
+HB-004474,Q,"Ronda Sant Pere 22, Barcelona",41.38922532,2.17398362,,True
+HB-004475,ELLA HOSTEL GRAN VIA,"Carrer de Girona 39, Barcelona",41.39270778,2.17374181,,True
+HB-004479,Hostal Muntaner II,"Carrer Muntaner 175, Barcelona",41.39187227,2.15227872,,True
+HB-004483,Circa 1905,"Carrer Provença 286, Barcelona",41.39413575,2.16087562,,True
+HB-004485,House,"Carrer Constitució 36, Barcelona",41.36989972,2.13663946,,True
+HB-004486,Hostal BCN46,"Carrer Roger de Llúria 46, Barcelona",41.39230414,2.17012872,,True
+HB-004487,Luxtal 1-23,"Carrer Mallorca 1, Barcelona",41.37917979,2.14292579,,True
+HB-004489,Plaza de Goya 2,"Carrer Sepúlveda 187, Barcelona",41.38412229,2.16354684,,True
+HB-004495,Martinval,"Carrer Bruc 117, Barcelona",41.39640033,2.16659005,,True
+HB-004496,Barcelona Centro,"Carrer Pau Clarís 104, Barcelona",41.39123195,2.16928395,,True
+HB-004497,Hostalin Barcelona,"Carrer Diputació 346, Barcelona",41.39644632,2.17528966,,True
+HB-004503,FRONT ARC,"Ronda de Sant Pere 53, Barcelona",41.39151227,2.17914274,,True
+HB-004506,Khronos,"Carrer Mallorca 285, Barcelona",41.39610015,2.16538023,,True
+HB-004509,The 8 BedBreakfast Barcelona,"Carrer Aragó 281, Barcelona",41.39322136,2.16601054,,True
+HB-004511,Violeta Boutique,"Carrer Casp 38, Barcelona",41.39020411,2.17201869,,True
+HB-004512,Hostal Acropolis,"Carrer Verdi 254, Barcelona",41.41028909,2.15073964,,True
+HB-004517,Thesuites,"Carrer Pau Claris 72, Barcelona",41.38930154,2.1718535,,True
+HB-004519,Hotel Vasanta,"Carrer Casp 31, Barcelona",41.39081621,2.1724614,,True
+HB-004525,Generator Barcelona,"Carrer Còrsega 373, Barcelona",41.39918493,2.16265834,,True
+HB-004527,Apartamentos Ramblas 108,"Carrer Rambla 106, Barcelona",41.37544908,2.17040026,,True
+HB-004533,Ecozentric,"Carrer Balmes 23, Barcelona",41.38784934,2.16438796,,True
+HB-004536,The5rooms,"Carrer Pau Claris 72, Barcelona",41.38930154,2.1718535,,True
+HB-004537,Exprés,"Carrer Riera Sant Miquel 74, Barcelona",41.3987292,2.15415468,,True
+HB-004540,Pillow Ramblas,"Passatge Banca 2, Barcelona",41.37722308,2.17693485,,True
+HB-004542,Umma Barcelona BedBreakfast Boutique,"Avinguda Diagonal 433B, Barcelona",41.39413644,2.15103134,,True
+HB-004546,La Casita Amarilla,"Carrer Padua 83, Barcelona",41.40509664,2.14508447,,True
+HB-004548,Violeta Boutique 2,"Carrer Casp 38, Barcelona",41.39020411,2.17201869,,True
+HB-004549,Hostalín Barcelona,"Carrer Gran Via Corts Catalanes 657, Barcelona",41.3935394,2.1733128,,True
+HB-004550,Cien,"Carrer Consell de Cent 278, Barcelona",41.38922469,2.16340004,,True
+HB-004553,BacHome Terrace BB,"Carrer Bruc 14, Barcelona",41.39022404,2.17514113,,True
+HB-004558,Barcelona Rooms 294,"Carrer Roger de Flor 294, Barcelona",41.40384175,2.16617099,,True
+HB-004560,Casa Bella Gracia,"Carrer de Sant Agustí 4, Barcelona",41.39845393,2.16054802,,True
+HB-004569,Bella Lola,"Passeig Gràcia 115, Barcelona",41.39705199,2.15834624,,True
+HB-004570,La Casa Gran BedBreakfast,"Avinguda Diagonal 439, Barcelona",41.39393174,2.15021505,,True
+HB-004571,Mihlton Barcelona,"Carrer Rosselló 231, Barcelona",41.39391417,2.15796195,,True
+HB-004574,Petit Príncep,"Avinguda Diagonal 578, Barcelona",41.3939136,2.14818791,,True
+HB-004575,Som Nit Born,"Carrer Reina Cristina 13, Barcelona",41.3821105,2.18371075,,True
+HB-004576,AMRA,"Carrer CASPE 28, Barcelona",41.44056036,2.18650291,,True
+HB-004584,Barcelona Fifteen,"Carrer Fontrodona 15, Barcelona",41.37350298,2.16725308,,True
+HB-004586,Zoorooms,"Carrer Mallorca 209, Barcelona",41.3905583,2.15802495,,True
+HB-004588,LeMar,"Carrer d' Enric Granados 44, Barcelona",41.39109351,2.15819679,,True
+HB-004589,Hostalin Barcelona 2,"Carrer Gran Via Corts Catalanes 657, Barcelona",41.3935394,2.1733128,,True
+HB-004590,Hostal Live Barcelona,"Carrer Gran Via Corts Catalanes 547, Barcelona",41.38353186,2.15999195,,True
+HB-004594,Natura Barcelona,"Carrer Roger de Lluria 33, Barcelona",41.39208243,2.17005398,,True
+HB-004601,Hostal Aslyp 114,"Avinguda Josep Tarradellas 114, Barcelona",41.38960283,2.14372671,,True
+HB-004602,Exprés 1,"Carrer Riera Sant Miquel 74, Barcelona",41.3987292,2.15415468,,True
+HB-004603,Exprés 2,"Carrer Riera Sant Miquel 74, Barcelona",41.3987292,2.15415468,,True
+HB-004604,Exprés 3,"Carrer Riera Sant Miquel 74, Barcelona",41.3987292,2.15415468,,True
+HB-004605,Exprés 4,"Carrer Riera Sant Miquel 74, Barcelona",41.3987292,2.15415468,,True
+HB-004608,Izara,"Ronda Sant Pere 7, Barcelona",41.38850517,2.17109971,,True
+HB-004610,Argó 305,"Carrer Valencia 305, Barcelona",41.39614782,2.16771419,,True
+HB-004611,Urgell Premium 18,"Carrer Comte Urgell 18, Barcelona",41.37987145,2.1618463,,True
+HB-004615,Laramond Barcelona Rooms,"Carrer de Malgrat 40, Barcelona",41.42826978,2.17990496,,True
+HB-004617,Casa Balmes,"Carrer Balmes 60, Barcelona",41.38960627,2.16243068,,True
+HB-004618,Casa Balmes 2,"Carrer Balmes 60, Barcelona",41.38960627,2.16243068,,True
+HB-004621,Casp Green house,"Carrer de Casp 39, Barcelona",41.39177155,2.17373271,,True
+HB-004622,The Moods,"Rambla Catalunya 84, Barcelona",41.39263443,2.16158557,,True
+HB-004626,Barcelona 226,"Carrer Aribau 226, Barcelona",41.39518332,2.15052643,,True
+HB-004631,Hostalin Barcelona Passeig de Gràcia,"Passeig Gràcia 78, Barcelona",41.39388676,2.16328497,,True
+HB-004633,Hostal Barcelona Travel,"Carrer Aragó 224, Barcelona",41.38852829,2.16030836,,True
+HB-004638,Bruc,"Carrer BRUC 65, Barcelona",41.393756,2.17009729,,True
+HB-004642,AMRA BARCELONA GRAN VIA,"Gran Via CORTS CATALANES 682, Barcelona",41.39268519,2.17305614,,True
+HB-004644,Ally's Guest House Barcelona,"Carrer Bruc 150, Barcelona",41.39746349,2.16555402,,True
+HB-004646,The Corner 592,"Carrer Gran Via Corts Catalanes 592, Barcelona",41.3863569,2.16463484,,True
+HB-004651,Jardinets Guest House,"Carrer Bruc 84, Barcelona",41.39442605,2.1695775,,True
+HB-004654,Good-Home,"Carrer Rosselló 254, Barcelona",41.39684498,2.16219944,,True
+HB-004656,THE STREETS,"Carrer del Consell de Cent 322, Barcelona",41.39206317,2.16717488,,True
+HB-004658,Hostal Live Barcelona 2,"Carrer Gran Via Corts Catalanes 547, Barcelona",41.38353186,2.15999195,,True
+HB-004659,Smart Room Barcelona,"Carrer Olzinelles 56, Barcelona",41.37201764,2.13687292,,True
+HB-004660,Brustar Sagrada Família,"Carrer Roger de Flor 215, Barcelona",41.40136919,2.16908663,,True
+HB-004663,Ca la Maria Barcelona BedBreakfast,"Carrer Corsega 284, Barcelona",41.39459694,2.15696271,,True
+HB-004665,Hostalin Barcelona Diputació 2,"Carrer Diputació 346, Barcelona",41.39644632,2.17528966,,True
+HB-004666,La Casa de Antonio,"Carrer Gran Via Corts Catalanes 584, Barcelona",41.38494047,2.16275026,,True
+HB-004670,The Conica Deluxe Bed  Breakfast,"Carrer Corsèga 271, Barcelona",41.39382802,2.15557433,,True
+HB-004675,Lumine Luxury Suites,"Carrer Balmes 129, Barcelona",41.39289208,2.15771277,,True
+HB-004677,Consell,"Carrer Consell de Cent 185, Barcelona",41.38367246,2.15565751,,True
+HB-004679,DON FABRIZZIO,"Gran Via CORTS CATALANES 435, Barcelona",41.37842735,2.15320505,,True
+HB-004682,Casa Gràcia,"Passeig Gràcia 116 Bis, Barcelona",,,,False
+HB-004683,Hostal Excellence,"Carrer Santa Anna 27, Barcelona",41.38564644,2.17182096,,True
+HB-004684,Hostal BCN Llúria,"Carrer Roger de Llúria 46, Barcelona",41.39230414,2.17012872,,True
+HB-004687,Casa Vilaró,"Avinguda Coll del Portell 67, Barcelona",41.41141182,2.15136171,,True
+HB-004693,HOSTAL NOVA BARCELONA,"Rambla de Badal 65, Barcelona",41.36816507,2.13297491,,True
+HB-004695,BacHome Barcelona BB,"Carrer Bruc 96, Barcelona",41.39482523,2.16905209,,True
+HB-004697,Forget Me Not Plus 1,"Carrer Balmes 129 Bis, Barcelona",,,,False
+HB-004698,Forget Me Not Plus 2,"Carrer Balmes 129 Bis, Barcelona",,,,False
+HB-004700,FEELATHOME CASA BERTRAND,"Carrer del Consell de Cent 276, Barcelona",41.38915264,2.16330335,,True
+HB-004701,Ally's Guest House III,"Carrer Bruc 150, Barcelona",41.39746349,2.16555402,,True
+HB-004705,BAILEN GREEN HOUSE,"Carrer Bailèn 188, Barcelona",41.40124592,2.16508152,,True
+HB-004706,RETROME,"Carrer de Girona 85, Barcelona",41.39540003,2.17017915,,True
+HB-004707,RETROME,"Carrer de Girona 81, Barcelona",41.39524186,2.17038759,,True
+HB-004708,RETROME,"Carrer de Girona 81, Barcelona",41.39524186,2.17038759,,True
+HB-004709,Canigó,"Passatge Flaugier 31, Barcelona",41.41535161,2.1770461,,True
+HB-004713,Hostal Ginebra Lux,"Rambla Catalunya 1, Barcelona",41.38751781,2.16804398,,True
+HB-004714,Hostal Ginebra Superior,"Rambla Catalunya 1, Barcelona",41.38751781,2.16804398,,True
+HB-004715,Bed  Break,"Carrer Diputació 327, Barcelona",41.39385457,2.1714582,,True
+HB-004722,Casa Mathilda,"Carrer Roger de Lluria 125, Barcelona",41.3969604,2.16359769,,True
+HB-004735,Flats Rent Store,"Avinguda Diagonal 320 Bis, Barcelona",,,,False
+HB-004740,Magatzem 128,"Carrer Calàbria 128, Barcelona",41.3810616,2.1534093,,True
+HB-004741,MY PILLOW GUESTHOUSE,"Carrer de Malgrat 40, Barcelona",41.42826978,2.17990496,,True
+HB-004747,wander,"Carrer Montserrat 13, Barcelona",41.37715017,2.17507056,,True
+HB-004753,THE MOODS CATEDRAL,"Plaça de Ramon Berenguer el Gran 2, Barcelona",41.38460127,2.17744791,,True
+HB-004758,Bcn NiceCozy,"Carrer Chapí 83, Barcelona",41.432536,2.1585679,,True
+HB-004766,Hostal Oliveta,"Carrer Poeta Cabanyes 18, Barcelona",41.37415368,2.16553563,,True
+HB-004844,COOLROOMS MALDA,"Carrer DEL PI 5, Barcelona",41.38313715,2.1739156,,True
+HB-004859,ALBERGUE DELFOS,"Ronda de Sant Antoni 61, Barcelona",41.38465103,2.16371175,,True
+HB-004867,CAMI,"Carrer de Casp 22, Barcelona",41.38932106,2.17083587,,True
+HB-004910,HOTEL CASA LUZ,"Ronda Universitat 1, Barcelona",41.38617162,2.16488015,,True
+HB-004913,BELVILLAGE,"Carrer Diputació 453, Barcelona",41.40044409,2.18027427,,True
+HB-004917,Bed  stayup Gràcia,"Carrer Gran de Gràcia 26, Barcelona",41.39857212,2.15710942,,True
+HB-004939,Casa Filomena,"Carrer Major de Sarrià 95, Barcelona",41.39953978,2.12170843,,True
+HB-004954,HOSTAL DIAGONAL,"Avinguda Diagonal 369, Barcelona",41.39704751,2.16252283,,True
+HB-004964,LIMEHOME BARCELONA,"Carrer Besalú 82, Barcelona",41.41579721,2.18521576,,True
+HB-004996,"Vía Sants Hotel Barcelona, Tapestry Collection by Hilton","Carrer de Nicaragua 5, Barcelona",41.38153869,2.14337256,,True
+HB-005002,ARCELON HOTEL,"Carrer MALLORCA 661, Barcelona",41.41440273,2.18977662,,True
+HB-005030,HOTEL LINCOLN LOUNGE,"Carrer de Lincoln 13, Barcelona",41.40035156,2.15007493,,True
+HB-005036,"Labtwentytwo Barcelona, a Tribute Portfolio Hotel","Carrer del Perú 102, Barcelona",41.40887546,2.19690833,,True
+HB-005059,Leonardo Royal Hotel Barcelona Fira,"Carrer dels Alts Forns 40, Barcelona",41.35756502,2.13842119,,True
+HB-005060,One shot Arago,"Carrer d Aragó 257, Barcelona",41.3916616,2.16393879,,True
+HB-005102,Hotel BESTPRICE Maragall,"Carrer SEGLE XX 3, Barcelona",41.4223276,2.17843103,,True
+HB-005108,Hotel Bypillow Maragall,"Passeig Maragall 103, Barcelona",41.418718,2.18036479,,True

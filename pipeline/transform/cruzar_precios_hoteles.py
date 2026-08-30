@@ -3,7 +3,7 @@
 Entrada
     data/raw/precios_hoteles/*.json   (o .csv) — salida del scraper de Apify
 Salida
-    data/processed/hoteles_con_precio.csv
+    data/processed/hoteles_cruce_base.csv
 
 El objetivo de este script **no es sumar precios**: es responder si el emparejamiento funciona.
 Un precio pegado al hotel equivocado es peor que no tener precio, porque no se nota. Por eso el
@@ -11,11 +11,19 @@ informe final es de calidad de cruce, no de estadística de precios.
 
 Estrategia, de más fiable a menos:
 
-1. **Coordenada** — dos establecimientos a menos de 60 m con nombres parecidos son el mismo. Es
-   el criterio fuerte, pero solo sirve para los 445 hoteles con `lat`/`lon` (ver `nivel_geo` en
-   `docs/data-model.md`: fuera de Barcelona ciudad no hay coordenada).
-2. **Nombre** — respaldo cuando no hay coordenada. Frágil: "Catalonia Ramblas" y "Catalonia Plaza"
-   se parecen mucho y son hoteles distintos, así que exige un parecido alto.
+1. **Coordenada** — a menos de 60 m y con nombres parecidos. El criterio fuerte, pero solo sirve
+   para los 445 hoteles con `lat`/`lon` (ver `nivel_geo` en `docs/data-model.md`).
+2. **Nombre idéntico** — una vez normalizado, "Acta Splendid" coincide letra por letra. Salva las
+   fuentes que no traen coordenadas, y una igualdad exacta no ocurre por casualidad.
+3. **Nombre contenido y cerca** — el registro guarda "Goya" y el portal "Hotel Goya Barcelona".
+4. **Nombre contenido y único en la ciudad** — si "ABREVADERO" aparece en una sola ficha de las
+   1.500, no hay ambigüedad. Única vía para los hoteles sin coordenada en el registro.
+5. **Parecido literal alto** — último recurso, y el único que se marca dudoso por defecto.
+
+Por qué el orden importa: la contención sola es peligrosa cuando el nombre del registro es un
+topónimo. Buscando "Lima" o "Lourdes" en una fuente global aparecen hoteles de Perú y de Francia
+con el nombre contenido y precio perfectamente válido, y el resultado es un precio de otro país
+pegado a un hostal del Raval. Por eso la coordenada y la igualdad exacta van primero.
 
 Todo cruce por debajo del umbral se marca `dudoso` y **no se descarta en silencio**: queda en la
 salida con su motivo, para poder revisarlo.
@@ -39,7 +47,14 @@ import pandas as pd
 RAIZ = Path(__file__).resolve().parents[2]
 DIR_PRECIOS = RAIZ / "data" / "raw" / "precios_hoteles"
 RUTA_HOTELES = RAIZ / "data" / "processed" / "hoteles_y_apartaments_unificados.csv"
-RUTA_SALIDA = RAIZ / "data" / "processed" / "hoteles_con_precio.csv"
+# Coordenadas obtenidas del ICGC para los hoteles que el registro no trae geolocalizados
+# (`geocodificar_hoteles.py`). Es opcional: si no existe, el cruce sigue funcionando con menos
+# alcance, porque sin coordenada solo quedan los métodos por nombre.
+RUTA_GEOCODIFICADOS = RAIZ / "data" / "processed" / "hoteles_geocodificados.csv"
+# Fichero propio a propósito: `enriquecer_hoteles_con_booking.py` produce
+# `hoteles_con_precio.csv` a partir de este, y si ambos escribieran el mismo nombre el que
+# corriera último borraría el trabajo del otro sin avisar.
+RUTA_SALIDA = RAIZ / "data" / "processed" / "hoteles_cruce_base.csv"
 
 # Un hotel y su ficha raspada rara vez caen en el mismo punto exacto: el portal geolocaliza por
 # portal o por centroide del edificio. 60 m absorbe esa holgura sin llegar al edificio de al lado.
@@ -54,6 +69,21 @@ PARECIDO_SOLO_NOMBRE = 0.85
 # Palabras que aparecen en casi todas las fichas y solo añaden ruido al comparar nombres.
 RUIDO = {"HOTEL", "HOTELES", "APARTHOTEL", "BARCELONA", "BCN", "THE", "EL", "LA", "LOS", "LAS",
          "DE", "DEL", "Y", "AND", "BY", "A", "&"}
+
+# Caja que contiene la ciudad de Barcelona. Sirve de guardarraíl para el emparejamiento por
+# contención de nombre, que sin verificación geográfica es peligroso: muchos hoteles del registro
+# se llaman como una ciudad ("Lima", "Lourdes", "Albi", "Girona", "Santo Domingo"), y en una
+# fuente global el nombre aparece contenido en un hotel de Perú o de Francia, con su precio
+# perfectamente válido. El resultado sería una tarifa de otro país pegada a un hostal del Raval.
+BBOX_BARCELONA = (41.32, 41.47, 2.05, 2.24)  # lat_min, lat_max, lon_min, lon_max
+
+
+def en_barcelona(lat: object, lon: object) -> bool:
+    """¿La ficha está geográficamente en Barcelona? Sin coordenadas no se puede afirmar."""
+    if pd.isna(lat) or pd.isna(lon):
+        return False
+    lat_min, lat_max, lon_min, lon_max = BBOX_BARCELONA
+    return lat_min <= float(lat) <= lat_max and lon_min <= float(lon) <= lon_max
 
 
 def quitar_acentos(texto: object) -> str:
@@ -103,28 +133,6 @@ def metros(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     return math.hypot(dlat, dlon)
 
 
-def cargar_raspados() -> pd.DataFrame:
-    """Lee lo que haya dejado el scraper: JSON o CSV, con nombres de campo variables."""
-    if not DIR_PRECIOS.exists():
-        raise SystemExit(
-            f"No existe {DIR_PRECIOS.relative_to(RAIZ)}.\n"
-            "Guarda ahí la exportación del scraper (JSON o CSV) y vuelve a ejecutar."
-        )
-    ficheros = sorted(list(DIR_PRECIOS.glob("*.json")) + list(DIR_PRECIOS.glob("*.csv")))
-    if not ficheros:
-        raise SystemExit(f"No hay ficheros en {DIR_PRECIOS.relative_to(RAIZ)}")
-
-    trozos = []
-    for f in ficheros:
-        if f.suffix == ".json":
-            datos = json.loads(f.read_text(encoding="utf-8"))
-            trozos.append(pd.json_normalize(datos if isinstance(datos, list) else [datos]))
-        else:
-            trozos.append(pd.read_csv(f))
-        print(f"  leído {f.name}: {len(trozos[-1]):,} filas")
-    return pd.concat(trozos, ignore_index=True)
-
-
 def localizar_columna(df: pd.DataFrame, candidatas: list[str]) -> str | None:
     """Encuentra una columna por varios nombres posibles: cada scraper la llama distinto."""
     normalizadas = {c.lower().replace("_", "").replace(".", ""): c for c in df.columns}
@@ -138,15 +146,16 @@ def localizar_columna(df: pd.DataFrame, candidatas: list[str]) -> str | None:
 def preparar_raspados(bruto: pd.DataFrame) -> pd.DataFrame:
     """Renombra a un esquema estable, sea cual sea el scraper de origen."""
     mapa = {
-        "nombre": ["name", "hotelName", "title", "displayName"],
+        "nombre": ["name", "hotelName", "title", "displayName", "nombre_alojamiento"],
         "lat": ["latitude", "lat", "location.lat", "coordinates.lat", "gpsCoordinates.latitude"],
         "lon": ["longitude", "lng", "lon", "location.lng", "coordinates.lng",
                 "gpsCoordinates.longitude"],
-        "precio": ["nightly", "price", "pricePerNight", "rate", "price.value", "nightlyPrice"],
+        "precio": ["nightly", "price", "pricePerNight", "rate", "price.value", "nightlyPrice",
+                   "precio_noche_eur"],
         "moneda": ["currency", "currencyCode", "price.currency"],
         "estrellas": ["stars", "starRating", "hotelClass", "rating.stars"],
-        "puntuacion": ["rating", "reviewScore", "score", "guestRating"],
-        "direccion": ["address", "formattedAddress", "location.address"],
+        "puntuacion": ["rating", "reviewScore", "score", "guestRating", "puntuacion"],
+        "direccion": ["address", "formattedAddress", "location.address", "direccion_original"],
         # Rango entre portales para el mismo hotel: dice cuánto varía el precio según dónde se
         # reserve, que es más informativo que un único importe.
         "oferta_min": ["oferta_min", "lowest", "minPrice"],
@@ -163,7 +172,43 @@ def preparar_raspados(bruto: pd.DataFrame) -> pd.DataFrame:
     for c in ("lat", "lon", "precio", "puntuacion", "oferta_min", "oferta_max"):
         salida[c] = pd.to_numeric(salida[c], errors="coerce")
     salida["clave"] = salida["nombre"].apply(clave_nombre)
+    # Solo las fichas con coordenada dentro de Barcelona pueden usarse para emparejar por
+    # contención de nombre (ver BBOX_BARCELONA).
+    salida["en_bcn"] = salida.apply(lambda r: en_barcelona(r["lat"], r["lon"]), axis=1)
     return salida[salida["nombre"].notna()]
+
+
+def cargar_raspados() -> pd.DataFrame:
+    """Lee lo que haya dejado el scraper: JSON o CSV, con nombres de campo variables."""
+    if not DIR_PRECIOS.exists():
+        raise SystemExit(
+            f"No existe {DIR_PRECIOS.relative_to(RAIZ)}.\n"
+            "Guarda ahí la exportación del scraper (JSON o CSV) y vuelve a ejecutar."
+        )
+    ficheros = sorted(list(DIR_PRECIOS.glob("*.json")) + list(DIR_PRECIOS.glob("*.csv")))
+    if not ficheros:
+        raise SystemExit(f"No hay ficheros en {DIR_PRECIOS.relative_to(RAIZ)}")
+
+    trozos = []
+    for f in ficheros:
+        if f.suffix == ".json":
+            datos = json.loads(f.read_text(encoding="utf-8"))
+            bruto = pd.json_normalize(datos if isinstance(datos, list) else [datos])
+        else:
+            bruto = pd.read_csv(f)
+
+        # Cada fichero se normaliza **por separado y antes de unirlos**. Concatenar primero y
+        # buscar las columnas después parece equivalente y no lo es: la búsqueda encuentra el
+        # nombre que use el primer fichero (`name`) y lo aplica a todos, de modo que las filas
+        # de una fuente que la llame distinto (`nombre_alojamiento`) quedan vacías en silencio.
+        normalizado = preparar_raspados(bruto)
+        # Guardar de dónde viene cada ficha: las fuentes no son igual de fiables y conviene
+        # poder rastrear un precio raro hasta el fichero que lo trajo.
+        normalizado["fichero_origen"] = f.name
+        trozos.append(normalizado)
+        print(f"  leído {f.name}: {len(bruto):,} filas → "
+              f"{normalizado['precio'].notna().sum():,} con precio")
+    return pd.concat(trozos, ignore_index=True)
 
 
 def cruzar(hoteles: pd.DataFrame, raspados: pd.DataFrame) -> pd.DataFrame:
@@ -186,7 +231,18 @@ def cruzar(hoteles: pd.DataFrame, raspados: pd.DataFrame) -> pd.DataFrame:
                     i = sims.idxmax()
                     mejor, metodo, distancia, sim = raspados.loc[i], "coordenada", d[i], sims.max()
 
-        # 2. Nombre contenido + cerca. Salva los casos en que el registro guarda "Goya" y el
+        # 2. Nombre normalizado idéntico. Es el criterio que salva las fuentes sin coordenadas:
+        # "Acta Splendid" o "Barceló Raval" coinciden letra por letra una vez quitados acentos y
+        # palabras de relleno, y una igualdad exacta no se produce por casualidad.
+        if mejor is None and clave_h:
+            iguales = raspados[raspados["clave"] == clave_h]
+            if len(iguales) >= 1:
+                # Si hay varias fichas con el mismo nombre, se prefiere la que traiga precio.
+                con_precio = iguales[iguales["precio"].notna()]
+                i = (con_precio if len(con_precio) else iguales).index[0]
+                mejor, metodo, sim = raspados.loc[i], "nombre_exacto", 1.0
+
+        # 3. Nombre contenido + cerca. Salva los casos en que el registro guarda "Goya" y el
         # portal "Hotel Goya Barcelona": misma casa, parecido literal bajísimo. Se admite un radio
         # mayor que en el paso 1 porque la contención del nombre ya es una condición fuerte.
         if mejor is None and clave_h and pd.notna(h["lat"]) and len(con_coord):
@@ -199,17 +255,19 @@ def cruzar(hoteles: pd.DataFrame, raspados: pd.DataFrame) -> pd.DataFrame:
                 mejor, metodo, distancia = raspados.loc[i], "nombre_cerca", d[i]
                 sim = parecido(clave_h, raspados.loc[i, "clave"])
 
-        # 3. Nombre único en toda la ciudad. Es la única vía para los hoteles sin coordenada en
-        # nuestro registro (309 de 754): si "ABREVADERO" aparece en una sola ficha de las 1.500,
-        # no hay ambigüedad que resolver. Si aparece en varias, no se elige ninguna.
+        # 4. Nombre único **entre las fichas situadas en Barcelona**. Es la vía para los hoteles
+        # sin coordenada en nuestro registro (309 de 754): si "ABREVADERO" aparece en una sola
+        # ficha, no hay ambigüedad. Restringirlo a fichas con coordenada verificada es lo que
+        # evita que "Lima" empareje con un hotel de Perú (ver BBOX_BARCELONA).
         if mejor is None and clave_h:
-            contenidos = raspados[raspados["clave"].apply(lambda c: contenido_en(clave_h, c))]
+            verificadas = raspados[raspados["en_bcn"]]
+            contenidos = verificadas[verificadas["clave"].apply(lambda c: contenido_en(clave_h, c))]
             if len(contenidos) == 1:
                 i = contenidos.index[0]
                 mejor, metodo = raspados.loc[i], "nombre_unico"
                 sim = parecido(clave_h, raspados.loc[i, "clave"])
 
-        # 4. Parecido literal alto, como último recurso.
+        # 5. Parecido literal alto, como último recurso.
         if mejor is None and clave_h:
             sims = raspados["clave"].apply(lambda c: parecido(clave_h, c))
             if len(sims) and sims.max() >= PARECIDO_SOLO_NOMBRE:
@@ -222,6 +280,7 @@ def cruzar(hoteles: pd.DataFrame, raspados: pd.DataFrame) -> pd.DataFrame:
             "categoria": h["categoria"],
             "habitaciones": h["habitaciones"],
             "plazas": h["plazas"],
+            "origen_coordenada": h.get("origen_coordenada"),
             "metodo_cruce": metodo,
             "similitud": round(sim, 2),
             "distancia_m": round(distancia) if distancia is not None else None,
@@ -233,8 +292,7 @@ def cruzar(hoteles: pd.DataFrame, raspados: pd.DataFrame) -> pd.DataFrame:
                 "moneda": mejor["moneda"],
                 "estrellas_raspadas": mejor["estrellas"],
                 "puntuacion": mejor["puntuacion"],
-                "oferta_min": mejor["oferta_min"],
-                "oferta_max": mejor["oferta_max"],
+                "fichero_origen": mejor["fichero_origen"],
             }
         filas.append(fila)
 
@@ -270,8 +328,21 @@ def informe(d: pd.DataFrame) -> None:
 
     print(f"\nPrecios sobre {len(fiables):,} cruces fiables:")
     print(f"  mediana: {fiables['precio'].median():.0f}  |  media: {fiables['precio'].mean():.0f}")
+    # La mediana por categoría viaja siempre con su cobertura en plazas. Sin ese porcentaje al
+    # lado, una mediana calculada sobre el 40% de una categoría se lee igual que una calculada
+    # sobre el 85%, y no valen lo mismo: los hoteles que faltan son sistemáticamente los pequeños,
+    # así que la mediana de una categoría poco cubierta tira hacia arriba.
+    plazas = pd.to_numeric(d["plazas"], errors="coerce")
+    cubiertas = plazas.where(d.index.isin(fiables.index), 0)
+    cobertura = (cubiertas.groupby(d["categoria"]).sum()
+                 / plazas.groupby(d["categoria"]).sum() * 100)
+
     por_cat = fiables.groupby("categoria")["precio"].agg(["size", "median"]).round(0)
     por_cat.columns = ["hoteles", "precio_mediano"]
+    por_cat["% plazas cubiertas"] = cobertura.round(1)
+    por_cat["fiabilidad"] = pd.cut(
+        por_cat["% plazas cubiertas"], [0, 50, 70, 101],
+        labels=["baja: sobreestima", "media", "alta"])
     print(f"\n{por_cat.sort_values('precio_mediano').to_string()}")
 
     cobertura = len(fiables) / len(d)
@@ -282,15 +353,32 @@ def informe(d: pd.DataFrame) -> None:
 
 def main() -> None:
     print(f"Leyendo {DIR_PRECIOS.relative_to(RAIZ)}")
-    raspados = preparar_raspados(cargar_raspados())
+    raspados = cargar_raspados()
     print(f"  {len(raspados):,} fichas con nombre | {raspados['precio'].notna().sum():,} con precio")
 
     hoteles = pd.read_csv(RUTA_HOTELES, dtype=str)
     hoteles = hoteles[(hoteles["tipo"] == "hotel") & (hoteles["municipio"] == "Barcelona")].copy()
     for c in ("lat", "lon"):
         hoteles[c] = pd.to_numeric(hoteles[c], errors="coerce")
+    del_registro = int(hoteles["lat"].notna().sum())
+
+    # Rellenar los huecos con lo geocodificado, sin pisar nunca la coordenada del registro: la
+    # oficial es más fiable que una dirección resuelta por aproximación.
+    if RUTA_GEOCODIFICADOS.exists():
+        geo = pd.read_csv(RUTA_GEOCODIFICADOS)
+        geo = geo.loc[geo["geocodificado"] == True, ["licencia_id", "lat", "lon"]]  # noqa: E712
+        hoteles = hoteles.merge(geo, on="licencia_id", how="left", suffixes=("", "_geo"))
+        hoteles["origen_coordenada"] = hoteles["lat"].notna().map(
+            {True: "registro", False: "geocodificada"})
+        hoteles["lat"] = hoteles["lat"].fillna(hoteles["lat_geo"])
+        hoteles["lon"] = hoteles["lon"].fillna(hoteles["lon_geo"])
+        hoteles.loc[hoteles["lat"].isna(), "origen_coordenada"] = None
+    else:
+        hoteles["origen_coordenada"] = hoteles["lat"].notna().map({True: "registro", False: None})
+
     print(f"  {len(hoteles):,} hoteles oficiales en la ciudad "
-          f"({hoteles['lat'].notna().sum()} con coordenada)")
+          f"({hoteles['lat'].notna().sum()} con coordenada: "
+          f"{del_registro} del registro + {int(hoteles['lat'].notna().sum()) - del_registro} geocodificadas)")
 
     d = cruzar(hoteles, raspados)
     informe(d)
