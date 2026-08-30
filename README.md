@@ -48,8 +48,12 @@ pip install -r pipeline/requirements.txt
 jupyter lab pipeline/notebooks/
 ```
 
-*(`web/` todavía no tiene código. `pipeline/` tiene un primer notebook de exploración de las
-fuentes verificadas — ver `pipeline/notebooks/01_exploracion_fuentes.ipynb`.)*
+*(`web/` todavía no tiene código. `pipeline/` cuenta con extractores asíncronos anti-bot (`descargar_precios_booking.py`, `descargar_listado_booking_octubre.py`), consolidación de Booking en `unificar_hoteles_booking.py` y enriquecimiento del censo oficial en `pipeline/transform/enriquecer_hoteles_con_booking.py`.)*
+
+
+
+
+
 
 ## Estructura de carpetas
 
