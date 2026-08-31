@@ -1,0 +1,715 @@
+licencia_id,origen,municipio,direccion_consultada,lat,lon,etiqueta_icgc,geocodificado,en_ciudad,municipio_poligono,municipio_coincide
+HB-004028,hotel_at,Barcelona,"Carrer Indústria 81, Barcelona",41.4057108,2.16911983,,True,True,Barcelona,True
+HB-000457,hotel_at,Barcelona,"Carrer Reina Cristina 2, Barcelona",41.38135744,2.18321589,,True,True,Barcelona,True
+HB-004489,hotel_at,Barcelona,"Carrer Sepúlveda 187, Barcelona",41.38412229,2.16354684,,True,True,Barcelona,True
+HB-000502,hotel_at,Barcelona,"Carrer Castillejos 204, Barcelona",41.4037968,2.18205223,,True,True,Barcelona,True
+HB-000491,hotel_at,Barcelona,"Carrer Quintana 3, Barcelona",41.38128194,2.17433758,,True,True,Barcelona,True
+HB-004495,hotel_at,Barcelona,"Carrer Bruc 117, Barcelona",41.39640033,2.16659005,,True,True,Barcelona,True
+HB-004496,hotel_at,Barcelona,"Carrer Pau Clarís 104, Barcelona",41.39123195,2.16928395,,True,True,Barcelona,True
+HB-004497,hotel_at,Barcelona,"Carrer Diputació 346, Barcelona",41.39644632,2.17528966,,True,True,Barcelona,True
+HB-000485,hotel_at,Barcelona,"Carrer Simó Oller 1, Barcelona",41.37997958,2.17989358,,True,True,Barcelona,True
+HB-000478,hotel_at,Barcelona,"Passatge Escudellers 7, Barcelona",41.37888779,2.1767219,,True,True,Barcelona,True
+HB-004503,hotel_at,Barcelona,"Ronda de Sant Pere 53, Barcelona",41.39151227,2.17914274,,True,True,Barcelona,True
+HB-004506,hotel_at,Barcelona,"Carrer Mallorca 285, Barcelona",41.39610015,2.16538023,,True,True,Barcelona,True
+HB-004509,hotel_at,Barcelona,"Carrer Aragó 281, Barcelona",41.39322136,2.16601054,,True,True,Barcelona,True
+HB-000467,hotel_at,Barcelona,"Carrer Jerusalem 30, Barcelona",41.38189524,2.1707537,,True,True,Barcelona,True
+HB-004511,hotel_at,Barcelona,"Carrer Casp 38, Barcelona",41.39020411,2.17201869,,True,True,Barcelona,True
+HB-004512,hotel_at,Barcelona,"Carrer Verdi 254, Barcelona",41.41028909,2.15073964,,True,True,Barcelona,True
+HB-004517,hotel_at,Barcelona,"Carrer Pau Claris 72, Barcelona",41.38930154,2.1718535,,True,True,Barcelona,True
+HB-004486,hotel_at,Barcelona,"Carrer Roger de Llúria 46, Barcelona",41.39230414,2.17012872,,True,True,Barcelona,True
+HB-004519,hotel_at,Barcelona,"Carrer Casp 31, Barcelona",41.39081621,2.1724614,,True,True,Barcelona,True
+HB-000456,hotel_at,Barcelona,"Carrer Rambla 138, Barcelona",41.37312077,2.16798258,,True,True,Barcelona,True
+HB-000454,hotel_at,Barcelona,"Carrer Gran Via Corts Catalanes 688, Barcelona",41.39318936,2.17372725,,True,True,Barcelona,True
+HB-000448,hotel_at,Barcelona,"Carrer Nou de Sant Francesc 23, Barcelona",41.37875896,2.17777534,,True,True,Barcelona,True
+HB-004525,hotel_at,Barcelona,"Carrer Còrsega 373, Barcelona",41.39918493,2.16265834,,True,True,Barcelona,True
+HB-004527,hotel_at,Barcelona,"Carrer Rambla 106, Barcelona",41.37544908,2.17040026,,True,True,Barcelona,True
+HB-004533,hotel_at,Barcelona,"Carrer Balmes 23, Barcelona",41.38784934,2.16438796,,True,True,Barcelona,True
+HB-004536,hotel_at,Barcelona,"Carrer Pau Claris 72, Barcelona",41.38930154,2.1718535,,True,True,Barcelona,True
+HB-004537,hotel_at,Barcelona,"Carrer Riera Sant Miquel 74, Barcelona",41.3987292,2.15415468,,True,True,Barcelona,True
+HB-004540,hotel_at,Barcelona,"Passatge Banca 2, Barcelona",41.37722308,2.17693485,,True,True,Barcelona,True
+HB-000443,hotel_at,Barcelona,"Carrer Princesa 14, Barcelona",41.38484012,2.17991866,,True,True,Barcelona,True
+HB-004542,hotel_at,Barcelona,"Avinguda Diagonal 433B, Barcelona",41.39413644,2.15103134,,True,True,Barcelona,True
+HB-000439,hotel_at,Barcelona,"Carrer Mallorca 255, Barcelona",41.39337193,2.16175861,,True,True,Barcelona,True
+HB-004546,hotel_at,Barcelona,"Carrer Padua 83, Barcelona",41.40509664,2.14508447,,True,True,Barcelona,True
+HB-004487,hotel_at,Barcelona,"Carrer Mallorca 1, Barcelona",41.37917979,2.14292579,,True,True,Barcelona,True
+HB-004485,hotel_at,Barcelona,"Carrer Constitució 36, Barcelona",41.36989972,2.13663946,,True,True,Barcelona,True
+HB-004549,hotel_at,Barcelona,"Carrer Gran Via Corts Catalanes 657, Barcelona",41.3935394,2.1733128,,True,True,Barcelona,True
+HB-004413,hotel_at,Barcelona,"Carrer Valencia 583, Barcelona",41.40872348,2.18449844,,True,True,Barcelona,True
+HB-004367,hotel_at,Barcelona,"Carrer Rosselló 242, Barcelona",41.39620261,2.16134209,,True,True,Barcelona,True
+HB-004368,hotel_at,Barcelona,"Carrer Sepúlveda 187, Barcelona",41.38412229,2.16354684,,True,True,Barcelona,True
+HB-000935,hotel_at,Barcelona,"Carrer Nou de la Rambla 1, Barcelona",41.37916642,2.17442328,,True,True,Barcelona,True
+HB-004386,hotel_at,Barcelona,"Carrer Diputació 325, Barcelona",41.39376515,2.17133942,,True,True,Barcelona,True
+HB-004388,hotel_at,Barcelona,"Carrer Tuset 27, Barcelona",41.39655222,2.1509142,,True,True,Barcelona,True
+HB-000899,hotel_at,Barcelona,"Carrer Rambla 114, Barcelona",41.37437511,2.16928131,,True,True,Barcelona,True
+HB-000862,hotel_at,Barcelona,"Carrer Gran de Gràcia 87, Barcelona",41.40059298,2.15444412,,True,True,Barcelona,True
+HB-000855,hotel_at,Barcelona,"Carrer Amílcar 118, Barcelona",41.42385563,2.17258536,,True,True,Barcelona,True
+HB-000845,hotel_at,Barcelona,"Plaça Urquinaona 5, Barcelona",41.38948805,2.17295069,,True,True,Barcelona,True
+HB-000838,hotel_at,Barcelona,"Carrer Aribau 37, Barcelona",41.38758673,2.16021558,,True,True,Barcelona,True
+HB-000801,hotel_at,Barcelona,"Carrer Diputació 346, Barcelona",41.39644632,2.17528966,,True,True,Barcelona,True
+HB-004402,hotel_at,Barcelona,"Carrer Diputació 251, Barcelona",41.389052,2.16507609,,True,True,Barcelona,True
+HB-000782,hotel_at,Barcelona,"Carrer Rambla 96, Barcelona",41.37570639,2.17066133,,True,True,Barcelona,True
+HB-004409,hotel_at,Barcelona,"Carrer Poeta Cabanyes 16, Barcelona",41.37415368,2.16553563,,True,True,Barcelona,True
+HB-000776,hotel_at,Barcelona,"Carrer Pau Claris 145, Barcelona",41.39388061,2.16541959,,True,True,Barcelona,True
+HB-000508,hotel_at,Barcelona,"Carrer Portaferrissa 23, Barcelona",41.38378347,2.17349131,,True,True,Barcelona,True
+HB-004416,hotel_at,Barcelona,"Carrer Teodora Lamadrid 4, Barcelona",41.40593534,2.13799207,,True,True,Barcelona,True
+HB-000739,hotel_at,Barcelona,"Carrer de Josep Anselm Clavé 27, Barcelona",41.37788792,2.17821929,,True,True,Barcelona,True
+HB-000723,hotel_at,Barcelona,"Avinguda Marquès de l'Argentera 13, Barcelona",41.38440389,2.18453051,,True,True,Barcelona,True
+HB-000701,hotel_at,Barcelona,"Carrer de Joaquín Costa 44, Barcelona",41.38280939,2.16558179,,True,True,Barcelona,True
+HB-004443,hotel_at,Barcelona,"Carrer Gran Via Corts Catalanes 575, Barcelona",41.38517336,2.16217755,,True,True,Barcelona,True
+HB-004457,hotel_at,Barcelona,"Carrer Escudellers 19, Barcelona",41.3794181,2.1761357,,True,True,Barcelona,True
+HB-004464,hotel_at,Barcelona,"Carrer Sicília 276, Barcelona",41.40086452,2.17460967,,True,True,Barcelona,True
+HB-004469,hotel_at,Barcelona,"Carrer Mare de Deu del Coll 14, Barcelona",41.40862139,2.15003072,,True,True,Barcelona,True
+HB-004470,hotel_at,Barcelona,"Ronda de Sant Pere 27, Barcelona",41.38989939,2.17483637,,True,True,Barcelona,True
+HB-004474,hotel_at,Barcelona,"Ronda Sant Pere 22, Barcelona",41.38922532,2.17398362,,True,True,Barcelona,True
+HB-004475,hotel_at,Barcelona,"Carrer de Girona 39, Barcelona",41.39270778,2.17374181,,True,True,Barcelona,True
+HB-004479,hotel_at,Barcelona,"Carrer Muntaner 175, Barcelona",41.39187227,2.15227872,,True,True,Barcelona,True
+HB-000516,hotel_at,Barcelona,"Carrer Trafalgar 39, Barcelona",41.39002266,2.17710554,,True,True,Barcelona,True
+HB-004483,hotel_at,Barcelona,"Carrer Provença 286, Barcelona",41.39413575,2.16087562,,True,True,Barcelona,True
+HB-004548,hotel_at,Barcelona,"Carrer Casp 38, Barcelona",41.39020411,2.17201869,,True,True,Barcelona,True
+HB-004550,hotel_at,Barcelona,"Carrer Consell de Cent 278, Barcelona",41.38922469,2.16340004,,True,True,Barcelona,True
+HB-004365,hotel_at,Barcelona,"Carrer Rosselló 242, Barcelona",41.39620261,2.16134209,,True,True,Barcelona,True
+HB-004677,hotel_at,Barcelona,"Carrer Consell de Cent 185, Barcelona",41.38367246,2.15565751,,True,True,Barcelona,True
+HB-004644,hotel_at,Barcelona,"Carrer Bruc 150, Barcelona",41.39746349,2.16555402,,True,True,Barcelona,True
+HB-004646,hotel_at,Barcelona,"Carrer Gran Via Corts Catalanes 592, Barcelona",41.3863569,2.16463484,,True,True,Barcelona,True
+HB-004651,hotel_at,Barcelona,"Carrer Bruc 84, Barcelona",41.39442605,2.1695775,,True,True,Barcelona,True
+HB-004654,hotel_at,Barcelona,"Carrer Rosselló 254, Barcelona",41.39684498,2.16219944,,True,True,Barcelona,True
+HB-004656,hotel_at,Barcelona,"Carrer del Consell de Cent 322, Barcelona",41.39206317,2.16717488,,True,True,Barcelona,True
+HB-004658,hotel_at,Barcelona,"Carrer Gran Via Corts Catalanes 547, Barcelona",41.38353186,2.15999195,,True,True,Barcelona,True
+HB-004659,hotel_at,Barcelona,"Carrer Olzinelles 56, Barcelona",41.37201764,2.13687292,,True,True,Barcelona,True
+HB-004660,hotel_at,Barcelona,"Carrer Roger de Flor 215, Barcelona",41.40136919,2.16908663,,True,True,Barcelona,True
+HB-004663,hotel_at,Barcelona,"Carrer Corsega 284, Barcelona",41.39459694,2.15696271,,True,True,Barcelona,True
+HB-004665,hotel_at,Barcelona,"Carrer Diputació 346, Barcelona",41.39644632,2.17528966,,True,True,Barcelona,True
+HB-004666,hotel_at,Barcelona,"Carrer Gran Via Corts Catalanes 584, Barcelona",41.38494047,2.16275026,,True,True,Barcelona,True
+HB-004670,hotel_at,Barcelona,"Carrer Corsèga 271, Barcelona",41.39382802,2.15557433,,True,True,Barcelona,True
+HB-004675,hotel_at,Barcelona,"Carrer Balmes 129, Barcelona",41.39289208,2.15771277,,True,True,Barcelona,True
+HUTB-066360,vut,Barcelona,"Passeig de Joan de Borbó Comte de Barcelona 3, Barcelona",41.38124231,2.18714221,,True,True,Barcelona,True
+HB-004679,hotel_at,Barcelona,"Gran Via CORTS CATALANES 435, Barcelona",41.37842735,2.15320505,,True,True,Barcelona,True
+HB-004638,hotel_at,Barcelona,"Carrer BRUC 65, Barcelona",41.393756,2.17009729,,True,True,Barcelona,True
+HB-004683,hotel_at,Barcelona,"Carrer Santa Anna 27, Barcelona",41.38564644,2.17182096,,True,True,Barcelona,True
+HB-004684,hotel_at,Barcelona,"Carrer Roger de Llúria 46, Barcelona",41.39230414,2.17012872,,True,True,Barcelona,True
+HB-004687,hotel_at,Barcelona,"Avinguda Coll del Portell 67, Barcelona",41.41141182,2.15136171,,True,True,Barcelona,True
+HB-004693,hotel_at,Barcelona,"Rambla de Badal 65, Barcelona",41.36816507,2.13297491,,True,True,Barcelona,True
+HB-004695,hotel_at,Barcelona,"Carrer Bruc 96, Barcelona",41.39482523,2.16905209,,True,True,Barcelona,True
+HB-004700,hotel_at,Barcelona,"Carrer del Consell de Cent 276, Barcelona",41.38915264,2.16330335,,True,True,Barcelona,True
+HB-004701,hotel_at,Barcelona,"Carrer Bruc 150, Barcelona",41.39746349,2.16555402,,True,True,Barcelona,True
+HB-004705,hotel_at,Barcelona,"Carrer Bailèn 188, Barcelona",41.40124592,2.16508152,,True,True,Barcelona,True
+HB-004706,hotel_at,Barcelona,"Carrer de Girona 85, Barcelona",41.39540003,2.17017915,,True,True,Barcelona,True
+HB-004707,hotel_at,Barcelona,"Carrer de Girona 81, Barcelona",41.39524186,2.17038759,,True,True,Barcelona,True
+HB-004708,hotel_at,Barcelona,"Carrer de Girona 81, Barcelona",41.39524186,2.17038759,,True,True,Barcelona,True
+HB-004642,hotel_at,Barcelona,"Gran Via CORTS CATALANES 682, Barcelona",41.39268519,2.17305614,,True,True,Barcelona,True
+HB-000320,hotel_at,Barcelona,"Carrer Pau Claris 74, Barcelona",41.38938401,2.17174449,,True,True,Barcelona,True
+HB-004553,hotel_at,Barcelona,"Carrer Bruc 14, Barcelona",41.39022404,2.17514113,,True,True,Barcelona,True
+HB-000362,hotel_at,Barcelona,"Carrer Fontanella 16, Barcelona",41.38798429,2.17249943,,True,True,Barcelona,True
+HB-004558,hotel_at,Barcelona,"Carrer Roger de Flor 294, Barcelona",41.40384175,2.16617099,,True,True,Barcelona,True
+HB-004560,hotel_at,Barcelona,"Carrer de Sant Agustí 4, Barcelona",41.39845393,2.16054802,,True,True,Barcelona,True
+HB-004569,hotel_at,Barcelona,"Passeig Gràcia 115, Barcelona",41.39705199,2.15834624,,True,True,Barcelona,True
+HB-004570,hotel_at,Barcelona,"Avinguda Diagonal 439, Barcelona",41.39393174,2.15021505,,True,True,Barcelona,True
+HB-004571,hotel_at,Barcelona,"Carrer Rosselló 231, Barcelona",41.39391417,2.15796195,,True,True,Barcelona,True
+HB-003451,hotel_at,Barcelona,"Carrer Nou de la Rambla 50, Barcelona",41.37749523,2.17252112,,True,True,Barcelona,True
+HB-004575,hotel_at,Barcelona,"Carrer Reina Cristina 13, Barcelona",41.3821105,2.18371075,,True,True,Barcelona,True
+HB-004576,hotel_at,Barcelona,"Carrer CASPE 28, Barcelona",41.44056036,2.18650291,,True,True,Barcelona,True
+HB-004584,hotel_at,Barcelona,"Carrer Fontrodona 15, Barcelona",41.37350298,2.16725308,,True,True,Barcelona,True
+HB-004586,hotel_at,Barcelona,"Carrer Mallorca 209, Barcelona",41.3905583,2.15802495,,True,True,Barcelona,True
+HB-004588,hotel_at,Barcelona,"Carrer d' Enric Granados 44, Barcelona",41.39109351,2.15819679,,True,True,Barcelona,True
+HB-004589,hotel_at,Barcelona,"Carrer Gran Via Corts Catalanes 657, Barcelona",41.3935394,2.1733128,,True,True,Barcelona,True
+HB-004590,hotel_at,Barcelona,"Carrer Gran Via Corts Catalanes 547, Barcelona",41.38353186,2.15999195,,True,True,Barcelona,True
+HB-004594,hotel_at,Barcelona,"Carrer Roger de Lluria 33, Barcelona",41.39208243,2.17005398,,True,True,Barcelona,True
+HB-004601,hotel_at,Barcelona,"Avinguda Josep Tarradellas 114, Barcelona",41.38960283,2.14372671,,True,True,Barcelona,True
+HB-004633,hotel_at,Barcelona,"Carrer Aragó 224, Barcelona",41.38852829,2.16030836,,True,True,Barcelona,True
+HB-004602,hotel_at,Barcelona,"Carrer Riera Sant Miquel 74, Barcelona",41.3987292,2.15415468,,True,True,Barcelona,True
+HB-004603,hotel_at,Barcelona,"Carrer Riera Sant Miquel 74, Barcelona",41.3987292,2.15415468,,True,True,Barcelona,True
+HB-004604,hotel_at,Barcelona,"Carrer Riera Sant Miquel 74, Barcelona",41.3987292,2.15415468,,True,True,Barcelona,True
+HB-004605,hotel_at,Barcelona,"Carrer Riera Sant Miquel 74, Barcelona",41.3987292,2.15415468,,True,True,Barcelona,True
+HB-004608,hotel_at,Barcelona,"Ronda Sant Pere 7, Barcelona",41.38850517,2.17109971,,True,True,Barcelona,True
+HB-004610,hotel_at,Barcelona,"Carrer Valencia 305, Barcelona",41.39614782,2.16771419,,True,True,Barcelona,True
+HB-004611,hotel_at,Barcelona,"Carrer Comte Urgell 18, Barcelona",41.37987145,2.1618463,,True,True,Barcelona,True
+HB-004615,hotel_at,Barcelona,"Carrer de Malgrat 40, Barcelona",41.42826978,2.17990496,,True,True,Barcelona,True
+HB-004617,hotel_at,Barcelona,"Carrer Balmes 60, Barcelona",41.38960627,2.16243068,,True,True,Barcelona,True
+HB-004618,hotel_at,Barcelona,"Carrer Balmes 60, Barcelona",41.38960627,2.16243068,,True,True,Barcelona,True
+HB-004621,hotel_at,Barcelona,"Carrer de Casp 39, Barcelona",41.39177155,2.17373271,,True,True,Barcelona,True
+HB-004622,hotel_at,Barcelona,"Rambla Catalunya 84, Barcelona",41.39263443,2.16158557,,True,True,Barcelona,True
+HB-004626,hotel_at,Barcelona,"Carrer Aribau 226, Barcelona",41.39518332,2.15052643,,True,True,Barcelona,True
+HB-004631,hotel_at,Barcelona,"Passeig Gràcia 78, Barcelona",41.39388676,2.16328497,,True,True,Barcelona,True
+HB-004366,hotel_at,Barcelona,"Carrer Rosselló 242, Barcelona",41.39620261,2.16134209,,True,True,Barcelona,True
+HB-004361,hotel_at,Barcelona,"Carrer Bailen 42, Barcelona",41.39369461,2.17507165,,True,True,Barcelona,True
+HB-004713,hotel_at,Barcelona,"Rambla Catalunya 1, Barcelona",41.38751781,2.16804398,,True,True,Barcelona,True
+HB-002662,hotel_at,Barcelona,"Carrer Junta del Comerç 11, Barcelona",41.37999769,2.17139567,,True,True,Barcelona,True
+HB-003974,hotel_at,Barcelona,"Carrer Carme 38, Barcelona",41.38204935,2.16976815,,True,True,Barcelona,True
+HB-002935,hotel_at,Barcelona,"Carrer Manuel Sancho 2, Barcelona",41.43039981,2.18182606,,True,True,Barcelona,True
+HB-002927,hotel_at,Barcelona,"Gran Via de les Corts Catalanes 304, Barcelona",41.37246036,2.14621603,,True,True,Barcelona,True
+HB-002907,hotel_at,Barcelona,"Carrer Comte de Güell 32, Barcelona",41.37742895,2.12266419,,True,True,Barcelona,True
+HB-002895,hotel_at,Barcelona,"Carrer Elkano 78, Barcelona",41.37409817,2.16021961,,True,True,Barcelona,True
+HB-002875,hotel_at,Barcelona,"Carrer Fontanella 14, Barcelona",41.38792459,2.1724482,,True,True,Barcelona,True
+HB-002851,hotel_at,Barcelona,"Avinguda del Paral·lel 119, Barcelona",41.37480558,2.16072275,,True,True,Barcelona,True
+HB-002835,hotel_at,Barcelona,"Carrer Laforja 63, Barcelona",41.39707911,2.14652315,,True,True,Barcelona,True
+HB-004005,hotel_at,Barcelona,"Avinguda de Roma 1, Barcelona",41.38101786,2.14378351,,True,True,Barcelona,True
+HB-002775,hotel_at,Barcelona,"Carrer Roser 40, Barcelona",41.37290068,2.16628973,,True,True,Barcelona,True
+HB-002741,hotel_at,Barcelona,"Plaça Bonsuccés 6, Barcelona",41.38382674,2.16963089,,True,True,Barcelona,True
+HB-002721,hotel_at,Barcelona,"Carrer Provença 323, Barcelona",41.39903231,2.16700076,,True,True,Barcelona,True
+HB-002714,hotel_at,Barcelona,"Carrer Nou de Zurbano 4, Barcelona",41.37951203,2.17556505,,True,True,Barcelona,True
+HB-002694,hotel_at,Barcelona,"Carrer Casanova 13, Barcelona",41.38245621,2.16249035,,True,True,Barcelona,True
+HB-004039,hotel_at,Barcelona,"Carrer Balmes 55, Barcelona",41.38949575,2.1622051,,True,True,Barcelona,True
+HB-002961,hotel_at,Barcelona,"Carrer Mozart 15, Barcelona",41.39931984,2.15823272,,True,True,Barcelona,True
+HB-002619,hotel_at,Barcelona,"Avinguda Portal de l'Àngel 24, Barcelona",41.3859101,2.17286707,,True,True,Barcelona,True
+HB-002608,hotel_at,Barcelona,"Carrer Torrent de l' Olla 95, Barcelona",41.40189969,2.15735782,,True,True,Barcelona,True
+HB-002600,hotel_at,Barcelona,"Carrer Còrsega 201, Barcelona",41.39054569,2.1512164,,True,True,Barcelona,True
+HB-004077,hotel_at,Barcelona,"Carrer Cartagena 369, Barcelona",41.41336455,2.17127138,,True,True,Barcelona,True
+HB-004080,hotel_at,Barcelona,"Carrer Casanova 155, Barcelona",41.39101712,2.15115918,,True,True,Barcelona,True
+HB-002491,hotel_at,Barcelona,"Carrer Antoni de Capmany 82, Barcelona",41.37503135,2.13542446,,True,True,Barcelona,True
+HB-004083,hotel_at,Barcelona,"Carrer Laforja 67, Barcelona",41.39691661,2.14624897,,True,True,Barcelona,True
+HB-004092,hotel_at,Barcelona,"Carrer Pau Claris 74, Barcelona",41.38938401,2.17174449,,True,True,Barcelona,True
+HB-002406,hotel_at,Barcelona,"Carrer Calella 1, Barcelona",41.38148514,2.17856331,,True,True,Barcelona,True
+HB-004104,hotel_at,Barcelona,"Carrer Mallorca 290, Barcelona",41.39645088,2.166216,,True,True,Barcelona,True
+HB-002357,hotel_at,Barcelona,"Carrer Gran de Gràcia 239, Barcelona",41.40537782,2.15067405,,True,True,Barcelona,True
+HB-004107,hotel_at,Barcelona,"Carrer de Còrsega 546, Barcelona",41.40662721,2.17291317,,True,True,Barcelona,True
+HB-004112,hotel_at,Barcelona,"Rambla Catalunya 27, Barcelona",41.38906064,2.16593789,,True,True,Barcelona,True
+HB-004116,hotel_at,Barcelona,"Carrer Sant Pere Mes Alt 6, Barcelona",41.38722238,2.1754495,,True,True,Barcelona,True
+HB-003960,hotel_at,Barcelona,"Carrer Sant Pau 2, Barcelona",41.38091751,2.17315716,,True,True,Barcelona,True
+HUTB-008203,vut,Barcelona,"Carrer Xifre 39, Barcelona",41.40944573,2.18266523,,True,True,Barcelona,True
+HB-004120,hotel_at,Barcelona,"Carrer Balmes 55, Barcelona",41.38949575,2.1622051,,True,True,Barcelona,True
+HB-003800,hotel_at,Barcelona,"Carrer Aribau 233, Barcelona",41.39750708,2.14753688,,True,True,Barcelona,True
+HB-003566,hotel_at,Barcelona,"Carrer Hospital 107, Barcelona",41.37990177,2.16870122,,True,True,Barcelona,True
+HB-003376,hotel_at,Barcelona,"Carrer Comerç 29, Barcelona",41.38489519,2.18444724,,True,True,Barcelona,True
+HB-003657,hotel_at,Barcelona,"Carrer Trafalgar 39, Barcelona",41.39002266,2.17710554,,True,True,Barcelona,True
+HB-003662,hotel_at,Barcelona,"Carrer Verge 16, Barcelona",41.38374571,2.16473734,,True,True,Barcelona,True
+HB-003669,hotel_at,Barcelona,"Carrer Avinyó 37, Barcelona",41.38031411,2.17915522,,True,True,Barcelona,True
+HB-003673,hotel_at,Barcelona,"Carrer Béjar 36, Barcelona",41.37705203,2.14556239,,True,True,Barcelona,True
+HB-003693,hotel_at,Barcelona,"Carrer Sant Ramon 15, Barcelona",41.37782083,2.1718912,,True,True,Barcelona,True
+HB-003356,hotel_at,Barcelona,"Carrer de Villarroel 47, Barcelona",41.38246492,2.16021696,,True,True,Barcelona,True
+HB-003726,hotel_at,Barcelona,"Carrer Avinyó 58, Barcelona",41.38019022,2.17929159,,True,True,Barcelona,True
+HB-003336,hotel_at,Barcelona,"Carrer Sant Pau 15, Barcelona",41.37963379,2.17261791,,True,True,Barcelona,True
+HB-003748,hotel_at,Barcelona,"Baixada Sant Miquel 1, Barcelona",41.38140374,2.17652833,,True,True,Barcelona,True
+HB-003766,hotel_at,Barcelona,"Carrer Madrazo 103, Barcelona",41.3982616,2.14654964,,True,True,Barcelona,True
+HB-003777,hotel_at,Barcelona,"Carrer de Fontcoberta 4, Barcelona",41.39477739,2.12451106,,True,True,Barcelona,True
+HB-003781,hotel_at,Barcelona,"Carrer Avinyó 42, Barcelona",41.38049051,2.17834896,,True,True,Barcelona,True
+HB-003292,hotel_at,Barcelona,"Carrer Ample 7, Barcelona",41.37898963,2.17891049,,True,True,Barcelona,True
+HB-003943,hotel_at,Barcelona,"Carrer Mallorca 537, Barcelona",41.40941181,2.18313848,,True,True,Barcelona,True
+HB-003827,hotel_at,Barcelona,"Carrer dels Tallers 6, Barcelona",41.38475182,2.16976504,,True,True,Barcelona,True
+HB-003250,hotel_at,Barcelona,"Carrer Palau 4, Barcelona",41.38121646,2.17790151,,True,True,Barcelona,True
+HB-003841,hotel_at,Barcelona,"Carrer Sant Vicenç 39, Barcelona",41.38221885,2.16414698,,True,True,Barcelona,True
+HUTB-012109,vut,Barcelona,"Carrer Ramon Rocafull 75, Barcelona",41.42241841,2.15457006,,True,True,Barcelona,True
+HB-003871,hotel_at,Barcelona,"Carrer Laforja 98, Barcelona",41.39650194,2.14528281,,True,True,Barcelona,True
+HB-003872,hotel_at,Barcelona,"Carrer Bèjar 37, Barcelona",41.37701811,2.14541505,,True,True,Barcelona,True
+HB-003875,hotel_at,Barcelona,"Carrer de la França Xica 40, Barcelona",41.37222673,2.157411,,True,True,Barcelona,True
+HB-003147,hotel_at,Barcelona,"Ronda Sant Pere 53, Barcelona",41.39151227,2.17914274,,True,True,Barcelona,True
+HB-003889,hotel_at,Barcelona,"Carrer Dènia 34, Barcelona",41.39901992,2.14818825,,True,True,Barcelona,True
+HB-003894,hotel_at,Barcelona,"Carrer Paloma 24, Barcelona",41.38197812,2.16420298,,True,True,Barcelona,True
+HB-003116,hotel_at,Barcelona,"Via Laietana 23, Barcelona",41.38376272,2.17881444,,True,True,Barcelona,True
+HB-003078,hotel_at,Barcelona,"Carrer Lafont 1, Barcelona",41.37380146,2.16942541,,True,True,Barcelona,True
+HB-003924,hotel_at,Barcelona,"Ronda Sant Antoni 61, Barcelona",41.38465103,2.16371175,,True,True,Barcelona,True
+HB-003049,hotel_at,Barcelona,"Carrer Hospital 36, Barcelona",41.38089431,2.17160827,,True,True,Barcelona,True
+HB-002282,hotel_at,Barcelona,"Carrer Lleona 8, Barcelona",41.38096628,2.17608165,,True,True,Barcelona,True
+HB-004126,hotel_at,Barcelona,"Carrer Girona 24, Barcelona",41.39190984,2.17517259,,True,True,Barcelona,True
+HB-004355,hotel_at,Barcelona,"Passeig Sant Joan 1, Barcelona",41.39177098,2.17923545,,True,True,Barcelona,True
+HB-004292,hotel_at,Barcelona,"Carrer Roger de Lluria 47, Barcelona",41.39291014,2.16896321,,True,True,Barcelona,True
+HB-001705,hotel_at,Barcelona,"Carrer Junta del Comerç 13, Barcelona",41.37992219,2.17146078,,True,True,Barcelona,True
+HB-004255,hotel_at,Barcelona,"Carrer Tarragona 177, Barcelona",41.37966677,2.1430828,,True,True,Barcelona,True
+HB-001690,hotel_at,Barcelona,"Carrer Gran Via Corts Catalanes 576, Barcelona",41.38433247,2.16193662,,True,True,Barcelona,True
+HB-001678,hotel_at,Barcelona,"Carrer Rambla 37, Barcelona",41.37778256,2.17298709,,True,True,Barcelona,True
+HB-004264,hotel_at,Barcelona,"Carrer Mallorca 253, Barcelona",41.39330502,2.16166969,,True,True,Barcelona,True
+HB-001665,hotel_at,Barcelona,"Carrer Ausias Marc 19, Barcelona",41.39080402,2.17470887,,True,True,Barcelona,True
+HB-001620,hotel_at,Barcelona,"Carrer Comerç 33, Barcelona",41.38470818,2.18469377,,True,True,Barcelona,True
+HB-001619,hotel_at,Barcelona,"Carrer Rambla 133, Barcelona",41.37321597,2.16832506,,True,True,Barcelona,True
+HB-001579,hotel_at,Barcelona,"Avinguda del Portal de l'Àngel 14, Barcelona",41.38539309,2.17351036,,True,True,Barcelona,True
+HB-001278,hotel_at,Barcelona,"Carrer Cervantes 2, Barcelona",41.38107387,2.17740529,,True,True,Barcelona,True
+HB-004285,hotel_at,Barcelona,"Carrer Gran de Gràcia 14, Barcelona",41.39829104,2.15744484,,True,True,Barcelona,True
+HB-004288,hotel_at,Barcelona,"Carrer Saragossa 95, Barcelona",41.40370126,2.14662564,,True,True,Barcelona,True
+HB-001276,hotel_at,Barcelona,"Carrer Calella 1, Barcelona",41.38148514,2.17856331,,True,True,Barcelona,True
+HB-001216,hotel_at,Barcelona,"Carrer Guàrdia 13, Barcelona",41.37777199,2.17415488,,True,True,Barcelona,True
+HB-004250,hotel_at,Barcelona,"Gran Via de les Corts Catalanes 660, Barcelona",41.39111277,2.17096072,,True,True,Barcelona,True
+HB-001206,hotel_at,Barcelona,"Plaça Reial 2, Barcelona",41.38010135,2.17477304,,True,True,Barcelona,True
+HB-001199,hotel_at,Barcelona,"Carrer Petritxol 12, Barcelona",41.38288232,2.17289696,,True,True,Barcelona,True
+HB-001187,hotel_at,Barcelona,"Carrer Girona 35, Barcelona",41.39251473,2.17400032,,True,True,Barcelona,True
+HB-004307,hotel_at,Barcelona,"Carrer Francisco Giner 5, Barcelona",41.39847748,2.1598078,,True,True,Barcelona,True
+HB-004312,hotel_at,Barcelona,"Avinguda Paral.lel 15, Barcelona",41.37448067,2.17473487,,True,True,Barcelona,True
+HB-004316,hotel_at,Barcelona,"Rambla Catalunya 103, Barcelona",41.39332113,2.16010362,,True,True,Barcelona,True
+HB-001137,hotel_at,Barcelona,"Carrer Rambla 133, Barcelona",41.37321597,2.16832506,,True,True,Barcelona,True
+HB-001135,hotel_at,Barcelona,"Carrer Sant Pere més Alt 61, Barcelona",41.38917081,2.17803777,,True,True,Barcelona,True
+HB-001131,hotel_at,Barcelona,"Carrer Avinyó 58, Barcelona",41.38019022,2.17929159,,True,True,Barcelona,True
+HB-001130,hotel_at,Barcelona,"Carrer Hospital 93, Barcelona",41.38016898,2.16957164,,True,True,Barcelona,True
+HB-000975,hotel_at,Barcelona,"Carrer Ferran 31, Barcelona",41.38142014,2.17545488,,True,True,Barcelona,True
+HB-000957,hotel_at,Barcelona,"Carrer d'en Fontrodona 1, Barcelona",41.37469466,2.16781434,,True,True,Barcelona,True
+HB-004344,hotel_at,Barcelona,"Ronda Universitat 11, Barcelona",41.38644605,2.16561028,,True,True,Barcelona,True
+HB-000952,hotel_at,Barcelona,"Carrer Girona 24, Barcelona",41.39190984,2.17517259,,True,True,Barcelona,True
+HB-001747,hotel_at,Barcelona,"Carrer Rambla 86, Barcelona",41.37604423,2.1710122,,True,True,Barcelona,True
+HB-001748,hotel_at,Barcelona,"Carrer Rambla 25, Barcelona",41.37809151,2.17330758,,True,True,Barcelona,True
+HB-004128,hotel_at,Barcelona,"Carrer rambla 100, Barcelona",41.37560091,2.17055571,,True,True,Barcelona,True
+HB-004192,hotel_at,Barcelona,"Carrer Balmes 83, Barcelona",41.39099101,2.16022488,,True,True,Barcelona,True
+HUTB-006847,vut,Barcelona,"Carrer Blai 28, Barcelona",41.37382353,2.16429062,,True,True,Barcelona,True
+HB-002211,hotel_at,Barcelona,"Carrer Ramelleres 27, Barcelona",41.38473225,2.16814766,,True,True,Barcelona,True
+HB-002161,hotel_at,Barcelona,"Carrer del Carme 116, Barcelona",41.37976358,2.16625073,,True,True,Barcelona,True
+HB-002151,hotel_at,Barcelona,"Carrer de Santa Anna 23, Barcelona",41.38542036,2.17156569,,True,True,Barcelona,True
+HB-004144,hotel_at,Barcelona,"Carrer Taulat 30, Barcelona",41.39830854,2.20438128,,True,True,Barcelona,True
+HB-004150,hotel_at,Barcelona,"Avinguda de Roma 1, Barcelona",41.38101786,2.14378351,,True,True,Barcelona,True
+HB-004152,hotel_at,Barcelona,"Carrer de Balmes 83, Barcelona",41.39099101,2.16022488,,True,True,Barcelona,True
+HB-002108,hotel_at,Barcelona,"Carrer Comtessa de Sobradiel 1, Barcelona",41.38075666,2.17804835,,True,True,Barcelona,True
+HB-002097,hotel_at,Barcelona,"Carrer de la Portaferrissa 11, Barcelona",41.38346329,2.17267617,,True,True,Barcelona,True
+HB-004171,hotel_at,Barcelona,"Carrer Breda 3, Barcelona",41.38602616,2.14062138,,True,True,Barcelona,True
+HB-002044,hotel_at,Barcelona,"Carrer Girona 4, Barcelona",41.39090744,2.17649293,,True,True,Barcelona,True
+HB-002040,hotel_at,Barcelona,"Carrer Mallorca 329, Barcelona",41.3982317,2.16820769,,True,True,Barcelona,True
+HB-002004,hotel_at,Barcelona,"Carrer Tallers 9, Barcelona",41.38468756,2.16972063,,True,True,Barcelona,True
+HB-004191,hotel_at,Barcelona,"Carrer Torre den Damians 11, Barcelona",41.37603894,2.14402622,,True,True,Barcelona,True
+HB-004193,hotel_at,Barcelona,"Carrer Balmes 60, Barcelona",41.38960627,2.16243068,,True,True,Barcelona,True
+HB-004245,hotel_at,Barcelona,"Carrer Consell de Cent 30, Barcelona",41.37633001,2.14558182,,True,True,Barcelona,True
+HB-004196,hotel_at,Barcelona,"Rambla Catalunya 102, Barcelona",41.39391108,2.15983193,,True,True,Barcelona,True
+HB-004198,hotel_at,Barcelona,"Carrer de Casanova 72, Barcelona",41.38550145,2.15883,,True,True,Barcelona,True
+HB-001951,hotel_at,Barcelona,"Carrer Tallers 82, Barcelona",41.38526097,2.16431198,,True,True,Barcelona,True
+HB-001931,hotel_at,Barcelona,"Passeig Isabel II 10, Barcelona",41.38193324,2.18303623,,True,True,Barcelona,True
+HB-004206,hotel_at,Barcelona,"Carrer Balmes 55, Barcelona",41.38949575,2.1622051,,True,True,Barcelona,True
+HB-001883,hotel_at,Barcelona,"Carrer Lafont 1, Barcelona",41.37380146,2.16942541,,True,True,Barcelona,True
+HB-001862,hotel_at,Barcelona,"Carrer Rambla 79, Barcelona",41.37642196,2.17157676,,True,True,Barcelona,True
+HB-004222,hotel_at,Barcelona,"Carrer de Muntaner 175, Barcelona",41.39187227,2.15227872,,True,True,Barcelona,True
+HB-001847,hotel_at,Barcelona,"Carrer Sant Domènec del Call 3, Barcelona",41.39960836,2.15608949,,True,True,Barcelona,True
+HB-004225,hotel_at,Barcelona,"Carrer Bailèn 47, Barcelona",41.39424719,2.17396557,,True,True,Barcelona,True
+HB-001821,hotel_at,Barcelona,"Plaça Reial 10, Barcelona",41.38022221,2.17559994,,True,True,Barcelona,True
+HB-004232,hotel_at,Barcelona,"Carrer Hospital 149, Barcelona",41.37946319,2.16664817,,True,True,Barcelona,True
+HB-001755,hotel_at,Barcelona,"Avinguda Marquès de l'Argentera 19, Barcelona",41.38499288,2.18503212,,True,True,Barcelona,True
+HB-004241,hotel_at,Barcelona,"Carrer Bruc 13, Barcelona",41.39022887,2.1747675,,True,True,Barcelona,True
+HB-004709,hotel_at,Barcelona,"Passatge Flaugier 31, Barcelona",41.41535161,2.1770461,,True,True,Barcelona,True
+HB-004574,hotel_at,Barcelona,"Avinguda Diagonal 578, Barcelona",41.3939136,2.14818791,,True,True,Barcelona,True
+HB-004714,hotel_at,Barcelona,"Rambla Catalunya 1, Barcelona",41.38751781,2.16804398,,True,True,Barcelona,True
+HB-004910,hotel_at,Barcelona,"Ronda Universitat 1, Barcelona",41.38617162,2.16488015,,True,True,Barcelona,True
+ATB-000089,hotel_at,Barcelona,"Carrer Sicilia, 276-280 276, Barcelona",41.40086452,2.17460967,,True,True,Barcelona,True
+HUTB-012936,vut,Barcelona,"Avinguda Icària 144, Barcelona",41.3902653,2.19624578,,True,True,Barcelona,True
+HB-005108,hotel_at,Barcelona,"Passeig Maragall 103, Barcelona",41.418718,2.18036479,,True,True,Barcelona,True
+HB-005102,hotel_at,Barcelona,"Carrer SEGLE XX 3, Barcelona",41.4223276,2.17843103,,True,True,Barcelona,True
+HUTB-004301,vut,Barcelona,"Carrer Diputació 354, Barcelona",41.39696613,2.17598684,,True,True,Barcelona,True
+HUTB-005486,vut,Barcelona,"Carrer CONSELL DE CENT 322, Barcelona",41.39206317,2.16717488,,True,True,Barcelona,True
+HUTB-011729,vut,Barcelona,"Carrer MALLORCA 20, Barcelona",41.37894755,2.14298532,,True,True,Barcelona,True
+HUTB-004228,vut,Barcelona,"Carrer Casanova 93, Barcelona",41.38688881,2.15661792,,True,True,Barcelona,True
+ATB-000005,hotel_at,Barcelona,"Carrer Breton de los Herreros 26, Barcelona",41.40207972,2.15116101,,True,True,Barcelona,True
+ATB-000276,hotel_at,Barcelona,"Carrer de Monturiol 23, Barcelona",41.41002109,2.19243613,,True,True,Barcelona,True
+HUTB-005621,vut,Barcelona,"Carrer Elkano 54, Barcelona",41.3735364,2.16227315,,True,True,Barcelona,True
+HB-005060,hotel_at,Barcelona,"Carrer d Aragó 257, Barcelona",41.3916616,2.16393879,,True,True,Barcelona,True
+HB-005059,hotel_at,Barcelona,"Carrer dels Alts Forns 40, Barcelona",41.35756502,2.13842119,,True,True,Barcelona,True
+HB-005036,hotel_at,Barcelona,"Carrer del Perú 102, Barcelona",41.40887546,2.19690833,,True,True,Barcelona,True
+HB-005030,hotel_at,Barcelona,"Carrer de Lincoln 13, Barcelona",41.40035156,2.15007493,,True,True,Barcelona,True
+HB-005002,hotel_at,Barcelona,"Carrer MALLORCA 661, Barcelona",41.41440273,2.18977662,,True,True,Barcelona,True
+HB-004996,hotel_at,Barcelona,"Carrer de Nicaragua 5, Barcelona",41.38153869,2.14337256,,True,True,Barcelona,True
+HB-004964,hotel_at,Barcelona,"Carrer Besalú 82, Barcelona",41.41579721,2.18521576,,True,True,Barcelona,True
+HB-004954,hotel_at,Barcelona,"Avinguda Diagonal 369, Barcelona",41.39704751,2.16252283,,True,True,Barcelona,True
+HB-004939,hotel_at,Barcelona,"Carrer Major de Sarrià 95, Barcelona",41.39953978,2.12170843,,True,True,Barcelona,True
+HB-000005,hotel_at,Barcelona,"Carrer Vila i Vilà 79, Barcelona",41.3741977,2.16847754,,True,True,Barcelona,True
+HB-000006,hotel_at,Barcelona,"Carrer Laforja 82, Barcelona",41.39730878,2.14663789,,True,True,Barcelona,True
+HB-000019,hotel_at,Barcelona,"Carrer Cardenal Casañas 4, Barcelona",41.38151775,2.17345019,,True,True,Barcelona,True
+HB-000033,hotel_at,Barcelona,"Carrer Sant Pau 20, Barcelona",41.38023634,2.17288382,,True,True,Barcelona,True
+HB-000036,hotel_at,Barcelona,"Plaça Sant Josep Oriol 1, Barcelona",41.38250273,2.17396256,,True,True,Barcelona,True
+HB-000043,hotel_at,Barcelona,"Carrer Rambla 124, Barcelona",41.37394283,2.16883799,,True,True,Barcelona,True
+HB-004917,hotel_at,Barcelona,"Carrer Gran de Gràcia 26, Barcelona",41.39857212,2.15710942,,True,True,Barcelona,True
+ATB-000088,hotel_at,Barcelona,"Carrer Antic de Bofarull 11, Barcelona",41.41074115,2.18615951,,True,True,Barcelona,True
+ATB-000086,hotel_at,Barcelona,"Carrer Casp 35, Barcelona",41.39122438,2.17300359,,True,True,Barcelona,True
+ATB-000083,hotel_at,Barcelona,"Carrer Torns 3, Barcelona",41.37402238,2.12480175,,True,True,Barcelona,True
+HUTB-011285,vut,Barcelona,"Carrer Diputació 354, Barcelona",41.39696613,2.17598684,,True,True,Barcelona,True
+HUTB-011276,vut,Barcelona,"Carrer Diputació 354, Barcelona",41.39696613,2.17598684,,True,True,Barcelona,True
+HUTB-011277,vut,Barcelona,"Carrer DIPUTACIO 354, Barcelona",41.39696613,2.17598684,,True,True,Barcelona,True
+ATB-000009,hotel_at,Barcelona,"Via Augusta 167, Barcelona",41.39846605,2.14267689,,True,True,Barcelona,True
+HUTB-011278,vut,Barcelona,"Carrer Diputació 354, Barcelona",41.39696613,2.17598684,,True,True,Barcelona,True
+HUTB-011274,vut,Barcelona,"Carrer Diputació 354, Barcelona",41.39696613,2.17598684,,True,True,Barcelona,True
+ATB-000003,hotel_at,Barcelona,"Passatge Gutenberg 7, Barcelona",41.37690275,2.17469336,,True,True,Barcelona,True
+HUTB-011279,vut,Barcelona,"Carrer Diputació 354, Barcelona",41.39696613,2.17598684,,True,True,Barcelona,True
+HUTB-011280,vut,Barcelona,"Carrer DIPUTACIO 354, Barcelona",41.39696613,2.17598684,,True,True,Barcelona,True
+HUTB-011281,vut,Barcelona,"Carrer Diputació 354, Barcelona",41.39696613,2.17598684,,True,True,Barcelona,True
+ATB-000001,hotel_at,Barcelona,"Carrer Calabria 129, Barcelona",41.38093723,2.15320424,,True,True,Barcelona,True
+HUTB-011283,vut,Barcelona,"Carrer Diputació 354, Barcelona",41.39696613,2.17598684,,True,True,Barcelona,True
+HUTB-011284,vut,Barcelona,"Carrer Diputació 354, Barcelona",41.39696613,2.17598684,,True,True,Barcelona,True
+HUTB-011286,vut,Barcelona,"Carrer Diputació 354, Barcelona",41.39696613,2.17598684,,True,True,Barcelona,True
+HUTB-011672,vut,Barcelona,"Carrer VERDI 111, Barcelona",41.40605767,2.1544956,,True,True,Barcelona,True
+HUTB-011287,vut,Barcelona,"Carrer Diputació 354, Barcelona",41.39696613,2.17598684,,True,True,Barcelona,True
+HUTB-011288,vut,Barcelona,"Carrer Diputació 354, Barcelona",41.39696613,2.17598684,,True,True,Barcelona,True
+HUTB-011289,vut,Barcelona,"Carrer Diputació 354, Barcelona",41.39696613,2.17598684,,True,True,Barcelona,True
+HUTB-011292,vut,Barcelona,"Carrer Diputació 354, Barcelona",41.39696613,2.17598684,,True,True,Barcelona,True
+HUTB-011294,vut,Barcelona,"Carrer Diputació 354, Barcelona",41.39696613,2.17598684,,True,True,Barcelona,True
+HUTB-010914,vut,Barcelona,"Carrer Capità Arenas 59, Barcelona",41.39378568,2.1245737,,True,True,Barcelona,True
+HB-004715,hotel_at,Barcelona,"Carrer Diputació 327, Barcelona",41.39385457,2.1714582,,True,True,Barcelona,True
+HUTB-011466,vut,Barcelona,"Passeig Garcia Faria 21, Barcelona",41.40092548,2.20998095,,True,True,Barcelona,True
+ATB-000042,hotel_at,Barcelona,"Carrer la Rambla 34, Barcelona",41.37886667,2.17584125,,True,True,Barcelona,True
+ATB-000044,hotel_at,Barcelona,"Carrer Descartes 4, Barcelona",41.40038137,2.14306326,,True,True,Barcelona,True
+ATB-000049,hotel_at,Barcelona,"Passatge Vilaret 13, Barcelona",41.40611736,2.18017454,,True,True,Barcelona,True
+ATB-000062,hotel_at,Barcelona,"Carrer Jericó 20, Barcelona",41.42139829,2.13865956,,True,True,Barcelona,True
+HB-004913,hotel_at,Barcelona,"Carrer Diputació 453, Barcelona",41.40044409,2.18027427,,True,True,Barcelona,True
+HUTB-011275,vut,Barcelona,"Carrer Diputació 354, Barcelona",41.39696613,2.17598684,,True,True,Barcelona,True
+HB-000050,hotel_at,Barcelona,"Carrer Escudellers 15, Barcelona",41.37936108,2.17607158,,True,True,Barcelona,True
+HB-004747,hotel_at,Barcelona,"Carrer Montserrat 13, Barcelona",41.37715017,2.17507056,,True,True,Barcelona,True
+HB-000157,hotel_at,Barcelona,"Passeig Gràcia 32, Barcelona",41.39081934,2.16709172,,True,True,Barcelona,True
+HUTB-002563,vut,Barcelona,"Disseminat Palau 3, Barcelona",41.38348717,2.18352219,,True,True,Barcelona,True
+HB-004844,hotel_at,Barcelona,"Carrer DEL PI 5, Barcelona",41.38313715,2.1739156,,True,True,Barcelona,True
+HUTB-001217,vut,Barcelona,"Carrer Trafalgar 38, Barcelona",41.38935659,2.17657979,,True,True,Barcelona,True
+HB-000097,hotel_at,Barcelona,"Carrer Tallers 45, Barcelona",41.38479637,2.16797334,,True,True,Barcelona,True
+HB-000094,hotel_at,Barcelona,"Carrer Boqueria 18, Barcelona",41.38152139,2.1744338,,True,True,Barcelona,True
+HB-004766,hotel_at,Barcelona,"Carrer Poeta Cabanyes 18, Barcelona",41.37415368,2.16553563,,True,True,Barcelona,True
+HB-000090,hotel_at,Barcelona,"Plaça Ramon Berenguer el Gran 2, Barcelona",41.38460127,2.17744791,,True,True,Barcelona,True
+HB-004758,hotel_at,Barcelona,"Carrer Chapí 83, Barcelona",41.432536,2.1585679,,True,True,Barcelona,True
+HB-004753,hotel_at,Barcelona,"Plaça de Ramon Berenguer el Gran 2, Barcelona",41.38460127,2.17744791,,True,True,Barcelona,True
+HB-000089,hotel_at,Barcelona,"Carrer Baixada de Sant Miquel 2, Barcelona",41.38134104,2.1765847,,True,True,Barcelona,True
+HB-004867,hotel_at,Barcelona,"Carrer de Casp 22, Barcelona",41.38932106,2.17083587,,True,True,Barcelona,True
+HB-004859,hotel_at,Barcelona,"Ronda de Sant Antoni 61, Barcelona",41.38465103,2.16371175,,True,True,Barcelona,True
+HB-000087,hotel_at,Barcelona,"Via Laietana 71, Barcelona",41.38827082,2.17284373,,True,True,Barcelona,True
+HB-000081,hotel_at,Barcelona,"Carrer Boqueria 21, Barcelona",41.38149616,2.17407083,,True,True,Barcelona,True
+HB-004741,hotel_at,Barcelona,"Carrer de Malgrat 40, Barcelona",41.42826978,2.17990496,,True,True,Barcelona,True
+HB-004722,hotel_at,Barcelona,"Carrer Roger de Lluria 125, Barcelona",41.3969604,2.16359769,,True,True,Barcelona,True
+HB-004740,hotel_at,Barcelona,"Carrer Calàbria 128, Barcelona",41.3810616,2.1534093,,True,True,Barcelona,True
+HUTB-056994,vut,Vilanova i la Geltrú,"Carrer Pàdua 23, Vilanova i la Geltrú",41.22611416,1.72670513,,True,False,Vilanova i la Geltrú,True
+HUTB-059405,vut,Sant Pol de Mar,"Avinguda Doctor Furest 20, Sant Pol de Mar",41.60171029,2.62709068,,True,False,Sant Pol de Mar,True
+HUTB-059396,vut,Olivella,"Carrer del Tudó 32, Olivella",41.32083501,1.7691007,,True,False,Olivella,True
+HUTB-057139,vut,Alella,"Via Gandesa 16, Alella",41.48880205,2.29200222,,True,False,Alella,True
+HUTB-056661,vut,Sant Pere de Ribes,"Avinguda Mas d'en Serra 73, Sant Pere de Ribes",41.22910923,1.75249696,,True,False,Sant Pere de Ribes,True
+HUTB-056648,vut,Sant Pere de Ribes,"Avinguda Montblanc 90, Sant Pere de Ribes",41.27814223,1.80049617,,True,False,Sant Pere de Ribes,True
+HUTB-056993,vut,Vilanova i la Geltrú,"Rambla de la Pau 91, Vilanova i la Geltrú",41.21702493,1.72892207,,True,False,Vilanova i la Geltrú,True
+HUTB-057167,vut,Cabrils,"Carrer BELLESGUARD 6, Cabrils",41.52618765,2.36070297,,True,False,Cabrils,True
+HUTB-056659,vut,Sant Pere de Ribes,"Carrer Ginesta 16, Sant Pere de Ribes",41.28306991,1.8051012,,True,False,Sant Pere de Ribes,True
+HUTB-059933,vut,Vilassar de Mar,"Carrer de Picasso 23, Vilassar de Mar",41.50486558,2.38952727,,True,False,Vilassar de Mar,True
+HUTB-056640,vut,Sant Pere de Ribes,"Avinguda Santiago Rusiñol 29, Sant Pere de Ribes",41.25900962,1.80609017,,True,False,Sant Pere de Ribes,True
+HUTB-059387,vut,Sant Pol de Mar,"Carrer Nou 1, Sant Pol de Mar",41.60147825,2.62312731,,True,False,Sant Pol de Mar,True
+HUTB-057168,vut,Llinars del Vallès,"Disseminat Can Llobera 53, Llinars del Vallès",41.64565742,2.41442646,,True,False,Llinars del Vallès,True
+HUTB-056644,vut,Sant Pere de Ribes,"Avinguda Santiago Rusiñol 3, Sant Pere de Ribes",41.25842083,1.80299416,,True,False,Sant Pere de Ribes,True
+HUTB-059386,vut,Sant Pol de Mar,"Avinguda Maresme 13, Sant Pol de Mar",41.58467718,2.57421751,,True,False,Canet de Mar,False
+HUTB-056660,vut,Sant Pere de Ribes,"Carrer Garona 5, Sant Pere de Ribes",41.23875058,1.76413408,,True,False,Sant Pere de Ribes,True
+HUTB-056639,vut,Sant Pere de Ribes,"Ronda Europa 29, Sant Pere de Ribes",41.23506914,1.78380165,,True,False,Sant Pere de Ribes,True
+HUTB-059419,vut,Fogars de la Selva,"Carrer Tarragona 12, Fogars de la Selva",41.73599356,2.65937579,,True,False,Fogars de la Selva,True
+HUTB-056984,vut,Cubelles,"Carrer Miguel de Cervantes 4, Cubelles",41.20514826,1.67144399,,True,False,Cubelles,True
+HUTB-056981,vut,Cubelles,"Avinguda Catalunya 2, Cubelles",41.20684342,1.67169872,,True,False,Cubelles,True
+HUTB-056662,vut,Sant Pere de Ribes,"Carrer Portugal 3, Sant Pere de Ribes",41.2353127,1.78008932,,True,False,Sant Pere de Ribes,True
+HUTB-059451,vut,Sant Pere de Ribes,"Carrer Blaumar 30, Sant Pere de Ribes",41.22396081,1.7528987,,True,False,Sant Pere de Ribes,True
+HUTB-059449,vut,Sant Pere de Ribes,"Carrer de Blaumar 11, Sant Pere de Ribes",41.22135989,1.75006383,,True,False,Sant Pere de Ribes,True
+HUTB-056982,vut,Cubelles,"Avinguda Onze de Setembre 109, Cubelles",41.2004183,1.66053126,,True,False,Cubelles,True
+HUTB-056983,vut,Cubelles,"Carrer Gallifa 21, Cubelles",41.21010836,1.67430551,,True,False,Cubelles,True
+HUTB-059445,vut,Sant Pere de Ribes,"Carrer Baluard 2, Sant Pere de Ribes",41.22345143,1.75554884,,True,False,Sant Pere de Ribes,True
+HUTB-059434,vut,Sant Pere de Ribes,"Carrer Blaumar 4, Sant Pere de Ribes",41.22112729,1.75151113,,True,False,Sant Pere de Ribes,True
+HUTB-056992,vut,Vilanova i la Geltrú,"Avinguda CUBELLES 58, Vilanova i la Geltrú",41.2199823,1.71885756,,True,False,Vilanova i la Geltrú,True
+HUTB-056985,vut,Cubelles,"Avinguda Onze de Setembre 172, Cubelles",41.19703375,1.64521675,,True,False,Cubelles,True
+HUTB-056986,vut,Cubelles,"Passeig Mar Mediterrània 100, Cubelles",41.19744519,1.65895774,,True,False,Cubelles,True
+HUTB-056990,vut,Vilanova i la Geltrú,"Ronda Mar Mediterrania 11, Vilanova i la Geltrú",41.21617783,1.72094453,,True,False,Vilanova i la Geltrú,True
+HUTB-059425,vut,Pineda de Mar,"Carrer Illes Canàries 53, Pineda de Mar",41.62685803,2.69693892,,True,False,Pineda de Mar,True
+HUTB-056991,vut,Vilanova i la Geltrú,"Carrer Alexandre de Cabanyes 26, Vilanova i la Geltrú",41.21378061,1.71709444,,True,False,Vilanova i la Geltrú,True
+HUTB-059424,vut,Pineda de Mar,"Carrer Josep Misser 1, Pineda de Mar",41.62062315,2.6858651,,True,False,Pineda de Mar,True
+HUTB-059421,vut,Pineda de Mar,"Carrer Leonardo Da Vinci 34, Pineda de Mar",41.63338728,2.69388183,,True,False,Pineda de Mar,True
+HUTB-059374,vut,Sant Andreu de Llavaneres,"Camí del Balis 8, Sant Andreu de Llavaneres",41.56135019,2.5073172,,True,False,Sant Andreu de Llavaneres,True
+HUTB-057178,vut,Cabrera de Mar,"Carrer D'en Majó 2, Cabrera de Mar",41.52551013,2.39469719,,True,False,Cabrera de Mar,True
+HUTB-059371,vut,Sant Andreu de Llavaneres,"Camí Can Rabassa 14, Sant Andreu de Llavaneres",41.5781005,2.48443841,,True,False,Sant Andreu de Llavaneres,True
+HUTB-057177,vut,Cabrera de Mar,"Carrer Josep Domènech 41, Cabrera de Mar",41.52329968,2.39015675,,True,False,Cabrera de Mar,True
+HUTB-057221,vut,Caldes de Montbui,"Camí De Les Elíes Polígon 13 Parcel·la 64 s/n, Caldes de Montbui",41.61885594,2.17922677,,True,False,Caldes de Montbui,True
+HUTB-059268,vut,Malgrat de Mar,"Carrer Cadí 10, Malgrat de Mar",41.65381312,2.74241574,,True,False,Malgrat de Mar,True
+HUTB-059266,vut,Malgrat de Mar,"Avinguda Colom 19, Malgrat de Mar",41.63825919,2.72497316,,True,False,Malgrat de Mar,True
+HUTB-059261,vut,Malgrat de Mar,"Avinguda Verge de Montserrat 44, Malgrat de Mar",41.64416692,2.73599528,,True,False,Malgrat de Mar,True
+HUTB-057226,vut,"Pla del Penedès, el","Disseminat LA PLANA DE LA GUILERA s/n, Pla del Penedès, el",42.058623,2.71973011,,True,False,,False
+HUTB-056656,vut,Sant Pere de Ribes,"Urbanització Els Vinyals 348, Sant Pere de Ribes",41.26859842,1.75048609,,True,False,Sant Pere de Ribes,True
+HUTB-057232,vut,Castelldefels,"Avinguda 303 50, Castelldefels",41.27723654,1.96997976,,True,False,Castelldefels,True
+HUTB-059920,vut,Sant Adrià de Besòs,"Carrer Ramon Llull 555, Sant Adrià de Besòs",41.41791279,2.22428981,,True,True,Sant Adrià de Besòs,True
+HUTB-059921,vut,Sant Adrià de Besòs,"Carrer Antoni Puigvert 1, Sant Adrià de Besòs",41.4231976,2.22065926,,True,True,Sant Adrià de Besòs,True
+HUTB-059922,vut,Sant Adrià de Besòs,"Carrer Ricart 44, Sant Adrià de Besòs",41.42925178,2.21960092,,True,True,Sant Adrià de Besòs,True
+HUTB-056655,vut,Sant Pere de Ribes,"Carrer Montmar 34, Sant Pere de Ribes",41.25376026,1.80879802,,True,False,Sant Pere de Ribes,True
+HUTB-057233,vut,Castelldefels,"Passeig de Bellavista 106, Castelldefels",41.27475789,1.95685938,,True,False,Castelldefels,True
+HUTB-059259,vut,Malgrat de Mar,"Carrer Folch i Torres 25, Malgrat de Mar",41.64976209,2.74605357,,True,False,Malgrat de Mar,True
+HUTB-059923,vut,Sant Adrià de Besòs,"Avinguda Manuel Fernández Márquez 73, Sant Adrià de Besòs",41.41824159,2.22266163,,True,True,Sant Adrià de Besòs,True
+HUTB-057235,vut,Castelldefels,"Avinguda 334 6, Castelldefels",41.2746503,1.97097761,,True,False,Castelldefels,True
+HUTB-057220,vut,Caldes de Montbui,"Carrer Granollers 29, Caldes de Montbui",41.63349222,2.17009974,,True,False,Caldes de Montbui,True
+HUTB-057218,vut,Canet de Mar,"Carrer Mas El Grau 25, Canet de Mar",41.59307317,2.58673222,,True,False,Canet de Mar,True
+HUTB-059274,vut,Malgrat de Mar,"Avinguda Barcelona 45, Malgrat de Mar",41.63967466,2.73246067,,True,False,Malgrat de Mar,True
+HUTB-059453,vut,Sant Pere de Ribes,"Carrer Can Panxample 37, Sant Pere de Ribes",41.23495663,1.78518104,,True,False,Sant Pere de Ribes,True
+HUTB-059927,vut,Gavà,"Carrer del Pinar 8, Gavà",41.27098119,2.01772576,,True,False,Gavà,True
+HUTB-059370,vut,Vilassar de Mar,"Carrer Enric Granados 13, Vilassar de Mar",41.50537242,2.39794971,,True,False,Vilassar de Mar,True
+HUTB-059912,vut,Malgrat de Mar,"Carrer Caporal Fradera 55, Malgrat de Mar",41.64649135,2.74564079,,True,False,Malgrat de Mar,True
+HUTB-059304,vut,Vilassar de Mar,"Avinguda Carles Tercer 47, Vilassar de Mar",41.5068768,2.38864769,,True,False,Vilassar de Mar,True
+HUTB-059303,vut,Mataró,"Carrer Sant Cugat 33, Mataró",41.5359465,2.43960766,,True,False,Mataró,True
+HUTB-057180,vut,Cabrera de Mar,"Passatge Burriac 24, Cabrera de Mar",41.50852557,2.40226311,,True,False,Cabrera de Mar,True
+HUTB-059302,vut,Mataró,"Carrer Antoni de Capmany 7, Mataró",41.54171761,2.45085197,,True,False,Mataró,True
+HUTB-059919,vut,Sant Adrià de Besòs,"Carrer Lleida 37, Sant Adrià de Besòs",41.42486011,2.22792137,,True,True,Sant Adrià de Besòs,True
+HUTB-059301,vut,Canet de Mar,"Carrer Miramar 8, Canet de Mar",41.58700775,2.57959435,,True,False,Canet de Mar,True
+HUTB-056646,vut,Sant Pere de Ribes,"Carrer del Mig 20, Sant Pere de Ribes",41.23641829,1.76501359,,True,False,Sant Pere de Ribes,True
+HUTB-059278,vut,Malgrat de Mar,"Avinguda Països Catalans 8, Malgrat de Mar",41.63943985,2.73384632,,True,False,Malgrat de Mar,True
+HUTB-056657,vut,Sant Pere de Ribes,"Carrer de les Torres 6, Sant Pere de Ribes",41.24958146,1.7907738,,True,False,Sant Pere de Ribes,True
+HUTB-059913,vut,Malgrat de Mar,"Passeig Marítim 56, Malgrat de Mar",41.81678639,3.06885587,,True,False,,False
+HUTB-057190,vut,Pineda de Mar,"Carrer Goya 14, Pineda de Mar",41.6177106,2.67133476,,True,False,Pineda de Mar,True
+HUTB-059916,vut,Sant Adrià de Besòs,"Carrer Ramon Llull 555, Sant Adrià de Besòs",41.41791279,2.22428981,,True,True,Sant Adrià de Besòs,True
+HUTB-059452,vut,Sant Pere de Ribes,"Carrer Baluard 4, Sant Pere de Ribes",41.22364447,1.7554141,,True,False,Sant Pere de Ribes,True
+HUTB-056976,vut,Cubelles,"Carrer Bruch 26, Cubelles",41.2037867,1.67965922,,True,False,Cubelles,True
+HUTB-056980,vut,Cubelles,"Avinguda Jaume I 139, Cubelles",41.19871948,1.66457729,,True,False,Cubelles,True
+HUTB-056689,vut,Santa Susanna,"Carrer Ginesta 32, Santa Susanna",41.6459673,2.70718963,,True,False,Santa Susanna,True
+HUTB-059756,vut,Vilanova i la Geltrú,"Carrer Olesa de Bonesvalls 5, Vilanova i la Geltrú",41.22893426,1.72554181,,True,False,Vilanova i la Geltrú,True
+HUTB-056692,vut,Cubelles,"Avinguda Mediterrani 43, Cubelles",41.202593,1.67573455,,True,False,Cubelles,True
+HUTB-056700,vut,Castelldefels,"Avinguda 321 8, Castelldefels",41.27676748,1.96505572,,True,False,Castelldefels,True
+HUTB-056702,vut,Castelldefels,"Passeig Can Solé 33, Castelldefels",41.27409803,1.95254196,,True,False,Castelldefels,True
+HUTB-059751,vut,Badalona,"Carrer de Calderón de la Barca 67, Badalona",41.44567856,2.22388427,,True,True,Badalona,True
+HUTB-056703,vut,Castelldefels,"Avinguda 334 11, Castelldefels",41.27504258,1.9706664,,True,False,Castelldefels,True
+HUTB-056704,vut,Castelldefels,"Passeig DE LA CREU 47, Castelldefels",41.27410566,1.95191823,,True,False,Castelldefels,True
+HUTB-056668,vut,Sant Pere de Ribes,"Carrer Miranda 37, Sant Pere de Ribes",41.25669781,1.8038219,,True,False,Sant Pere de Ribes,True
+HUTB-056705,vut,Castelldefels,"Passeig Bellavista 155, Castelldefels",41.27132527,1.95214423,,True,False,Castelldefels,True
+HUTB-059738,vut,Canyelles,"Carrer Lleida 3, Canyelles",41.27201968,1.71191777,,True,False,Canyelles,True
+HUTB-056707,vut,Castelldefels,"Avinguda 341 7, Castelldefels",41.27426214,1.96917529,,True,False,Castelldefels,True
+HUTB-059731,vut,Pineda de Mar,"Avinguda Mediterrani 66, Pineda de Mar",41.61997161,2.6724527,,True,False,Pineda de Mar,True
+HUTB-056708,vut,Castelldefels,"Avinguda 302 111, Castelldefels",41.28044729,1.96581174,,True,False,Castelldefels,True
+HUTB-056725,vut,Sant Pol de Mar,"Carrer Comte Borrell 20, Sant Pol de Mar",41.60670971,2.63005981,,True,False,Sant Pol de Mar,True
+HUTB-056726,vut,Sant Pol de Mar,"Avinguda Doctor Furest 5, Sant Pol de Mar",41.60147506,2.62550876,,True,False,Sant Pol de Mar,True
+HUTB-056770,vut,Santa Susanna,"Carrer del Rabassot 21, Santa Susanna",41.64363673,2.70716665,,True,False,Santa Susanna,True
+HUTB-059888,vut,"Hospitalet de Llobregat, l'","Carrer del Progrés 50, Hospitalet de Llobregat, l'",42.05321078,2.26162325,,True,False,Torelló,False
+HUTB-059730,vut,Pineda de Mar,"Avinguda de la Mare de Déu de Montserrat 66, Pineda de Mar",41.62477827,2.68742436,,True,False,Pineda de Mar,True
+HUTB-056691,vut,Cubelles,"Avinguda Jaume I 143, Cubelles",41.19866733,1.66405011,,True,False,Cubelles,True
+HUTB-056688,vut,Montgat,"Camí Ral 23, Montgat",41.4676359,2.28173956,,True,False,Montgat,True
+HUTB-056979,vut,Cubelles,"Avinguda Jaume I 139, Cubelles",41.19871948,1.66457729,,True,False,Cubelles,True
+HUTB-059757,vut,Vilanova i la Geltrú,"Carrer Àncora 6, Vilanova i la Geltrú",41.2185429,1.72851164,,True,False,Vilanova i la Geltrú,True
+HUTB-056670,vut,Sant Pere de Ribes,"Passeig de Pujades 3, Sant Pere de Ribes",41.25002469,1.79815805,,True,False,Sant Pere de Ribes,True
+HUTB-059883,vut,"Hospitalet de Llobregat, l'","Carrer del Progrés 50, Hospitalet de Llobregat, l'",42.05321078,2.26162325,,True,False,Torelló,False
+HUTB-056669,vut,Sant Pere de Ribes,"Carrer de l'Om 6, Sant Pere de Ribes",41.25999021,1.80711975,,True,False,Sant Pere de Ribes,True
+HUTB-056672,vut,Sant Pere de Ribes,"Carrer Puigmoltó 44, Sant Pere de Ribes",41.24980324,1.76868196,,True,False,Sant Pere de Ribes,True
+HUTB-059886,vut,"Hospitalet de Llobregat, l'","Carrer del Progrés 50, Hospitalet de Llobregat, l'",42.05321078,2.26162325,,True,False,Torelló,False
+HUTB-059887,vut,"Hospitalet de Llobregat, l'","Carrer del Progrés 50, Hospitalet de Llobregat, l'",42.05321078,2.26162325,,True,False,Torelló,False
+HUTB-059880,vut,Gavà,"Carretera de la Sentiu 8, Gavà",41.2985298,1.96935536,,True,False,Gavà,True
+HUTB-056675,vut,Sant Pere de Ribes,"Carrer Garona 19, Sant Pere de Ribes",41.25521701,1.80928985,,True,False,Sant Pere de Ribes,True
+HUTB-059857,vut,Alella,"Carrer Mediterrania 31, Alella",41.48317547,2.30607852,,True,False,Alella,True
+HUTB-059856,vut,Alella,"Carrer Telia 35, Alella",41.49411108,2.28873566,,True,False,Alella,True
+HUTB-059855,vut,Alella,"Carrer Balmes 12, Alella",41.49438931,2.29344132,,True,False,Alella,True
+HUTB-056676,vut,Sant Pere de Ribes,"Passeig Pujades 3, Sant Pere de Ribes",41.25002469,1.79815805,,True,False,Sant Pere de Ribes,True
+HUTB-056677,vut,Sant Pere de Ribes,"Carrer Puigmoltó 54, Sant Pere de Ribes",41.24995528,1.76826306,,True,False,Sant Pere de Ribes,True
+HUTB-059854,vut,Alella,"Carrer Buenos Aires 14, Alella",41.48622397,2.29333089,,True,False,Alella,True
+HUTB-056678,vut,Sant Pere de Ribes,"Carrer Puigmoltó 56, Sant Pere de Ribes",41.2500682,1.76779128,,True,False,Sant Pere de Ribes,True
+HUTB-056679,vut,Sant Pere de Ribes,"Carrer de la Fita 7, Sant Pere de Ribes",41.25933399,1.81369708,,True,False,Sant Pere de Ribes,True
+HUTB-056683,vut,Sant Pere de Ribes,"Avinguda de Sitges 41, Sant Pere de Ribes",41.2601279,1.77384208,,True,False,Sant Pere de Ribes,True
+HUTB-059832,vut,Sant Cebrià de Vallalta,"Carrer CAMI DE CANET 37, Sant Cebrià de Vallalta",41.61091155,2.58474582,,True,False,Sant Cebrià de Vallalta,True
+HUTB-059780,vut,Alella,"Avinguda Alella 31, Alella",41.48310928,2.2999642,,True,False,Alella,True
+HUTB-056772,vut,Sitges,"Passeig MARITIM 37, Sitges",41.23098805,1.79669588,,True,False,Sitges,True
+HUTB-059729,vut,Sant Vicenç de Montalt,"Avinguda Montalnou 45, Sant Vicenç de Montalt",41.58086717,2.51265838,,True,False,Sant Vicenç de Montalt,True
+HUTB-059710,vut,Vilassar de Dalt,"Carrer Riera Salvet 45, Vilassar de Dalt",41.51513241,2.3602012,,True,False,Vilassar de Dalt,True
+HUTB-056956,vut,Olivella,"Carrer Via Lactea 126, Olivella",41.30505517,1.76665555,,True,False,Olivella,True
+HUTB-056664,vut,Sant Pere de Ribes,"Carrer Garona 21, Sant Pere de Ribes",41.25530701,1.80937778,,True,False,Sant Pere de Ribes,True
+HUTB-059509,vut,Vilanova i la Geltrú,"Carrer Bailèn 18, Vilanova i la Geltrú",41.22349906,1.71536495,,True,False,Vilanova i la Geltrú,True
+HUTB-059508,vut,Vilanova i la Geltrú,"Avinguda Garraf 56, Vilanova i la Geltrú",41.2236187,1.73127803,,True,False,Vilanova i la Geltrú,True
+HUTB-056957,vut,Caldes d'Estrac,"Carrer Major 9, Caldes d'Estrac",41.57174384,2.52605202,,True,False,Caldes d'Estrac,True
+HUTB-056970,vut,Premià de Dalt,"Carretera VILASSAR DE DALT 8, Premià de Dalt",41.49909534,2.35955826,,True,False,Premià de Dalt,True
+HUTB-059507,vut,Vilanova i la Geltrú,"Carrer Meridional 6, Vilanova i la Geltrú",41.21608436,1.72622113,,True,False,Vilanova i la Geltrú,True
+HUTB-056972,vut,Pineda de Mar,"Carrer Calella 16, Pineda de Mar",41.62012056,2.68107238,,True,False,Pineda de Mar,True
+HUTB-056974,vut,Malgrat de Mar,"Carrer Paula del Puig 61, Malgrat de Mar",41.65079103,2.74172108,,True,False,Malgrat de Mar,True
+HUTB-056663,vut,Sant Pere de Ribes,"Avinguda de Sant Pere de Ribes 62, Sant Pere de Ribes",41.25940979,1.80733574,,True,False,Sant Pere de Ribes,True
+HUTB-059469,vut,Sant Pere de Ribes,"Carrer Baluard 4, Sant Pere de Ribes",41.22364447,1.7554141,,True,False,Sant Pere de Ribes,True
+HUTB-059468,vut,Santa Coloma de Cervelló,"Carrer de Pin i Soler 2, Santa Coloma de Cervelló",41.3628895,2.0286395,,True,False,Santa Coloma de Cervelló,True
+HUTB-059459,vut,Sant Pere de Ribes,"Carrer Blaumar 29, Sant Pere de Ribes",41.22401309,1.75252849,,True,False,Sant Pere de Ribes,True
+HUTB-056975,vut,Malgrat de Mar,"Avinguda Barcelona 45, Malgrat de Mar",41.63967466,2.73246067,,True,False,Malgrat de Mar,True
+HUTB-056671,vut,Sant Pere de Ribes,"Carrer Blaumar 6, Sant Pere de Ribes",41.22093706,1.75093353,,True,False,Sant Pere de Ribes,True
+HUTB-056977,vut,Cubelles,"Carrer Irlanda del Nord 18, Cubelles",41.20414286,1.64608926,,True,False,Cubelles,True
+HUTB-056978,vut,Cubelles,"Passatge Riu Ter 14 G, Cubelles",41.19717184,1.65223076,,True,False,Cubelles,True
+HUTB-056951,vut,Olivella,"Carrer Xoriguer 14, Olivella",41.32058708,1.76411173,,True,False,Olivella,True
+HUTB-056950,vut,Olivella,"Carrer Mas Sabatat 13, Olivella",41.31193083,1.77468205,,True,False,Olivella,True
+HUTB-059910,vut,Malgrat de Mar,"Avinguda Bon Pastor 34, Malgrat de Mar",41.64126216,2.73815271,,True,False,Malgrat de Mar,True
+HUTB-059706,vut,Sant Pol de Mar,"Disseminat CAN MUNTANER s/n, Sant Pol de Mar",41.60180075,2.59559684,,True,False,Sant Pol de Mar,True
+HUTB-056845,vut,Badalona,"Carrer Providència 43, Badalona",41.44248638,2.24361521,,True,False,Badalona,True
+HUTB-059567,vut,Calella,"Carrer Puig de Popa 5, Calella",41.61186363,2.64630286,,True,False,Calella,True
+HUTB-059549,vut,Sant Quintí de Mediona,"Carrer Francesc Macià 35, Sant Quintí de Mediona",41.46971172,1.66851324,,True,False,Sant Quintí de Mediona,True
+HUTB-059891,vut,Alella,"Carrer Lleida 11, Alella",41.48455969,2.29742339,,True,False,Alella,True
+HUTB-059548,vut,Terrassa,"Carrer Volta 53, Terrassa",41.56317343,2.00593888,,True,False,Terrassa,True
+HUTB-059543,vut,Cubelles,"Avinguda Jaume I 139, Cubelles",41.19871948,1.66457729,,True,False,Cubelles,True
+HUTB-056667,vut,Sant Pere de Ribes,"Carrer de l'Om 23, Sant Pere de Ribes",41.26031716,1.8101716,,True,False,Sant Pere de Ribes,True
+HUTB-059521,vut,Sant Cebrià de Vallalta,"Carrer MARESME 74, Sant Cebrià de Vallalta",41.63854272,2.60741564,,True,False,Sant Cebrià de Vallalta,True
+HUTB-059542,vut,Cubelles,"Carrer Figueral 43, Cubelles",41.19850298,1.66646699,,True,False,Cubelles,True
+HUTB-056665,vut,Sant Pere de Ribes,"Carrer Garona 13, Sant Pere de Ribes",41.23818685,1.7643891,,True,False,Sant Pere de Ribes,True
+HUTB-056914,vut,Mataró,"Carrer Salvador Espriu 143, Mataró",41.55475214,2.44412737,,True,False,Mataró,True
+HUTB-059522,vut,Sant Cebrià de Vallalta,"Carrer MARESME 71, Sant Cebrià de Vallalta",41.63875161,2.60745987,,True,False,Sant Cebrià de Vallalta,True
+HUTB-056916,vut,Mataró,"Avinguda Jaume Recoder 67, Mataró",41.53372441,2.44382197,,True,False,Mataró,True
+HUTB-056920,vut,Sant Cebrià de Vallalta,"Carrer MIRADOR DE GRIMOLA 23, Sant Cebrià de Vallalta",41.61351799,2.59537617,,True,False,Sant Cebrià de Vallalta,True
+HUTB-059911,vut,Malgrat de Mar,"Avinguda Pins 35, Malgrat de Mar",41.63599736,2.72714185,,True,False,Malgrat de Mar,True
+HUTB-056946,vut,Ripollet,"Carrer Pizarro 34, Ripollet",41.5036821,2.15236049,,True,False,Ripollet,True
+HUTB-056912,vut,Font-rubí,"Carrer Font-rubí 14, Font-rubí",41.41566716,1.647593,,True,False,Font-rubí,True
+HUTB-057427,vut,Canet de Mar,"Carrer Generalitat 17, Canet de Mar",41.5937942,2.58525553,,True,False,Canet de Mar,True
+HUTB-057236,vut,Castelldefels,"Avinguda BELLAMAR 15, Castelldefels",41.26845013,1.95316539,,True,False,Castelldefels,True
+HUTB-058429,vut,Calella,"Carrer Mar 31, Calella",41.61236013,2.6526331,,True,False,Calella,True
+HUTB-058374,vut,Canet de Mar,"Carrer El Molí 18, Canet de Mar",41.70726452,2.84023635,,True,False,,False
+HUTB-058373,vut,Badalona,"Carrer Torí 4, Badalona",41.44096681,2.22729526,,True,True,Badalona,True
+HUTB-058363,vut,Sant Pol de Mar,"Carrer JOAN COROMINES 55, Sant Pol de Mar",41.60574341,2.62011745,,True,False,Sant Pol de Mar,True
+HUTB-058361,vut,Sant Cebrià de Vallalta,"Carrer CADI 52, Sant Cebrià de Vallalta",41.63431429,2.6063397,,True,False,Sant Cebrià de Vallalta,True
+HUTB-058360,vut,Vilassar de Mar,"Carrer Buenos Aires 14, Vilassar de Mar",41.50133319,2.38870421,,True,False,Vilassar de Mar,True
+HUTB-057890,vut,Vilanova i la Geltrú,"Carrer Prat 25, Vilanova i la Geltrú",41.20519868,1.68499995,,True,False,Vilanova i la Geltrú,True
+HUTB-058359,vut,Alella,"Carrer priorat 18, Alella",41.50597915,2.28170863,,True,False,Alella,True
+HUTB-057903,vut,Premià de Dalt,"Carrer SANT JOAN BOSCO 10, Premià de Dalt",41.51097511,2.34877885,,True,False,Premià de Dalt,True
+HUTB-058358,vut,Sant Pol de Mar,"Carrer HEROIS FRAGATA NUMÀNCIA 14, Sant Pol de Mar",41.60565496,2.62380711,,True,False,Sant Pol de Mar,True
+HUTB-057916,vut,Vilassar de Mar,"Carrer Santa Coloma 120, Vilassar de Mar",41.50641606,2.39947524,,True,False,Vilassar de Mar,True
+HUTB-058357,vut,Sant Pol de Mar,"Carrer HEROIS FRAGATA NUMÀNCIA 14, Sant Pol de Mar",41.60565496,2.62380711,,True,False,Sant Pol de Mar,True
+HUTB-058356,vut,Sant Pol de Mar,"Carrer VERGE DE MONTSERRAT 8, Sant Pol de Mar",41.60510747,2.62536345,,True,False,Sant Pol de Mar,True
+HUTB-058354,vut,Sant Pol de Mar,"Carrer JAUME BALMES 29, Sant Pol de Mar",41.60529252,2.62590424,,True,False,Sant Pol de Mar,True
+HUTB-057919,vut,Tiana,"Carrer Les Aigües 5, Tiana",41.478121,2.26333169,,True,False,Tiana,True
+HUTB-058340,vut,Arenys de Munt,"Carrer Rial de la Rectora 2, Arenys de Munt",41.60455569,2.54084156,,True,False,Arenys de Munt,True
+HUTB-057978,vut,Pineda de Mar,"Carrer Montgat 32, Pineda de Mar",41.69873692,2.66011035,,True,False,Tordera,False
+HUTB-057979,vut,Pineda de Mar,"Carrer Rubens 40, Pineda de Mar",41.63478552,2.69413965,,True,False,Pineda de Mar,True
+HUTB-058428,vut,Lliçà d'Amunt,"Carrer Cardener 10, Lliçà d'Amunt",41.58781909,2.2008888,,True,False,Lliçà d'Amunt,True
+HUTB-058463,vut,Alella,"Carrer nuria 3, Alella",41.48274773,2.30252602,,True,False,Alella,True
+HUTB-057237,vut,Castelldefels,"Passeig DEL PARC FORESTAL 12, Castelldefels",41.27112774,1.95595426,,True,False,Castelldefels,True
+HUTB-058538,vut,Cardona,"Carretera de Manresa 16, Cardona",41.908622,1.69452652,,True,False,Cardona,True
+HUTB-058772,vut,Arenys de Mar,"Passeig Xifre 29, Arenys de Mar",41.57981689,2.554974,,True,False,Arenys de Mar,True
+HUTB-058771,vut,Canet de Mar,"Carrer Saüc 9, Canet de Mar",41.58887493,2.58109933,,True,False,Canet de Mar,True
+HUTB-058762,vut,Arenys de Munt,"Carrer ARC DE SANT MARTÍ 433, Arenys de Munt",41.63262993,2.53688909,,True,False,Arenys de Munt,True
+HUTB-058720,vut,Castelldefels,"Avinguda 326 30, Castelldefels",41.27828858,1.96207432,,True,False,Castelldefels,True
+HUTB-058718,vut,Castelldefels,"Passeig Ronda 8, Castelldefels",41.2698714,1.9527125,,True,False,Castelldefels,True
+HUTB-058687,vut,Alella,"Carrer Univers 19, Alella",41.49663187,2.2842192,,True,False,Alella,True
+HUTB-058684,vut,Tiana,"Avinguda Onze de setembre 65, Tiana",41.4729044,2.27294305,,True,False,Tiana,True
+HUTB-058681,vut,Vilassar de Dalt,"Carrer Pompeu Fabra 18, Vilassar de Dalt",41.52014949,2.36350374,,True,False,Vilassar de Dalt,True
+HUTB-058669,vut,Badalona,"Carrer Doctor Trueta 39, Badalona",41.44058106,2.2196158,,True,True,Badalona,True
+HUTB-058665,vut,Abrera,"Avinguda VIRREI AMAT 18, Abrera",41.51940752,1.92147283,,True,False,Abrera,True
+HUTB-058658,vut,Sant Antoni de Vilamajor,"Carrer Nou 16, Sant Antoni de Vilamajor",41.67276195,2.40066368,,True,False,Sant Antoni de Vilamajor,True
+HUTB-058649,vut,Santa Susanna,"Carrer Formentor 15, Santa Susanna",41.63906847,2.71603568,,True,False,Santa Susanna,True
+HUTB-058593,vut,Calella,"Carrer Puig de Popa 6, Calella",41.61203809,2.64616546,,True,False,Calella,True
+HUTB-058592,vut,Calella,"Carrer Puig de Popa 4, Calella",41.61156961,2.64653347,,True,False,Calella,True
+HUTB-058589,vut,Premià de Dalt,"Passatge Puig-oriol 6, Premià de Dalt",41.49033685,2.34285921,,True,False,Premià de Dalt,True
+HUTB-058588,vut,Olivella,"Carrer Montseny 7, Olivella",41.28643706,1.76240992,,True,False,Olivella,True
+HUTB-058585,vut,Olivella,"Carrer Serra del Cardó 9, Olivella",41.28951913,1.85921249,,True,False,Olivella,True
+HUTB-058584,vut,Olivella,"Carrer Mesquita 8, Olivella",41.31115214,1.77447378,,True,False,Olivella,True
+HUTB-058081,vut,Vilassar de Mar,"Carrer Santa Maria 93, Vilassar de Mar",41.50151244,2.3847144,,True,False,Vilassar de Mar,True
+HUTB-058337,vut,Arenys de Munt,"Carrer Tramontana 27, Arenys de Munt",41.61993724,2.54008079,,True,False,Arenys de Munt,True
+HUTB-058085,vut,Cervelló,"Carrer Anoia 30, Cervelló",41.40256398,1.94897223,,True,False,Cervelló,True
+HUTB-058336,vut,Arenys de Munt,"Carrer August Ma Borràs de Jalpí 3, Arenys de Munt",41.59469639,2.54123927,,True,False,Arenys de Munt,True
+HUTB-058287,vut,Badalona,"Carrer Sant Bru 83, Badalona",41.45408801,2.25240054,,True,False,Badalona,True
+HUTB-058204,vut,Mataró,"Carretera Nacional II 11, Mataró",41.524588,2.42708851,,True,False,Mataró,True
+HUTB-058286,vut,Badalona,"Carrer Sant Bru 83, Badalona",41.45408801,2.25240054,,True,False,Badalona,True
+HUTB-058285,vut,Pineda de Mar,"Carrer Anselm Clavé 8, Pineda de Mar",41.62372221,2.69575467,,True,False,Pineda de Mar,True
+HUTB-058210,vut,Mataró,"Camí de Can Puig 11, Mataró",41.54408464,2.46271178,,True,False,Mataró,True
+HUTB-058284,vut,Pineda de Mar,"Passeig Marítim 8, Pineda de Mar",41.62179864,2.69094671,,True,False,Pineda de Mar,True
+HUTB-058269,vut,Badalona,"Carrer Progrés 173, Badalona",41.440623,2.23989729,,True,True,Badalona,True
+HUTB-058263,vut,Cornellà de Llobregat,"Carrer IGNASI IGLESIAS 4, Cornellà de Llobregat",41.36202833,2.07265788,,True,True,Cornellà de Llobregat,True
+HUTB-058223,vut,Cubelles,"Carrer Josep Tarradellas 20, Cubelles",41.20186252,1.68021417,,True,False,Cubelles,True
+HUTB-058247,vut,"Hospitalet de Llobregat, l'","Carrer Josep Maria de Sagarra 35, Hospitalet de Llobregat, l'",41.42405048,1.99506807,,True,False,Pallejà,False
+HUTB-058246,vut,"Hospitalet de Llobregat, l'","Passatge Miner 17, Hospitalet de Llobregat, l'",41.36225246,2.11079624,,True,True,l'Hospitalet de Llobregat,False
+HUTB-058245,vut,Santa Eulàlia de Ronçana,"Carrer Gaudi 9, Santa Eulàlia de Ronçana",41.65915907,2.22089808,,True,False,Santa Eulàlia de Ronçana,True
+HUTB-058244,vut,Sant Adrià de Besòs,"Carrer Ramon Llull 555, Sant Adrià de Besòs",41.41791279,2.22428981,,True,True,Sant Adrià de Besòs,True
+HUTB-058232,vut,Cubelles,"Passatge Riu Llobregat 12, Cubelles",41.19728892,1.65109716,,True,False,Cubelles,True
+HUTB-058231,vut,Cubelles,"Carrer Piular 42, Cubelles",41.21058103,1.67621922,,True,False,Cubelles,True
+HUTB-058228,vut,Cubelles,"Passeig Mar Mediterranea 66, Cubelles",41.19785856,1.66297229,,True,False,Cubelles,True
+HUTB-058225,vut,Cubelles,"Carrer Major 21, Cubelles",41.20786408,1.67196886,,True,False,Cubelles,True
+HUTB-058224,vut,Cubelles,"Passatge Riu Ter 10, Cubelles",41.19737765,1.65209506,,True,False,Cubelles,True
+HUTB-058289,vut,Badalona,"Carrer Sant Bru 83, Badalona",41.45408801,2.25240054,,True,False,Badalona,True
+HUTB-058291,vut,Calella,"Carrer Jovara 7, Calella",41.61180144,2.65561455,,True,False,Calella,True
+HUTB-058144,vut,Mataró,"Carrer Massevà 22, Mataró",41.54220283,2.44272333,,True,False,Mataró,True
+HUTB-058097,vut,Canyelles,"Carrer Can Xum 14, Canyelles",41.28146046,1.7210662,,True,False,Canyelles,True
+HUTB-058112,vut,Castellet i la Gornal,"Disseminat CAL ROMAGOSA - SANT MARÇAL 59, Castellet i la Gornal",41.26336201,1.63214628,,True,False,Castellet i la Gornal,True
+HUTB-058141,vut,Sant Martí Sarroca,"Barri La Bleda 'Cal Tonarro' 27, Sant Martí Sarroca",41.34251683,1.65458034,,True,False,Sant Martí Sarroca,True
+HUTB-058331,vut,Santa Susanna,"Passeig Marítim - edifici Horitzó II s/n, Santa Susanna",41.63554662,2.72613759,,True,False,Santa Susanna,True
+HUTB-058324,vut,Santa Susanna,"Passeig Marítim - edifici Horitzó II s/n, Santa Susanna",41.63554662,2.72613759,,True,False,Santa Susanna,True
+HUTB-058143,vut,Mataró,"Carrer Jaume Balmes 17, Mataró",41.53638126,2.44644705,,True,False,Mataró,True
+HUTB-058323,vut,Arenys de Mar,"Carrer Les Vil·les 4, Arenys de Mar",41.57403005,2.53868025,,True,False,Arenys de Mar,True
+HUTB-058203,vut,Mataró,"Ronda Cervantes 71, Mataró",41.54579477,2.45407654,,True,False,Mataró,True
+HUTB-058167,vut,Sant Adrià de Besòs,"Carrer Girona 8, Sant Adrià de Besòs",41.42514461,2.22885888,,True,True,Sant Adrià de Besòs,True
+HUTB-058300,vut,Mollet del Vallès,"Carrer Ramon Casas 49, Mollet del Vallès",41.53854897,2.21624419,,True,False,Mollet del Vallès,True
+HUTB-058168,vut,Sant Adrià de Besòs,"Carrer Ramon Llull 555, Sant Adrià de Besòs",41.41791279,2.22428981,,True,True,Sant Adrià de Besòs,True
+HUTB-058293,vut,Montgat,"Carrer Avenir (L') 5, Montgat",41.46305524,2.27085849,,True,False,Montgat,True
+HUTB-058169,vut,Vilanova i la Geltrú,"Rambla Arnau de Vilanova 10, Vilanova i la Geltrú",41.21883376,1.71045733,,True,False,Vilanova i la Geltrú,True
+HUTB-058170,vut,Sant Adrià de Besòs,"Carrer Ramon Llull 555, Sant Adrià de Besòs",41.41791279,2.22428981,,True,True,Sant Adrià de Besòs,True
+HUTB-058292,vut,Montgat,"Carrer Avenir (L') 5, Montgat",41.46305524,2.27085849,,True,False,Montgat,True
+HUTB-058171,vut,Vilanova i la Geltrú,"Carrer Estany 5, Vilanova i la Geltrú",41.21835962,1.72327046,,True,False,Vilanova i la Geltrú,True
+HUTB-058773,vut,Arenys de Mar,"Carrer Costa de les Canalies 20, Arenys de Mar",41.58655054,2.55499044,,True,False,Arenys de Mar,True
+HUTB-058807,vut,Calella,"Carrer Sant Jaume/ Tramontana, 2-16 149, Calella",41.61417683,2.65459637,,True,False,Calella,True
+HUTB-057889,vut,Vilanova i la Geltrú,"Plaça de la Vila 2, Vilanova i la Geltrú",41.22434411,1.7263507,,True,False,Vilanova i la Geltrú,True
+HUTB-058891,vut,Cubelles,"Passeig de la Mar Mediterrànea 68, Cubelles",41.19781355,1.66252891,,True,False,Cubelles,True
+HUTB-059031,vut,Sant Vicenç de Montalt,"Carrer Costa Daurada 5, Sant Vicenç de Montalt",41.56640068,2.5172452,,True,False,Sant Vicenç de Montalt,True
+HUTB-059030,vut,Sant Vicenç de Montalt,"Carrer Torrassa 36, Sant Vicenç de Montalt",41.56757467,2.51822317,,True,False,Sant Vicenç de Montalt,True
+HUTB-057430,vut,Cubelles,"Carrer Francesc Macià 9, Cubelles",41.20327553,1.6794162,,True,False,Cubelles,True
+HUTB-059024,vut,Vilassar de Mar,"Passatge Dels Clavells 47, Vilassar de Mar",41.4984504,2.3819977,,True,False,Vilassar de Mar,True
+HUTB-059016,vut,Gavà,"Avinguda d' Europa 1, Gavà",41.2713592,2.04142241,,True,False,Gavà,True
+HUTB-059002,vut,Canyelles,"Carrer de la Casa Nova 26, Canyelles",41.27661301,1.74007836,,True,False,Canyelles,True
+HUTB-058995,vut,Vilanova i la Geltrú,"Carrer NANSA 7, Vilanova i la Geltrú",41.20606938,1.68690237,,True,False,Vilanova i la Geltrú,True
+HUTB-058989,vut,Vilanova i la Geltrú,"Ronda Mar Mediterrrània 46, Vilanova i la Geltrú",41.21282484,1.71733293,,True,False,Vilanova i la Geltrú,True
+HUTB-058978,vut,Sant Iscle de Vallalta,"Urbanització Can Ginebra 36, Sant Iscle de Vallalta",41.62369021,2.58026137,,True,False,Sant Iscle de Vallalta,True
+HUTB-057431,vut,Cubelles,"Carrer Xaloc 1, Cubelles",41.20033032,1.67672098,,True,False,Cubelles,True
+HUTB-058966,vut,Vilassar de Mar,"Carrer Narcís Monturiol 216, Vilassar de Mar",41.50900392,2.39662722,,True,False,Vilassar de Mar,True
+HUTB-058936,vut,Vilanova i la Geltrú,"Carrer Alexandre de Cabanyes 42, Vilanova i la Geltrú",41.2130811,1.71598239,,True,False,Vilanova i la Geltrú,True
+HUTB-057432,vut,Cubelles,"Avinguda Onze de Setembre 38, Cubelles",41.20357881,1.67526386,,True,False,Cubelles,True
+HUTB-058896,vut,Cubelles,"Carrer FIGUERAL 5, Cubelles",41.19873312,1.66872419,,True,False,Cubelles,True
+HUTB-058895,vut,Cubelles,"Carrer Rafel Casanova 20, Cubelles",41.19781853,1.6504537,,True,False,Cubelles,True
+HUTB-058894,vut,Cubelles,"Avinguda Onze de Setembre 159, Cubelles",41.19742884,1.6471704,,True,False,Cubelles,True
+HUTB-057433,vut,Premià de Dalt,"Carrer TORRAS I BAGES 59, Premià de Dalt",41.5002398,2.34089929,,True,False,Premià de Dalt,True
+HUTB-058893,vut,Cubelles,"Avinguda Pompeu Fabra 58, Cubelles",41.20003084,1.66547617,,True,False,Cubelles,True
+HUTB-057468,vut,Malgrat de Mar,"Avinguda Barcelona 53, Malgrat de Mar",41.63945273,2.73193552,,True,False,Malgrat de Mar,True
+HUTB-059054,vut,Arenys de Mar,"Carrer Portimar 59, Arenys de Mar",41.58357467,2.56210563,,True,False,Arenys de Mar,True
+HUTB-059057,vut,Vilassar de Mar,"Carrer De l'Àngel 8, Vilassar de Mar",41.50486641,2.38733221,,True,False,Vilassar de Mar,True
+HUTB-057429,vut,Cubelles,"Avinguda Onze de Setembre 8, Cubelles",41.20461423,1.68020818,,True,False,Cubelles,True
+HUTB-057398,vut,Santa Susanna,"Urbanització La Vall - blocs s/n, Santa Susanna",41.64100666,2.72178138,,True,False,Santa Susanna,True
+HUTB-057238,vut,Castelldefels,"Camí DE LA PETUNIA 27, Castelldefels",41.28011973,1.98407364,,True,False,Castelldefels,True
+HUTB-057239,vut,Calella,"Carrer Sant Jaume 131, Calella",41.61366349,2.65369356,,True,False,Calella,True
+HUTB-057242,vut,Sant Pere de Vilamajor,"Carrer de Girona (Can Vila) 7, Sant Pere de Vilamajor",41.68090974,2.4149497,,True,False,Sant Pere de Vilamajor,True
+HUTB-057243,vut,Sant Pere de Vilamajor,"Carrer de les Flors (Vallserena) 14, Sant Pere de Vilamajor",41.693686,2.41033473,,True,False,Sant Pere de Vilamajor,True
+HUTB-057263,vut,Malgrat de Mar,"Passeig Marítim 56, Malgrat de Mar",41.81678639,3.06885587,,True,False,,False
+HUTB-057382,vut,Vallgorguina,"Carrer LA SOLANA 2, Vallgorguina",41.65056203,2.50936389,,True,False,Vallgorguina,True
+HUTB-059209,vut,Vilassar de Mar,"Carrer Sant Pere 3, Vilassar de Mar",41.5040995,2.39616161,,True,False,Vilassar de Mar,True
+HUTB-059204,vut,Cubelles,"Avinguda Onze de Setembre 92, Cubelles",41.20064044,1.66154287,,True,False,Cubelles,True
+HUTB-059202,vut,Cubelles,"Carrer Figueral 12, Cubelles",41.198871,1.66795873,,True,False,Cubelles,True
+HUTB-057428,vut,Cubelles,"Avinguda Onze de Setembre 155, Cubelles",41.19755807,1.64807555,,True,False,Cubelles,True
+HUTB-059201,vut,Cubelles,"Passeig Marítim 18, Cubelles",41.20195433,1.68102319,,True,False,Cubelles,True
+HUTB-059195,vut,Cubelles,"Carrer Rafel Casanova 20, Cubelles",41.19781853,1.6504537,,True,False,Cubelles,True
+HUTB-059194,vut,Cubelles,"Carrer Josep Tarradelles 23, Cubelles",41.20214012,1.68025636,,True,False,Cubelles,True
+HUTB-059095,vut,Cubelles,"Carrer Lleida 32, Cubelles",41.20328499,1.67720317,,True,False,Cubelles,True
+HUTB-059074,vut,Montcada i Reixac,"Carrer dels Pins 0, Montcada i Reixac",41.47903852,2.16621679,,True,False,Montcada i Reixac,True
+HUTB-058892,vut,Cubelles,"Avinguda Jaume I 143, Cubelles",41.19866733,1.66405011,,True,False,Cubelles,True
+HUTB-057469,vut,Malgrat de Mar,"Carrer Camí Nou 37, Malgrat de Mar",41.64556666,2.74067231,,True,False,Malgrat de Mar,True
+HUTB-058808,vut,Pineda de Mar,"Carrer Tossa 6, Pineda de Mar",41.6407416,2.64900604,,True,False,Pineda de Mar,True
+HUTB-057470,vut,Arenys de Munt,"Barri SOBIRANS 26, Arenys de Munt",41.60823325,2.54502109,,True,False,Arenys de Munt,True
+HUTB-057626,vut,Cabrera de Mar,"Carrer Joan XXIII 3, Cabrera de Mar",41.51042303,2.40059741,,True,False,Cabrera de Mar,True
+HUTB-057627,vut,Olivella,"Plaça de Puigpedrós 2, Olivella",41.28442694,1.76355815,,True,False,Sant Pere de Ribes,False
+HUTB-058831,vut,Fogars de la Selva,"Carrer MONTSENY 14, Fogars de la Selva",41.93116768,2.80670043,,True,False,,False
+HUTB-057662,vut,Collbató,"Carrer Muntanya 48, Collbató",41.56804693,1.82666894,,True,False,Collbató,True
+HUTB-057663,vut,Calella,"Carrer Sant Jaume 147, Calella",41.61353267,2.65426451,,True,False,Calella,True
+HUTB-057664,vut,Calella,"Carrer Jovara 110, Calella",41.61285885,2.65919398,,True,False,Calella,True
+HUTB-057727,vut,Palafolls,"Carrer Vimets (Urb. Ciutat Jardí) 17, Palafolls",41.65950467,2.70634002,,True,False,Palafolls,True
+HUTB-058830,vut,Tordera,"Carrer de la Casa Rodona 1, Tordera",41.71012992,2.74133614,,True,False,Tordera,True
+HUTB-057730,vut,Castelldefels,"Avinguda de Bellamar 15, Castelldefels",41.26845013,1.95316539,,True,False,Castelldefels,True
+HUTB-057732,vut,Vilafranca del Penedès,"Carrer de la Fruita 3, Vilafranca del Penedès",41.34750191,1.69813434,,True,False,Vilafranca del Penedès,True
+HUTB-057734,vut,Sant Cebrià de Vallalta,"Carrer PUIGMAL 11, Sant Cebrià de Vallalta",41.63526306,2.60570388,,True,False,Sant Cebrià de Vallalta,True
+HUTB-058822,vut,Palau-solità i Plegamans,"Carrer CAMI DE CAN LLONC 2, Palau-solità i Plegamans",41.57680857,2.17887597,,True,False,Palau-solità i Plegamans,True
+HUTB-058811,vut,Pineda de Mar,"Carrer Camós 2, Pineda de Mar",41.61884949,2.68091907,,True,False,Pineda de Mar,True
+HUTB-058810,vut,Pineda de Mar,"Carrer Blanes 14, Pineda de Mar",41.63630069,2.65695824,,True,False,Pineda de Mar,True
+HUTB-057737,vut,Sant Cebrià de Vallalta,"Carrer ROMANI 47, Sant Cebrià de Vallalta",41.63817702,2.59276071,,True,False,Sant Cebrià de Vallalta,True
+HUTB-057738,vut,Vallgorguina,"Carrer Xampinyó - Urb. Canadà Park 49, Vallgorguina",41.64935129,2.45821963,,True,False,Vallgorguina,True
+HUTB-057887,vut,Santa Eulàlia de Ronçana,"Camí del Gual (Masia Ca L'Arcis) s/n, Santa Eulàlia de Ronçana",41.64116395,2.24005235,,True,False,Santa Eulàlia de Ronçana,True
+HUTB-058809,vut,Pineda de Mar,"Carrer Isaac Albéniz 15, Pineda de Mar",41.6170177,2.67201027,,True,False,Pineda de Mar,True
+HUTB-057888,vut,Vilanova i la Geltrú,"Carrer Melies 18, Vilanova i la Geltrú",41.21756547,1.68092035,,True,False,Vilanova i la Geltrú,True
+HUTB-057625,vut,Cabrils,"Carrer CIRERES 2, Cabrils",41.53229843,2.37124684,,True,False,Cabrils,True
+HUTB-057623,vut,Sant Vicenç de Montalt,"Carrer LES FONTS 13, Sant Vicenç de Montalt",41.56734456,2.50288907,,True,False,Sant Vicenç de Montalt,True
+HUTB-058844,vut,Vilanova i la Geltrú,"Carrer Roger de Flor 18, Vilanova i la Geltrú",41.21567724,1.72122415,,True,False,Vilanova i la Geltrú,True
+HUTB-057472,vut,Arenys de Munt,"Carrer ROMANÍ 145, Arenys de Munt",41.63181552,2.53386265,,True,False,Arenys de Munt,True
+HUTB-058889,vut,Cubelles,"Carrer Picasso 47, Cubelles",41.23451217,1.65733258,,True,False,Cubelles,True
+HUTB-058887,vut,Cubelles,"Carrer Velazquez 18, Cubelles",41.23044115,1.65587745,,True,False,Cubelles,True
+HUTB-058884,vut,Cubelles,"Avinguda Països Catalans 15, Cubelles",41.20173375,1.67906104,,True,False,Cubelles,True
+HUTB-058883,vut,Cubelles,"Carrer Llevant 8, Cubelles",41.20058131,1.67667152,,True,False,Cubelles,True
+HUTB-058882,vut,Cubelles,"Carrer Bruc 12, Cubelles",41.20296636,1.67999469,,True,False,Cubelles,True
+HUTB-058881,vut,Cubelles,"Avinguda Pompeu Fabra 81, Cubelles",41.19941169,1.66522163,,True,False,Cubelles,True
+HUTB-057471,vut,Arenys de Munt,"Carrer CAN BORRELL 11, Arenys de Munt",41.60743327,2.53861453,,True,False,Arenys de Munt,True
+HUTB-058879,vut,Cubelles,"Ronda President Kennedy 21, Cubelles",41.20308871,1.67419101,,True,False,Cubelles,True
+HUTB-058876,vut,Cubelles,"Carrer Rafel Casanova 40, Cubelles",41.19784185,1.65236352,,True,False,Cubelles,True
+HUTB-057537,vut,Sant Vicenç de Montalt,"Carrer SOL NAIXENT 26, Sant Vicenç de Montalt",41.58405547,2.5153512,,True,False,Sant Vicenç de Montalt,True
+HUTB-058874,vut,Cubelles,"Carrer Saligar 31, Cubelles",41.19877008,1.6702568,,True,False,Cubelles,True
+HUTB-058846,vut,Vilanova i la Geltrú,"Carrer Magatzems Nous 15, Vilanova i la Geltrú",41.21619528,1.72994177,,True,False,Vilanova i la Geltrú,True
+HUTB-057473,vut,Arenys de Munt,"Barri TORRENTBÓ 31, Arenys de Munt",41.59956161,2.54387696,,True,False,Arenys de Munt,True
+HUTB-057510,vut,Sant Pol de Mar,"Carretera NACIONAL II 15, Sant Pol de Mar",41.55976308,2.50729741,,True,False,Sant Andreu de Llavaneres,False
+HUTB-057520,vut,Canyelles,"Carrer Aigua 1, Canyelles",41.28068653,1.72206332,,True,False,Canyelles,True
+HUTB-057521,vut,Canyelles,"Ronda Eivissa 9, Canyelles",41.26712433,1.72597284,,True,False,Canyelles,True
+HUTB-058845,vut,Vilanova i la Geltrú,"Carrer Nansa 7, Vilanova i la Geltrú",41.20606938,1.68690237,,True,False,Vilanova i la Geltrú,True
+HUTB-057531,vut,Vacarisses,"Carrer Torrents 2, Vacarisses",41.60534,1.8711714,,True,False,Vacarisses,True
+HUTB-056634,vut,Sant Pere de Ribes,"Carrer Fonoll 41, Sant Pere de Ribes",41.2851645,1.81126102,,True,False,Sant Pere de Ribes,True
+HUTB-056633,vut,Sant Pere de Ribes,"Carrer Mistela 6, Sant Pere de Ribes",41.2361682,1.76632528,,True,False,Sant Pere de Ribes,True
+HUTB-053718,vut,Sant Vicenç de Montalt,"Carrer Sant Antoni 10, Sant Vicenç de Montalt",41.57857382,2.50880867,,True,False,Sant Vicenç de Montalt,True
+HUTB-053578,vut,Cubelles,"Carrer Rafel Casanova 30, Cubelles",41.19784149,1.65136044,,True,False,Cubelles,True
+HUTB-053618,vut,Sant Pol de Mar,"Carrer Ponent 2, Sant Pol de Mar",41.59356742,2.59604394,,True,False,Sant Pol de Mar,True
+HUTB-053619,vut,Badalona,"Carrer Olivera de Sistrells 37, Badalona",41.44789866,2.22877675,,True,True,Badalona,True
+HUTB-053620,vut,Badalona,"Carrer Olivera de Sistrells 37, Badalona",41.44789866,2.22877675,,True,True,Badalona,True
+HUTB-053621,vut,Badalona,"Carrer Olivera de Sistrells 37, Badalona",41.44789866,2.22877675,,True,True,Badalona,True
+HUTB-053686,vut,Teià,"Carrer El Castell 10, Teià",41.49404348,2.31883032,,True,False,Teià,True
+HUTB-053692,vut,Calella,"Carrer Llevant 28, Calella",41.61532888,2.64498718,,True,False,Calella,True
+HUTB-053693,vut,Canet de Mar,"Ronda Josep Anselm Clavé 13, Canet de Mar",41.59070479,2.58821649,,True,False,Canet de Mar,True
+HUTB-053694,vut,Canet de Mar,"Torrent dels Lledoners 15, Canet de Mar",41.58903795,2.58324809,,True,False,Canet de Mar,True
+HUTB-053719,vut,Canet de Mar,"Carrer Xesco Boix 4, Canet de Mar",41.59223407,2.58802141,,True,False,Canet de Mar,True
+HUTB-053443,vut,Cubelles,"Avinguda Prat 6, Cubelles",41.19779043,1.66079043,,True,False,Cubelles,True
+HUTB-053723,vut,Alella,"Carrer cerdanya 4, Alella",41.50321228,2.28350773,,True,False,Alella,True
+HUTB-053724,vut,Gelida,"Carrer PUIG 3, Gelida",41.4369076,1.84500947,,True,False,Gelida,True
+HUTB-053730,vut,Bagà,"Carrer Sobirà 26, Bagà",42.25323549,1.86044284,,True,False,Bagà,True
+HUTB-053827,vut,Sant Feliu de Llobregat,"Carrer Constitució 50, Sant Feliu de Llobregat",41.38803936,2.0425667,,True,False,Sant Feliu de Llobregat,True
+HUTB-053830,vut,Pineda de Mar,"Avinguda Mare de Déu de Montserrat 62, Pineda de Mar",41.62470299,2.68769065,,True,False,Pineda de Mar,True
+HUTB-053862,vut,Vilanova i la Geltrú,"Rambla del Castell 78, Vilanova i la Geltrú",41.22352003,1.73014567,,True,False,Vilanova i la Geltrú,True
+HUTB-053863,vut,Vilanova i la Geltrú,"Carrer Creu 11, Vilanova i la Geltrú",41.22733291,1.72956815,,True,False,Vilanova i la Geltrú,True
+HUTB-053906,vut,Caldes d'Estrac,"Carrer Mossèn Jacint Verdaguer 14, Caldes d'Estrac",41.57382324,2.52112879,,True,False,Caldes d'Estrac,True
+HUTB-053909,vut,Caldes d'Estrac,"Carrer Major 42, Caldes d'Estrac",41.57054051,2.52553214,,True,False,Caldes d'Estrac,True
+HUTB-053576,vut,Vilassar de Dalt,"Carrer Font de la Teula 2, Vilassar de Dalt",41.51811226,2.35776957,,True,False,Vilassar de Dalt,True
+HUTB-053575,vut,Vilassar de Dalt,"Carrer Sant Antoni 21, Vilassar de Dalt",41.51704812,2.36068494,,True,False,Vilassar de Dalt,True
+HUTB-053573,vut,Premià de Dalt,"Torrent Pau Manent 33, Premià de Dalt",41.5077277,2.34555368,,True,False,Premià de Dalt,True
+HUTB-053539,vut,Alella,"Avinguda Teià 9, Alella",41.48304905,2.30069115,,True,False,Alella,True
+HUTB-053445,vut,Cubelles,"Passatge del Riu Ebre 8, Cubelles",41.19713866,1.64897119,,True,False,Cubelles,True
+HUTB-053453,vut,Cubelles,"Carrer Rafael Casonova 30, Cubelles",41.19784149,1.65136044,,True,False,Cubelles,True
+HUTB-053454,vut,Vilassar de Mar,"Carretera argentona 186, Vilassar de Mar",41.51068643,2.39690201,,True,False,Vilassar de Mar,True
+HUTB-053455,vut,Cerdanyola del Vallès,"Passeig Cordelles 7, Cerdanyola del Vallès",41.49225165,2.13938879,,True,False,Cerdanyola del Vallès,True
+HUTB-053456,vut,Gelida,"Carrer Barceloneta 62, Gelida",41.44202799,1.86393433,,True,False,Gelida,True
+HUTB-053457,vut,Badalona,"Carrer Príncep d¿Asturies 19, Badalona",41.43051456,2.22451792,,True,True,Badalona,True
+HUTB-053459,vut,Cabrera de Mar,"Passeig Montserrat 19, Cabrera de Mar",41.50972478,2.40200699,,True,False,Cabrera de Mar,True
+HUTB-053469,vut,Canyelles,"Avinguda California 53, Canyelles",41.26804011,1.72705123,,True,False,Canyelles,True
+HUTB-053472,vut,Sant Vicenç de Montalt,"Carrer RIERA DE TORRENTBO 10, Sant Vicenç de Montalt",41.57630967,2.52461465,,True,False,Sant Vicenç de Montalt,True
