@@ -1,0 +1,755 @@
+licencia_id,nombre_registro,categoria,habitaciones,plazas,origen_coordenada,metodo_cruce,similitud,distancia_m,nombre_raspado,precio,moneda,estrellas_raspadas,puntuacion,fichero_origen,ficha_compartida,dudoso
+HB-000002,Suizo,3 estrelles,50,99,registro,coordenada,1.0,3.0,Hotel Suizo,,EUR,3.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-000005,Hostal Abrevadero,No aplica,25,45,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-000006,Hostal Valls,No aplica,9,17,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-000011,HOTEL FORNOS,2 estrelles,29,47,registro,nombre_exacto,1.0,,Hotel Fornos Barcelona,205.81,EUR,2.0,3.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-000012,Granvía,3 estrelles,58,105,registro,coordenada,1.0,10.0,Hotel Granvia,258.62,EUR,3.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-000016,Avenida Palace,4 estrelles,150,274,registro,coordenada,1.0,6.0,El Avenida Palace,237.93,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-000017,Astoria,3 estrelles,117,205,registro,coordenada,1.0,11.0,Hotel Astoria,155.14,EUR,3.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-000018,Regina,4 estrelles,99,176,registro,coordenada,1.0,13.0,Hotel Regina,228.93,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-000019,Hostal París,No aplica,41,68,geocodificada,coordenada,1.0,7.0,Hostal París,154.54,EUR,1.0,3.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-000022,Autohogar,3 estrelles,152,276,registro,coordenada,0.75,18.0,Hotel Best Auto Hogar,105.26,EUR,3.0,3.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-000023,Regencia Colón,3 estrelles,50,95,registro,coordenada,1.0,2.0,Hotel Regencia Colon,,EUR,3.0,4.2,google_hotels_2026-09-29_eur.csv,True,True
+HB-000025,Lloret,1 estrella,56,98,registro,coordenada,0.6,2.0,Hotel Lloret Ramblas Barcelona,142.52,EUR,1.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-000026,Rialto,3 estrelles,205,370,registro,coordenada,1.0,9.0,Hotel Rialto,149.37,EUR,3.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-000030,San Agustín,3 estrelles,77,146,registro,coordenada,1.0,15.0,Hotel San Agustin,131.71,EUR,3.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-000033,Hostal Operaramblas,No aplica,68,116,geocodificada,coordenada,0.62,17.0,Dalia Ramblas,176.2,EUR,3.0,4.0,google_hotels_2026-09-29_eur.csv,True,True
+HB-000034,Inglés,1 estrella,28,44,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-000035,INTERNACIONAL RAMBLAS ATIRAM HOTEL,1 estrella,60,92,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-000036,Jardí,No aplica,40,65,geocodificada,coordenada,1.0,2.0,Hotel Jardí,140.91,EUR,2.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-000038,Majestic,Gran luxe,274,531,registro,coordenada,0.8,15.0,Majestic Hotel & Spa Barcelona,369.52,EUR,5.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-000039,Le Meridien Barcelona,Gran luxe,233,466,registro,coordenada,1.0,47.0,Le Méridien,388.55,EUR,5.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-000041,Moderno,3 estrelles,49,86,registro,nombre_cerca,0.32,4.0,Hotel Moderno BCN Free Breakfast in our website.,168.34,EUR,3.0,3.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-000042,Mesón de Castilla Atiram Hotel,2 estrelles,57,90,registro,coordenada,1.0,4.0,Meson Castilla Atiram Hotel Barcelona,172.58,EUR,2.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-000043,Montecarlo,4 estrelles,51,96,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-000047,Cataluña,2 estrelles,40,61,registro,coordenada,0.94,5.0,Hotel Catalunya,200.04,EUR,2.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-000049,COLÓN,5 estrelles,125,252,registro,nombre_cerca,0.53,48.0,Hotel Regencia Colon,,EUR,3.0,4.2,google_hotels_2026-09-29_eur.csv,True,True
+HB-000050,Comercio,1 estrella,51,88,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-000051,HOTEL CONDAL,3 estrelles,52,92,registro,nombre_exacto,1.0,,Hotel Condal,198.5,,,8.3,booking_unificados_2026-09-29.csv,False,False
+HB-000053,Continental,3 estrelles,40,73,registro,coordenada,1.0,15.0,Hotel Continental Barcelona,,EUR,3.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-000063,Roma Reial,1 estrella,52,95,registro,coordenada,1.0,9.0,Hotel Roma Reial,,EUR,1.0,3.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-000064,El Palace,Gran luxe,120,244,registro,coordenada,1.0,11.0,Hotel El Palace Barcelona,557.16,EUR,5.0,4.6,google_hotels_2026-09-29_eur.csv,True,True
+HB-000066,Condado,3 estrelles,76,146,registro,coordenada,1.0,10.0,Hotel Condado,142.24,EUR,3.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-000069,Vincci Mae,4 estrelles,85,170,registro,coordenada,1.0,9.0,Hotel Vincci Mae,217.28,EUR,4.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-000071,Cuatro Naciones,2 estrelles,54,106,registro,coordenada,1.0,11.0,Hotel Cuatro Naciones,,EUR,2.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-000073,HOTEL ESPAÑA,4 estrelles,82,149,registro,nombre_cerca,0.5,8.0,Hotel España Ocean Drive,208.58,EUR,4.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-000078,Nouvel,3 estrelles,78,136,registro,coordenada,1.0,11.0,Hotel Nouvel,168.8,EUR,3.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-000080,Oriente Atiram Hotel,3 estrelles,142,270,registro,coordenada,0.8,10.0,Oriente Atiram Hotels Barcelona,163.33,EUR,3.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-000081,Palermo,No aplica,27,42,geocodificada,coordenada,1.0,3.0,Hotel Palermo Barcelona,121.31,EUR,1.0,3.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-000082,Park Hotel,3 estrelles,91,157,registro,coordenada,1.0,3.0,Park Hotel Barcelona,166.54,EUR,3.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-000085,Principal,3 estrelles,111,174,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-000087,Fontanella Green House,No aplica,11,20,geocodificada,coordenada,1.0,7.0,Fontanella Green House,138.6,EUR,2.0,3.9,google_hotels_2026-09-29_eur.csv,False,False
+HB-000088,Lleó,3 estrelles,92,175,registro,coordenada,1.0,8.0,Hotel Lleó,168.09,EUR,3.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-000089,HOSTAL LEVANTE,No aplica,48,85,geocodificada,coordenada,1.0,6.0,Hostal Levante,116.77,EUR,2.0,3.9,google_hotels_2026-09-29_eur.csv,False,False
+HB-000090,Layetana,No aplica,20,32,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-000094,Hostal Residencia Europa,No aplica,44,75,geocodificada,coordenada,0.7,4.0,Hostal Europa,144.0,EUR,1.0,3.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-000097,Residencia 45,No aplica,20,39,geocodificada,coordenada,0.61,10.0,Pensión 45,79.45,EUR,1.0,3.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-000098,Via Augusta,2 estrelles,87,137,registro,coordenada,1.0,5.0,Hotel Via Augusta,146.83,EUR,2.0,4.3,google_hotels_2026-09-29_eur.csv,True,True
+HB-000101,California,3 estrelles,29,47,registro,coordenada,0.62,6.0,Hotel California Barcelona 3 estrellas,200.96,EUR,3.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-000114,Prisma,2 estrelles,48,70,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-000157,Hostal Oliva,No aplica,16,26,geocodificada,nombre,0.87,,Hostal Nova Barcelona,97.18,EUR,2.0,4.4,google_hotels_2026-09-29_eur.csv,True,True
+HB-000241,Antibes,2 estrelles,69,137,registro,coordenada,0.74,12.0,Acta Antibes,158.95,EUR,2.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-000317,HCC Hotel Taber,3 estrelles,92,169,registro,coordenada,1.0,5.0,Hotel HCC Taber,179.63,EUR,3.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-000319,Cortes,2 estrelles,44,72,registro,coordenada,1.0,1.0,Hotel Cortes,154.62,EUR,3.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-000320,Goya,No aplica,12,21,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-000328,Hostal El Putxet,No aplica,18,24,registro,coordenada,0.72,8.0,Hostal Putxet by gaiarooms,117.32,EUR,2.0,2.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-000329,Hesperia Barri Gòtic,3 estrelles,71,115,registro,coordenada,1.0,8.0,Hotel Hesperia Barcelona Barri Gòtic,190.79,EUR,3.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-000362,Lima,No aplica,4,6,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-000371,jaume I,1 estrella,39,67,registro,coordenada,1.0,2.0,Hotel Jaume I,,EUR,1.0,3.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-000372,Eurostars Cristal Palace,4 estrelles,148,250,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-000386,Zènit Barcelona,4 estrelles,71,118,registro,nombre_exacto,1.0,,Zenit Barcelona,201.0,,,8.4,booking_unificados_2026-09-29.csv,False,False
+HB-000439,Ciudad Condal,No aplica,14,22,geocodificada,coordenada,0.79,8.0,Ciudad Condal Hostal,151.88,EUR,3.0,3.8,google_hotels_2026-09-29_eur.csv,True,True
+HB-000443,Lourdes,No aplica,27,47,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-000446,Casa Pince,2 estrelles,38,70,registro,coordenada,1.0,1.0,Casa Pince,166.25,EUR,3.0,4.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-000448,Lirio,No aplica,21,31,geocodificada,nombre_cerca,0.33,20.0,Casa Lirio by Blossom Hotels,131.31,EUR,2.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-000454,Barcelona Center Inn,No aplica,13,23,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-000456,Capitol,No aplica,11,20,geocodificada,nombre_unico,0.48,,Hostal Capitol Ramblas,100.45,EUR,2.0,3.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-000457,SOM NIT PORT VELL,No aplica,10,20,geocodificada,coordenada,1.0,1.0,Som Nit Port Vell,148.64,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-000467,Palmera,No aplica,20,33,geocodificada,coordenada,0.67,1.0,Hostal La Palmera,122.99,EUR,2.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-000478,Turisol,No aplica,17,27,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-000480,Toledano,1 estrella,17,30,registro,coordenada,0.67,15.0,Hotel Toledano Ramblas,114.24,EUR,1.0,3.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-000485,Outsite Barcelona,No aplica,18,31,geocodificada,coordenada,1.0,7.0,Outsite Barcelona,191.98,EUR,,4.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-000488,Sense especificar,2 estrelles,52,80,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-000491,Bienestar,No aplica,16,26,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-000495,Santa Marta,2 estrelles,47,108,registro,coordenada,1.0,1.0,Hotel Santa Marta,,EUR,2.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-000502,Hostal Ruta de Francia,No aplica,13,17,geocodificada,coordenada,1.0,1.0,Hostal Ruta de Francia,135.0,EUR,2.0,3.8,google_hotels_2026-09-29_eur.csv,True,True
+HB-000508,Hostal Rembrandt,No aplica,27,42,geocodificada,coordenada,1.0,17.0,Hostal Rembrandt,,EUR,2.0,,google_hotels_2026-09-29_eur.csv,False,False
+HB-000516,som nit triomf,No aplica,11,20,geocodificada,coordenada,1.0,10.0,Som Nit Triomf,168.81,EUR,,4.0,google_hotels_2026-09-29_eur.csv,True,True
+HB-000701,GAT RAVAL,No aplica,24,41,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-000723,Orleans,No aplica,17,34,geocodificada,coordenada,0.67,5.0,Hostal Orleans,,EUR,2.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-000739,Portugal,No aplica,16,23,geocodificada,coordenada,0.7,6.0,Hostal Portugal,,EUR,1.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-000776,Boutique Barcelona,No aplica,6,12,geocodificada,coordenada,0.76,10.0,Casa Boutique,195.92,EUR,3.0,3.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-000782,Hostal BCN Ramblas,No aplica,11,18,geocodificada,nombre_exacto,1.0,,Hostal BCN Ramblas,101.67,EUR,2.0,3.4,google_hotels_2026-09-29_eur.csv,True,True
+HB-000801,Hostal Central Barcelona,No aplica,11,18,geocodificada,coordenada,1.0,13.0,Hostal Central Barcelona,181.81,EUR,2.0,4.0,google_hotels_2026-09-29_eur.csv,True,True
+HB-000838,Aribau,No aplica,3,6,geocodificada,nombre_unico,0.67,,Rooms Aribau,66.28,EUR,3.0,3.9,google_hotels_2026-09-29_eur.csv,False,False
+HB-000839,Hotel Everest,2 estrelles,17,34,registro,coordenada,1.0,11.0,Hotel Everest,116.99,EUR,1.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-000845,Hostal Santcarlo,No aplica,8,13,geocodificada,coordenada,0.97,5.0,Hostal Sant Carlo,98.18,EUR,1.0,2.9,google_hotels_2026-09-29_eur.csv,False,False
+HB-000855,Amílcar,1 estrella,49,85,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-000859,Lyon,1 estrella,15,19,registro,coordenada,1.0,11.0,Hotel Lyon,103.67,EUR,1.0,3.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-000862,Norma,No aplica,18,27,geocodificada,coordenada,0.59,2.0,Pensió Norma,,EUR,1.0,3.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-000899,Parisien,No aplica,13,20,geocodificada,nombre_unico,0.7,,Hostal Parisien,155.68,EUR,2.0,3.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-000935,Mimi Las Ramblas,No aplica,7,10,geocodificada,coordenada,0.77,18.0,Hostal MiMi Las Ramblas,76.5,EUR,1.0,2.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-000947,Annex,1 estrella,8,12,registro,coordenada,1.0,9.0,Hotel Annex,,EUR,1.0,3.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-000952,Girona,No aplica,9,13,geocodificada,coordenada,0.63,6.0,Hostal Girona,170.47,EUR,2.0,4.4,google_hotels_2026-09-29_eur.csv,True,True
+HB-000957,VAGANTO HOTEL S.L.,No aplica,18,23,geocodificada,coordenada,0.61,8.0,Casa Vaganto,200.91,EUR,2.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-000975,Fernando,No aplica,38,55,geocodificada,coordenada,0.7,4.0,Hostal Fernando,161.88,EUR,2.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-001122,Call,1 estrella,25,49,registro,coordenada,1.0,3.0,Hotel El Call,145.4,EUR,1.0,3.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-001130,Hostal Razio Central Station BCN,No aplica,11,18,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-001131,Albi,No aplica,11,16,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-001135,Bresus,No aplica,7,12,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-001137,Canaletas,No aplica,8,12,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-001187,Cerdanya Pensió,No aplica,7,12,geocodificada,nombre_cerca,0.53,9.0,Pensió Cerdanya,,EUR,2.0,4.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-001199,Colmenero,No aplica,7,9,geocodificada,coordenada,1.0,2.0,Colmenero,,EUR,1.0,3.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-001206,Villanueva,No aplica,29,44,geocodificada,coordenada,0.74,3.0,Pensió Villanueva,121.86,EUR,2.0,3.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-001213,RAVAL HOUSE,3 estrelles,55,100,registro,coordenada,1.0,19.0,Hotel Raval House,164.18,EUR,3.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-001216,Solarium,No aplica,17,33,geocodificada,nombre_cerca,0.53,1.0,Central and Basic Solarium,82.77,EUR,1.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-001219,Gótico,4 estrelles,81,149,registro,coordenada,0.91,9.0,Hotel Gòtic,193.08,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,True,True
+HB-001276,Coral,No aplica,25,36,geocodificada,coordenada,0.56,16.0,Pensión Coral,104.73,EUR,2.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-001278,Sol y K,No aplica,14,24,geocodificada,coordenada,1.0,3.0,Sol y K,154.55,EUR,2.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-001579,PENSION AROSA,No aplica,7,10,geocodificada,coordenada,1.0,4.0,PENSION AROSA - BARCELONA,89.09,EUR,2.0,3.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-001619,Noya,No aplica,8,15,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-001620,Ciudadela,No aplica,6,11,geocodificada,coordenada,0.69,3.0,Pensión Ciudadela,,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-001665,Hostal Eixample,No aplica,8,14,geocodificada,coordenada,1.0,15.0,Hostal Eixample Barcelona,131.81,EUR,2.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-001678,Benidorm,No aplica,44,68,geocodificada,nombre_unico,0.7,,Hostal Benidorm,142.32,EUR,2.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-001690,El Puchi Barcelona,No aplica,12,20,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-001705,Venècia,No aplica,15,18,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-001709,Francia,No aplica,11,20,,nombre_unico,0.54,,Hostal Ruta de Francia,135.0,EUR,2.0,3.8,google_hotels_2026-09-29_eur.csv,True,True
+HB-001747,Hostal Mont Thabor,No aplica,12,19,geocodificada,nombre_unico,0.61,,Mont Thabor Hostal,81.82,EUR,2.0,2.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-001748,Picasso,No aplica,16,24,geocodificada,nombre_exacto,1.0,,Picasso,171.18,EUR,,4.3732657,google_hotels_2026-09-29_eur.csv,False,False
+HB-001755,Nuevo Colón,No aplica,24,42,geocodificada,coordenada,0.76,1.0,Hostal Nuevo Colón,119.49,EUR,1.0,3.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-001821,Hostal Ambos Mundos,No aplica,13,23,geocodificada,coordenada,1.0,6.0,Hostal Ambos Mundos,171.85,EUR,,4.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-001847,Santo Domingo,No aplica,16,22,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-001855,HOTEL LA PAU,No aplica,42,65,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-001862,Las Flores,No aplica,15,19,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-001883,Hostal Apolo,No aplica,20,32,geocodificada,coordenada,1.0,3.0,Hostal Apolo,,EUR,2.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-001911,Hesperia Presidente,4 estrelles,156,301,registro,coordenada,1.0,7.0,Hotel Hesperia Presidente Barcelona,239.34,EUR,4.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-001927,Gaudí,3 estrelles,73,136,registro,coordenada,1.0,3.0,Hotel Gaudí,228.8,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-001931,Palacio,No aplica,9,12,geocodificada,coordenada,0.64,3.0,Pensión Palacio,,EUR,1.0,3.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-001934,Royal,4 estrelles,119,226,registro,coordenada,0.56,9.0,Royal Ramblas Hotel,200.88,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,True,True
+HB-001950,CASA TRAFALGAR,1 estrella,18,31,registro,coordenada,1.0,8.0,Hotel Casa Trafalgar,199.63,EUR,2.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-001951,Chic  Basic Tallers,No aplica,14,25,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-001969,NH Barcelona Stadium,4 estrelles,106,185,registro,coordenada,1.0,12.0,Hotel NH Barcelona Stadium,183.89,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-002004,Dani,No aplica,7,9,geocodificada,nombre_cerca,0.53,3.0,Hostal Dani,,EUR,1.0,2.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-002007,Best Western Premier Hotel Dante,4 estrelles,81,144,registro,coordenada,1.0,5.0,Best Western Premier Hotel Dante,204.77,EUR,4.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-002040,Hostal Felipe II,No aplica,11,17,geocodificada,coordenada,0.9,10.0,Hostal Felipe 2,73.37,EUR,2.0,3.7,google_hotels_2026-09-29_eur.csv,True,True
+HB-002043,Travesera,2 estrelles,16,22,registro,coordenada,0.95,13.0,Hotel Travessera,164.84,EUR,2.0,3.9,google_hotels_2026-09-29_eur.csv,False,False
+HB-002044,Casa de Barca,No aplica,7,9,geocodificada,coordenada,0.71,4.0,Pensión Casa de Barca,96.02,EUR,2.0,3.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-002057,HCC Hotel Regente,4 estrelles,78,143,registro,coordenada,1.0,1.0,Hotel HCC Regente,,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-002059,NH Collection Gran Hotel Calderón,5 estrelles,255,503,registro,coordenada,1.0,10.0,Hotel NH Collection Barcelona Gran Hotel Calderón,324.72,EUR,5.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-002097,HOSTAL FINA,No aplica,19,27,geocodificada,coordenada,1.0,10.0,Hostal Fina,,EUR,2.0,4.0,google_hotels_2026-09-29_eur.csv,True,True
+HB-002108,Alamar,No aplica,13,15,geocodificada,coordenada,0.63,7.0,Pensió Alamar,,EUR,1.0,3.9,google_hotels_2026-09-29_eur.csv,False,False
+HB-002151,HOSTAL SANTA ANNA,No aplica,15,24,geocodificada,coordenada,0.97,2.0,Hostal Santa Ana,85.0,EUR,1.0,3.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-002161,Pensió Bertolin,No aplica,5,10,geocodificada,coordenada,0.97,2.0,Pensión Bertolín,,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-002211,Hosteria Grau,No aplica,18,35,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-002223,Triunfo,1 estrella,16,28,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-002253,Aneto,1 estrella,16,28,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-002279,Oasis,2 estrelles,94,141,registro,nombre_cerca,0.4,3.0,Hotel en Barcelona | Hotel cerca de playa | HOTEL OASIS,140.43,EUR,2.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-002282,La Calma,No aplica,8,14,geocodificada,nombre_cerca,0.45,1.0,CALMA HOUSE Rooms,,EUR,,3.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-002357,Hostal Lesseps,No aplica,15,25,geocodificada,coordenada,1.0,1.0,Hostal Lesseps,113.17,EUR,2.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-002395,Ginebra,1 estrella,10,19,registro,coordenada,1.0,12.0,Hotel Ginebra,169.4,EUR,1.0,4.2,google_hotels_2026-09-29_eur.csv,True,True
+HB-002406,Nitzs BCN,No aplica,12,17,geocodificada,coordenada,0.59,12.0,Hostal Nitzs Bcn,107.95,EUR,1.0,3.9,google_hotels_2026-09-29_eur.csv,False,False
+HB-002460,Wilson Boutique,4 estrelles,52,95,registro,coordenada,1.0,7.0,Wilson Boutique Hotel,199.5,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-002491,Hostal Sans,No aplica,85,144,geocodificada,coordenada,1.0,4.0,Hostal Sans,99.98,EUR,3.0,3.9,google_hotels_2026-09-29_eur.csv,False,False
+HB-002532,Turín,3 estrelles,60,100,registro,nombre_exacto,1.0,,Hotel Turin Barcelona,256.5,,,8.6,booking_unificados_2026-09-29.csv,False,False
+HB-002600,Lleida,No aplica,14,16,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-002606,Balmoral,4 estrelles,103,196,registro,coordenada,1.0,3.0,Hotel Balmoral,,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-002608,Alberdi,No aplica,14,16,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-002619,Lausanne,No aplica,17,24,geocodificada,coordenada,0.7,1.0,Hostal Lausanne,106.13,EUR,2.0,3.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-002644,Marina Folch,1 estrella,10,19,registro,coordenada,0.86,27.0,MARINA FOLCH S.L.,,EUR,1.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-002662,Hostal La Terrassa,No aplica,42,64,geocodificada,coordenada,1.0,5.0,Hostal La Terrassa,113.63,EUR,3.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-002694,Hostal Cèntric,No aplica,24,52,geocodificada,coordenada,1.0,2.0,Hostal Cèntric,199.0,EUR,4.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-002714,Hamsa House Hotel,No aplica,29,39,geocodificada,coordenada,1.0,15.0,Hamsa House,269.51,EUR,,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-002721,Hostal Hill,No aplica,8,12,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-002726,Del Mar,3 estrelles,72,142,registro,coordenada,1.0,12.0,Hotel del Mar,142.85,EUR,3.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-002733,U232,4 estrelles,102,186,registro,coordenada,1.0,14.0,U232 Hotel,155.43,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-002741,Teruel,No aplica,8,13,geocodificada,coordenada,0.6,1.0,Pensión Teruel,81.82,EUR,1.0,2.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-002775,Hostal Barcelona,No aplica,58,72,geocodificada,coordenada,1.0,2.0,Hostal Barcelona,92.89,EUR,2.0,3.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-002794,Derby,4 estrelles,117,212,registro,coordenada,0.83,9.0,Derby Hotel 4,162.15,EUR,4.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-002816,Cantón,1 estrella,47,80,registro,coordenada,1.0,9.0,Hotel Cantón,110.45,EUR,1.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-002835,Laforja,No aplica,4,7,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-002836,Renaissance,5 estrelles,211,422,registro,coordenada,1.0,15.0,Hotel Renaissance Barcelona,369.49,EUR,5.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-002851,RIO DE CASTRO,No aplica,12,15,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-002875,Aris,No aplica,6,11,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-002895,Elkano,No aplica,14,24,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-002907,Hostal Conde Guell,No aplica,18,30,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-002912,Ramblas Barcelona,3 estrelles,88,159,registro,coordenada,1.0,5.0,Ramblas Hotel,153.28,EUR,3.0,3.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-002927,HOTEL BRICK (antigo Hotel Climent),1 estrella,35,56,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-002935,Hostal Ballestero,No aplica,26,34,geocodificada,coordenada,1.0,1.0,Hostal Ballestero,,EUR,2.0,3.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-002961,Mozart,No aplica,15,19,geocodificada,nombre_cerca,0.21,37.0,Feelathome Mozart Apartamentos - Two-Bedroom Apartment,201.38,EUR,,4.4211454,google_hotels_2026-09-29_eur.csv,False,False
+HB-003049,Hostal Ramos,No aplica,29,43,geocodificada,coordenada,1.0,1.0,Hostal Ramos,127.82,EUR,2.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-003078,Peiró,No aplica,16,19,geocodificada,coordenada,0.56,2.0,Pensión Peiró,,EUR,1.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-003116,Casablanca,No aplica,8,14,geocodificada,coordenada,0.71,2.0,Pensión Casablanca,136.36,EUR,2.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-003147,Brustar Gòtic,No aplica,5,9,geocodificada,coordenada,1.0,14.0,BruStar Gotic,,EUR,2.0,3.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-003154,Peninsular,1 estrella,59,100,registro,coordenada,1.0,3.0,Hotel Peninsular,105.57,EUR,1.0,3.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-003249,Europark,3 estrelles,105,197,registro,coordenada,1.0,13.0,Hotel Europark,187.5,EUR,3.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-003250,Mari Luz Eva,No aplica,13,18,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-003252,Paseo de Gracia,1 estrella,33,62,registro,coordenada,1.0,14.0,Hotel Paseo de Gracia,,EUR,1.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-003272,ARENAS ATIRAM HOTEL,4 estrelles,59,110,registro,coordenada,1.0,2.0,Arenas Atiram Hotel Barcelona,176.1,EUR,4.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-003292,Hostal Drassanes,No aplica,13,20,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-003296,Bonanova Park,2 estrelles,60,102,registro,coordenada,1.0,7.0,Hotel Bonanova Park,136.03,EUR,2.0,3.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-003336,Hostal River,No aplica,24,35,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-003342,Mercure Barcelona Condor,4 estrelles,78,169,registro,coordenada,1.0,7.0,Mercure Barcelona Condor,,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-003356,Sant Antoni Hostal - Sustainable tourism,No aplica,10,16,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-003364,AC Victoria Suites,4 estrelles,58,122,registro,coordenada,1.0,36.0,AC Victoria Suites Hotel,368.58,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-003376,Portbou,No aplica,6,9,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-003411,Alba,3 estrelles,14,20,registro,coordenada,1.0,5.0,Hotel Alba,136.0,EUR,3.0,3.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-003443,Coronado,1 estrella,30,60,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-003451,Hostal Barcelona Rambla,No aplica,29,42,geocodificada,nombre,0.96,,Hostal BCN Ramblas,101.67,EUR,2.0,3.4,google_hotels_2026-09-29_eur.csv,True,True
+HB-003463,Melià Barcelona,5 estrelles,333,642,registro,coordenada,0.59,19.0,Meliá Barcelona Sarrià,310.25,EUR,5.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-003487,HOTEL SOFIA,Gran luxe,466,869,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-003542,NH Sants Barcelona,4 estrelles,203,347,registro,coordenada,1.0,12.0,Hotel NH Sants Barcelona,161.38,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-003566,Nou Raval,No aplica,21,30,geocodificada,coordenada,0.72,13.0,Hostal Nou Raval,,EUR,3.0,2.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-003580,MOXY BARCELONA,4 estrelles,414,804,registro,coordenada,1.0,11.0,Moxy Barcelona,174.49,EUR,4.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-003643,Alguer Nou,2 estrelles,33,59,registro,coordenada,0.8,3.0,Hotel Alguer Camp Nou,108.73,EUR,2.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-003657,Som Nit Triomf,No aplica,11,19,geocodificada,coordenada,1.0,10.0,Som Nit Triomf,168.81,EUR,,4.0,google_hotels_2026-09-29_eur.csv,True,True
+HB-003662,Miami,No aplica,38,59,geocodificada,coordenada,0.77,8.0,HOTELES MIAMI SL,,EUR,2.0,3.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-003666,NH Les Corts,3 estrelles,81,155,registro,coordenada,1.0,19.0,Hotel NH Barcelona Les Corts,138.83,EUR,3.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-003669,Hostal Baires,No aplica,17,26,geocodificada,coordenada,1.0,4.0,Hostal Baires,,EUR,1.0,2.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-003673,Bèjar,No aplica,7,10,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-003687,Eurostars Mitre,3 estrelles,57,105,registro,coordenada,0.58,8.0,Exe Mitre Hotel,149.1,EUR,3.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-003693,San Ramón,No aplica,30,50,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-003712,Augusta,3 estrelles,30,90,registro,nombre_unico,0.78,,Hotel Via Augusta,146.83,EUR,2.0,4.3,google_hotels_2026-09-29_eur.csv,True,True
+HB-003726,Romay,No aplica,9,15,geocodificada,coordenada,0.59,11.0,Hostal Romay,,EUR,,2.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-003728,HOTEL CASA TEVA,1 estrella,54,86,registro,coordenada,1.0,11.0,Hotel Casa Teva Barcelona,182.04,EUR,4.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-003748,Canadiense,No aplica,8,15,geocodificada,coordenada,1.0,5.0,Canadiense,,EUR,1.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-003751,Gran Derby,4 estrelles,43,86,registro,coordenada,0.61,7.0,"Gran Derby Suite, an SLH Hotel",179.8,EUR,,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-003754,Catalonia Mikado,3 estrelles,68,134,registro,coordenada,1.0,7.0,Hotel Catalonia Mikado,118.17,EUR,3.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-003757,Catalonia Park Putxet,4 estrelles,152,288,registro,coordenada,1.0,14.0,Hotel Catalonia Park Putxet,126.02,EUR,4.0,3.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-003766,Madrazo,No aplica,8,15,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-003777,Limehome,3 estrelles,30,53,geocodificada,nombre_cerca,0.46,9.0,Limehome Barcelona Carrer de Fontcoberta,130.54,EUR,3.0,3.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-003781,Barcelona Gotic,No aplica,28,48,geocodificada,nombre_exacto,1.0,,Hotel Gòtic,193.08,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,True,True
+HB-003785,Catalonia Castellnou,3 estrelles,49,59,registro,coordenada,1.0,4.0,Hotel Catalonia Castellnou,112.69,EUR,3.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-003790,Catalonia Park Güell,3 estrelles,141,254,registro,coordenada,1.0,15.0,Hotel Catalonia Park Güell,105.68,EUR,3.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-003791,Catalonia Sagrada Família,3 estrelles,205,337,registro,coordenada,1.0,44.0,Hotel Catalonia Sagrada Familia,156.12,EUR,3.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-003795,Catalonia Barcelona 505,4 estrelles,115,192,registro,coordenada,1.0,2.0,Hotel Catalonia Barcelona 505,155.97,EUR,4.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-003797,MONUMENT HOTEL,Gran luxe,109,210,registro,coordenada,1.0,18.0,Monument Hotel,526.5,EUR,5.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-003800,Barcelona City Seven,No aplica,7,13,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-003804,Bertran,3 estrelles,30,60,registro,coordenada,1.0,8.0,Aparthotel Bertran,133.69,EUR,3.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-003805,HOTEL REKORD,4 estrelles,13,26,registro,nombre_cerca,0.46,2.0,Atenea Rekord Suites,166.91,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-003809,Catalonia Atenas,4 estrelles,201,356,registro,coordenada,1.0,3.0,Hotel Catalonia Atenas,144.74,EUR,4.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-003821,HG CITY SUITES BARCELONA,4 estrelles,58,116,registro,coordenada,1.0,16.0,HG City Suites Barcelona,151.06,EUR,4.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-003827,ELLA HOSTEL RAMBLAS,No aplica,6,11,geocodificada,coordenada,1.0,10.0,Ella Hostel Ramblas,188.41,EUR,,3.9,google_hotels_2026-09-29_eur.csv,False,False
+HB-003839,Trànsit,1 estrella,33,40,registro,nombre_exacto,1.0,,Hotel Transit,199.5,,,8.5,booking_unificados_2026-09-29.csv,False,False
+HB-003841,Radio,No aplica,36,72,geocodificada,coordenada,0.59,2.0,Hostal Radio,,EUR,2.0,3.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-003846,Catalonia Plaça Catalunya,4 estrelles,147,257,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-003847,Pelayo,1 estrella,14,22,registro,coordenada,1.0,7.0,Hotel Pelayo,,EUR,1.0,3.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-003850,Regàs,No aplica,37,74,registro,coordenada,0.83,14.0,H Regàs,114.96,EUR,2.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-003851,"ALEXANDRA BARCELONA HOTEL, CURIO COLLECTION BY HILTON",4 estrelles superior,116,226,registro,coordenada,1.0,4.0,"Alexandra Barcelona Hotel, Curio Collection by Hilton",277.0,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-003859,Best Western Alfa Aeropuerto,4 estrelles,99,190,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-003860,NH Eixample,3 estrelles,81,149,registro,coordenada,1.0,24.0,Hotel NH Barcelona Eixample,171.14,EUR,3.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-003863,Aparthotel Bonanova,3 estrelles,21,42,registro,coordenada,0.73,2.0,Bonanova Suite Hotel,142.83,EUR,3.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-003865,Gravina,3 estrelles,84,142,registro,coordenada,0.61,6.0,Grupotel Gravina,144.04,EUR,3.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-003871,Alogar,No aplica,6,11,geocodificada,coordenada,0.63,1.0,Hostal Alogar,,EUR,2.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-003872,Bèjar 2,No aplica,11,15,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-003873,Catalonia Roma,3 estrelles,49,80,registro,coordenada,1.0,3.0,Hotel Catalonia Roma,152.94,EUR,3.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-003875,LA FRANÇA TRAVELLERS,2 estrelles,74,148,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-003878,Rívoli Ramblas,4 estrelles,125,241,registro,coordenada,0.81,56.0,Royal Ramblas Hotel,200.88,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,True,True
+HB-003882,Ronda House,3 estrelles,84,147,registro,coordenada,1.0,22.0,Hotel Ronda House,186.89,EUR,3.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-003885,Arc La Rambla,3 estrelles,98,172,registro,coordenada,1.0,5.0,Hotel Arc La Rambla,155.98,EUR,3.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-003888,Balmes,4 estrelles,111,196,registro,coordenada,1.0,6.0,Hotel Balmes,195.81,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-003889,Barcelona City Street,No aplica,6,11,geocodificada,coordenada,0.76,5.0,Hostal Barcelona City Street,104.36,EUR,1.0,3.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-003891,HCC Hotel St. Moritz,4 estrelles,91,169,registro,coordenada,1.0,6.0,Hotel HCC St. Moritz,,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-003892,Hilton Barcelona,4 estrelles superior,290,580,registro,coordenada,1.0,17.0,Hilton Barcelona,289.48,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-003893,Reding,3 estrelles,44,86,registro,nombre_cerca,0.52,9.0,chic&basic Reding Hotel,175.0,EUR,3.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-003894,La Paloma,No aplica,33,66,geocodificada,nombre_cerca,0.52,13.0,H La Paloma Boutique,,EUR,2.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-003896,Guitart Grand Passage,4 estrelles superior,45,98,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-003901,Paral.lel,2 estrelles,66,122,registro,coordenada,1.0,3.0,Hotel Paral·lel,142.02,EUR,2.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-003906,HOTEL ALMIRANTE,4 estrelles,86,151,registro,coordenada,0.69,9.0,Hotel ILUNION Almirante,175.48,EUR,4.0,3.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-003914,Atlantis,3 estrelles,50,96,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-003915,Hotel Catalonia Boulevard,4 estrelles superior,110,215,registro,coordenada,1.0,24.0,Hotel Catalonia Boulevard,215.19,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-003916,Gran Hotel Havana,4 estrelles superior,145,290,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-003917,Médicis,2 estrelles,29,51,registro,coordenada,1.0,5.0,Hotel Medicis,,EUR,2.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-003918,Catalonia Diagonal Centro,4 estrelles,84,162,registro,nombre_exacto,1.0,,Catalonia Diagonal Centro,253.5,,,8.7,booking_unificados_2026-09-29.csv,False,False
+HB-003923,Abbot,4 estrelles,42,78,registro,coordenada,1.0,9.0,Hotel Abbot,,EUR,4.0,3.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-003924,Delfos,No aplica,12,19,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-003925,Barcelona City Hotel-Universal,1 estrella,18,28,registro,coordenada,1.0,15.0,Barcelona City Hotel (Hotel Universal),149.91,EUR,1.0,3.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-003933,Hotel Claris and Spa,Gran luxe,124,244,registro,coordenada,0.74,21.0,"Claris Hotel and Spa, an SLH Hotel",268.85,EUR,5.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-003934,Acta City 47,4 estrelles,80,130,registro,coordenada,0.96,52.0,Acta City47,143.81,EUR,4.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-003939,Catalonia Albéniz,3 estrelles,47,86,registro,coordenada,1.0,5.0,Hotel Catalonia Albeniz,168.19,EUR,3.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-003940,INTERCONTINENTAL BARCELONA,5 estrelles,273,546,registro,coordenada,0.89,30.0,InterContinental Barcelona by IHG,714.16,EUR,5.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-003943,Gimón,No aplica,10,13,geocodificada,coordenada,0.59,9.0,Hostal Gimón Bcn,,EUR,,3.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-003944,Azul,3 estrelles,39,90,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-003947,NH Sant'Angelo,3 estrelles,50,71,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-003951,Silken Ramblas,4 estrelles,105,210,registro,coordenada,1.0,5.0,Hotel Silken Ramblas,211.77,EUR,4.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-003952,HOTEL CONDES DE BARCELONA,4 estrelles,74,143,registro,coordenada,1.0,30.0,Hotel Condes de Barcelona,261.83,EUR,4.0,4.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-003954,Barceló Sants,4 estrelles,377,754,registro,nombre_exacto,1.0,,Barceló Sants,154.16,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-003960,Hostal Mare Nostrum,No aplica,30,59,geocodificada,coordenada,1.0,4.0,Hostal Mare Nostrum,170.14,EUR,2.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-003961,Hotel Gran Melià Torre Melina,5 estrelles,432,866,registro,nombre_unico,0.52,,"Torre Melina, a Gran Meliá Hotel",276.03,EUR,5.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-003965,H10 Catalunya Plaza,3 estrelles,46,74,registro,coordenada,0.81,8.0,H10 Catalunya Plaza Boutique Hotel,199.77,EUR,3.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-003967,Catalonia Barcelona Plaza,4 estrelles,347,658,registro,coordenada,1.0,27.0,Hotel Catalonia Barcelona Plaza,176.9,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-003969,Gran Hotel Barcino,4 estrelles,61,116,registro,coordenada,1.0,6.0,Gran Hotel Barcino,214.63,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-003970,Century Park,3 estrelles,47,68,registro,coordenada,0.74,4.0,Barcelona Century Hotel,143.91,EUR,3.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-003971,Ònix Fira,3 estrelles,80,150,registro,coordenada,1.0,9.0,Hotel Onix Fira,131.67,EUR,3.0,3.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-003972,HOTEL ENTENZA,3 estrelles,48,91,registro,coordenada,0.61,8.0,Hotel Bohemian Entenza,131.38,EUR,3.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-003973,Husa L'Illa,4 estrelles,103,204,registro,coordenada,0.55,38.0,AC Hotel Diagonal L´Illa,225.9,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-003974,Iznajar,No aplica,8,13,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-003984,Arts Barcelona,Gran luxe,494,1012,registro,coordenada,1.0,12.0,Hotel Arts Barcelona,457.16,EUR,5.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-003985,NH Podium,4 estrelles,145,280,registro,coordenada,0.62,27.0,Hotel NH Collection Barcelona Pódium,244.05,EUR,4.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-003988,Barcelona Apolo Affiliated by Melia,4 estrelles,314,614,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-003989,H Top BCN City,1 estrella,40,75,registro,coordenada,0.95,20.0,Hotel htop BCN City,149.48,EUR,2.0,3.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-003991,Atenea Barcelona Aparthotel,4 estrelles,105,210,registro,coordenada,1.0,16.0,Aparthotel Atenea Barcelona,260.32,EUR,4.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-003992,Citadines,3 estrelles,131,262,registro,coordenada,0.56,6.0,Citadines Ramblas Barcelona (Apart Hotel Barcelona),191.71,EUR,3.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004002,Caledonian,3 estrelles,57,98,registro,nombre_exacto,1.0,,Caledonian,216.5,,,8.6,booking_unificados_2026-09-29.csv,False,False
+HB-004005,HOSTAL SOFIA,No aplica,12,20,geocodificada,nombre,0.87,,Hostal Fina,,EUR,2.0,4.0,google_hotels_2026-09-29_eur.csv,True,True
+HB-004010,HOTEL ALIMARA BARCELONA,4 estrelles,156,312,registro,coordenada,1.0,9.0,Hotel Alimara,90.49,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004012,Glòries,3 estrelles,67,94,registro,coordenada,1.0,19.0,Hotel Glories Barcelona,135.84,EUR,3.0,3.9,google_hotels_2026-09-29_eur.csv,False,False
+HB-004013,Acacia Aparthotel,4 estrelles,26,52,registro,nombre_cerca,0.4,2.0,Acacia Suite Hotel - WEB OFICIAL ®,170.29,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004025,ANGLI-78,2 estrelles,10,22,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004026,Flor Parks,3 estrelles,26,37,registro,coordenada,1.0,1.0,Hotel Flor Parks,185.92,EUR,3.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004027,Turó de Vilana,4 estrelles,20,36,registro,coordenada,0.71,15.0,Vilana Hotel,152.52,EUR,4.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-004028,Lazza,No aplica,6,10,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004030,APARTHOTEL NÀPOLS**,2 estrelles,39,100,registro,coordenada,1.0,3.0,Aparthotel Nàpols,173.19,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004036,Catalonia Portal de l'Angel,3 estrelles,83,159,registro,coordenada,1.0,3.0,Hotel Catalonia Portal de l'Àngel,222.73,EUR,3.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004038,Comte,2 estrelles,42,70,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004039,Hostal Eden,No aplica,12,16,geocodificada,coordenada,1.0,6.0,Hostal Eden,,EUR,2.0,3.3,google_hotels_2026-09-29_eur.csv,True,True
+HB-004046,HOTEL SANT PAU,3 estrelles,93,177,registro,coordenada,1.0,26.0,Hotel Sant Pau,122.1,EUR,3.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004050,Acta Splendid,3 estrelles,40,78,registro,nombre_exacto,1.0,,Acta Splendid,234.5,,,8.8,booking_unificados_2026-09-29.csv,False,False
+HB-004054,Sant Gervasi,3 estrelles,63,124,registro,coordenada,0.77,8.0,Hotel Silken Sant Gervasi,134.45,EUR,3.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004058,Midmost,4 estrelles,56,98,registro,coordenada,1.0,14.0,Hotel Midmost Barcelona,194.03,EUR,4.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004063,Hotel Kimpton Vividora,5 estrelles,156,276,registro,coordenada,1.0,8.0,Kimpton Vividora Barcelona,306.33,EUR,5.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004071,Viladomat,3 estrelles,81,162,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004074,Guillermo Tell,4 estrelles,61,119,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004075,LIHSA HOTELES SA,3 estrelles,56,108,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004077,Brustar Sant Pau Aristol,3 estrelles,22,44,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004078,HOTEL ABBA SANTS,4 estrelles,140,265,registro,coordenada,1.0,3.0,abba Sants Hotel,169.51,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004080,Hostalet de Barcelona,No aplica,9,10,geocodificada,coordenada,1.0,9.0,Hostalet Barcelona,125.92,EUR,2.0,3.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004083,Petit,No aplica,4,7,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004084,The Moods Oasis,3 estrelles,36,65,registro,coordenada,1.0,3.0,The Moods Oasis,153.41,EUR,3.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004086,Sansi Pedralbes,4 estrelles,64,115,registro,coordenada,1.0,16.0,Hotel Sansi Pedralbes,238.15,EUR,4.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004087,Marvi,2 estrelles,30,56,registro,coordenada,1.0,11.0,Hotel Marvi,,EUR,2.0,3.9,google_hotels_2026-09-29_eur.csv,False,False
+HB-004088,Hcc Hotel Montblanc,3 estrelles,157,307,registro,coordenada,1.0,21.0,Hotel HCC Montblanc,153.3,EUR,3.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004090,Sense especificar,2 estrelles,40,56,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004092,Goya Principal,No aplica,7,13,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004094,Catalonia La Pedrera,4 estrelles,79,128,registro,coordenada,0.73,4.0,Hotel Catalonia Gracia,190.21,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004097,Roger de Lluria,4 estrelles,48,87,registro,coordenada,1.0,14.0,Hotel Roger de Llúria,215.31,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004101,HOTEL EXE LAIETANA PALACE,4 estrelles,62,95,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004102,Continental Palacete,3 estrelles,19,24,registro,coordenada,1.0,17.0,Hotel Continental Palacete,192.4,EUR,3.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004103,HOTEL FOUR POINTS BY SHERATON BARCELONA DIAGONAL,4 estrelles,154,308,registro,coordenada,1.0,17.0,Four Points by Sheraton Barcelona Diagonal,307.75,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004104,Que Tal,No aplica,13,23,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004107,BCN Condal Apartments,No aplica,8,16,geocodificada,nombre,0.86,,Barcelona Central apartments,,EUR,2.0,3.6,google_hotels_2026-09-29_eur.csv,False,True
+HB-004112,Praktik Rambla,No aplica,37,70,geocodificada,coordenada,1.0,13.0,Hotel Praktik Rambla,,EUR,3.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004114,Barcelona Universal,4 estrelles,167,334,registro,coordenada,1.0,6.0,Hotel Barcelona Universal,166.31,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004116,Hostal del Palau,No aplica,7,13,geocodificada,coordenada,1.0,1.0,Hostal del Palau,122.72,EUR,2.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004117,Colors,1 estrella,25,45,registro,coordenada,1.0,29.0,Hotel Colors | Barcelona,93.27,EUR,2.0,3.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004120,Hostal Eden II,No aplica,6,11,geocodificada,coordenada,0.88,6.0,Hostal Eden,,EUR,2.0,3.3,google_hotels_2026-09-29_eur.csv,True,True
+HB-004121,Banys Orientals,3 estrelles,43,82,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004122,MOTHERN BYPILLOW,3 estrelles,64,87,registro,nombre_cerca,0.44,19.0,BYPILLOW Mothern | Hotel en Plaza Cataluña,152.04,EUR,3.0,3.9,google_hotels_2026-09-29_eur.csv,False,False
+HB-004126,Girona,No aplica,10,15,geocodificada,coordenada,0.63,6.0,Hostal Girona,170.47,EUR,2.0,4.4,google_hotels_2026-09-29_eur.csv,True,True
+HB-004128,STANDBYME RAMBLAS,No aplica,18,31,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004130,Neri,5 estrelles,22,44,registro,nombre_cerca,0.33,12.0,Hotel Neri Relais & Chateaux‎,476.88,EUR,5.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004138,Constanza,2 estrelles,46,87,registro,coordenada,1.0,12.0,Hotel Constanza,159.74,EUR,2.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004144,Hostal Poble Nou,No aplica,6,11,geocodificada,coordenada,0.97,1.0,Hostal Poblenou,,EUR,4.0,4.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-004145,ILUNION LES CORTS SPA,4 estrelles,213,392,registro,coordenada,1.0,16.0,Hotel ILUNION Les Corts Spa,258.25,EUR,4.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004147,Duquesa de Cardona,4 estrelles superior,64,128,registro,coordenada,0.6,13.0,Duquesa de Cardona Hotel 4 Sup by Grup Duquessa,267.53,EUR,4.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004149,Front Maritim,4 estrelles,177,235,registro,coordenada,1.0,45.0,Hotel Front Maritim Barcelona,648.28,EUR,4.0,3.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-004150,HOSTAL SOFIA2,No aplica,5,6,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004151,H10 Itaca,4 estrelles,97,146,registro,coordenada,1.0,15.0,H10 Itaca,,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004152,HOSTAL CENTRO,No aplica,4,8,geocodificada,nombre,0.89,,Hostal Central Barcelona,225.5,,,8.5,booking_unificados_2026-09-29.csv,True,True
+HB-004153,America,4 estrelles,59,78,registro,coordenada,1.0,5.0,Hotel América Barcelona,183.42,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004155,Eurostars Grand Marina Hotel,Gran luxe,288,576,registro,nombre_exacto,1.0,,Eurostars Grand Marina,335.51,EUR,5.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004157,Mil.lenni,4 estrelles,45,82,registro,coordenada,0.75,15.0,Hotel Garbí Mil·lenni,134.09,EUR,4.0,3.9,google_hotels_2026-09-29_eur.csv,False,False
+HB-004159,Ibis Meridiana,2 estrelles,143,282,registro,coordenada,1.0,10.0,Hotel ibis Barcelona Meridiana,99.1,EUR,2.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004160,Serhs Carlit,3 estrelles,38,71,registro,coordenada,0.73,9.0,SERHS Carlit Boutique Hotel,181.81,EUR,3.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004161,Hotel Catalonia Barcelona Beach (ab Hotel Hesperia del Mar),4 estrelles,84,150,registro,coordenada,0.65,17.0,Hotel Catalonia Barcelona Beach,,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004162,Onix Rambla,3 estrelles,40,80,registro,coordenada,1.0,3.0,Hotel Onix Rambla,166.14,EUR,3.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004164,H10 Racó del Pi,3 estrelles,37,63,registro,coordenada,0.71,2.0,H10 Racó del Pi Boutique Hotel,,EUR,3.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004171,Betrés,No aplica,9,18,geocodificada,nombre_cerca,0.48,9.0,Betres: hotel por horas en Barcelona,,EUR,,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004177,Vilamarí,2 estrelles,90,158,registro,coordenada,0.67,1.0,Estival Vilamarí,128.23,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004182,SERCOTEL CASPE,4 estrelles,141,282,registro,coordenada,1.0,11.0,Sercotel Caspe,147.76,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004183,Evenia Rosselló,4 estrelles,94,164,registro,coordenada,1.0,56.0,Evenia Rosselló,176.4,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004189,ACEVI VILLARROEL,4 estrelles,84,168,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004190,H10 Marina Barcelona,4 estrelles,235,440,registro,coordenada,1.0,27.0,H10 Marina Barcelona,158.83,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004191,HOSTAL BALER SCP,No aplica,15,19,geocodificada,coordenada,0.86,13.0,Hostal Baler,,EUR,2.0,3.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-004192,Hostal Centro 2,No aplica,6,11,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004193,Barcelona City Centre,No aplica,10,20,geocodificada,coordenada,0.76,8.0,Hostal Barcelona City Centre,148.72,EUR,2.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004194,Sansi Diputació,4 estrelles,55,97,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004195,Rafael Diagonal Port,4 estrelles,115,230,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004196,Barna Hostal,No aplica,8,16,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004197,Evenia Rocafort,3 estrelles,51,79,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004198,Absolut,No aplica,4,8,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004200,Sixtytwo Barcelona,4 estrelles,45,84,registro,coordenada,1.0,5.0,Sixtytwo Hotel,337.9,EUR,4.0,4.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-004201,Sagrada Família,3 estrelles,86,141,registro,coordenada,1.0,5.0,Hotel Sagrada Familia,140.88,EUR,3.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004202,Hilton Diagonal Mar,4 estrelles,431,862,registro,nombre_exacto,1.0,,Hilton Diagonal Mar Barcelona,928.46,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004204,Barceló Hotel Atenea Mar,4 estrelles,191,346,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004206,Hostal Eden III,No aplica,6,8,geocodificada,coordenada,0.85,6.0,Hostal Eden,,EUR,2.0,3.3,google_hotels_2026-09-29_eur.csv,True,True
+HB-004207,"The Hoxton, Poblenou",4 estrelles,240,480,registro,coordenada,1.0,19.0,"The Hoxton, Poblenou",348.81,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004209,Casa Camper,4 estrelles,25,50,registro,coordenada,1.0,7.0,Casa Camper Barcelona,257.84,EUR,4.0,4.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-004210,HOTEL CATALONIA LA MAQUINISTA,4 estrelles,92,180,registro,coordenada,1.0,18.0,Hotel Catalonia La Maquinista,107.52,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004211,H10 Universitat,4 estrelles,94,156,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004212,HOTEL LEONARDO GRAN VIA,3 estrelles,100,200,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004213,HOTEL PULITZER,4 estrelles superior,91,178,registro,coordenada,1.0,5.0,Hotel Pulitzer Barcelona,227.53,EUR,4.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004214,Zenit Borrell,4 estrelles,74,101,registro,nombre_exacto,1.0,,Zenit Borrell,228.0,,,8.8,booking_unificados_2026-09-29.csv,False,False
+HB-004219,Casa Fuster,Gran luxe,105,210,registro,coordenada,1.0,5.0,Hotel Casa Fuster,248.56,EUR,5.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004220,Silken Concordia,4 estrelles,88,176,registro,coordenada,0.72,16.0,Hotel Concordia Barcelona,172.27,EUR,4.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004222,"Inn Ninot Barcelona, S.L.",No aplica,8,12,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004223,Leonardo Royal Hotel Barcelona Forum,4 estrelles,368,736,registro,coordenada,1.0,35.0,Leonardo Royal Hotel Barcelona Forum,235.39,EUR,4.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-004225,Barcelona Center Inn,No aplica,6,10,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004227,Jazz,3 estrelles,108,216,registro,coordenada,1.0,9.0,Hotel Jazz,212.73,EUR,3.0,4.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-004230,Aranea,3 estrelles,84,140,registro,coordenada,0.71,16.0,Hotel Best Aranea,141.7,EUR,3.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-004231,Cram,4 estrelles,67,134,registro,coordenada,1.0,3.0,Hotel Cram,177.18,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004232,Raval Rooms,No aplica,31,48,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004233,Pere IV,4 estrelles,191,353,registro,nombre_unico,0.47,,Loft Pere IV Apartments,,EUR,,2.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-004236,Citypark Pelai,2 estrelles,47,69,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004239,Granados 83,4 estrelles superior,77,135,registro,coordenada,1.0,5.0,Granados 83,369.0,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004241,Fashion House,No aplica,8,16,geocodificada,coordenada,0.87,7.0,B&B Barcelona | Fashion House,118.18,EUR,2.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004243,Amister,4 estrelles,59,118,registro,nombre_cerca,0.52,3.0,Sercotel Ámister Art Hotel,127.68,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004245,Hostal LK Barcelona,No aplica,13,24,geocodificada,coordenada,1.0,0.0,Hostal LK,131.7,EUR,2.0,3.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004247,SB Icària Barcelona Hotel,4 estrelles,180,298,registro,coordenada,1.0,15.0,Hotel SB Icaria,184.27,EUR,4.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004248,La Ciudadela,1 estrella,18,28,registro,coordenada,0.6,11.0,Hotel Restaurante La Ciudadela,158.81,EUR,1.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004249,Catalonia Eixample 1864,4 estrelles,124,242,registro,coordenada,1.0,17.0,Hotel Catalonia Eixample 1864,337.72,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004250,MEDICAL HOME BARCELONA MADRID SL,No aplica,10,16,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004255,Luxtal,No aplica,5,10,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004259,Ilunion Bel Art,4 estrelles,94,165,registro,coordenada,1.0,20.0,Hotel ILUNION Bel Art,191.97,EUR,4.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004263,GRAN HOTEL LA FLORIDA,Gran luxe,70,140,registro,coordenada,1.0,47.0,Gran Hotel La Florida,332.56,EUR,5.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004264,Hostal Ciudad Condal 2,No aplica,6,11,geocodificada,coordenada,0.67,15.0,Ciudad Condal Hostal,151.88,EUR,3.0,3.8,google_hotels_2026-09-29_eur.csv,True,True
+HB-004268,BCN-Montjuic Servicios Inmobiliarios,3 estrelles,57,114,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004270,Atrium Palace,4 estrelles,67,134,registro,coordenada,0.84,6.0,Acta Atrium Palace,194.17,EUR,4.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004271,HOTEL BARCELONA CATEDRAL,4 estrelles superior,80,160,registro,coordenada,0.62,39.0,Hotel Catalonia Catedral,225.38,EUR,4.0,4.8,google_hotels_2026-09-29_eur.csv,True,True
+HB-004273,SiR Victor Hotel,5 estrelles,91,182,registro,nombre_cerca,0.43,2.0,"Sir Victor Hotel, part of Sircle Collection",717.66,EUR,5.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004278,SUNOTEL JUNIOR,2 estrelles,34,44,registro,coordenada,0.67,46.0,Hotel Sunotel Aston,144.41,EUR,3.0,3.8,google_hotels_2026-09-29_eur.csv,True,True
+HB-004280,GRAND HOTEL CENTRAL,5 estrelles,147,272,registro,coordenada,0.79,8.0,"Grand Hotel Central, an SLH Hotel",395.55,EUR,5.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004283,Ilunion Auditori,3 estrelles,108,216,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004285,GRACIA GARDEN,No aplica,12,24,geocodificada,coordenada,1.0,2.0,Gracia Garden,204.18,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004286,HOTEL VINCCI MARÍTIMO,4 estrelles,144,288,registro,coordenada,1.0,50.0,Vincci Marítimo Hotel,341.81,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004287,NH COLLECTION CONSTANZA,4 estrelles,308,618,registro,coordenada,1.0,9.0,Hotel NH Collection Barcelona Constanza,210.11,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004288,Barcelona City North,No aplica,9,18,geocodificada,coordenada,0.74,2.0,Hostal Barcelona City North,126.73,EUR,2.0,3.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004290,Actual,3 estrelles,35,70,registro,coordenada,0.57,9.0,Hotel Actual Boutique,,EUR,3.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004292,Hostal Agua Alegre,No aplica,7,13,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004296,Barcelona Center,4 estrelles,132,262,registro,coordenada,1.0,3.0,Hotel Barcelona Center,183.5,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004298,SUNOTEL ASTON,3 estrelles,80,137,registro,coordenada,1.0,4.0,Hotel Sunotel Aston,144.41,EUR,3.0,3.8,google_hotels_2026-09-29_eur.csv,True,True
+HB-004300,Eurostars Anglí,4 estrelles,48,96,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004302,Barcelona Princess,4 estrelles,364,728,registro,coordenada,1.0,11.0,Hotel Barcelona Princess,678.23,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004303,Serhs del Port,3 estrelles,48,77,registro,coordenada,1.0,2.0,Hotel SERHS del Port,161.83,EUR,3.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004304,AC Irla,3 estrelles,36,63,registro,coordenada,0.61,6.0,AC Hotel by Marriott Irla,,EUR,3.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004307,Hostal HMB,No aplica,28,40,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004308,Petit Palace Museum,4 estrelles,61,122,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004309,Petit Palace BCN,4 estrelles,37,67,registro,coordenada,0.67,52.0,Hotel El Palace Barcelona,557.16,EUR,5.0,4.6,google_hotels_2026-09-29_eur.csv,True,True
+HB-004310,Petit Palace Opera Garden,4 estrelles,103,189,registro,coordenada,0.91,1.0,Petit Palace Boquería Garden,187.93,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004312,BCN Port,No aplica,32,56,geocodificada,nombre_cerca,0.4,4.0,Hostal Yomo BCN Port,116.96,EUR,2.0,3.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-004313,Ilunion Barcelona,4 estrelles,224,448,registro,coordenada,1.0,53.0,Hotel ILUNION Barcelona,180.98,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004314,HOTEL INDIGO BARCELONA PLAZA ESPAÑA,4 estrelles,189,360,registro,coordenada,0.9,15.0,Hotel Indigo Barcelona Plaza Espana by IHG,193.52,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004316,Suitesbarcelona,No aplica,7,14,geocodificada,coordenada,0.58,2.0,La Maison de Barcelone,203.52,EUR,,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004318,Sofitel Skipper Barcelona,5 estrelles,241,482,registro,coordenada,1.0,8.0,Sofitel Barcelona Skipper,316.38,EUR,5.0,4.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-004319,B-hotel,3 estrelles,84,168,registro,coordenada,1.0,7.0,B Hotel,171.72,EUR,3.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004321,Abac restaurant  hotel,Gran luxe,15,30,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004325,Holiday Inn Express Barcelona City 22@,3 estrelles,186,372,registro,coordenada,1.0,3.0,Holiday Inn Express Barcelona - City 22@,302.89,EUR,3.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004326,Mariano Cubí,4 estrelles,67,134,registro,coordenada,1.0,3.0,Aparthotel Mariano Cubí,178.95,EUR,4.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-004327,Axel,4 estrelles,105,195,registro,coordenada,1.0,16.0,Axel Hotel Barcelona,204.92,EUR,4.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004328,H10 Montcada,3 estrelles,79,95,registro,coordenada,0.73,7.0,H10 Montcada Boutique Hotel,290.7,EUR,3.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004329,Villa Emilia,4 estrelles,53,106,registro,nombre_exacto,1.0,,Hotel Villa Emilia,257.0,,,9.0,booking_unificados_2026-09-29.csv,False,False
+HB-004333,ONIX LICEO,3 estrelles,45,83,registro,coordenada,1.0,9.0,Onix Liceo,139.46,EUR,3.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004335,AC Sants,4 estrelles,78,140,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004337,Barceló Raval,4 estrelles superior,186,372,registro,coordenada,1.0,19.0,Barceló Raval,186.8,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004338,Rondas Lesseps,4 estrelles,59,112,registro,coordenada,0.96,9.0,Hotel Ronda Lesseps,140.31,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004339,Eurostars Ramblas Boqueria,3 estrelles,30,54,registro,coordenada,0.79,9.0,Dorma Ramblas Boquería,156.14,EUR,3.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004340,Attica21 Barcelona Mar,4 estrelles,75,150,registro,coordenada,1.0,39.0,Hotel Attica21 Barcelona Mar,4090.48,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004344,Hostal Central,No aplica,8,12,geocodificada,nombre_exacto,1.0,,Hostal Central Barcelona,225.5,,,8.5,booking_unificados_2026-09-29.csv,True,True
+HB-004345,Pestana Arena Barcelona,4 estrelles,84,168,registro,coordenada,1.0,6.0,Pestana Arena Barcelona,131.41,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004346,Catalonia Rigoletto,4 estrelles,65,127,registro,coordenada,1.0,24.0,Hotel Catalonia Rigoletto,239.22,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004348,Sunotel Central,4 estrelles,80,119,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004349,1898,4 estrelles superior,169,329,registro,coordenada,1.0,17.0,Hotel 1898,275.95,EUR,4.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004350,HOTEL NOBU BARCELONA,Gran luxe,259,518,registro,coordenada,1.0,30.0,Nobu Hotel Barcelona,318.37,EUR,5.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004353,GRAN HOTEL MEDINACELI,4 estrelles superior,74,147,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004354,TOC HOTEL LAS RAMBLAS,1 estrella,24,32,registro,nombre_exacto,1.0,,TOC Hotel Las Ramblas,263.5,,,8.5,booking_unificados_2026-09-29.csv,False,False
+HB-004355,Hostal Caballero San Juan - Ramblas Rooms,No aplica,6,11,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004358,Melia Barcelona Sky,4 estrelles superior,162,318,registro,coordenada,1.0,11.0,Meliá Barcelona Sky,,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004360,Market,3 estrelles,20,36,registro,coordenada,1.0,14.0,Hotel Market Barcelona.,145.09,EUR,3.0,3.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-004361,Martina,No aplica,4,7,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004363,H10 Casanova,4 estrelles,124,241,registro,coordenada,1.0,19.0,H10 Casanova,202.45,EUR,4.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004365,LIMONAIA 1,No aplica,5,10,geocodificada,coordenada,0.89,4.0,Hotel Limonaia,205.46,EUR,3.0,4.3,google_hotels_2026-09-29_eur.csv,True,True
+HB-004366,Limonaia 2,No aplica,6,12,geocodificada,coordenada,0.89,4.0,Hotel Limonaia,205.46,EUR,3.0,4.3,google_hotels_2026-09-29_eur.csv,True,True
+HB-004367,LIMONAIA 3,No aplica,6,12,geocodificada,coordenada,0.89,4.0,Hotel Limonaia,205.46,EUR,3.0,4.3,google_hotels_2026-09-29_eur.csv,True,True
+HB-004368,Hostal Plaza Goya Bcn 1,No aplica,6,12,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004369,HOTEL CATALONIA LA BOQUERIA,3 estrelles,70,130,registro,coordenada,1.0,3.0,Hotel Catalonia La Boqueria,172.16,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004370,Miramar,Gran luxe,75,150,registro,nombre_cerca,0.25,65.0,Hotel Miramar Barcelona | Preferred Hotels & Resorts | Newly Renovated,280.22,EUR,5.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004371,HOTEL 54 BARCELONETA,3 estrelles,20,36,registro,coordenada,1.0,7.0,Hotel 54 Barceloneta,205.63,EUR,3.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004372,Ibis Barcelona Plaça Glories 22@,2 estrelles,147,294,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004373,NAITLY BARCELONA POBLENOU,4 estrelles,97,194,registro,coordenada,1.0,17.0,Naitly Barcelona Poblenou,192.93,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004374,Hotel Casa Sagnier,5 estrelles,51,93,registro,coordenada,1.0,2.0,Hotel Casa Sagnier,281.61,EUR,5.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004375,Atlas,3 estrelles,20,36,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004376,Room Mate Carla,4 estrelles,88,155,registro,coordenada,1.0,8.0,"Room Mate Carla, Barcelona",175.62,EUR,4.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004377,Barcelona Hotel Colonial,4 estrelles,82,161,registro,coordenada,1.0,12.0,Hotel Colonial Barcelona,185.91,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004378,Hotel Barcelona Condal Mar,4 estrelles,178,356,registro,nombre_cerca,0.54,10.0,Hotel Barcelona Condal Mar Affiliated by Meliá,248.49,EUR,4.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004379,Catalonia Ramblas,4 estrelles superior,221,433,registro,coordenada,1.0,4.0,Hotel Catalonia Ramblas,196.58,EUR,4.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004380,Abba Rambla Hotel,3 estrelles,49,98,registro,nombre_exacto,1.0,,Abba Rambla Hotel,132.68,EUR,3.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004383,Hotel  Spa Villa Olimpic@ Suites,4 estrelles,150,288,registro,nombre,0.98,,Hotel & Spa Villa Olimpica Suites,221.0,,,8.5,booking_unificados_2026-09-29.csv,False,False
+HB-004386,The Praktik,No aplica,42,69,geocodificada,coordenada,0.67,12.0,Hotel Praktik Garden,177.27,EUR,2.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004387,SB Diagonal Zero,4 estrelles superior,262,524,registro,nombre_exacto,1.0,,Hotel SB Diagonal Zero,312.59,EUR,4.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-004388,Blanc Guesthouse,No aplica,11,20,geocodificada,coordenada,1.0,4.0,Blanc Guesthouse,180.75,EUR,2.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004389,Olivia Plaza,4 estrelles,113,218,registro,coordenada,1.0,15.0,Olivia Plaza Hotel,207.27,EUR,4.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004393,Denit,3 estrelles,36,63,registro,coordenada,1.0,7.0,Hotel Denit Barcelona,153.67,EUR,3.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004398,Ciutat Vella,3 estrelles,40,75,registro,coordenada,1.0,3.0,Hotel Ciutat Vella,161.13,EUR,3.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004402,Somnio Hostel,No aplica,9,14,geocodificada,nombre,0.96,,Somnio Hostels,109.0,,,7.8,booking_unificados_2026-09-29.csv,False,False
+HB-004403,Mandarin Oriental Barcelona,Gran luxe,120,240,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004409,Oliveta,No aplica,6,10,geocodificada,coordenada,1.0,21.0,Oliveta,,EUR,,4.3,google_hotels_2026-09-29_eur.csv,True,True
+HB-004410,Catalonia Born,4 estrelles,90,157,registro,coordenada,1.0,1.0,Hotel Catalonia Born,156.47,EUR,4.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004411,W Barcelona,Gran luxe,477,954,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004412,Soho,3 estrelles,51,102,registro,coordenada,1.0,7.0,Hotel Soho,209.91,EUR,3.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004413,Antonio Moreno,No aplica,4,5,geocodificada,coordenada,0.8,4.0,Antonio Moreno Hostal,,EUR,,3.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-004414,Novotel Barcelona City,4 estrelles,264,528,registro,coordenada,1.0,31.0,Novotel Barcelona City,469.36,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004416,Luxor BCN,No aplica,5,9,geocodificada,coordenada,1.0,4.0,Luxor Barcelona,,EUR,1.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004421,Grupotel Gran Via 678,4 estrelles,98,175,registro,coordenada,1.0,3.0,Grupotel Gran Via 678,194.76,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004428,ALLEGRO BARCELONA,3 estrelles,56,112,registro,coordenada,1.0,4.0,Allegro Barcelona,,EUR,3.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004429,Sant Antoni,3 estrelles,45,79,registro,coordenada,0.88,16.0,SM Hotel Sant Antoni,139.91,EUR,3.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004430,Catalonia Avinyó,3 estrelles,83,145,registro,coordenada,1.0,7.0,Hotel Catalonia Avinyó,148.93,EUR,3.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004432,Catalonia Port,4 estrelles,41,82,registro,coordenada,1.0,3.0,Hotel Catalonia Port,216.2,EUR,4.0,4.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-004437,Eurostars BCN Design,5 estrelles,65,124,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004440,Bagués,5 estrelles,31,59,registro,coordenada,0.63,10.0,"Hotel Bagues, an SLH Hotel",301.95,EUR,5.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004443,Eos,No aplica,4,6,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004446,Aramunt,3 estrelles,25,50,registro,coordenada,0.58,8.0,Aramunt Barcelona Apartment,166.65,EUR,3.0,3.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-004450,CASA ELLIOT,4 estrelles,38,67,registro,coordenada,1.0,13.0,Hotel Casa Elliot,213.05,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004451,OHLA BARCELONA,5 estrelles,74,148,registro,coordenada,1.0,9.0,Hotel Ohla Barcelona,364.05,EUR,5.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004452,Chic  Basic Born,3 estrelles,31,55,registro,coordenada,0.77,12.0,chic&basic Born Boutique Hotel,159.94,EUR,3.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004455,Leonardo Boutique Hotel Sagrada Familia,3 estrelles,59,117,registro,coordenada,1.0,1.0,Leonardo Boutique Hotel Barcelona Sagrada Familia,166.39,EUR,3.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004456,HOTEL CIUTAT DE BARCELONA,3 estrelles,78,147,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004457,Barcelona House,3 estrelles,57,100,geocodificada,coordenada,1.0,10.0,Hotel Barcelona House,167.34,EUR,3.0,3.9,google_hotels_2026-09-29_eur.csv,True,True
+HB-004459,Laumon,3 estrelles,26,42,registro,coordenada,0.71,10.0,Acta Laumon,114.87,EUR,3.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004463,Mímic,2 estrelles,92,138,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004464,Hostemplo,No aplica,10,18,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004465,Alma Barcelona,Gran luxe,72,144,registro,coordenada,1.0,6.0,Hotel Alma Barcelona,418.7,EUR,5.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004466,NH DIAGONAL CENTER,4 estrelles,129,258,registro,coordenada,0.74,9.0,Hotel NH Barcelona Diagonal Poblenou,218.97,EUR,4.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004468,Acta Bcn 40,2 estrelles,42,66,registro,coordenada,1.0,4.0,Acta BCN 40,124.6,EUR,2.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004469,Monrooms Barcelona,No aplica,8,15,geocodificada,coordenada,1.0,4.0,Monrooms Barcelona,,EUR,3.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004470,ANBA,No aplica,7,14,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004474,Q,No aplica,21,42,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004475,ELLA HOSTEL GRAN VIA,No aplica,9,16,geocodificada,coordenada,1.0,5.0,Ella Hostel Gran Via,170.54,EUR,2.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004478,Eurostars Monumental,4 estrelles,45,79,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004479,Hostal Muntaner II,No aplica,4,8,geocodificada,coordenada,0.91,2.0,Hostal Muntaner,,EUR,2.0,3.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004482,Vincci Bit,4 estrelles,177,354,registro,coordenada,1.0,26.0,Hotel Vincci Bit,232.81,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004483,Circa 1905,No aplica,9,18,geocodificada,coordenada,1.0,3.0,Circa 1905,,EUR,4.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004485,House,No aplica,8,12,geocodificada,coordenada,0.59,4.0,Hostal House,,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004486,Hostal BCN46,No aplica,10,19,geocodificada,coordenada,0.86,14.0,Hostal Bcn 46,91.55,EUR,2.0,3.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-004487,Luxtal 1-23,No aplica,5,10,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004488,Andante,3 estrelles,134,253,registro,coordenada,0.58,27.0,Andante Drassanes,143.05,EUR,3.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004489,Plaza de Goya 2,No aplica,4,16,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004490,The Mirror Barcelona,4 estrelles superior,63,126,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004493,Edifici La República,4 estrelles,13,26,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004495,Martinval,No aplica,10,19,geocodificada,coordenada,0.72,4.0,Hostal Martinval Barcelona,128.45,EUR,2.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004496,Barcelona Centro,No aplica,8,16,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004497,Hostalin Barcelona,No aplica,4,8,geocodificada,coordenada,0.64,13.0,Hostal Central Barcelona,181.81,EUR,2.0,4.0,google_hotels_2026-09-29_eur.csv,True,True
+HB-004499,Barcelona House,3 estrelles,57,102,registro,coordenada,1.0,9.0,Hotel Barcelona House,167.34,EUR,3.0,3.9,google_hotels_2026-09-29_eur.csv,True,True
+HB-004502,Dalia Ramblas,3 estrelles,28,48,registro,coordenada,1.0,17.0,Dalia Ramblas,176.2,EUR,3.0,4.0,google_hotels_2026-09-29_eur.csv,True,True
+HB-004503,FRONT ARC,No aplica,4,7,geocodificada,coordenada,1.0,6.0,Front Arc,,EUR,,4.9,google_hotels_2026-09-29_eur.csv,False,False
+HB-004504,Mercer Barcelona,Gran luxe,27,56,registro,coordenada,1.0,13.0,Mercer Hotel Barcelona,614.66,EUR,5.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004505,Brustar Centric,2 estrelles,9,16,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004506,Khronos,No aplica,9,18,geocodificada,nombre_cerca,0.47,8.0,HOSTAL BOUTIQUE KHRONOS,182.09,EUR,2.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004507,AinB,2 estrelles,6,11,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004508,Arai,4 estrelles superior,31,64,registro,coordenada,1.0,15.0,Arai Aparthotel Barcelona,249.47,EUR,4.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004509,The 8 BedBreakfast Barcelona,No aplica,8,13,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004511,Violeta Boutique,No aplica,4,8,geocodificada,coordenada,1.0,3.0,Violeta Boutique Hotel,,EUR,2.0,4.6,google_hotels_2026-09-29_eur.csv,True,True
+HB-004512,Hostal Acropolis,No aplica,8,13,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004513,Sercotel Rosellón,4 estrelles,105,186,registro,coordenada,1.0,8.0,Sercotel Rosellón,247.01,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004514,Travelodg Barcelona Poblenou,1 estrella,250,500,registro,coordenada,0.97,7.0,Travelodge Barcelona Poblenou,126.26,EUR,1.0,3.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-004515,Catalonia Catedral,4 estrelles,71,128,registro,coordenada,1.0,11.0,Hotel Catalonia Catedral,225.38,EUR,4.0,4.8,google_hotels_2026-09-29_eur.csv,True,True
+HB-004517,Thesuites,No aplica,8,16,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004518,HOUSE BY PILLOW,1 estrella,4,10,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004519,Hotel Vasanta,No aplica,16,42,geocodificada,coordenada,1.0,15.0,HOTEL VASANTA,195.13,EUR,3.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004521,Teatre Auditori,3 estrelles,47,94,registro,coordenada,0.91,8.0,SM Hotel Teatre Auditori Barcelona,139.91,EUR,3.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004524,CATALONIA GRAN VÍA BCN,4 estrelles,63,121,registro,nombre_exacto,1.0,,Catalonia Gran Via BCN,238.5,,,8.9,booking_unificados_2026-09-29.csv,False,False
+HB-004525,Generator Barcelona,1 estrella,40,81,geocodificada,coordenada,0.72,10.0,Generator Hostel Barcelona,68.18,EUR,1.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004526,Ako Suite,4 estrelles,28,56,registro,coordenada,1.0,6.0,Ako Suite Hotel,179.59,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004527,Apartamentos Ramblas 108,3 estrelles,18,44,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004530,Hotel Do Plaça Reial,Gran luxe,18,34,registro,coordenada,0.62,59.0,Classic Plaza Real,,EUR,,,google_hotels_2026-09-29_eur.csv,False,False
+HB-004531,Room Mate Pau,3 estrelles,66,129,registro,coordenada,1.0,25.0,Room Mate Pau,220.17,EUR,3.0,4.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-004532,The Level at Melia Barcelona Sky,5 estrelles,99,198,registro,coordenada,1.0,10.0,The Level at Meliá Barcelona Sky,,EUR,5.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004533,Ecozentric,No aplica,9,15,geocodificada,coordenada,0.61,5.0,Ecozentric urban hostel,,EUR,3.0,3.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004535,Catalonia Passeig de Gràcia,4 estrelles superior,74,142,registro,coordenada,1.0,7.0,Hotel Catalonia Passeig de Gràcia,235.85,EUR,4.0,4.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-004536,The5rooms,No aplica,4,8,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004537,Exprés,No aplica,2,2,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004538,Musik Boutique Hotel,3 estrelles,23,36,registro,coordenada,1.0,5.0,Musik Boutique Hotel,176.57,EUR,3.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004539,Ciutadella Barcelona,4 estrelles,59,118,registro,coordenada,1.0,4.0,Hotel Ciutadella Barcelona,155.77,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004540,Pillow Ramblas,No aplica,10,20,geocodificada,coordenada,0.58,3.0,BYPILLOW Ramblas | Hostal en las ramblas de Barcelona,132.41,EUR,3.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004542,Umma Barcelona BedBreakfast Boutique,No aplica,7,14,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004545,Royal Passeig de Gràcia,4 estrelles,124,248,registro,coordenada,1.0,8.0,Royal Passeig de Gràcia,243.78,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004546,La Casita Amarilla,No aplica,8,16,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004547,Ofelias,4 estrelles superior,44,88,registro,coordenada,1.0,3.0,Ofelias Hotel,169.4,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004548,Violeta Boutique 2,No aplica,4,10,geocodificada,coordenada,0.94,3.0,Violeta Boutique Hotel,,EUR,2.0,4.6,google_hotels_2026-09-29_eur.csv,True,True
+HB-004549,Hostalín Barcelona,No aplica,10,19,geocodificada,coordenada,1.0,14.0,Hostalin Barcelona,,EUR,3.0,4.1,google_hotels_2026-09-29_eur.csv,True,True
+HB-004550,Cien,No aplica,8,16,geocodificada,coordenada,1.0,9.0,CIEN Hotel,179.55,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004552,4 Barcelona,4 estrelles,142,261,registro,coordenada,1.0,38.0,Hotel 4 Barcelona,,EUR,4.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-004553,BacHome Terrace BB,No aplica,10,19,geocodificada,coordenada,0.97,13.0,BacHome Terrace B&B,,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004554,INDIGO BARCELONA,4 estrelles superior,63,119,registro,nombre_cerca,0.43,16.0,Hotel Indigo Barcelona - Plaza Catalunya,258.98,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004555,IKONIK RAMBLAS,4 estrelles,55,110,registro,coordenada,1.0,2.0,Ikonik Ramblas,156.48,EUR,4.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004557,LIBERE BARCELONA SANT ANTONI,2 estrelles,38,114,registro,coordenada,1.0,8.0,Líbere Barcelona Sant Antoni,191.67,EUR,4.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004558,Barcelona Rooms 294,No aplica,4,8,geocodificada,coordenada,0.62,5.0,Guesthouse Barcelona Rooms 294,,EUR,2.0,3.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004560,Casa Bella Gracia,No aplica,11,20,geocodificada,coordenada,1.0,1.0,Casa Bella Gracia,302.02,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004564,Sunotel Club Central,4 estrelles,88,155,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004568,H10 Port Vell,4 estrelles superior,58,108,registro,coordenada,1.0,3.0,H10 Port Vell,305.0,EUR,4.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004569,Bella Lola,No aplica,11,19,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004570,La Casa Gran BedBreakfast,No aplica,4,8,geocodificada,coordenada,0.98,1.0,La Casa Gran Bed & Breakfast,174.93,EUR,4.0,4.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-004571,Mihlton Barcelona,No aplica,12,19,geocodificada,nombre_cerca,0.52,4.0,Mihlton Barcelona Boutique B&B,152.55,EUR,4.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004572,Center Gran Via,1 estrella,15,23,registro,coordenada,1.0,2.0,Hotel Center Gran Via,,EUR,1.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004574,Petit Príncep,No aplica,11,19,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004575,Som Nit Born,No aplica,11,27,geocodificada,coordenada,1.0,6.0,Som Nit Born,161.4,EUR,,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004576,AMRA,No aplica,11,19,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004579,Picasso K + K,4 estrelles superior,92,161,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004581,Grums Barcelona,4 estrelles,78,164,registro,coordenada,0.71,4.0,Grums Hotel&Spa,167.37,EUR,4.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004584,Barcelona Fifteen,No aplica,11,20,geocodificada,coordenada,1.0,3.0,Barcelona Fifteen Aparthotel,205.54,EUR,3.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004586,Zoorooms,No aplica,4,8,geocodificada,coordenada,1.0,10.0,ZOOROOMS,189.95,EUR,4.0,4.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-004588,LeMar,No aplica,8,16,geocodificada,nombre_cerca,0.53,1.0,LeMar by Aspasios,253.63,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004589,Hostalin Barcelona 2,No aplica,3,6,geocodificada,coordenada,0.89,14.0,Hostalin Barcelona,,EUR,3.0,4.1,google_hotels_2026-09-29_eur.csv,True,True
+HB-004590,Hostal Live Barcelona,No aplica,12,19,geocodificada,nombre_unico,0.76,,Hostal Live Natura Barcelona,,EUR,2.0,4.0,google_hotels_2026-09-29_eur.csv,True,True
+HB-004591,H10 Urquinaona Plaza,4 estrelles,80,140,registro,coordenada,1.0,13.0,H10 Urquinaona Plaza Barcelona,204.78,EUR,4.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004592,Vincci Gala,4 estrelles,78,156,registro,coordenada,1.0,7.0,Hotel Vincci Gala,217.96,EUR,4.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004593,Ibis Barcelona Centro,2 estrelles,80,155,registro,coordenada,0.58,6.0,Hotel Ibis Barcelona Centro (Sagrada Familia),171.81,EUR,2.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004594,Natura Barcelona,No aplica,7,13,geocodificada,nombre_cerca,0.5,2.0,Hostal Live Natura Barcelona,,EUR,2.0,4.0,google_hotels_2026-09-29_eur.csv,True,True
+HB-004596,Catalonia Square,4 estrelles superior,58,116,registro,coordenada,1.0,4.0,Hotel Catalonia Square,239.73,EUR,4.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004598,HOTEL LUGANO,3 estrelles,70,133,registro,nombre_cerca,0.52,1.0,Arco Hotel Barcelona - antes Hotel Lugano,144.61,EUR,3.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004599,Green House Hotel,2 estrelles,19,37,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004601,Hostal Aslyp 114,No aplica,11,19,geocodificada,coordenada,1.0,6.0,Hostal Aslyp 114 Barcelona,,EUR,4.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004602,Exprés 1,No aplica,3,5,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004603,Exprés 2,No aplica,2,4,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004604,Exprés 3,No aplica,3,4,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004605,Exprés 4,No aplica,3,3,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004606,Praktik Bakery,1 estrella,74,148,registro,coordenada,1.0,8.0,Hotel Praktik Bakery,179.54,EUR,3.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004607,Olivia Balmes,4 estrelles superior,128,256,registro,coordenada,1.0,17.0,Olivia Balmes Hotel,242.25,EUR,4.0,4.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-004608,Izara,No aplica,8,16,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004610,Argó 305,No aplica,13,16,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004611,Urgell Premium 18,No aplica,7,13,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004615,Laramond Barcelona Rooms,No aplica,5,11,geocodificada,coordenada,1.0,9.0,Laramond Barcelona Rooms,114.3,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004616,H10 Art Gallery,4 estrelles superior,91,165,registro,coordenada,1.0,8.0,H10 Art Gallery,211.18,EUR,4.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004617,Casa Balmes,No aplica,4,8,geocodificada,coordenada,1.0,8.0,Casa Balmes,167.84,EUR,4.0,4.1,google_hotels_2026-09-29_eur.csv,True,True
+HB-004618,Casa Balmes 2,No aplica,3,6,geocodificada,coordenada,0.92,8.0,Casa Balmes,167.84,EUR,4.0,4.1,google_hotels_2026-09-29_eur.csv,True,True
+HB-004621,Casp Green house,No aplica,4,8,geocodificada,coordenada,1.0,11.0,Casp Green House,,EUR,3.0,3.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004622,The Moods,No aplica,12,24,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004623,Pillow Rooms,No aplica,6,12,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004625,H10 Metropolitan,4 estrelles superior,85,167,registro,coordenada,1.0,3.0,H10 Metropolitan,219.7,EUR,4.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004626,Barcelona 226,No aplica,12,23,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004627,Yurbban Trafalgar,3 estrelles,56,100,registro,coordenada,0.77,7.0,Uma House by Yurbban Trafalgar,183.28,EUR,3.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004628,HOTEL PRAKTIK VINOTECA,1 estrella,64,128,registro,coordenada,1.0,4.0,Hotel Praktik Vinoteca,183.8,EUR,3.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004629,Toc,1 estrella,21,42,registro,coordenada,1.0,7.0,TOC Barcelona,63.57,EUR,1.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004631,Hostalin Barcelona Passeig de Gràcia,No aplica,9,16,geocodificada,coordenada,1.0,13.0,Hostalin Barcelona Passeig de Gràcia,,EUR,3.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-004633,Hostal Barcelona Travel,No aplica,8,16,geocodificada,coordenada,1.0,1.0,Hostal Barcelona Travel,,EUR,3.0,3.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-004635,Casa Llimona,2 estrelles,6,18,registro,coordenada,0.73,3.0,Casa Llimona Hotel Boutique,237.23,EUR,2.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004636,Bestprice Diagonal,1 estrella,32,61,registro,coordenada,1.0,24.0,Hotel BESTPRICE Diagonal,165.9,EUR,1.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004638,Bruc,No aplica,4,8,geocodificada,nombre_cerca,0.53,112.0,Hostal bruc,70.0,EUR,,2.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004639,Casa Maca Guest House 3,1 estrella,4,8,registro,coordenada,0.95,5.0,Casa Maca Guest House,135.27,EUR,2.0,3.5,google_hotels_2026-09-29_eur.csv,True,True
+HB-004640,Casa Maca Guest House 4,1 estrella,4,8,registro,coordenada,0.95,5.0,Casa Maca Guest House,135.27,EUR,2.0,3.5,google_hotels_2026-09-29_eur.csv,True,True
+HB-004641,Casa Maca Guest House,1 estrella,4,8,registro,coordenada,1.0,5.0,Casa Maca Guest House,135.27,EUR,2.0,3.5,google_hotels_2026-09-29_eur.csv,True,True
+HB-004642,AMRA BARCELONA GRAN VIA,No aplica,10,19,geocodificada,coordenada,1.0,19.0,Amra Barcelona Gran Via,178.2,EUR,2.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004644,Ally's Guest House Barcelona,No aplica,4,8,geocodificada,coordenada,0.92,14.0,Ally's Guest House Barcelona Sl,,EUR,2.0,3.9,google_hotels_2026-09-29_eur.csv,True,True
+HB-004645,Hotel Primero Primera,5 estrelles,29,58,registro,coordenada,1.0,7.0,Primero Primera,313.15,EUR,5.0,4.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-004646,The Corner 592,No aplica,4,8,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004647,The Serras,Gran luxe,28,56,registro,coordenada,1.0,4.0,Serras Barcelona,2438.5,EUR,5.0,4.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-004648,Casa Saltor,2 estrelles,2,7,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004651,Jardinets Guest House,1 estrella,4,8,geocodificada,coordenada,1.0,16.0,Jardinets Guest House,146.81,EUR,2.0,3.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004653,The Grand Margot House,3 estrelles,9,17,registro,coordenada,0.8,16.0,Margot House,375.18,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004654,Good-Home,No aplica,4,14,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004656,THE STREETS,No aplica,3,8,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004657,Allada,3 estrelles,17,28,registro,coordenada,0.86,26.0,Aparthotel Allada 3,331.7,EUR,,5.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-004658,Hostal Live Barcelona 2,No aplica,5,10,geocodificada,nombre,0.86,,Hostal Felipe 2,105.5,,,7.7,booking_unificados_2026-09-29.csv,True,True
+HB-004659,Smart Room Barcelona,No aplica,55,122,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004660,Brustar Sagrada Família,No aplica,4,8,geocodificada,coordenada,1.0,7.0,BRUSTAR SAGRADA FAMILIA,,EUR,3.0,3.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-004663,Ca la Maria Barcelona BedBreakfast,No aplica,4,8,geocodificada,coordenada,0.98,11.0,Ca la Maria Bed & Breakfast Barcelona,,EUR,4.0,4.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-004665,Hostalin Barcelona Diputació 2,No aplica,4,8,geocodificada,coordenada,0.92,15.0,Hostalin Barcelona Diputación,,EUR,2.0,2.9,google_hotels_2026-09-29_eur.csv,False,False
+HB-004666,La Casa de Antonio,No aplica,7,13,geocodificada,coordenada,0.8,25.0,La Casa de Antonio Rooms,148.5,EUR,2.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-004668,Hotel Brummell,4 estrelles,20,35,registro,coordenada,1.0,4.0,Hotel Brummell,264.61,EUR,4.0,4.7,google_hotels_2026-09-29_eur.csv,True,True
+HB-004669,Àmbit Barcelona,4 estrelles,36,68,registro,coordenada,1.0,3.0,Hotel Àmbit Barcelona,168.34,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004670,The Conica Deluxe Bed  Breakfast,No aplica,4,8,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004672,CASA GRACIA APARTHOTEL,1 estrella,26,60,registro,coordenada,0.81,38.0,Room Casa Gracia,138.01,EUR,4.0,3.9,google_hotels_2026-09-29_eur.csv,False,False
+HB-004673,"Dreamkeys, Apartments  Suites",3 estrelles,12,19,registro,coordenada,1.0,3.0,Dreamkeys Apartments & Suites,127.29,EUR,,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004674,Murmuri Residence,2 estrelles,5,14,registro,coordenada,0.77,18.0,Murmuri Residence Concepció,266.15,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004675,Lumine Luxury Suites,No aplica,4,8,geocodificada,coordenada,0.8,6.0,Lumine Luxury Suites by gaiarooms,166.07,EUR,,3.6435797,google_hotels_2026-09-29_eur.csv,False,False
+HB-004677,Consell,No aplica,4,8,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004679,DON FABRIZZIO,No aplica,4,12,geocodificada,coordenada,1.0,13.0,Don Fabrizzio,115.72,EUR,,4.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-004681,1881 Barcelona Gran Rosellón Hotel,4 estrelles,60,120,registro,coordenada,0.84,13.0,1881 Barcelona Rosellón Hotel,168.33,EUR,4.0,4.0,google_hotels_2026-09-29_eur.csv,False,False
+HB-004682,Casa Gràcia,1 estrella,11,23,,sin_cruce,0.0,,,,,,,,False,False
+HB-004683,Hostal Excellence,No aplica,7,11,geocodificada,coordenada,1.0,1.0,Hostal Excellence,95.73,EUR,1.0,3.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004684,Hostal BCN Llúria,No aplica,4,14,geocodificada,coordenada,0.71,24.0,Hostal Live Natura Barcelona,,EUR,2.0,4.0,google_hotels_2026-09-29_eur.csv,True,True
+HB-004686,Boutique Hostemplo,3 estrelles,14,28,registro,coordenada,1.0,6.0,Hotel Boutique Hostemplo,202.95,EUR,3.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004687,Casa Vilaró,No aplica,4,8,geocodificada,coordenada,1.0,8.0,Casa Vilaró,,EUR,4.0,3.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004688,Two by Axel,4 estrelles superior,87,168,registro,nombre_cerca,0.5,8.0,Axel TWO Barcelona,171.88,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004690,Brummell,No aplica,2,4,registro,coordenada,1.0,4.0,Hotel Brummell,264.61,EUR,4.0,4.7,google_hotels_2026-09-29_eur.csv,True,True
+HB-004691,Cotton House,5 estrelles,83,162,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004693,HOSTAL NOVA BARCELONA,No aplica,9,27,geocodificada,coordenada,1.0,22.0,Hostal Nova Barcelona,97.18,EUR,2.0,4.4,google_hotels_2026-09-29_eur.csv,True,True
+HB-004694,Omnium,2 estrelles,21,36,registro,coordenada,1.0,3.0,Hotel Omnium,200.03,EUR,2.0,4.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-004695,BacHome Barcelona BB,No aplica,7,14,geocodificada,coordenada,0.69,19.0,BacHome Gallery B&B,142.36,EUR,4.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004696,H10 CUBIK,4 estrelles superior,101,191,registro,coordenada,1.0,12.0,H10 Cubik,291.12,EUR,4.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004697,Forget Me Not Plus 1,No aplica,7,14,,sin_cruce,0.0,,,,,,,,False,False
+HB-004698,Forget Me Not Plus 2,No aplica,7,14,,sin_cruce,0.0,,,,,,,,False,False
+HB-004699,Negresco Princess,4 estrelles superior,129,257,registro,coordenada,1.0,10.0,Hotel Negresco Princess Barcelona,201.01,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004700,FEELATHOME CASA BERTRAND,No aplica,7,14,geocodificada,coordenada,1.0,3.0,Feelathome Casa Bertrand,158.11,EUR,,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004701,Ally's Guest House III,No aplica,4,7,geocodificada,coordenada,0.88,14.0,Ally's Guest House Barcelona Sl,,EUR,2.0,3.9,google_hotels_2026-09-29_eur.csv,True,True
+HB-004703,Casa Bonay,4 estrelles,67,124,registro,coordenada,0.83,3.0,Hotel Casa Bonay & Spa,230.96,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004704,Serennia Exclusive Rooms,2 estrelles,4,8,registro,nombre_unico,0.77,,Serennia Fira Gran Via Exclusive Rooms,107.3,EUR,2.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004705,BAILEN GREEN HOUSE,No aplica,4,8,geocodificada,coordenada,1.0,21.0,Bailen Green House,,EUR,4.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004706,RETROME,No aplica,7,14,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004707,RETROME,No aplica,4,8,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004708,RETROME,No aplica,4,8,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004709,Canigó,No aplica,9,17,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004711,Duquesa Suites,4 estrelles,20,40,registro,coordenada,0.67,6.0,Duquesa Suites Hotel by Grup Duquessa,234.45,EUR,4.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004713,Hostal Ginebra Lux,No aplica,4,10,geocodificada,coordenada,0.56,9.0,Hotel Ginebra,169.4,EUR,1.0,4.2,google_hotels_2026-09-29_eur.csv,True,True
+HB-004714,Hostal Ginebra Superior,No aplica,3,6,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004715,Bed  Break,No aplica,4,8,geocodificada,coordenada,1.0,1.0,Bed and Break Barcelona,146.81,EUR,,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004716,Upper Diagonal,4 estrelles,39,78,registro,coordenada,1.0,16.0,Hotel Upper Diagonal,215.76,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004718,Ohla Eixample,5 estrelles,94,188,registro,coordenada,1.0,11.0,Hotel Ohla Eixample Barcelona,381.5,EUR,5.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004719,Bestprice Gracia,1 estrella,24,49,registro,coordenada,1.0,4.0,Hotel BESTPRICE Gracia,127.27,EUR,1.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004722,Casa Mathilda,No aplica,12,20,geocodificada,coordenada,1.0,6.0,Casa Mathilda | Barcelona,214.94,EUR,4.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004726,Sense especificar,2 estrelles,9,18,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004727,Catalonia Magdalenes,4 estrelles,61,122,registro,coordenada,1.0,7.0,Hotel Catalonia Magdalenes,289.3,EUR,4.0,4.8,google_hotels_2026-09-29_eur.csv,False,False
+HB-004728,Ibis Styles Barcelona Centre,2 estrelles,84,162,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004730,The Wittmore,Gran luxe,22,40,registro,coordenada,0.7,10.0,"Wittmore Hotel, an SLH Hotel",332.8,EUR,5.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004731,WellCome Boutique Hotel,4 estrelles,44,78,registro,coordenada,0.62,1.0,Hotel Well and Come Barcelona,,EUR,4.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004733,Room Mate Anna,4 estrelles,81,146,registro,coordenada,1.0,7.0,"Room Mate Anna, Barcelona",204.56,EUR,4.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004735,Flats Rent Store,1 estrella,2,8,,sin_cruce,0.0,,,,,,,,False,False
+HB-004736,Chi,3 estrelles,48,96,registro,nombre_exacto,1.0,,Chi,203.0,,,8.9,booking_unificados_2026-09-29.csv,False,False
+HB-004737,The Corner,4 estrelles,72,144,registro,coordenada,1.0,15.0,The Corner Hotel,269.19,EUR,4.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004738,murmuri residence mercader,4 estrelles,14,54,registro,coordenada,1.0,8.0,Murmuri Residence Mercader,232.14,EUR,4.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004739,H10 Casa Mimosa,4 estrelles superior,45,90,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004740,Magatzem 128,No aplica,16,28,geocodificada,coordenada,1.0,18.0,Magatzem 128,138.7,EUR,4.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004741,MY PILLOW GUESTHOUSE,No aplica,5,9,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004742,Ibis Styles Barcelona City Bogatell,2 estrelles,213,426,registro,coordenada,1.0,5.0,Hotel ibis Styles Barcelona City Bogatell,168.83,EUR,2.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004745,The One Barcelona,Gran luxe,89,178,registro,coordenada,1.0,13.0,The One Barcelona,340.11,EUR,5.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004747,wander,No aplica,8,16,geocodificada,nombre_cerca,0.32,2.0,BYPILLOW Wander | Hostal en el Centro de Barcelona,144.32,EUR,,3.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004750,soho house,5 estrelles,57,114,registro,coordenada,1.0,7.0,Soho House Barcelona,460.0,EUR,,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004752,Gerard,4 estrelles,66,132,registro,nombre_cerca,0.36,4.0,"Room Mate Collection Gerard, Barcelona",192.19,EUR,4.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004753,THE MOODS CATEDRAL,No aplica,17,32,geocodificada,coordenada,1.0,2.0,The Moods Catedral,166.5,EUR,2.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004755,Yurbban Passage,4 estrelles superior,60,122,registro,coordenada,0.88,17.0,Yurbban Passage Hotel & Spa,265.2,EUR,4.0,4.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-004756,Niu Barcelona,3 estrelles,27,48,registro,coordenada,1.0,7.0,Hotel Niu Barcelona,177.32,EUR,3.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004757,ZT The Golden Hotel Barcelona,4 estrelles,158,293,registro,coordenada,1.0,15.0,ZT The Golden Barcelona Hotel,175.3,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004758,Bcn NiceCozy,No aplica,4,8,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004760,Sb Glow,4 estrelles superior,235,486,registro,coordenada,1.0,5.0,Hotel SB Glow,,EUR,4.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004761,Arya Hotel,3 estrelles,61,115,registro,nombre_cerca,0.31,8.0,Arya Stadium Hotel 3 by Madanis,136.95,EUR,3.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004762,Od Barcelona,5 estrelles,98,196,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004766,Hostal Oliveta,No aplica,6,10,geocodificada,coordenada,0.67,21.0,Oliveta,,EUR,,4.3,google_hotels_2026-09-29_eur.csv,True,True
+HB-004767,Hotel Boutique 2015,2 estrelles,4,8,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004768,Le Palacete by Sweet,3 estrelles,10,20,registro,coordenada,0.97,8.0,Le Palacete by Sweett,,EUR,3.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004769,rec,3 estrelles,99,198,registro,nombre_exacto,1.0,,Hotel REC Barcelona,187.19,EUR,3.0,4.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-004770,"RADISSON BLU 1882 HOTEL, BARCELONA SAGRADA FAMILIA",4 estrelles,182,364,registro,coordenada,1.0,19.0,"Radisson Blu 1882 Hotel, Barcelona Sagrada Familia",253.34,EUR,4.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004802,ONA MOSAIC,No aplica,53,93,registro,coordenada,0.6,3.0,Mosaic by Ona,165.85,EUR,3.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-004805,45 Times Barcelona Hotel,4 estrelles superior,119,238,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004806,ALMANAC,Gran luxe,91,184,registro,coordenada,1.0,18.0,Almanac Barcelona,471.48,EUR,5.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004807,H10 MADISON,4 estrelles superior,101,198,registro,coordenada,1.0,6.0,H10 Madison,322.28,EUR,4.0,4.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-004822,MOTEL ONE BARCELONA CIUTADELLA,1 estrella,301,602,registro,coordenada,1.0,16.0,Hotel Motel One Barcelona-Ciutadella,174.29,EUR,3.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004828,EXE PLAZA CATALUNYA,5 estrelles,107,193,registro,coordenada,0.8,9.0,Dorma Plaza Catalunya,179.93,EUR,4.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004837,The Barcelona EDITION,Gran luxe,100,200,registro,coordenada,1.0,10.0,The Barcelona EDITION,751.5,EUR,5.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004844,COOLROOMS MALDA,No aplica,14,28,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004855,HOTEL LA CASA DEL SOL,3 estrelles,18,32,registro,nombre_cerca,0.5,19.0,La Casa Del Sol Hotel Gracia District,,EUR,3.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-004857,HOTEL PRAKTIK ÈSSENS,2 estrelles,37,74,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004859,ALBERGUE DELFOS,No aplica,6,10,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004867,CAMI,No aplica,4,8,geocodificada,coordenada,1.0,3.0,Hotel Camí Barcelona,151.81,EUR,3.0,4.1,google_hotels_2026-09-29_eur.csv,False,False
+HB-004883,CASA VOLVER,1 estrella,43,79,registro,sin_cruce,0.0,,,,,,,,False,False
+HB-004892,HOTEL SEVENTY,4 estrelles superior,152,304,registro,coordenada,1.0,7.0,Seventy Barcelona,307.24,EUR,4.0,4.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-004893,HOTEL ACTA VORAPORT,2 estrelles,313,626,registro,nombre_exacto,1.0,,Acta Voraport,196.5,,,9.0,booking_unificados_2026-09-29.csv,False,False
+HB-004905,"BARCELO CONDAL HOTELES, S.A. Occidental Barcelona 1929",3 estrelles,152,304,registro,coordenada,0.64,8.0,Occidental Barcelona 1929,165.79,EUR,3.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004910,HOTEL CASA LUZ,2 estrelles,65,127,geocodificada,nombre_exacto,1.0,,Hotel Casa Luz,299.0,,,8.9,booking_unificados_2026-09-29.csv,False,False
+HB-004911,OCCIDENTAL 414 DIAGONAL,4 estrelles superior,100,204,registro,coordenada,0.83,9.0,Occidental Diagonal 414,243.68,EUR,4.0,4.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004913,BELVILLAGE,No aplica,25,49,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004917,Bed  stayup Gràcia,No aplica,4,7,geocodificada,coordenada,0.67,0.0,Hostal Gràcia,165.45,EUR,,3.6,google_hotels_2026-09-29_eur.csv,False,False
+HB-004939,Casa Filomena,No aplica,2,6,geocodificada,coordenada,1.0,1.0,Casa Filomena,,EUR,4.0,4.9,google_hotels_2026-09-29_eur.csv,False,False
+HB-004941,PAXTON BARCELONA,4 estrelles superior,153,306,registro,coordenada,1.0,39.0,Paxton Barcelona,213.07,EUR,4.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004948,MIRLO BARCELONA HOTEL,5 estrelles,16,32,registro,nombre_cerca,0.53,9.0,Hotel Boutique Mirlo Barcelona,249.7,EUR,5.0,4.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-004954,HOSTAL DIAGONAL,No aplica,4,10,geocodificada,sin_cruce,0.0,,,,,,,,False,False
+HB-004955,HOTEL ME BARCELONA,5 estrelles,164,328,registro,coordenada,1.0,10.0,ME Barcelona,361.52,EUR,5.0,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-004964,LIMEHOME BARCELONA,3 estrelles,21,42,geocodificada,nombre_cerca,0.48,6.0,Limehome Barcelona Carrer de Besalú 82,154.18,EUR,4.0,3.9,google_hotels_2026-09-29_eur.csv,False,False
+HB-004976,ANTIGA CASA BUENAVISTA,4 estrelles superior,43,86,registro,coordenada,1.0,1.0,Hotel Antiga Casa Buenavista,247.97,EUR,4.0,4.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-004982,The Social Hub Barcelona Poblenou,4 estrelles,293,450,registro,coordenada,1.0,17.0,The Social Hub Barcelona Poblenou,222.41,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-004996,"Vía Sants Hotel Barcelona, Tapestry Collection by Hilton",4 estrelles,50,100,geocodificada,coordenada,1.0,6.0,"Via Sants Hotel Barcelona, Tapestry Collection by Hilton",288.16,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-005002,ARCELON HOTEL,4 estrelles,71,142,geocodificada,coordenada,1.0,15.0,Hotel Arcelon,141.35,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-005030,HOTEL LINCOLN LOUNGE,3 estrelles,12,19,geocodificada,coordenada,1.0,3.0,Hotel Lincoln Lounge,,EUR,3.0,3.7,google_hotels_2026-09-29_eur.csv,False,False
+HB-005036,"Labtwentytwo Barcelona, a Tribute Portfolio Hotel",4 estrelles superior,185,350,geocodificada,coordenada,1.0,30.0,"Labtwentytwo Barcelona, a Tribute Portfolio Hotel",,EUR,4.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-005059,Leonardo Royal Hotel Barcelona Fira,4 estrelles superior,204,408,geocodificada,coordenada,1.0,25.0,Leonardo Royal Hotel Barcelona Fira,133.8,EUR,4.0,4.4,google_hotels_2026-09-29_eur.csv,False,False
+HB-005060,One shot Arago,3 estrelles,49,97,geocodificada,coordenada,1.0,1.0,Hotel One Shot Aragó,151.26,EUR,3.0,4.2,google_hotels_2026-09-29_eur.csv,False,False
+HB-005081,EASYHOTEL BARCELONA LA SAGRERA,1 estrella,75,150,registro,coordenada,1.0,9.0,easyHotel Barcelona La Sagrera,132.63,EUR,3.0,4.3,google_hotels_2026-09-29_eur.csv,False,False
+HB-005102,Hotel BESTPRICE Maragall,1 estrella,29,62,geocodificada,coordenada,1.0,6.0,Hotel BESTPRICE Maragall,113.63,EUR,,4.5,google_hotels_2026-09-29_eur.csv,False,False
+HB-005108,Hotel Bypillow Maragall,2 estrelles,36,90,geocodificada,coordenada,0.67,7.0,BYPILLOW FLAMANT,158.35,EUR,2.0,3.8,google_hotels_2026-09-29_eur.csv,False,False
