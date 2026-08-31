@@ -1,11 +1,11 @@
 {
   "hoteles": {
     "total": 1443,
-    "con_punto": 750
+    "con_punto": 1214
   },
   "apartaments_turistics": {
     "total": 120,
-    "con_punto": 13
+    "con_punto": 84
   },
   "con_precio": 430,
   "restauracion": {
