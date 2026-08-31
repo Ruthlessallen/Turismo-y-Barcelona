@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Turismo BCN · prototipo de mapa</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+<style>
+  :root {
+    --tinta: #24231f; --tinta-2: #52514e; --fondo: #faf9f7; --linea: #e3e0da;
+    --hotel: #2a78d6; --resto: #eb6834; --vut: #7b4fc4; --sin-lic: #e34948;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.5 ui-sans-serif, system-ui, -apple-system, sans-serif;
+         color: var(--tinta); background: var(--fondo); }
+  #mapa { position: absolute; inset: 0 0 0 300px; }
+  aside { position: absolute; inset: 0 auto 0 0; width: 300px; overflow-y: auto;
+          background: #fff; border-right: 1px solid var(--linea); padding: 18px; }
+  h1 { font-size: 15px; margin: 0 0 2px; letter-spacing: -.01em; }
+  .sub { color: var(--tinta-2); font-size: 12px; margin-bottom: 18px; }
+  h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .06em;
+       color: var(--tinta-2); margin: 20px 0 8px; font-weight: 600; }
+  label { display: flex; align-items: center; gap: 8px; padding: 5px 0; cursor: pointer; }
+  label:hover { color: #000; }
+  .punto { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+  .n { margin-left: auto; color: var(--tinta-2); font-variant-numeric: tabular-nums; font-size: 12px; }
+  .nota { font-size: 11px; color: var(--tinta-2); line-height: 1.45;
+          border-left: 2px solid var(--linea); padding-left: 9px; margin-top: 6px; }
+  .leyenda-prec { display: flex; align-items: center; gap: 7px; font-size: 11px;
+                  color: var(--tinta-2); padding: 3px 0; }
+  .anillo { width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--tinta-2);
+            background: transparent; flex-shrink: 0; }
+  .rombo { width: 10px; height: 10px; background: var(--tinta-2); flex-shrink: 0;
+           transform: rotate(45deg); }
+  .leaflet-popup-content { margin: 11px 13px; font-size: 13px; }
+  .pop-t { font-weight: 600; margin-bottom: 3px; }
+  .pop-d { color: var(--tinta-2); font-size: 12px; }
+</style>
+</head>
+<body>
+<aside>
+  <h1>Turismo BCN</h1>
+  <div class="sub">Prototipo de mapa — verificación de datos</div>
+
+  <h2>Capas</h2>
+  <label><span class="punto" style="background:var(--hotel)"></span> Hoteles y AT
+    <span class="n" id="n-hot">—</span>
+    <input type="checkbox" id="c-hot" checked hidden></label>
+  <label><span class="punto" style="background:var(--resto)"></span> Bares y restaurantes
+    <span class="n" id="n-res">—</span>
+    <input type="checkbox" id="c-res" hidden></label>
+
+  <h2>Coropletas</h2>
+  <label><input type="radio" name="coro" value="ninguna" checked> Ninguna</label>
+  <label><input type="radio" name="coro" value="vut-barrio"> VUT por barrio</label>
+  <label><input type="radio" name="coro" value="vut-muni"> VUT por municipio</label>
+  <label><input type="radio" name="coro" value="sin-lic"> Sin licencia por barrio</label>
+  <label><input type="radio" name="coro" value="peuat"> Zonas PEUAT</label>
+
+  <h2>Precisión de los puntos</h2>
+  <div class="leyenda-prec"><span class="punto" style="background:var(--tinta-2)"></span> Exacta — registro oficial</div>
+  <div class="leyenda-prec"><span class="anillo"></span> Geocodificada — desde la dirección</div>
+  <div class="nota">Las VUT y los anuncios de Airbnb no se dibujan como puntos: son viviendas, y
+    solo se muestran agregadas por barrio o municipio.</div>
+
+  <h2>Comprobaciones</h2>
+  <div id="checks" class="nota">cargando…</div>
+</aside>
+<div id="mapa"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script type="module">
+const BASE = '../../data/exports';
+// El sufijo evita que el navegador sirva una versión anterior de los datos: al regenerar los
+// export durante el desarrollo, la caché devolvía el JSON viejo y el fallo aparecía como un
+// error de sintaxis sin relación aparente con el cambio.
+const carga = (r) => fetch(`${BASE}/${r}?v=${Date.now()}`).then(x => x.json());
+
+const mapa = L.map('mapa', { center: [41.3874, 2.1686], zoom: 12, zoomControl: false });
+L.control.zoom({ position: 'topright' }).addTo(mapa);
+// Teselas de OpenStreetMap: libres y sin clave. Las de CARTO, que serían más neutras como fondo,
+// pasaron a exigir registro y devuelven un mosaico con "API KEY REQUIRED" en lugar del mapa.
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; OpenStreetMap', maxZoom: 19,
+}).addTo(mapa);
+
+const [municipios, barrios, peuat, hoteles, restauracion, vutBarrio, vutMuni, airbnbBarrio] =
+  await Promise.all([
+    carga('geo/municipios.geojson'), carga('geo/barrios.geojson'), carga('geo/peuat.geojson'),
+    carga('mapa/hoteles.json'), carga('mapa/restauracion.json'),
+    carga('mapa/vut_por_barrio.json'), carga('mapa/vut_por_municipio.json'),
+    carga('mapa/airbnb_por_barrio.json'),
+  ]);
+
+// ── Puntos ────────────────────────────────────────────────────────────────────
+// Un punto por registro es ilegible donde se acumulan: hay fincas con decenas de licencias en la
+// misma coordenada. El agrupado mantiene legible el zoom de ciudad.
+const marcador = (p, color) => L.circleMarker([p.lat, p.lon], {
+  radius: 5, weight: 2, color,
+  // Relleno para la coordenada oficial, anillo hueco para la deducida de la dirección: la
+  // diferencia de precisión tiene que verse, no ir solo en una nota al pie.
+  fillColor: p.prec === 'geocodificada' ? '#fff' : color,
+  fillOpacity: p.prec === 'geocodificada' ? 1 : .85,
+});
+
+const capaHoteles = L.markerClusterGroup({ maxClusterRadius: 45, disableClusteringAtZoom: 16 });
+for (const h of hoteles) {
+  const m = marcador(h, 'var(--hotel)'.replace('var(--hotel)', '#2a78d6'));
+  m.bindPopup(`<div class="pop-t">${h.nom ?? 'Sin nombre'}</div>
+    <div class="pop-d">${h.cat ?? ''} · ${h.hab ?? '?'} hab · ${h.plazas ?? '?'} plazas<br>
+    ${h.mun}${h.precio ? ` · <b>${h.precio} €/noche</b>` : ''}<br>
+    <i>${h.prec === 'geocodificada' ? 'posición deducida de la dirección' : 'posición oficial'}</i></div>`);
+  capaHoteles.addLayer(m);
+}
+mapa.addLayer(capaHoteles);
+
+const capaResto = L.markerClusterGroup({ maxClusterRadius: 55, disableClusteringAtZoom: 17 });
+for (const r of restauracion) {
+  const m = L.circleMarker([r.lat, r.lon], {
+    radius: 4, weight: 1, color: '#eb6834', fillColor: '#eb6834', fillOpacity: .7 });
+  m.bindPopup(`<div class="pop-t">${r.nom ?? r.tipo}</div>
+    <div class="pop-d">${r.tipo}${r.cocina ? ` · ${r.cocina}` : ''}<br>${r.barrio ?? r.mun}</div>`);
+  capaResto.addLayer(m);
+}
+
+// ── Coropletas ────────────────────────────────────────────────────────────────
+const indice = (filas, clave) => Object.fromEntries(filas.map(f => [f[clave], f]));
+const vutPorBarrio = indice(vutBarrio, 'barrio');
+const vutPorMuni = indice(vutMuni, 'municipio');
+const airbnbPorBarrio = indice(airbnbBarrio, 'barrio');
+
+// Escala secuencial de un solo tono: la magnitud se lee por intensidad, no por cambio de color.
+const RAMPA = ['#f2ecfa', '#ddd0f0', '#c3aae4', '#a37fd6', '#7b4fc4', '#5a2f9c'];
+const escala = (v, max) => v ? RAMPA[Math.min(RAMPA.length - 1,
+  Math.floor(Math.sqrt(v / max) * RAMPA.length))] : '#f4f2ef';
+
+let capaCoro = null;
+function pintarCoropleta(tipo) {
+  if (capaCoro) { mapa.removeLayer(capaCoro); capaCoro = null; }
+  if (tipo === 'ninguna') return;
+
+  if (tipo === 'peuat') {
+    const tonos = { ZE1: '#e34948', ZE2: '#eda100', ZE3A: '#7fb069', ZE3B: '#a8c98f' };
+    capaCoro = L.geoJSON(peuat, {
+      style: f => ({ fillColor: tonos[f.properties.zona] ?? '#b9b5ad',
+                     fillOpacity: .5, weight: 1, color: '#fff' }),
+      onEachFeature: (f, l) => l.bindPopup(`<div class="pop-t">Zona ${f.properties.zona}</div>`),
+    }).addTo(mapa);
+    return;
+  }
+
+  const porMunicipio = tipo === 'vut-muni';
+  const geo = porMunicipio ? municipios : barrios;
+  const clave = porMunicipio ? 'municipio' : 'barrio';
+  const dato = (n) => porMunicipio ? vutPorMuni[n]
+    : (tipo === 'sin-lic' ? airbnbPorBarrio[n] : vutPorBarrio[n]);
+  const campo = tipo === 'sin-lic' ? 'sin_licencia' : 'licencias';
+  const max = Math.max(...Object.values(porMunicipio ? vutPorMuni
+    : (tipo === 'sin-lic' ? airbnbPorBarrio : vutPorBarrio)).map(d => d[campo] ?? 0));
+
+  capaCoro = L.geoJSON(geo, {
+    style: f => {
+      const d = dato(f.properties[clave]);
+      return { fillColor: escala(d?.[campo] ?? 0, max), fillOpacity: .72,
+               weight: .7, color: '#fff' };
+    },
+    onEachFeature: (f, l) => {
+      const n = f.properties[clave], d = dato(n);
+      l.bindPopup(`<div class="pop-t">${n}</div><div class="pop-d">${
+        d ? (tipo === 'sin-lic'
+          ? `${d.sin_licencia} sin licencia acreditada<br>de ${d.sujetos_vut} sujetos a VUT<br>${d.anuncios} anuncios en total`
+          : `${d.licencias} licencias VUT<br>${d.plazas} plazas`)
+        : 'sin datos'}</div>`);
+    },
+  }).addTo(mapa);
+  if (capaCoro) capaCoro.bringToBack();
+}
+
+// ── Controles ─────────────────────────────────────────────────────────────────
+const alternar = (id, capa) => {
+  const el = document.getElementById(id);
+  el.parentElement.addEventListener('click', (e) => {
+    if (e.target.tagName === 'INPUT') return;
+    el.checked = !el.checked;
+    el.checked ? mapa.addLayer(capa) : mapa.removeLayer(capa);
+    el.parentElement.style.opacity = el.checked ? 1 : .45;
+  });
+  el.parentElement.style.opacity = el.checked ? 1 : .45;
+};
+alternar('c-hot', capaHoteles);
+alternar('c-res', capaResto);
+for (const r of document.querySelectorAll('input[name="coro"]'))
+  r.addEventListener('change', () => pintarCoropleta(r.value));
+
+document.getElementById('n-hot').textContent = hoteles.length.toLocaleString('es');
+document.getElementById('n-res').textContent = restauracion.length.toLocaleString('es');
+
+// Leaflet mide el contenedor al crear el mapa y guarda ese tamaño. Aquí medía 0×0 —el mapa se
+// instancia antes del `await` que trae los datos— y las teselas se dibujaban en una franja en
+// lugar de ocupar el panel. `requestAnimationFrame` no basta: se dispara antes de que el
+// navegador termine el diseño. Un ResizeObserver avisa cuando el contenedor tiene ya tamaño real,
+// y de paso cubre los cambios posteriores de ventana.
+// `pan: false` mantiene el centro: al remedir, Leaflet conserva por defecto la esquina superior
+// izquierda, de modo que si el contenedor crece el centro se desplaza y el mapa aparecía sobre
+// Rubí en vez de sobre Barcelona.
+new ResizeObserver(() => mapa.invalidateSize({ pan: false }))
+  .observe(document.getElementById('mapa'));
+window.mapa = mapa;  // accesible desde la consola para inspeccionar el prototipo
+
+// ── Comprobaciones automáticas ────────────────────────────────────────────────
+// El prototipo existe para verificar los datos, así que comprueba y lo dice en pantalla.
+const dentro = (p, [laA, laB, loA, loB]) => p.lat >= laA && p.lat <= laB && p.lon >= loA && p.lon <= loB;
+const PROV = [41.05, 42.35, 0.85, 3.15];
+const fueraProv = hoteles.filter(h => !dentro(h, PROV)).length
+                + restauracion.filter(r => !dentro(r, PROV)).length;
+const geocod = hoteles.filter(h => h.prec === 'geocodificada').length;
+const barriosSinDato = barrios.features.filter(f => !vutPorBarrio[f.properties.barrio]).length;
+const muniSinDato = municipios.features.filter(f => !vutPorMuni[f.properties.municipio]).length;
+
+document.getElementById('checks').innerHTML = `
+  Puntos fuera de la provincia: <b>${fueraProv}</b><br>
+  Hoteles con posición deducida: <b>${geocod}</b> de ${hoteles.length}<br>
+  Barrios sin VUT: <b>${barriosSinDato}</b> de ${barrios.features.length}<br>
+  Municipios sin VUT: <b>${muniSinDato}</b> de ${municipios.features.length}`;
+</script>
+</body>
+</html>

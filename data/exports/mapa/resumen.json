@@ -1,0 +1,26 @@
+{
+  "hoteles": {
+    "total": 1563,
+    "con_punto": 763,
+    "con_precio": 430
+  },
+  "restauracion": {
+    "total": 14501,
+    "por_tipo": {
+      "restaurant": 7384,
+      "cafe": 2529,
+      "bar": 2111,
+      "fast_food": 1271,
+      "pub": 1206
+    }
+  },
+  "vut": {
+    "total": 24075,
+    "barrios": 65,
+    "municipios": 279
+  },
+  "airbnb": {
+    "total": 15406,
+    "barrios": 69
+  }
+}
