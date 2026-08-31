@@ -1,9 +1,13 @@
 {
   "hoteles": {
-    "total": 1563,
-    "con_punto": 763,
-    "con_precio": 430
+    "total": 1443,
+    "con_punto": 750
   },
+  "apartaments_turistics": {
+    "total": 120,
+    "con_punto": 13
+  },
+  "con_precio": 430,
   "restauracion": {
     "total": 14501,
     "por_tipo": {

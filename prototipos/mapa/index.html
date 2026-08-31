@@ -10,7 +10,7 @@
 <style>
   :root {
     --tinta: #24231f; --tinta-2: #52514e; --fondo: #faf9f7; --linea: #e3e0da;
-    --hotel: #2a78d6; --resto: #eb6834; --vut: #7b4fc4; --sin-lic: #e34948;
+    --hotel: #2a78d6; --at: #1baf7a; --resto: #eb6834; --vut: #7b4fc4; --sin-lic: #e34948;
   }
   * { box-sizing: border-box; }
   body { margin: 0; font: 14px/1.5 ui-sans-serif, system-ui, -apple-system, sans-serif;
@@ -45,12 +45,17 @@
   <div class="sub">Prototipo de mapa — verificación de datos</div>
 
   <h2>Capas</h2>
-  <label><span class="punto" style="background:var(--hotel)"></span> Hoteles y AT
+  <label><span class="punto" style="background:var(--hotel)"></span> Hoteles
     <span class="n" id="n-hot">—</span>
     <input type="checkbox" id="c-hot" checked hidden></label>
+  <label><span class="punto" style="background:var(--at)"></span> Apartaments turístics
+    <span class="n" id="n-at">—</span>
+    <input type="checkbox" id="c-at" checked hidden></label>
   <label><span class="punto" style="background:var(--resto)"></span> Bares y restaurantes
     <span class="n" id="n-res">—</span>
     <input type="checkbox" id="c-res" hidden></label>
+  <div class="nota">Los <b>apartaments turístics</b> van aparte de las VUT a propósito: son
+    figuras legales distintas y la eliminación de 2028 <b>no</b> les afecta.</div>
 
   <h2>Coropletas</h2>
   <label><input type="radio" name="coro" value="ninguna" checked> Ninguna</label>
@@ -87,13 +92,14 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; OpenStreetMap', maxZoom: 19,
 }).addTo(mapa);
 
-const [municipios, barrios, peuat, hoteles, restauracion, vutBarrio, vutMuni, airbnbBarrio] =
-  await Promise.all([
-    carga('geo/municipios.geojson'), carga('geo/barrios.geojson'), carga('geo/peuat.geojson'),
-    carga('mapa/hoteles.json'), carga('mapa/restauracion.json'),
-    carga('mapa/vut_por_barrio.json'), carga('mapa/vut_por_municipio.json'),
-    carga('mapa/airbnb_por_barrio.json'),
-  ]);
+const [municipios, barrios, peuat, hoteles, apartaments, restauracion,
+       vutBarrio, vutMuni, airbnbBarrio] = await Promise.all([
+  carga('geo/municipios.geojson'), carga('geo/barrios.geojson'), carga('geo/peuat.geojson'),
+  carga('mapa/hoteles.json'), carga('mapa/apartaments_turistics.json'),
+  carga('mapa/restauracion.json'),
+  carga('mapa/vut_por_barrio.json'), carga('mapa/vut_por_municipio.json'),
+  carga('mapa/airbnb_por_barrio.json'),
+]);
 
 // ── Puntos ────────────────────────────────────────────────────────────────────
 // Un punto por registro es ilegible donde se acumulan: hay fincas con decenas de licencias en la
@@ -106,16 +112,23 @@ const marcador = (p, color) => L.circleMarker([p.lat, p.lon], {
   fillOpacity: p.prec === 'geocodificada' ? 1 : .85,
 });
 
-const capaHoteles = L.markerClusterGroup({ maxClusterRadius: 45, disableClusteringAtZoom: 16 });
-for (const h of hoteles) {
-  const m = marcador(h, 'var(--hotel)'.replace('var(--hotel)', '#2a78d6'));
-  m.bindPopup(`<div class="pop-t">${h.nom ?? 'Sin nombre'}</div>
-    <div class="pop-d">${h.cat ?? ''} · ${h.hab ?? '?'} hab · ${h.plazas ?? '?'} plazas<br>
-    ${h.mun}${h.precio ? ` · <b>${h.precio} €/noche</b>` : ''}<br>
-    <i>${h.prec === 'geocodificada' ? 'posición deducida de la dirección' : 'posición oficial'}</i></div>`);
-  capaHoteles.addLayer(m);
+function capaAlojamiento(datos, color, etiqueta) {
+  const capa = L.markerClusterGroup({ maxClusterRadius: 45, disableClusteringAtZoom: 16 });
+  for (const h of datos) {
+    const m = marcador(h, color);
+    m.bindPopup(`<div class="pop-t">${h.nom ?? 'Sin nombre'}</div>
+      <div class="pop-d">${etiqueta}${h.cat ? ` · ${h.cat}` : ''}<br>
+      ${h.hab ?? '?'} hab · ${h.plazas ?? '?'} plazas<br>
+      ${h.mun}${h.precio ? ` · <b>${h.precio} €/noche</b>` : ''}<br>
+      <i>${h.prec === 'geocodificada' ? 'posición deducida de la dirección' : 'posición oficial'}</i></div>`);
+    capa.addLayer(m);
+  }
+  return capa;
 }
+const capaHoteles = capaAlojamiento(hoteles, '#2a78d6', 'Hotel');
+const capaAT = capaAlojamiento(apartaments, '#1baf7a', 'Apartament turístic');
 mapa.addLayer(capaHoteles);
+mapa.addLayer(capaAT);
 
 const capaResto = L.markerClusterGroup({ maxClusterRadius: 55, disableClusteringAtZoom: 17 });
 for (const r of restauracion) {
@@ -191,11 +204,13 @@ const alternar = (id, capa) => {
   el.parentElement.style.opacity = el.checked ? 1 : .45;
 };
 alternar('c-hot', capaHoteles);
+alternar('c-at', capaAT);
 alternar('c-res', capaResto);
 for (const r of document.querySelectorAll('input[name="coro"]'))
   r.addEventListener('change', () => pintarCoropleta(r.value));
 
 document.getElementById('n-hot').textContent = hoteles.length.toLocaleString('es');
+document.getElementById('n-at').textContent = apartaments.length.toLocaleString('es');
 document.getElementById('n-res').textContent = restauracion.length.toLocaleString('es');
 
 // Leaflet mide el contenedor al crear el mapa y guarda ese tamaño. Aquí medía 0×0 —el mapa se
@@ -214,15 +229,15 @@ window.mapa = mapa;  // accesible desde la consola para inspeccionar el prototip
 // El prototipo existe para verificar los datos, así que comprueba y lo dice en pantalla.
 const dentro = (p, [laA, laB, loA, loB]) => p.lat >= laA && p.lat <= laB && p.lon >= loA && p.lon <= loB;
 const PROV = [41.05, 42.35, 0.85, 3.15];
-const fueraProv = hoteles.filter(h => !dentro(h, PROV)).length
-                + restauracion.filter(r => !dentro(r, PROV)).length;
-const geocod = hoteles.filter(h => h.prec === 'geocodificada').length;
+const puntos = [...hoteles, ...apartaments, ...restauracion];
+const fueraProv = puntos.filter(p => !dentro(p, PROV)).length;
+const geocod = [...hoteles, ...apartaments].filter(h => h.prec === 'geocodificada').length;
 const barriosSinDato = barrios.features.filter(f => !vutPorBarrio[f.properties.barrio]).length;
 const muniSinDato = municipios.features.filter(f => !vutPorMuni[f.properties.municipio]).length;
 
 document.getElementById('checks').innerHTML = `
   Puntos fuera de la provincia: <b>${fueraProv}</b><br>
-  Hoteles con posición deducida: <b>${geocod}</b> de ${hoteles.length}<br>
+  Posición deducida: <b>${geocod}</b> de ${hoteles.length + apartaments.length}<br>
   Barrios sin VUT: <b>${barriosSinDato}</b> de ${barrios.features.length}<br>
   Municipios sin VUT: <b>${muniSinDato}</b> de ${municipios.features.length}`;
 </script>

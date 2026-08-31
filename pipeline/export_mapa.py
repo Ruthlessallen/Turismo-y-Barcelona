@@ -4,6 +4,7 @@
 
 Salidas
     data/exports/mapa/hoteles.json          — puntos individuales
+    data/exports/mapa/apartaments_turistics.json — puntos individuales, capa aparte
     data/exports/mapa/restauracion.json     — puntos individuales
     data/exports/mapa/vut_por_barrio.json   — agregado
     data/exports/mapa/vut_por_municipio.json — agregado
@@ -80,8 +81,19 @@ def completar_coordenadas(d: pd.DataFrame, geo: pd.DataFrame) -> pd.DataFrame:
 
 
 def exportar_hoteles(geo: pd.DataFrame) -> dict:
+    """Hoteles y apartaments turístics, en ficheros separados.
+
+    Van aparte porque son figuras legales distintas y confundirlas es el error más fácil de
+    cometer con estos datos: la eliminación de 2028 afecta a las VUT, no a los AT, que seguirán
+    operando. Mezclarlos en una sola capa daría a entender que todo el alojamiento en apartamento
+    desaparece.
+    """
     h = pd.read_csv(PROC / "hoteles_y_apartaments_unificados.csv", dtype=str)
     h = completar_coordenadas(h, geo)
+
+    # Un registro de Open Data BCN sin correspondencia en el Registre se queda sin `tipo`. Viene
+    # del fichero de hoteles del Ajuntament, así que hotel es: dejarlo nulo lo excluiría del mapa.
+    h["tipo"] = h["tipo"].fillna("hotel")
 
     precios = pd.read_csv(PROC / "hoteles_con_precio.csv")
     fiables = precios[precios["precio"].notna() & ~precios["dudoso"].fillna(False)]
@@ -102,9 +114,18 @@ def exportar_hoteles(geo: pd.DataFrame) -> dict:
         "prec": r["precision"],
     } for _, r in con_punto.iterrows()]
 
-    volcar(DESTINO / "hoteles.json", puntos)
-    return {"total": len(h), "con_punto": len(puntos),
-            "con_precio": int(con_punto["precio"].notna().sum())}
+    hoteles = [p for p in puntos if p["tipo"] == "hotel"]
+    apartamentos = [p for p in puntos if p["tipo"] == "apartament_turistic"]
+    volcar(DESTINO / "hoteles.json", hoteles)
+    volcar(DESTINO / "apartaments_turistics.json", apartamentos)
+
+    return {
+        "hoteles": {"total": int((h["tipo"] == "hotel").sum()), "con_punto": len(hoteles)},
+        "apartaments_turistics": {
+            "total": int((h["tipo"] == "apartament_turistic").sum()),
+            "con_punto": len(apartamentos)},
+        "con_precio": int(con_punto["precio"].notna().sum()),
+    }
 
 
 def exportar_restauracion() -> dict:
@@ -177,7 +198,7 @@ def main() -> None:
     print(f"Coordenadas geocodificadas utilizables: {len(geo):,}\n")
 
     resumen = {
-        "hoteles": exportar_hoteles(geo),
+        **exportar_hoteles(geo),
         "restauracion": exportar_restauracion(),
         "vut": exportar_vut(geo),
         "airbnb": exportar_airbnb(),
