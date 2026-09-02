@@ -3,8 +3,8 @@
     python pipeline/transform/asignar_municipio.py
 
 Salidas
-    data/processed/restauracion_con_municipio.csv     — restauración OSM con municipio y barrio
-    data/processed/geocodificacion_verificada.csv     — geocodificaciones con su veredicto
+    data/bronze/restauracion_con_municipio.csv     — restauración OSM con municipio y barrio
+    data/bronze/geocodificacion_verificada.csv     — geocodificaciones con su veredicto
 
 Hace dos trabajos que comparten la misma operación geométrica:
 
@@ -32,14 +32,14 @@ import pandas as pd
 RAIZ = Path(__file__).resolve().parents[2]
 # La versión reparada, no la cruda: el export WFS del ICGC trae los anillos mal anidados y con
 # ella ningún punto de Barcelona caía dentro de Barcelona (ver reparar_geometria_municipios.py).
-RUTA_MUNICIPIOS = RAIZ / "data" / "processed" / "municipios_provincia_barcelona.geojson"
+RUTA_MUNICIPIOS = RAIZ / "data" / "bronze" / "municipios_provincia_barcelona.geojson"
 RUTA_BARRIOS = RAIZ / "data" / "raw" / "geometria" / "insideairbnb_barrios_barcelona.geojson"
 RUTA_RESTAURACION = (RAIZ / "data" / "raw" / "restauracion_hoteles_provincia"
                      / "provincia_barcelona_restauracion_osm_2026.csv")
-RUTA_GEOCODIFICADO = RAIZ / "data" / "processed" / "geocodificacion_icgc.csv"
+RUTA_GEOCODIFICADO = RAIZ / "data" / "bronze" / "geocodificacion_icgc.csv"
 
-SALIDA_RESTAURACION = RAIZ / "data" / "processed" / "restauracion_con_municipio.csv"
-SALIDA_VERIFICACION = RAIZ / "data" / "processed" / "geocodificacion_verificada.csv"
+SALIDA_RESTAURACION = RAIZ / "data" / "bronze" / "restauracion_con_municipio.csv"
+SALIDA_VERIFICACION = RAIZ / "data" / "bronze" / "geocodificacion_verificada.csv"
 
 
 def como_puntos(d: pd.DataFrame, lat: str, lon: str) -> gpd.GeoDataFrame:
@@ -92,7 +92,7 @@ def procesar_restauracion(municipios: gpd.GeoDataFrame, barrios: gpd.GeoDataFram
         print(f"  coinciden con el municipio que ya traía: {coincide.mean():.1%} de {ambos.sum():,}")
 
     salida.to_csv(SALIDA_RESTAURACION, index=False, encoding="utf-8")
-    print(f"  → {SALIDA_RESTAURACION.relative_to(RAIZ)}")
+    print(f"  -> {SALIDA_RESTAURACION.relative_to(RAIZ)}")
     print("\n  por tipo de local:")
     print(salida["tipo_local"].value_counts().head(6).to_string())
 
@@ -118,16 +118,16 @@ def verificar_geocodificacion(municipios: gpd.GeoDataFrame) -> None:
 
     ok = int(salida["municipio_coincide"].sum())
     print(f"  el municipio coincide : {ok:,} ({ok / len(salida):.1%})")
-    print(f"  NO coincide           : {len(salida) - ok:,}  ← coordenada sospechosa")
+    print(f"  NO coincide           : {len(salida) - ok:,}  <- coordenada sospechosa")
 
     salida.to_csv(SALIDA_VERIFICACION, index=False, encoding="utf-8")
-    print(f"  → {SALIDA_VERIFICACION.relative_to(RAIZ)}")
+    print(f"  -> {SALIDA_VERIFICACION.relative_to(RAIZ)}")
 
     fallos = salida[~salida["municipio_coincide"]]
     if len(fallos):
-        print("\n  ejemplos de discrepancia (registro → polígono):")
+        print("\n  ejemplos de discrepancia (registro -> polígono):")
         for _, f in fallos.head(6).iterrows():
-            print(f"    {str(f['municipio'])[:24]:26s} → {str(f['municipio_poligono'])[:24]:26s}"
+            print(f"    {str(f['municipio'])[:24]:26s} -> {str(f['municipio_poligono'])[:24]:26s}"
                   f" {str(f['direccion_consultada'])[:40]}")
 
 

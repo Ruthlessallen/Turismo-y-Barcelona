@@ -33,8 +33,10 @@ from pathlib import Path
 
 import pandas as pd
 
-RAIZ = Path(__file__).resolve().parents[1]
-PROC = RAIZ / "data" / "processed"
+RAIZ = Path(__file__).resolve().parents[2]
+BRONZE = RAIZ / "data" / "bronze"
+GOLD = RAIZ / "data" / "gold"
+CALIDAD = GOLD / "calidad"
 DESTINO = RAIZ / "data" / "exports" / "mapa"
 
 
@@ -51,9 +53,9 @@ def volcar(ruta: Path, datos) -> None:
 
 def cargar_geocodificado() -> pd.DataFrame:
     """Coordenadas del ICGC que superaron la verificación por municipio."""
-    ruta = PROC / "geocodificacion_verificada.csv"
+    ruta = BRONZE / "geocodificacion_verificada.csv"
     if not ruta.exists():
-        ruta = PROC / "geocodificacion_icgc.csv"
+        ruta = BRONZE / "geocodificacion_icgc.csv"
     if not ruta.exists():
         return pd.DataFrame(columns=["licencia_id", "lat", "lon"])
 
@@ -88,14 +90,14 @@ def exportar_hoteles(geo: pd.DataFrame) -> dict:
     operando. Mezclarlos en una sola capa daría a entender que todo el alojamiento en apartamento
     desaparece.
     """
-    h = pd.read_csv(PROC / "hoteles_y_apartaments_unificados.csv", dtype=str)
+    h = pd.read_csv(BRONZE / "hoteles_y_apartaments_unificados.csv", dtype=str)
     h = completar_coordenadas(h, geo)
 
     # Un registro de Open Data BCN sin correspondencia en el Registre se queda sin `tipo`. Viene
     # del fichero de hoteles del Ajuntament, así que hotel es: dejarlo nulo lo excluiría del mapa.
     h["tipo"] = h["tipo"].fillna("hotel")
 
-    precios = pd.read_csv(PROC / "hoteles_con_precio.csv")
+    precios = pd.read_csv(BRONZE / "precios_hoteles_cruzados.csv")
     fiables = precios[precios["precio"].notna() & ~precios["dudoso"].fillna(False)]
     h = h.merge(fiables[["licencia_id", "precio"]], on="licencia_id", how="left")
 
@@ -129,7 +131,7 @@ def exportar_hoteles(geo: pd.DataFrame) -> dict:
 
 
 def exportar_restauracion() -> dict:
-    ruta = PROC / "restauracion_con_municipio.csv"
+    ruta = BRONZE / "restauracion_con_municipio.csv"
     if not ruta.exists():
         return {"total": 0, "con_punto": 0}
     d = pd.read_csv(ruta)
@@ -153,7 +155,7 @@ def exportar_restauracion() -> dict:
 
 def exportar_vut(geo: pd.DataFrame) -> dict:
     """Las VUT son viviendas: solo agregados, nunca puntos."""
-    v = pd.read_csv(PROC / "vut_unificados.csv", dtype=str)
+    v = pd.read_csv(BRONZE / "vut_unificados.csv", dtype=str)
     v = completar_coordenadas(v, geo)
     v["plazas_n"] = pd.to_numeric(v["plazas"], errors="coerce")
 
@@ -177,7 +179,7 @@ def exportar_vut(geo: pd.DataFrame) -> dict:
 
 def exportar_airbnb() -> dict:
     """Coordenadas desplazadas ~200 m por la fuente: solo agregados."""
-    a = pd.read_csv(PROC / "airbnb_situacion_licencia.csv")
+    a = pd.read_csv(GOLD / "airbnb_situacion_licencia.csv")
     por_barrio = (a.groupby("neighbourhood")
                   .agg(anuncios=("id", "size"),
                        sujetos_vut=("sujeto_a_vut", "sum"),

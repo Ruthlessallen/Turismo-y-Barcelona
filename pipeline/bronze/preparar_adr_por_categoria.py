@@ -4,11 +4,11 @@
 
 Entradas
     data/raw/ine/portaldades_adr_por_categoria_2013_2026.csv   — Portal de Dades del Ajuntament
-    data/processed/hoteles_bcn.csv                             — precios raspados ya cruzados
+    data/gold/hoteles_bcn.csv                             — precios raspados ya cruzados
 
 Salidas
-    data/processed/adr_por_categoria.csv    — la serie en formato largo, una fila por mes y categoría
-    data/processed/adr_estacionalidad.csv   — factor de cada mes frente a la media de su año
+    data/bronze/adr_por_categoria.csv    — la serie en formato largo, una fila por mes y categoría
+    data/bronze/adr_estacionalidad.csv   — factor de cada mes frente a la media de su año
 
 **Qué es el ADR y qué no.** Es el ingreso medio por habitación ocupada, de la Encuesta de Ocupación
 Hotelera del INE. Es precio **cobrado**, no anunciado, y solo sobre habitaciones que se vendieron:
@@ -39,9 +39,9 @@ import pandas as pd
 
 RAIZ = Path(__file__).resolve().parents[2]
 ENTRADA = RAIZ / "data" / "raw" / "ine" / "portaldades_adr_por_categoria_2013_2026.csv"
-HOTELES = RAIZ / "data" / "processed" / "hoteles_bcn.csv"
-SALIDA = RAIZ / "data" / "processed" / "adr_por_categoria.csv"
-SALIDA_ESTACIONAL = RAIZ / "data" / "processed" / "adr_estacionalidad.csv"
+HOTELES = RAIZ / "data" / "gold" / "hoteles_bcn.csv"
+SALIDA = RAIZ / "data" / "bronze" / "adr_por_categoria.csv"
+SALIDA_ESTACIONAL = RAIZ / "data" / "bronze" / "adr_estacionalidad.csv"
 
 MESES = {"Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "Jun": 6,
          "Jul": 7, "Aug": 8, "Sep": 9, "Oct": 10, "Nov": 11, "Dec": 12}

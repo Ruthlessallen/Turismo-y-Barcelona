@@ -3,7 +3,7 @@
 Entrada
     data/raw/precios_hoteles/*.json   (o .csv) — salida del scraper de Apify
 Salida
-    data/processed/hoteles_cruce_base.csv
+    data/bronze/precios_hoteles_cruzados.csv  (lo completa despues enriquecer_hoteles_con_booking.py)
 
 El objetivo de este script **no es sumar precios**: es responder si el emparejamiento funciona.
 Un precio pegado al hotel equivocado es peor que no tener precio, porque no se nota. Por eso el
@@ -46,15 +46,15 @@ import pandas as pd
 
 RAIZ = Path(__file__).resolve().parents[2]
 DIR_PRECIOS = RAIZ / "data" / "raw" / "precios_hoteles"
-RUTA_HOTELES = RAIZ / "data" / "processed" / "hoteles_y_apartaments_unificados.csv"
+RUTA_HOTELES = RAIZ / "data" / "bronze" / "hoteles_y_apartaments_unificados.csv"
 # Coordenadas obtenidas del ICGC para los hoteles que el registro no trae geolocalizados
 # (`geocodificar_hoteles.py`). Es opcional: si no existe, el cruce sigue funcionando con menos
 # alcance, porque sin coordenada solo quedan los métodos por nombre.
-RUTA_GEOCODIFICADOS = RAIZ / "data" / "processed" / "hoteles_geocodificados.csv"
+RUTA_GEOCODIFICADOS = RAIZ / "data" / "bronze" / "hoteles_geocodificados.csv"
 # Fichero propio a propósito: `enriquecer_hoteles_con_booking.py` produce
 # `hoteles_con_precio.csv` a partir de este, y si ambos escribieran el mismo nombre el que
 # corriera último borraría el trabajo del otro sin avisar.
-RUTA_SALIDA = RAIZ / "data" / "processed" / "hoteles_cruce_base.csv"
+RUTA_SALIDA = RAIZ / "data" / "bronze" / "precios_hoteles_cruzados.csv"
 
 # Un hotel y su ficha raspada rara vez caen en el mismo punto exacto: el portal geolocaliza por
 # portal o por centroide del edificio. 60 m absorbe esa holgura sin llegar al edificio de al lado.
@@ -206,7 +206,7 @@ def cargar_raspados() -> pd.DataFrame:
         # poder rastrear un precio raro hasta el fichero que lo trajo.
         normalizado["fichero_origen"] = f.name
         trozos.append(normalizado)
-        print(f"  leído {f.name}: {len(bruto):,} filas → "
+        print(f"  leído {f.name}: {len(bruto):,} filas -> "
               f"{normalizado['precio'].notna().sum():,} con precio")
     return pd.concat(trozos, ignore_index=True)
 
@@ -318,7 +318,7 @@ def informe(d: pd.DataFrame) -> None:
     print(f"\n{'—' * 60}\nCalidad del cruce sobre {len(d):,} hoteles del registro:")
     for metodo, n in d["metodo_cruce"].value_counts().items():
         print(f"  {metodo:12s}: {n:5,}  ({n / len(d):5.1%})")
-    print(f"  {'dudosos':12s}: {int(d['dudoso'].sum()):5,}  ← revisar antes de usar")
+    print(f"  {'dudosos':12s}: {int(d['dudoso'].sum()):5,}  <- revisar antes de usar")
     print(f"      de ellos, misma ficha en varios hoteles: {int(d['ficha_compartida'].sum()):,}")
 
     fiables = d[(d["metodo_cruce"] != "sin_cruce") & ~d["dudoso"] & d.get("precio").notna()]

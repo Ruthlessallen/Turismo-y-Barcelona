@@ -3,7 +3,7 @@
     python pipeline/sources/geocodificar_hoteles.py
 
 Salida
-    data/processed/hoteles_geocodificados.csv
+    data/bronze/hoteles_geocodificados.csv
 
 Por qué hace falta: de los 754 hoteles de la ciudad, **309 no traen coordenada**. Open Data BCN
 solo la aporta para los que aparecen en su fichero, y sin ella el cruce con cualquier fuente de
@@ -35,8 +35,8 @@ from pathlib import Path
 import pandas as pd
 
 RAIZ = Path(__file__).resolve().parents[2]
-RUTA_HOTELES = RAIZ / "data" / "processed" / "hoteles_y_apartaments_unificados.csv"
-RUTA_SALIDA = RAIZ / "data" / "processed" / "hoteles_geocodificados.csv"
+RUTA_HOTELES = RAIZ / "data" / "bronze" / "hoteles_y_apartaments_unificados.csv"
+RUTA_SALIDA = RAIZ / "data" / "bronze" / "hoteles_geocodificados.csv"
 
 ICGC = "https://eines.icgc.cat/geocodificador/cerca?text={consulta}&layers=address&size=1"
 

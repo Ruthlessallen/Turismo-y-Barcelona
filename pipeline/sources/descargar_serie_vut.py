@@ -1,10 +1,10 @@
-"""Descarga la serie trimestral de licencias VUT de Barcelona (Open Data BCN, 2018-T2 → 2026-T1).
+"""Descarga la serie trimestral de licencias VUT de Barcelona (Open Data BCN, 2018-T2 -> 2026-T1).
 
     python pipeline/sources/descargar_serie_vut.py
 
 Salida
     data/raw/vut_trimestres/<AAAA>_<N>T.csv   — un fichero por trimestre, ya normalizado
-    data/processed/serie_vut_trimestral.csv   — stock, altas y bajas por trimestre
+    data/bronze/serie_vut_trimestral.csv   — stock, altas y bajas por trimestre
 
 Cada fichero trimestral es una **foto del stock activo**, no un acumulado. Comprobado sobre
 2018-T2 → 2019-T2: 9.509 expedientes en ambos, 94 bajas y 67 altas, y 9.603 − 94 + 67 = 9.576,
@@ -33,7 +33,7 @@ import pandas as pd
 
 RAIZ = Path(__file__).resolve().parents[2]
 DESTINO = RAIZ / "data" / "raw" / "vut_trimestres"
-RUTA_SERIE = RAIZ / "data" / "processed" / "serie_vut_trimestral.csv"
+RUTA_SERIE = RAIZ / "data" / "bronze" / "serie_vut_trimestral.csv"
 
 BASE = ("https://opendata-ajuntament.barcelona.cat/data/dataset/"
         "c748799e-1079-44b1-9e60-88d936a3fe70/resource/{}/download")
@@ -198,8 +198,8 @@ def main() -> None:
     print(f"\n{'—' * 56}\nSerie de {len(serie)} trimestres:\n")
     print(serie.to_string(index=False))
     primero, ultimo = serie.iloc[0], serie.iloc[-1]
-    print(f"\n{primero['trimestre']} → {ultimo['trimestre']}: "
-          f"{primero['stock']:,} → {ultimo['stock']:,} licencias "
+    print(f"\n{primero['trimestre']} -> {ultimo['trimestre']}: "
+          f"{primero['stock']:,} -> {ultimo['stock']:,} licencias "
           f"({ultimo['stock'] - primero['stock']:+,})")
     print(f"Altas acumuladas: {serie['altas'].sum():,.0f} | "
           f"bajas acumuladas: {serie['bajas'].sum():,.0f}")

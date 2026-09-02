@@ -4,7 +4,7 @@
 
 Salida
     data/raw/ine/<serie>.json              — respuesta cruda de la API
-    data/processed/serie_ine_barcelona.csv — las tres series alineadas por mes
+    data/bronze/serie_ine_barcelona.csv — las tres series alineadas por mes
 
 Sirven para lo que no se puede improvisar: **estimar cómo responde el precio a la presión de la
 demanda con datos reales**, en vez de suponer una elasticidad. Con viajeros (demanda), plazas
@@ -29,7 +29,7 @@ import pandas as pd
 
 RAIZ = Path(__file__).resolve().parents[2]
 DESTINO = RAIZ / "data" / "raw" / "ine"
-RUTA_SERIE = RAIZ / "data" / "processed" / "serie_ine_barcelona.csv"
+RUTA_SERIE = RAIZ / "data" / "bronze" / "serie_ine_barcelona.csv"
 
 API = "https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/{tabla}?tip=AM&nult={n}"
 
@@ -108,7 +108,7 @@ def main() -> None:
         print(f"  {len(crudo)} series en la tabla | {len(bcn)} de Barcelona")
         d = a_filas(bcn, clave)
         if not d.empty:
-            print(f"  {len(d):,} observaciones | {d['mes'].min()} → {d['mes'].max()}")
+            print(f"  {len(d):,} observaciones | {d['mes'].min()} -> {d['mes'].max()}")
             for nombre in d["serie"].unique()[:6]:
                 print(f"     · {nombre[:76]}")
             trozos.append(d)

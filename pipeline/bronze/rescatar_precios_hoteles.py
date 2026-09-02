@@ -3,13 +3,17 @@
     python pipeline/transform/rescatar_precios_hoteles.py
 
 Entradas
-    data/processed/hoteles_bcn.csv                          — censo de la ciudad con lo ya cruzado
-    data/processed/hoteles_cruce_base.csv                   — qué fichas usó el primer pase
+    data/gold/hoteles_bcn.csv                          — censo de la ciudad con lo ya cruzado
+    data/bronze/precios_hoteles_cruzados.csv                — qué fichas usó el primer pase
     data/raw/precios_hoteles/google_hotels_2026-09-29_eur.csv
 
 Salidas
-    data/processed/hoteles_bcn_precios_rescatados.csv  — pares aceptados automaticamente
-    data/processed/hoteles_bcn_precios_a_revisar.csv   — pares dudosos, para mirar a mano
+    data/bronze/precios_emparejamientos.csv   — un registro por par candidato, con su veredicto
+
+**Un solo fichero, no dos.** Antes escribia ademas `hoteles_bcn_precios_rescatados.csv` con los
+pares aceptados, y resulto ser un subconjunto estricto del otro: las mismas columnas, las mismas
+licencias, y la columna `veredicto` ya distinguia `auto` de `si`. Quien consuma esto filtra por
+esa columna.
 
 **Por qué hace falta un segundo pase.** `cruzar_precios_hoteles.py` se ejecutó cuando solo 446 de
 los 768 establecimientos tenían coordenada. La geocodificación del ICGC llegó después y subió esa
@@ -46,10 +50,11 @@ from scipy.optimize import linear_sum_assignment
 from scipy.spatial import cKDTree
 
 RAIZ = Path(__file__).resolve().parents[2]
-PROC = RAIZ / "data" / "processed"
+BRONZE = RAIZ / "data" / "bronze"
+GOLD = RAIZ / "data" / "gold"
+CALIDAD = GOLD / "calidad"
 RUTA_GOOGLE = RAIZ / "data" / "raw" / "precios_hoteles" / "google_hotels_2026-09-29_eur.csv"
-SALIDA = PROC / "hoteles_bcn_precios_rescatados.csv"
-SALIDA_REVISION = PROC / "hoteles_bcn_precios_a_revisar.csv"
+SALIDA_REVISION = BRONZE / "precios_emparejamientos.csv"
 
 # Metros por grado, a la latitud de Barcelona. Basta para distancias de pocos cientos de metros.
 METROS_GRADO = 111320.0
@@ -138,7 +143,7 @@ def admisible(metros: float, similitud: float, est_censo: float, est_google: flo
 def fichas_libres(censo: pd.DataFrame) -> pd.DataFrame:
     """Fichas de Google con precio que el primer pase no llegó a usar."""
     google = pd.read_csv(RUTA_GOOGLE)
-    base = pd.read_csv(PROC / "hoteles_cruce_base.csv", low_memory=False)
+    base = pd.read_csv(BRONZE / "precios_hoteles_cruzados.csv", low_memory=False)
     usadas = set(base.loc[base["nombre_raspado"].notna(), "nombre_raspado"]
                  .astype(str).str.lower())
     libres = google[google["nightly"].notna()
@@ -218,7 +223,7 @@ def aprobados(previos: pd.DataFrame) -> pd.DataFrame:
 
 
 def main() -> None:
-    censo = pd.read_csv(PROC / "hoteles_bcn.csv", low_memory=False)
+    censo = pd.read_csv(GOLD / "hoteles_bcn.csv", low_memory=False)
     libres = fichas_libres(censo)
 
     # Se reconsidera lo que el **primer** cruce no resolvió, no lo que ahora mismo carece de precio.
@@ -247,13 +252,12 @@ def main() -> None:
             print(f"  [{f['confianza'][:6]:6s}] {str(f['nombre_registro'])[:28]:30s} -> "
                   f"{str(f['nombre_google'])[:30]:32s} {f['metros']:5.0f} m  "
                   f"{f['precio_rescatado']:6.0f} EUR")
-        rescatados.to_csv(SALIDA, index=False, encoding="utf-8")
         base = int((censo["origen_precio"] == "cruce_inicial").sum())
         print(NL + f"Cobertura de precio: {base} -> {base + len(rescatados)} de {len(censo)} "
               f"({(base + len(rescatados)) / len(censo):.1%})")
-        print(f"Guardado en {SALIDA.relative_to(RAIZ)}")
 
     revisar(faltan, libres, previos, set(rescatados["licencia_id"]))
+    print(f"Guardado en {SALIDA_REVISION.relative_to(RAIZ)}")
 
 
 def revisar(faltan: pd.DataFrame, libres: pd.DataFrame, previos: pd.DataFrame,

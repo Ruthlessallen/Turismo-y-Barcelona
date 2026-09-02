@@ -4,7 +4,7 @@
     python pipeline/sources/geocodificar_registros.py --ciudad   # solo Barcelona ciudad
 
 Salida
-    data/processed/geocodificacion_icgc.csv
+    data/bronze/geocodificacion_icgc.csv
 
 Generaliza `geocodificar_hoteles.py`, que resolvía solo los hoteles de la ciudad, a los 14.474
 registros sin coordenada de los dos registros. Todos tienen vía y número, así que todos son
@@ -39,9 +39,9 @@ from pathlib import Path
 import pandas as pd
 
 RAIZ = Path(__file__).resolve().parents[2]
-RUTA_VUT = RAIZ / "data" / "processed" / "vut_unificados.csv"
-RUTA_HOTELES = RAIZ / "data" / "processed" / "hoteles_y_apartaments_unificados.csv"
-RUTA_SALIDA = RAIZ / "data" / "processed" / "geocodificacion_icgc.csv"
+RUTA_VUT = RAIZ / "data" / "bronze" / "vut_unificados.csv"
+RUTA_HOTELES = RAIZ / "data" / "bronze" / "hoteles_y_apartaments_unificados.csv"
+RUTA_SALIDA = RAIZ / "data" / "bronze" / "geocodificacion_icgc.csv"
 
 ICGC = "https://eines.icgc.cat/geocodificador/cerca?text={consulta}&layers=address&size=1"
 

@@ -3,13 +3,13 @@
     python pipeline/transform/modelar_precios_hoteles_bcn.py
 
 Entrada
-    data/processed/hoteles_bcn.csv
+    data/gold/hoteles_bcn.csv
 
 Salidas
-    data/processed/hoteles_bcn_precio_estimado.csv   — el dataset con `precio_noche_final`
-    data/processed/modelos_precio_comparativa.csv    — qué obtuvo cada modelo y optimizador
-    data/processed/precio_error_por_segmento.csv     — dónde acierta y dónde no
-    data/processed/precio_cobertura_entrenamiento.csv — qué se estima sin ejemplos comparables
+    data/gold/hoteles_bcn_precio_estimado.csv   — el dataset con `precio_noche_final`
+    data/gold/calidad    — qué obtuvo cada modelo y optimizador
+    data/gold/calidad     — dónde acierta y dónde no
+    data/gold/calidad — qué se estima sin ejemplos comparables
 
 Compara siete modelos afinados con dos buscadores, mide el error del ganador con validación
 cruzada repetida, y lo desglosa por segmento antes de imputar nada.
@@ -63,12 +63,14 @@ from xgboost import XGBRegressor
 optuna.logging.set_verbosity(optuna.logging.WARNING)
 
 RAIZ = Path(__file__).resolve().parents[2]
-PROC = RAIZ / "data" / "processed"
-ENTRADA = PROC / "hoteles_bcn.csv"
-SALIDA = PROC / "hoteles_bcn_precio_estimado.csv"
-SALIDA_COMPARATIVA = PROC / "modelos_precio_comparativa.csv"
-SALIDA_SEGMENTOS = PROC / "precio_error_por_segmento.csv"
-SALIDA_COBERTURA = PROC / "precio_cobertura_entrenamiento.csv"
+BRONZE = RAIZ / "data" / "bronze"
+GOLD = RAIZ / "data" / "gold"
+CALIDAD = GOLD / "calidad"
+ENTRADA = GOLD / "hoteles_bcn.csv"
+SALIDA = GOLD / "hoteles_bcn_precio_estimado.csv"
+SALIDA_COMPARATIVA = CALIDAD / "modelos_precio_comparativa.csv"
+SALIDA_SEGMENTOS = CALIDAD / "precio_error_por_segmento.csv"
+SALIDA_COBERTURA = CALIDAD / "precio_cobertura_entrenamiento.csv"
 
 SEMILLA = 42
 

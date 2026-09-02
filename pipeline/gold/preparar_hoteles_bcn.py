@@ -3,15 +3,15 @@
     python pipeline/transform/preparar_hoteles_bcn.py
 
 Entradas
-    data/processed/hoteles_y_apartaments_unificados.csv   — censo del Registre de Turisme
-    data/processed/hoteles_con_precio.csv                 — precios raspados ya cruzados
-    data/processed/geocodificacion_verificada.csv         — ICGC verificado contra polígono
-    data/processed/hoteles_geocodificados.csv             — geocodificación previa
+    data/bronze/hoteles_y_apartaments_unificados.csv   — censo del Registre de Turisme
+    data/bronze/precios_hoteles_cruzados.csv                 — precios raspados ya cruzados
+    data/bronze/geocodificacion_verificada.csv         — ICGC verificado contra polígono
+    data/bronze/hoteles_geocodificados.csv             — geocodificación previa
     data/raw/hoteles/opendata_bcn_hotels_snapshot.csv     — barrio y distrito del Ajuntament
     data/raw/geometria/insideairbnb_barrios_barcelona.geojson
 
 Salida
-    data/processed/hoteles_bcn.csv
+    data/gold/hoteles_bcn.csv
 
 Sustituye a `preparar_hoteles_bcn_analisis.py` y `preparar_hoteles_bcn_imputacion.py`, que
 construían este mismo dataset por dos caminos que no coincidían: 306 de 768 filas discrepaban en
@@ -38,9 +38,11 @@ import numpy as np
 import pandas as pd
 
 RAIZ = Path(__file__).resolve().parents[2]
-PROC = RAIZ / "data" / "processed"
+BRONZE = RAIZ / "data" / "bronze"
+GOLD = RAIZ / "data" / "gold"
+CALIDAD = GOLD / "calidad"
 RAW = RAIZ / "data" / "raw"
-SALIDA = PROC / "hoteles_bcn.csv"
+SALIDA = GOLD / "hoteles_bcn.csv"
 
 # Plaça de Catalunya, origen convencional de distancias en la ciudad.
 CENTRO = (41.3870, 2.1700)
@@ -162,10 +164,10 @@ def anadir_coordenadas(d: pd.DataFrame) -> pd.DataFrame:
         d[c] = pd.to_numeric(d[c], errors="coerce")
     d["origen_coord"] = np.where(d["lat"].notna(), "censo", None)
 
-    verificada = pd.read_csv(PROC / "geocodificacion_verificada.csv",
+    verificada = pd.read_csv(BRONZE / "geocodificacion_verificada.csv",
                              dtype={"licencia_id": str}, low_memory=False)
     verificada = verificada[verificada["municipio_coincide"] == True]  # noqa: E712
-    previa = pd.read_csv(PROC / "hoteles_geocodificados.csv", dtype={"licencia_id": str})
+    previa = pd.read_csv(BRONZE / "hoteles_geocodificados.csv", dtype={"licencia_id": str})
 
     for fuente, etiqueta in ((verificada, "icgc_verificada"), (previa, "icgc")):
         fuente = fuente[["licencia_id", "lat", "lon"]].drop_duplicates("licencia_id")
@@ -216,15 +218,21 @@ def anadir_barrio(d: pd.DataFrame) -> pd.DataFrame:
 def incorporar_rescatados(d: pd.DataFrame) -> pd.DataFrame:
     """Suma los precios del segundo pase del cruce, si ya se ha ejecutado.
 
+    Se leen del libro de emparejamientos los pares dados por buenos, ya sea por el emparejador
+    (`auto`) o por una persona (`si`).
+
     `rescatar_precios_hoteles.py` lee este mismo fichero para saber a quién le falta precio, así
     que hay un orden entre los dos: preparar, rescatar, preparar. No es circular —el rescate solo
-    devuelve pares licencia/precio— y es idempotente: en la segunda vuelta esos hoteles ya tienen
-    precio y el rescate no encuentra nada nuevo que hacer.
+    devuelve pares licencia/precio— y es idempotente.
     """
-    ruta = PROC / "hoteles_bcn_precios_rescatados.csv"
+    ruta = BRONZE / "precios_emparejamientos.csv"
     if not ruta.exists():
         return d
-    r = pd.read_csv(ruta, dtype={"licencia_id": str})[["licencia_id", "precio_rescatado"]]
+    r = pd.read_csv(ruta, dtype={"licencia_id": str})
+    # `auto` lo acepto el emparejador por su cuenta; `si` lo confirmo una persona. Cualquier otro
+    # valor —`no`, o vacio— es un par que no se ha dado por bueno y no debe aportar precio.
+    r = r[r["veredicto"].astype(str).str.strip().str.lower().isin(["auto", "si", "sí"])]
+    r = r[["licencia_id", "precio_rescatado"]].drop_duplicates("licencia_id")
     d = d.merge(r, on="licencia_id", how="left")
     nuevos = d["precio_noche"].isna() & d["precio_rescatado"].notna()
     d.loc[nuevos, "precio_noche"] = d.loc[nuevos, "precio_rescatado"]
@@ -247,7 +255,7 @@ def a_equivalente_anual(d: pd.DataFrame) -> pd.DataFrame:
     El factor se toma por categoría, no global, porque la estacionalidad no es igual en todas: los
     cinco estrellas oscilan menos entre temporadas que los de una y dos.
     """
-    ruta = PROC / "adr_estacionalidad.csv"
+    ruta = BRONZE / "adr_estacionalidad.csv"
     if not ruta.exists():
         print("  (sin adr_estacionalidad.csv: no se aplica corrección de temporada)")
         d["precio_noche_anual"] = np.nan
@@ -286,7 +294,7 @@ def marcar_duplicados(d: pd.DataFrame) -> pd.DataFrame:
 
 
 def main() -> None:
-    censo = pd.read_csv(PROC / "hoteles_y_apartaments_unificados.csv", dtype=str, low_memory=False)
+    censo = pd.read_csv(BRONZE / "hoteles_y_apartaments_unificados.csv", dtype=str, low_memory=False)
     d = censo[censo["municipio"] == "Barcelona"].copy()
     print(f"Barcelona ciudad: {len(d)} alojamientos en el censo")
 
@@ -296,7 +304,7 @@ def main() -> None:
     for c in ("plazas", "habitaciones"):
         d[c] = pd.to_numeric(d[c], errors="coerce")
 
-    precios = pd.read_csv(PROC / "hoteles_con_precio.csv", low_memory=False)
+    precios = pd.read_csv(BRONZE / "precios_hoteles_cruzados.csv", low_memory=False)
     fiables = precios[precios["precio"].notna() & ~precios["dudoso"].fillna(False)]
     d = d.merge(fiables[["licencia_id", "precio", "metodo_cruce", "puntuacion"]],
                 on="licencia_id", how="left")

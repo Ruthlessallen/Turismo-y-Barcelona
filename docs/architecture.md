@@ -57,12 +57,14 @@ es deliberado: ver la decisión registrada más abajo.
 /
 ├── data/
 │   ├── raw/              → descargas originales de cada fuente, sin transformar
-│   ├── processed/        → Parquet limpio y cruzado (lo que consulta DuckDB)
+│   ├── bronze/           → limpio y tipado, una fila por entidad
+│   ├── gold/             → transformado, lo que consulta DuckDB y alimenta la web
 │   └── exports/          → JSON generado para el frontend, uno por panel del dashboard
 ├── pipeline/             → scripts Python de recolección y ETL
-│   ├── sources/          → un módulo por fuente (vut, hoteles, restauracion, aeropuerto, puerto, estadisticas)
-│   ├── transform/        → limpieza, cruce entre fuentes, agregación por municipio/periodo
-│   └── export.py         → genera data/exports/*.json a partir de data/processed/
+│   ├── sources/          → todo lo que toca la red: descargas y geocodificación
+│   ├── bronze/           → limpieza, unificación de fuentes, cruces de identidad
+│   ├── gold/             → transformación con criterio de negocio
+│   └── export/           → genera data/exports/*.json a partir de data/gold/
 ├── web/                  → app Next.js
 │   ├── app/               → rutas (App Router)
 │   ├── components/        → FilterBar, ChoroplethMap, StatTile, TimeSeriesChart... (ver design-system.md)

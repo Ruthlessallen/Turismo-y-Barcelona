@@ -125,15 +125,18 @@ al empezar una sesión para saber qué hay en marcha (ver "Ciclo de trabajo de u
 ## Estructura de carpetas
 
 ```
-data/
-├── raw/              → descargas originales de cada fuente, sin transformar
-├── processed/        → Parquet limpio y cruzado
+data/                 → arquitectura medallón, ver data/README.md
+├── raw/              → descargas originales, sin transformar. Nada del pipeline escribe aquí
+├── bronze/           → limpio y tipado, una fila por entidad
+├── gold/             → transformado: lo que responde preguntas
+│   └── calidad/      → informes sobre los datos, no datos
 └── exports/          → JSON generado para el frontend, uno por panel
 
-pipeline/             → scripts Python de recolección y ETL
-├── sources/          → un módulo por fuente
-├── transform/        → limpieza, cruce, agregación
-└── export.py         → genera data/exports/*.json
+pipeline/             → un directorio por capa de destino, ver pipeline/README.md
+├── sources/          → todo lo que toca la red (descargas y geocodificación)
+├── bronze/           → limpieza, unificación, cruces de identidad
+├── gold/             → transformación con criterio de negocio
+└── export/           → recorte y simplificación para el navegador
 
 web/                  → app Next.js
 ├── app/               → rutas (App Router)

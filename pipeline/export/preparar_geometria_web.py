@@ -46,7 +46,7 @@ CRS_METRICO = 25831
 
 FUENTES = {
     "municipios": (
-        RAIZ / "data" / "processed" / "municipios_provincia_barcelona.geojson",
+        RAIZ / "data" / "bronze" / "municipios_provincia_barcelona.geojson",
         {"NOMMUNI": "municipio", "CODIMUNI": "codi_ine", "CODICOMAR": "codi_comarca"},
         TOLERANCIA_MUNICIPIOS,
     ),
@@ -97,7 +97,7 @@ def main() -> None:
         g.to_file(salida, driver="GeoJSON")
         antes = ruta.stat().st_size / 1e6
         despues = salida.stat().st_size / 1e6
-        print(f"    {len(g)} polígonos | {antes:.1f} MB → {despues:.1f} MB "
+        print(f"    {len(g)} polígonos | {antes:.1f} MB -> {despues:.1f} MB "
               f"({(1 - despues / antes):.0%} menos)\n")
     print(f"Guardado en {DESTINO.relative_to(RAIZ)}")
 

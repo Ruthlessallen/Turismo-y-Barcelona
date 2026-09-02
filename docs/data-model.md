@@ -9,7 +9,7 @@ esperable que algunos campos cambien cuando se vea qué publica cada fuente en l
 no debería cambiar es la forma general: un pequeño esquema en estrella (dimensiones + hechos), que
 encaja con DuckDB/Parquet tal como se decidió en `architecture.md`.
 
-**Granularidad — raw vs. exportado:** `data/raw` y `data/processed` pueden guardar el detalle que
+**Granularidad — raw vs. exportado:** `data/raw`, `data/bronze` y `data/gold` pueden guardar el detalle que
 cada fuente publique (p. ej. dirección si la fuente la da). Lo que se exporta a `data/exports` y
 llega al frontend público **nunca baja de nivel municipio/barrio** — nunca dirección o vivienda
 individual (ver "Fuera de alcance" en `prd.md`). Esa agregación ocurre en `pipeline/export.py`.
@@ -158,7 +158,7 @@ esa serie es solo de hoteles, no de AT (verificar si Idescat también publica AT
 | fecha_baja | DATE NULL | Igual que `fecha_alta` |
 
 **Derivados de precio (implementado 2026-09-02).** Barcelona ciudad, 768 establecimientos. Se
-generan en `preparar_hoteles_bcn.py` → `data/processed/hoteles_bcn.csv` y se completan en
+generan en `pipeline/gold/preparar_hoteles_bcn.py` → `data/gold/hoteles_bcn.csv` y se completan en
 `modelar_precios_hoteles_bcn.py` → `hoteles_bcn_precio_estimado.csv`.
 
 | Campo | Tipo | Descripción |
@@ -316,13 +316,14 @@ exportar a nivel de vivienda individual).
 ## Cambios de esquema
 
 Sustituye a "Migraciones": sin base de datos en producción no hay ficheros de migración SQL, pero
-el esquema de `data/processed` sí cambia con el tiempo y conviene dejar rastro.
+el esquema de `data/bronze` y `data/gold` sí cambia con el tiempo y conviene dejar rastro.
 
 | Fecha | Cambio | Descripción |
 |-------|--------|-------------|
 | 2026-08-27 | Esquema inicial | Primer borrador: municipio, periodo, operador, licencia_vut, licencia_hotel, licencia_restauracion, entrada_turistica, estadistica_turistica. Sin verificar contra fuentes reales todavía. |
 | 2026-09-02 | Derivados de precio en `licencia_hotel` | 21 campos nuevos en `hoteles_bcn.csv` y `hoteles_bcn_precio_estimado.csv`: categoría desdoblada en `estrellas` + `tipo_alojamiento` + `subtipo`, precio observado y estimado, corrección de temporada y banda económica. Retira `categoria_num`, que trataba hostales y AT como escalones de una escala de estrellas. |
 | 2026-09-02 | Serie ADR por categoría | `adr_por_categoria.csv` (636 filas, 2013-2026) y `adr_estacionalidad.csv`. Fuente INE vía Portal de Dades del Ajuntament. Ancla el nivel de precio y da el factor de temporada. |
+| 2026-09-02 | Arquitectura medallon | `data/processed` se reparte en `data/bronze` (limpio) y `data/gold` (transformado), con `gold/calidad` para los informes. Los cuatro ficheros de precio se reducen a dos: `hoteles_cruce_base` era identico a `hoteles_con_precio` salvo nueve celdas, y `hoteles_bcn_precios_rescatados` era un subconjunto de `precios_emparejamientos`. Nuevo `titular_id`, entero estable por NIF, para agrupar por empresa. |
 
 ---
 
