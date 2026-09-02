@@ -39,6 +39,22 @@ por hotel con su banda económica. Es lo que consumen los cuadernos, los exports
 segmentos se estiman sin ejemplos comparables. Separados a propósito, para que nadie los publique
 creyendo que son una tabla más.
 
+## Qué capa puede leer cada script
+
+Cada script escribe en la capa que le da nombre. Sobre **qué puede leer**, la regla es:
+
+> **Lo que lleve un juicio derivado se lee de `gold`.** Precio, banda económica, situación de
+> licencia, cualquier cosa estimada o clasificada. Solo puede leerse de `bronze` lo que el script
+> se limita a agregar sin interpretarlo.
+
+No es purismo. `export_mapa.py` leía el precio de bronze y publicaba el valor crudo de una ventana
+de septiembre: sin corregir de temporada, sin banda, y sin decir si estaba medido o estimado. El
+fallo no era el número, era que el mapa no podía distinguir un dato de una suposición. Existiendo
+`gold/alojamientos_reglados.csv`, esa confusión ya no puede volver a colarse.
+
+Las VUT y la restauración sí se leen de bronze, y es correcto: el export solo las cuenta por barrio
+o municipio, no las clasifica ni les atribuye nada.
+
 ## exports — para el navegador
 
 JSON ya recortado y simplificado, generado desde `gold`. Nunca lleva datos a nivel de vivienda:

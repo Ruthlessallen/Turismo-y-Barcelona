@@ -82,51 +82,64 @@ def completar_coordenadas(d: pd.DataFrame, geo: pd.DataFrame) -> pd.DataFrame:
     return d.drop(columns=["lat_geo", "lon_geo"], errors="ignore")
 
 
-def exportar_hoteles(geo: pd.DataFrame) -> dict:
-    """Hoteles y apartaments turístics, en ficheros separados.
+def exportar_hoteles() -> dict:
+    """Hoteles y apartaments turistics, en ficheros separados.
 
-    Van aparte porque son figuras legales distintas y confundirlas es el error más fácil de
-    cometer con estos datos: la eliminación de 2028 afecta a las VUT, no a los AT, que seguirán
-    operando. Mezclarlos en una sola capa daría a entender que todo el alojamiento en apartamento
+    Van aparte porque son figuras legales distintas y confundirlas es el error mas facil de
+    cometer con estos datos: la eliminacion de 2028 afecta a las VUT, no a los AT, que seguiran
+    operando. Mezclarlos en una sola capa daria a entender que todo el alojamiento en apartamento
     desaparece.
+
+    **Se lee de `gold/alojamientos_reglados.csv`, no del censo de bronze.** Antes se leia el censo
+    y el precio crudo por separado, y llegaba al mapa un precio de una ventana de septiembre sin
+    banda y sin decir si estaba medido o estimado. Cada punto lleva ahora `banda`, `estimado` y
+    `apoyo`, que es lo que `docs/web-checklist.md` exige para no dar por sabido un precio imputado.
     """
-    h = pd.read_csv(BRONZE / "hoteles_y_apartaments_unificados.csv", dtype=str)
-    h = completar_coordenadas(h, geo)
-
-    # Un registro de Open Data BCN sin correspondencia en el Registre se queda sin `tipo`. Viene
-    # del fichero de hoteles del Ajuntament, así que hotel es: dejarlo nulo lo excluiría del mapa.
-    h["tipo"] = h["tipo"].fillna("hotel")
-
-    precios = pd.read_csv(BRONZE / "precios_hoteles_cruzados.csv")
-    fiables = precios[precios["precio"].notna() & ~precios["dudoso"].fillna(False)]
-    h = h.merge(fiables[["licencia_id", "precio"]], on="licencia_id", how="left")
-
+    h = pd.read_csv(GOLD / "alojamientos_reglados.csv", dtype={"licencia_id": str},
+                    low_memory=False)
     con_punto = h[h["lat"].notna()]
+
     puntos = [{
         "id": r["licencia_id"],
         "nom": sin_nan(r["nombre_comercial"]),
         "tipo": sin_nan(r["tipo"]),
         "cat": sin_nan(r["categoria"]),
-        "plazas": int(float(r["plazas"])) if pd.notna(r["plazas"]) else None,
-        "hab": int(float(r["habitaciones"])) if pd.notna(r["habitaciones"]) else None,
-        "precio": round(float(r["precio"])) if pd.notna(r["precio"]) else None,
+        "plazas": int(r["plazas"]) if pd.notna(r["plazas"]) else None,
+        "hab": int(r["habitaciones"]) if pd.notna(r["habitaciones"]) else None,
+        "precio": round(float(r["precio_noche_final"])) if pd.notna(r["precio_noche_final"]) else None,
+        "banda": sin_nan(r["banda_precio"]),
+        # Sin estas dos, un precio estimado seria indistinguible de uno medido en el mapa.
+        "estimado": bool(r["precio_es_estimado"]) if pd.notna(r["precio_es_estimado"]) else None,
+        "apoyo": sin_nan(r["apoyo_estimacion"]),
         "mun": sin_nan(r["municipio"]),
+        "barrio": sin_nan(r["barrio"]),
         "lat": round(float(r["lat"]), 6),
         "lon": round(float(r["lon"]), 6),
-        "prec": r["precision"],
+        "prec": sin_nan(r["precision"]),
     } for _, r in con_punto.iterrows()]
+
+    # Las 5 estimaciones sin ejemplos comparables salen sin banda: un hueco es mas honesto que un
+    # numero que nadie puede contradecir (ver `apoyo_estimacion` en docs/data-model.md).
+    for p in puntos:
+        if p["apoyo"] == "escaso":
+            p["banda"] = None
+            p["precio"] = None
 
     hoteles = [p for p in puntos if p["tipo"] == "hotel"]
     apartamentos = [p for p in puntos if p["tipo"] == "apartament_turistic"]
     volcar(DESTINO / "hoteles.json", hoteles)
     volcar(DESTINO / "apartaments_turistics.json", apartamentos)
 
+    con_banda = [p for p in puntos if p["banda"]]
     return {
         "hoteles": {"total": int((h["tipo"] == "hotel").sum()), "con_punto": len(hoteles)},
         "apartaments_turistics": {
             "total": int((h["tipo"] == "apartament_turistic").sum()),
             "con_punto": len(apartamentos)},
-        "con_precio": int(con_punto["precio"].notna().sum()),
+        "con_banda": len(con_banda),
+        "banda_observada": len([p for p in con_banda if p["estimado"] is False]),
+        "banda_estimada": len([p for p in con_banda if p["estimado"] is True]),
+        "sin_banda_por_apoyo": len([p for p in puntos if p["apoyo"] == "escaso"]),
     }
 
 
@@ -200,7 +213,7 @@ def main() -> None:
     print(f"Coordenadas geocodificadas utilizables: {len(geo):,}\n")
 
     resumen = {
-        **exportar_hoteles(geo),
+        **exportar_hoteles(),
         "restauracion": exportar_restauracion(),
         "vut": exportar_vut(geo),
         "airbnb": exportar_airbnb(),

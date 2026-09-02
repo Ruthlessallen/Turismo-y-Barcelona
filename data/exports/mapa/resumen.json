@@ -7,7 +7,10 @@
     "total": 120,
     "con_punto": 84
   },
-  "con_precio": 430,
+  "con_banda": 758,
+  "banda_observada": 451,
+  "banda_estimada": 307,
+  "sin_banda_por_apoyo": 5,
   "restauracion": {
     "total": 14501,
     "por_tipo": {

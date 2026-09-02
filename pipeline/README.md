@@ -29,9 +29,13 @@ python pipeline/gold/preparar_hoteles_bcn.py
 python pipeline/bronze/rescatar_precios_hoteles.py     # segundo pase del cruce
 python pipeline/gold/preparar_hoteles_bcn.py           # recoge lo rescatado
 python pipeline/gold/modelar_precios_hoteles_bcn.py
+python pipeline/gold/preparar_alojamientos_provincia.py
 python pipeline/export/preparar_geometria_web.py
 python pipeline/export/export_mapa.py
 ```
+
+`preparar_alojamientos_provincia` va al final de `gold` porque necesita el precio ya estimado: es
+lo que lleva la banda economica desde la ciudad al censo provincial para que el export la publique.
 
 `preparar_hoteles_bcn` aparece dos veces a propósito. El rescate de precios necesita saber a quién
 le falta, así que se ejecuta después; y su resultado hay que recogerlo. No es circular —el rescate

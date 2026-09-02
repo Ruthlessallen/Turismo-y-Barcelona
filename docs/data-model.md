@@ -187,6 +187,18 @@ debajo de 100 € acierta 2 y manda los otros 50 a `€€`. Publicar `€` solo
 `precio_es_estimado` sea falso; para los estimados cerca del corte, agrupar como "económico". El
 acierto de banda exacta es del 65,2% y el de banda exacta o contigua del 98,9%.
 
+**Tabla publicable (`gold/alojamientos_reglados.csv`, 2026-09-02).** Une el censo provincial con
+lo que el analisis ha deducido, y es **la unica que debe leer el export**. 1.563 establecimientos,
+1.298 con coordenada; la banda economica solo llega a los 768 de la ciudad de Barcelona, porque el
+raspado y el modelo cubren la ciudad y extenderlos al resto de la provincia seria inventar. Los
+otros 795 salen con `banda_precio` nula, que es la respuesta honesta.
+
+| Campo | Descripcion |
+|-------|-------------|
+| precision | `exacta` (coordenada del registro) \| `geocodificada` (deducida y verificada contra su municipio). Viaja con el punto porque no valen lo mismo |
+| precio_noche_final, banda_precio | Solo ciudad de Barcelona |
+| precio_es_estimado, apoyo_estimacion | Sin estas dos, un precio imputado seria indistinguible de uno medido en el mapa |
+
 #### licencia_restauracion
 **Verificado 2026-08-28:** la Diputació de Barcelona (provincia) sí trae NIF y razón social —
 corrección sobre el supuesto anterior de que esta categoría no tendría titular identificable.
