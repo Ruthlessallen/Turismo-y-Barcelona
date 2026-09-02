@@ -75,4 +75,10 @@ pnpm-debug.log*
 
 # Carpeta de trabajo para pruebas y tanteos. No se versiona: lo que sirva se mueve
 # a pipeline/ y lo que no, se borra.
-scraps/
+# scraps/: material retirado del pipeline, a la espera de borrarse.
+# Se versionan los scripts y las notas —por si hay que recuperar algo de lo que hacían— y se
+# ignoran los datos: se regeneran desde el pipeline y además arrastran NIF y domicilio de
+# personas fisicas, que no deben multiplicarse en el historial de git.
+scraps/**/*.csv
+scraps/**/*.geojson
+scraps/**/*.parquet
