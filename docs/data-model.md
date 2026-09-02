@@ -157,6 +157,36 @@ esa serie es solo de hoteles, no de AT (verificar si Idescat también publica AT
 | fecha_alta | DATE | No viene directa — se deriva de snapshots sucesivos o de la serie de Idescat |
 | fecha_baja | DATE NULL | Igual que `fecha_alta` |
 
+**Derivados de precio (implementado 2026-09-02).** Barcelona ciudad, 768 establecimientos. Se
+generan en `preparar_hoteles_bcn.py` → `data/processed/hoteles_bcn.csv` y se completan en
+`modelar_precios_hoteles_bcn.py` → `hoteles_bcn_precio_estimado.csv`.
+
+| Campo | Tipo | Descripción |
+|-------|------|-------------|
+| estrellas | DOUBLE NULL | 1,0 a 5,0; **4,5 para "4 estrelles superior"**. Nula en hostales, pensiones y AT: no se miden en estrellas y ponerlos en cero afirmaría un orden que no existe |
+| tipo_alojamiento | VARCHAR | `hotel_estrellas` (462) \| `sin_estrellas` (293) \| `apartament_turistic` (13) |
+| subtipo | VARCHAR | Deducido del nombre comercial, distingue lo que la categoría oficial agrupa entero bajo "No aplica": `hostal` \| `pension` \| `residencia` \| `apartamentos` \| `sin_indicio` |
+| cadena, es_cadena | VARCHAR, BOOL | Grupo hotelero. 132 establecimientos en 25 grupos |
+| tamano | VARCHAR | Por habitaciones: `muy_pequeno` (≤15) \| `pequeno` (≤40) \| `mediano` (≤100) \| `grande`. Cortes de negocio, no estadísticos |
+| origen_coord | VARCHAR | `censo` (446) \| `icgc_verificada` (317) — qué fuente dio la coordenada |
+| distancia_centro_km | DOUBLE NULL | Haversine hasta Plaça Catalunya. **No euclídea**: a 41,4° un grado de longitud son 83 km y no 111 |
+| precio_noche | DOUBLE NULL | Por habitación y noche, observado. 451 de 768 (58,7%). Ventana del 29-09 al 07-10 de 2026 |
+| precio_noche_anual | DOUBLE NULL | `precio_noche` / `factor_temporada`. Es el que se modela y el que sostiene la banda |
+| factor_temporada | DOUBLE | Cuánto pesa la ventana raspada sobre la media del año, por categoría (1,10 a 1,18) — de `adr_estacionalidad.csv` |
+| origen_precio | VARCHAR NULL | `cruce_inicial` (430) \| `rescate` (21) |
+| precio_recortado | BOOL | El valor superaba 5× la mediana de su categoría y se llevó al techo. Dos casos |
+| precio_noche_estimado | DOUBLE | Predicción del modelo para **todas** las filas, tengan precio o no |
+| precio_es_estimado | BOOL | Si `precio_noche_final` viene del modelo |
+| precio_noche_final | DOUBLE | Observado donde lo hay, estimado donde no |
+| banda_precio | VARCHAR | `€` <100 \| `€€` 100-175 \| `€€€` 175-300 \| `€€€€` >300, sobre `precio_noche_final` |
+| apoyo_estimacion | VARCHAR | `observado` (451) \| `suficiente` (262) \| `justo` (50) \| `escaso` (5). Cuántos ejemplos con precio real sostienen el segmento de esa fila |
+| duplicado_probable | BOOL | Mismo nombre y dirección que otra licencia. 8 casos, **no se eliminan**: dos licencias en un portal pueden ser dos negocios |
+
+**Cómo leer `banda_precio`.** El modelo no sabe producir la banda `€`: de 52 establecimientos por
+debajo de 100 € acierta 2 y manda los otros 50 a `€€`. Publicar `€` solo cuando
+`precio_es_estimado` sea falso; para los estimados cerca del corte, agrupar como "económico". El
+acierto de banda exacta es del 65,2% y el de banda exacta o contigua del 98,9%.
+
 #### licencia_restauracion
 **Verificado 2026-08-28:** la Diputació de Barcelona (provincia) sí trae NIF y razón social —
 corrección sobre el supuesto anterior de que esta categoría no tendría titular identificable.
@@ -291,6 +321,8 @@ el esquema de `data/processed` sí cambia con el tiempo y conviene dejar rastro.
 | Fecha | Cambio | Descripción |
 |-------|--------|-------------|
 | 2026-08-27 | Esquema inicial | Primer borrador: municipio, periodo, operador, licencia_vut, licencia_hotel, licencia_restauracion, entrada_turistica, estadistica_turistica. Sin verificar contra fuentes reales todavía. |
+| 2026-09-02 | Derivados de precio en `licencia_hotel` | 21 campos nuevos en `hoteles_bcn.csv` y `hoteles_bcn_precio_estimado.csv`: categoría desdoblada en `estrellas` + `tipo_alojamiento` + `subtipo`, precio observado y estimado, corrección de temporada y banda económica. Retira `categoria_num`, que trataba hostales y AT como escalones de una escala de estrellas. |
+| 2026-09-02 | Serie ADR por categoría | `adr_por_categoria.csv` (636 filas, 2013-2026) y `adr_estacionalidad.csv`. Fuente INE vía Portal de Dades del Ajuntament. Ancla el nivel de precio y da el factor de temporada. |
 
 ---
 
