@@ -24,11 +24,13 @@ python pipeline/bronze/asignar_municipio.py            # verifica lo geocodifica
 python pipeline/bronze/cruzar_precios_hoteles.py
 python pipeline/bronze/enriquecer_hoteles_con_booking.py
 python pipeline/bronze/preparar_adr_por_categoria.py
+python pipeline/bronze/unificar_airbnb.py
 python pipeline/gold/auditar_licencias.py
 python pipeline/gold/preparar_hoteles_bcn.py
 python pipeline/bronze/rescatar_precios_hoteles.py     # segundo pase del cruce
 python pipeline/gold/preparar_hoteles_bcn.py           # recoge lo rescatado
 python pipeline/gold/modelar_precios_hoteles_bcn.py
+python pipeline/gold/preparar_airbnb_bcn.py
 python pipeline/gold/preparar_alojamientos_provincia.py
 python pipeline/export/preparar_geometria_web.py
 python pipeline/export/export_mapa.py

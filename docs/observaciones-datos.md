@@ -90,3 +90,31 @@ ATB-038768**. El registro de apartaments turístics de Barcelona ciudad llega ha
 
 Pertenece a la auditoría de licencias, no al trabajo de precios, pero queda anotado aquí porque
 salió mientras se buscaban precios y conviene no perderlo.
+
+
+---
+
+## La mitad de las exenciones se apoyan en 31 noches, que no eximen
+
+**Fecha:** 2026-09-02
+**Fuente:** `minimum_nights` de Inside Airbnb, volcado del 2026-06-24
+
+| Situación declarada | Anuncios | Exactamente 31 noches | 32 o más |
+|---|---|---|---|
+| Exención declarada | 2.960 | **1.478 (49,9%)** | 1.482 (50,1%) |
+| Sin declarar | 4.124 | 1.144 (27,7%) | 1.350 (32,7%) |
+
+**Por qué importa.** El Decret Llei 3/2023 define el uso turístico como la cesión por un *«període
+de temps continu igual o inferior a 31 dies»*. Igual **o inferior**: una estancia de 31 noches
+sigue siendo uso turístico y sigue necesitando licencia. Solo a partir de 32 queda fuera.
+
+La mitad de los anuncios que declaran estar exentos fijan su mínimo exactamente en 31, es decir,
+una noche por debajo de lo que les eximiría. No se puede distinguir desde el dato si es una
+lectura equivocada de la norma —«31 días es un mes, luego es alquiler de temporada»— o una
+colocación deliberada en el borde. Lo que sí se puede afirmar es que esa exención no les ampara.
+
+**Efecto sobre el precio.** Es lo que explica que la oferta sin licencia salga a mitad de precio:
+pisos enteros de cuatro plazas con licencia verificada están en 54,7 €/plaza y los de `sin_declarar`
+en 26,7 €. No son el mismo producto compitiendo por el mismo cliente; los segundos son alquiler de
+temporada, con precio por noche de mensualidad. Al comparar oferta turística hay que separarlos, o
+la banda económica de Airbnb saldrá artificialmente barata.

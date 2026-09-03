@@ -35,6 +35,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from bandas import por_plaza, precio_por_plaza_hotel
+
 RAIZ = Path(__file__).resolve().parents[2]
 BRONZE = RAIZ / "data" / "bronze"
 GOLD = RAIZ / "data" / "gold"
@@ -43,7 +45,7 @@ SALIDA = GOLD / "alojamientos_reglados.csv"
 COLUMNAS = ["licencia_id", "nombre_comercial", "tipo", "municipio", "codi_ine", "barrio",
             "categoria", "estrellas", "tipo_alojamiento", "plazas", "habitaciones", "titular_id",
             "lat", "lon", "precision", "precio_noche_final", "banda_precio",
-            "precio_es_estimado", "apoyo_estimacion"]
+            "precio_plaza", "banda_plaza", "precio_es_estimado", "apoyo_estimacion"]
 
 
 def completar_coordenadas(d: pd.DataFrame) -> pd.DataFrame:
@@ -93,6 +95,13 @@ def main() -> None:
     # Fuera de la ciudad no hay banda, y la columna lo dice en vez de fingir un valor.
     d["precio_es_estimado"] = d["precio_es_estimado"].astype("boolean")
 
+    # La banda por plaza es la unica escala en la que un hotel y un piso de Airbnb se comparan.
+    # `banda_precio` sigue siendo por habitacion, que es lo que paga quien reserva y lo que mide
+    # la estadistica oficial: son dos preguntas distintas y las dos columnas conviven.
+    d["precio_plaza"] = precio_por_plaza_hotel(d["precio_noche_final"], d["plazas"],
+                                               d["habitaciones"])
+    d["banda_plaza"] = por_plaza(d["precio_plaza"])
+
     d[COLUMNAS].to_csv(SALIDA, index=False, encoding="utf-8")
 
     con_banda = d["banda_precio"].notna()
@@ -100,7 +109,9 @@ def main() -> None:
     print(f"  con banda       : {con_banda.sum():,} (solo ciudad de Barcelona)")
     print(f"  sin banda       : {(~con_banda).sum():,} (resto de la provincia, sin precio raspado)")
     print(f"\n  por tipo  : {d['tipo'].value_counts().to_dict()}")
-    print(f"  por banda : {d['banda_precio'].value_counts().to_dict()}")
+    print(f"  por banda (habitacion): {d['banda_precio'].value_counts().to_dict()}")
+    print(f"  por banda (plaza)     : {d['banda_plaza'].value_counts().to_dict()}")
+    print(f"  precio/plaza mediano  : {d['precio_plaza'].median():.0f} EUR")
     print(f"  precio observado {int((d['precio_es_estimado'] == False).sum())}, "  # noqa: E712
           f"estimado {int((d['precio_es_estimado'] == True).sum())}")  # noqa: E712
     print(f"\nGuardado en {SALIDA.relative_to(RAIZ)}")

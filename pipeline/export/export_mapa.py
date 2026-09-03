@@ -191,20 +191,38 @@ def exportar_vut(geo: pd.DataFrame) -> dict:
 
 
 def exportar_airbnb() -> dict:
-    """Coordenadas desplazadas ~200 m por la fuente: solo agregados."""
-    a = pd.read_csv(GOLD / "airbnb_situacion_licencia.csv")
-    por_barrio = (a.groupby("neighbourhood")
-                  .agg(anuncios=("id", "size"),
-                       sujetos_vut=("sujeto_a_vut", "sum"),
-                       sin_licencia=("sin_licencia", "sum"),
-                       distrito=("neighbourhood_group", "first"))
-                  .reset_index().rename(columns={"neighbourhood": "barrio"}))
-    for c in ("sujetos_vut", "sin_licencia"):
-        por_barrio[c] = por_barrio[c].astype(int)
+    """Coordenadas desplazadas ~200 m por la fuente: solo agregados por barrio.
 
-    (DESTINO / "airbnb_por_barrio.json").write_text(
-        por_barrio.to_json(orient="records", force_ascii=False), encoding="utf-8")
-    return {"total": len(a), "barrios": len(por_barrio)}
+    Se lee de `gold/airbnb_bcn.csv`, que trae el precio **por plaza** ya corregido de temporada.
+    Es la unica escala en la que la oferta de Airbnb y la hotelera se comparan: 221 EUR de un piso
+    para cuatro y 174 EUR de una habitacion de hotel no dicen nada enfrentados.
+    """
+    a = pd.read_csv(GOLD / "airbnb_bcn.csv", low_memory=False)
+
+    def reparto(g: pd.DataFrame) -> dict:
+        cuenta = g["banda_plaza"].value_counts()
+        return {b: int(cuenta.get(b, 0)) for b in ("€", "€€", "€€€", "€€€€")}
+
+    filas = []
+    for barrio, g in a.groupby("neighbourhood"):
+        con_precio = g[g["precio_plaza_anual"].notna()]
+        filas.append({
+            "barrio": barrio,
+            "distrito": g["neighbourhood_group"].iloc[0],
+            "anuncios": len(g),
+            "sujetos_vut": int(g["sujeto_a_vut"].sum()),
+            "sin_licencia": int(g["sin_licencia"].sum()),
+            "con_precio": len(con_precio),
+            "precio_plaza_mediano": (round(float(con_precio["precio_plaza_anual"].median()), 1)
+                                     if len(con_precio) else None),
+            "bandas": reparto(g),
+        })
+
+    volcar(DESTINO / "airbnb_por_barrio.json", filas)
+    con = a["precio_plaza_anual"].notna()
+    return {"total": len(a), "barrios": len(filas),
+            "con_precio_plaza": int(con.sum()),
+            "precio_plaza_mediano": round(float(a.loc[con, "precio_plaza_anual"].median()), 1)}
 
 
 def main() -> None:

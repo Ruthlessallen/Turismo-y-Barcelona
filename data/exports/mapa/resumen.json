@@ -28,6 +28,8 @@
   },
   "airbnb": {
     "total": 15406,
-    "barrios": 69
+    "barrios": 69,
+    "con_precio_plaza": 13355,
+    "precio_plaza_mediano": 43.2
   }
 }
