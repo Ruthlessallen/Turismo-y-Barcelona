@@ -33,18 +33,18 @@ SALIDA = RAIZ / "docs" / "criba.md"
 # La rama se declara en vez de deducirse: unas preguntas descartan al responder "si" y otras al
 # responder "no", y dejar eso implicito es la forma mas rapida de invertir un diagrama sin notarlo.
 PASOS_AIRBNB = [
-    ("regimen_no_vut", "¿Declara licencia de hotel,<br>albergue o apartament turistic?", "si",
+    ("alojamiento_reglado", "¿Declara licencia de hotel,<br>albergue o apartament turistic?", "si",
      "Alojamiento reglado<br>cuenta en el lado hotelero"),
-    ("no_es_cesion_entera", "¿Cede la vivienda entera?", "no",
-     "Habitaciones sueltas<br>un HUT se cede completo"),
+    ("habitacion_sin_hutb", "¿Cede la vivienda entera,<br>o declara un HUTB?", "no",
+     "Habitaciones sueltas sin licencia<br>no es lo que la ley elimina"),
+    ("habitacion_de_hotel", "¿Es habitacion de hotel?", "si",
+     "Habitacion de establecimiento<br>se analiza en el otro lado"),
     ("estancia_de_32_noches", "¿Estancia minima<br>de 31 noches o menos?", "no",
      "Alquiler de temporada<br>fuera del alcance de la ley"),
-    ("sin_actividad", "¿Ha tenido huespedes<br>en los ultimos 12 meses?", "no",
-     "Apagados<br>sin resenas y sin calendario"),
-    ("repeticion_de_vivienda", "¿Es la primera vez que<br>aparece esta HUTB?", "no",
-     "El mismo piso ya contado<br>se conserva la copia con precio"),
-    ("sin_precio_aprovechable", "¿Tiene precio, o un anuncio<br>hermano del que deducirlo?", "no",
-     "Sin tarifa recuperable"),
+    ("sin_actividad_desde_09_2025", "¿Tiene resenas<br>desde septiembre de 2025?", "no",
+     "Sin huespedes recientes<br>no vende"),
+    ("duplicado de nombre y anfitrion", "¿Es la primera vez que<br>aparece este anuncio?", "no",
+     "Mismo nombre y anfitrion<br>ya contado"),
 ]
 
 
@@ -82,8 +82,12 @@ def diagrama(inicio: int, pasos: list, conteos: dict[str, int], final: str) -> s
 
 
 def main() -> None:
-    dentro = pd.read_csv(GOLD / "airbnb_bcn.csv", low_memory=False)
-    fuera = pd.read_csv(GOLD / "airbnb_excluidos.csv", low_memory=False)
+    # Se leen las salidas del notebook `pipeline/notebooks/revisar_airbnb_v2.ipynb`, que es donde
+    # vive el criterio vigente. El pipeline mantiene su propia criba en `preparar_airbnb_bcn.py`,
+    # con umbrales distintos; mientras no converjan, este diagrama describe la del notebook, que es
+    # la que alimenta la web.
+    dentro = pd.read_csv(GOLD / "airbnb_para_web.csv", low_memory=False)
+    fuera = pd.read_csv(GOLD / "airbnb_excluidos_web.csv", low_memory=False)
     conteos = fuera["motivo_exclusion"].value_counts().to_dict()
     inicio = len(dentro) + len(fuera)
 
@@ -111,12 +115,12 @@ va de lo estructural a lo circunstancial: primero si la ley le alcanza, despues 
 final si hay precio.
 
 ```mermaid
-{diagrama(inicio, PASOS_AIRBNB, conteos, "Viviendas de uso turistico<br>sujetas a la ley")}
+{diagrama(inicio, PASOS_AIRBNB, conteos, "df_v2<br>viviendas de uso turistico")}
 ```
 
 {chr(10).join(filas)}
 
-Los descartados no se borran: quedan en `data/gold/airbnb_excluidos.csv` con su `motivo_exclusion`,
+Los descartados no se borran: quedan en `data/gold/airbnb_excluidos_web.csv` con su `motivo_exclusion`,
 de modo que cualquiera puede rehacer el recuento con otro criterio sin volver al dato crudo.
 """, encoding="utf-8")
 

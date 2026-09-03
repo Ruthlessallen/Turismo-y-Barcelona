@@ -44,6 +44,16 @@ le falta, así que se ejecuta después; y su resultado hay que recogerlo. No es 
 solo devuelve pares de licencia y precio— y es idempotente: la segunda vuelta no encuentra nada
 nuevo que hacer.
 
+## Notebooks
+
+`notebooks/revisar_airbnb_v2.ipynb` es donde vive la limpieza de Airbnb: clasificación de licencias
+contra el registro oficial, deduplicación, criba y construcción de `df_v2`, el conjunto que va a la
+web. Sus salidas son `data/gold/airbnb_para_web.csv` y `data/gold/airbnb_excluidos_web.csv`.
+
+**Su criterio y el de `pipeline/gold/preparar_airbnb_bcn.py` todavía no coinciden**: el script del
+pipeline aplica sus propios umbrales y produce `airbnb_bcn.csv`. Mientras no converjan, el que
+alimenta la web es el del notebook, y es el que describe `docs/criba.md`.
+
 ## Diagramas
 
 Dos, porque la trazabilidad tiene dos preguntas y no se responden con el mismo dibujo.
