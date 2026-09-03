@@ -337,6 +337,7 @@ el esquema de `data/bronze` y `data/gold` sí cambia con el tiempo y conviene de
 | 2026-09-02 | Serie ADR por categoría | `adr_por_categoria.csv` (636 filas, 2013-2026) y `adr_estacionalidad.csv`. Fuente INE vía Portal de Dades del Ajuntament. Ancla el nivel de precio y da el factor de temporada. |
 | 2026-09-02 | Arquitectura medallon | `data/processed` se reparte en `data/bronze` (limpio) y `data/gold` (transformado), con `gold/calidad` para los informes. Los cuatro ficheros de precio se reducen a dos: `hoteles_cruce_base` era identico a `hoteles_con_precio` salvo nueve celdas, y `hoteles_bcn_precios_rescatados` era un subconjunto de `precios_emparejamientos`. Nuevo `titular_id`, entero estable por NIF, para agrupar por empresa. |
 | 2026-09-02 | Airbnb con capacidad y banda por plaza | `bronze/airbnb_anuncios.csv` une el resumen con el volcado de detalle de Inside Airbnb (90 columnas frente a 19) para incorporar `accommodates`; `gold/airbnb_bcn.csv` anade precio por plaza corregido de temporada y `banda_plaza`. Los alojamientos reglados reciben las mismas dos columnas. `pipeline/gold/bandas.py` guarda la definicion unica de ambas bandas. |
+| 2026-09-02 | Airbnb: uso turistico, repeticiones y perfil del anfitrion | `gold/airbnb_bcn.csv` anade `uso_turistico` (<=31 noches, el alcance real del decreto), `borde_31_noches`, `vivienda_id` + `es_repeticion` (una HUTB es una vivienda: 530 licencias aparecen en varios anuncios, 1.028 filas de mas) y `host_perfil` (`solo_con_licencia` / `solo_sin_licencia` / `mixto`). Nada se elimina: se marca. |
 
 ---
 
