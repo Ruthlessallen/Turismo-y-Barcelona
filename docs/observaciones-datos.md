@@ -165,3 +165,64 @@ dispersión libre por encima apunta a la plataforma, no a los anfitriones.
 **Efecto en el recuento.** Los 1.478 que se apoyan en 31 quedan **dentro** del conjunto sujeto a la
 eliminación de 2028, marcados con `borde_31_noches`. Aceptar la exención tal como se declara habría
 restado casi mil quinientas viviendas del alcance.
+
+
+---
+
+## Los 262 sin precio no son un fallo del dato, son tres cosas distintas
+
+**Fecha:** 2026-09-02
+**Fuente:** cruce de `precio_anuncio`, `last_review` y `availability_365` sobre los 7.327 anuncios
+sujetos a la ley
+
+Tras las exclusiones quedan 262 anuncios sin precio, el 3,6%. Repartidos por el mes de su última
+reseña, no se distribuyen al azar:
+
+| Último comentario | Registros | % cuyo anfitrión sí cotiza en otro anuncio | Disponibilidad mediana |
+|---|---|---|---|
+| 2026-06 | 89 | 87% | 124 días |
+| 2026-05 | 40 | 82% | 86 días |
+| 2026-04 | 19 | 79% | 20 días |
+| 2026-01 a 2026-03 | 30 | 55-100% | 0-52 días |
+| 2025-07 a 2025-12 | 49 | 50-100% | 0-18 días |
+| Sin reseñas nunca | 35 | 26% | 313 días |
+
+**148 son recientes y con calendario abierto.** Abril a junio de 2026, disponibilidad de 20 a 124
+días, y en el 80-87% de los casos su anfitrión sí publica precio en otro anuncio. La lectura más
+probable es que estuvieran ocupados o bloqueados el día del volcado: Airbnb no muestra tarifa
+cuando no hay noches vendibles en la ventana consultada. Es un artefacto de la foto, no una
+carencia del anuncio.
+
+**35 no han tenido nunca una reseña** y ofrecen 313 días. Solo el 26% tiene un anfitrión que cotice
+en otro sitio, lo que encaja con anuncios recién publicados que aún no han fijado tarifa.
+
+**79 son de 2025 con disponibilidad de 0 a 20 días.** Estos sí parecen apagados. Pasaron el filtro
+de actividad por tener alguna reseña dentro de los doce meses, pero su calendario cerrado dice otra
+cosa.
+
+**Qué implica.** No conviene imputarles precio ni eliminarlos en bloque: los tres grupos significan
+cosas distintas y solo el tercero es candidato a excluirse. Para agregados por barrio, 262 sobre
+7.327 no mueve una mediana. Para un recuento de oferta disponible, los 148 recientes sí cuentan
+como oferta, aunque ese día no tuvieran hueco.
+
+---
+
+## 631 anuncios usan una licencia de vivienda entera para vender una habitación
+
+**Fecha:** 2026-09-02
+**Fuente:** cruce del prefijo de `licencia_regional` con `room_type`
+
+| Licencia declarada | Piso entero | Habitación privada |
+|---|---|---|
+| HUTB | 6.519 | **631** |
+| HB (hotel) | 53 | 556 |
+| AJ (albergue) | 0 | 107 |
+| Sin declarar | 4.250 | 3.073 |
+
+Un HUTB ampara la cesión del **habitatge sencer**. Los 556 de `HB` y los 107 de `AJ` vendiendo
+habitaciones son normales —un hotel y un albergue publican sus habitaciones por separado— pero 631
+anuncios declaran una licencia de vivienda de uso turístico y anuncian una habitación suelta.
+
+Quedan fuera del recuento de VUT por no ser cesión entera, así que no afectan a la cifra de
+viviendas que la ley elimina. Se anota aquí porque pertenece a la auditoría de licencias, no al
+trabajo de precios: es una licencia usada para una actividad distinta de la que ampara.
