@@ -200,10 +200,19 @@ en otro sitio, lo que encaja con anuncios recién publicados que aún no han fij
 de actividad por tener alguna reseña dentro de los doce meses, pero su calendario cerrado dice otra
 cosa.
 
-**Qué implica.** No conviene imputarles precio ni eliminarlos en bloque: los tres grupos significan
-cosas distintas y solo el tercero es candidato a excluirse. Para agregados por barrio, 262 sobre
-7.327 no mueve una mediana. Para un recuento de oferta disponible, los 148 recientes sí cuentan
-como oferta, aunque ese día no tuvieran hueco.
+**Qué se hizo con ellos (2026-09-02).** Primero recuperar, después descartar:
+
+1. **La deduplicación se corrigió para conservar la copia que sí cotiza.** Conservaba la primera
+   por `id`, y en 21 viviendas eso dejaba dentro la copia muda mientras tiraba la que tenía precio
+   — el mismo piso, el dato disponible, y perdido por el criterio de desempate. El orden es ahora:
+   que tenga precio, que su última reseña sea más reciente, y el `id` como desempate.
+2. **Se excluyen 67**: 48 cuya última reseña es de 2025 o antes, y 19 de 2026 cuyo anfitrión no
+   tiene ningún otro anuncio del que deducir tarifa.
+3. **Se conservan 189**: 154 de 2026 con anfitrión que cotiza en otros anuncios —calendario
+   abierto, probablemente ocupados el día del volcado— y 35 sin reseñas nunca, que ofrecen 313 días
+   de mediana y son publicaciones recientes.
+
+La cobertura de precio entre los sujetos a la ley pasa del 96,4% al **97,4%**.
 
 ---
 

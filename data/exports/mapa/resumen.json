@@ -27,17 +27,18 @@
     "municipios": 279
   },
   "airbnb": {
-    "sujetos_a_la_ley": 7327,
-    "excluidos": 8079,
+    "sujetos_a_la_ley": 7284,
+    "excluidos": 8122,
     "motivos": {
       "no_es_cesion_entera": 3739,
       "estancia_de_32_noches": 1848,
       "regimen_no_vut": 897,
       "sin_actividad": 802,
-      "repeticion_de_vivienda": 793
+      "repeticion_de_vivienda": 769,
+      "sin_precio_aprovechable": 67
     },
     "barrios": 64,
-    "con_precio_plaza": 7065,
-    "precio_plaza_mediano": 49.5
+    "con_precio_plaza": 7095,
+    "precio_plaza_mediano": 49.6
   }
 }

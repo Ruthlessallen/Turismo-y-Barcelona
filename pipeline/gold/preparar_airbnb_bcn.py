@@ -68,10 +68,14 @@ PATRON_REGIONAL = re.compile(
     r"Barcelona\s*-\s*Regional registration number\s*(?:<br\s*/?>)*\s*([^<]*)", re.I)
 
 MOTIVOS = ["regimen_no_vut", "no_es_cesion_entera", "estancia_de_32_noches", "sin_actividad",
-           "repeticion_de_vivienda"]
+           "repeticion_de_vivienda", "sin_precio_aprovechable"]
+
+# Ultimo ano con volcado. Un anuncio sin precio cuya ultima resena es anterior no aporta ni oferta
+# ni tarifa.
+ANYO_VOLCADO = 2026
 
 COLUMNAS = ["id", "host_id", "host_perfil", "regimen", "cesion_entera", "estado_actividad",
-            "sujeto_a_ley_vut", "motivo_exclusion", "neighbourhood_group", "neighbourhood", "room_type",
+            "sujeto_a_ley_vut", "motivo_exclusion", "anuncios_del_anfitrion", "last_review", "neighbourhood_group", "neighbourhood", "room_type",
             "property_type", "accommodates", "bedrooms", "minimum_nights", "uso_turistico",
             "borde_31_noches", "licencia_regional", "vivienda_id", "anuncios_de_la_vivienda",
             "es_repeticion", "precio_anuncio", "precio_por_plaza", "precio_plaza_anual",
@@ -140,6 +144,35 @@ def estado_de_actividad(d: pd.DataFrame) -> pd.Series:
                                default="inactivo"), index=d.index)
 
 
+def sin_precio_aprovechable(d: pd.DataFrame) -> pd.Series:
+    """Anuncios sin precio de los que ademas no se puede deducir ninguno.
+
+    Antes de descartar nada se agota la via de recuperarlo: la deduplicacion conserva la copia que
+    si cotiza (ver `marcar_repeticiones`), lo que devuelve el precio de 21 viviendas que antes
+    quedaban representadas por su copia muda.
+
+    De lo que queda se descarta:
+
+    - Lo que lleva sin resenas desde 2025 o antes. Sin tarifa y sin huespedes recientes, no es
+      oferta que nadie pueda contratar.
+    - Lo de 2026 cuyo anfitrion no tiene ningun otro anuncio. Sin tarifa propia ni un anuncio
+      hermano del que deducirla, no hay de donde sacar el precio.
+
+    Se conserva, en cambio, lo de 2026 cuyo anfitrion si cotiza en otros anuncios: son 148 casos
+    con el calendario abierto --hasta 124 dias-- que lo mas probable es que estuvieran ocupados el
+    dia del volcado. Eso es oferta real aunque ese dia no tuviera hueco, y contarla como
+    inexistente restaria viviendas del alcance de la ley.
+
+    Los que nunca han tenido una resena tampoco se descartan: ofrecen 313 dias de mediana y son
+    anuncios recien publicados, no apagados.
+    """
+    sin_precio = d["precio_anuncio"].isna()
+    resena = pd.to_datetime(d["last_review"], errors="coerce")
+    anterior = resena.dt.year < ANYO_VOLCADO
+    huerfano = resena.dt.year.eq(ANYO_VOLCADO) & (d["anuncios_del_anfitrion"] <= 1)
+    return sin_precio & (anterior | huerfano)
+
+
 def motivo_de_exclusion(d: pd.DataFrame) -> pd.Series:
     """Por que un anuncio no cuenta. Se queda el primer motivo que aplica, en este orden.
 
@@ -151,7 +184,8 @@ def motivo_de_exclusion(d: pd.DataFrame) -> pd.Series:
          ~d["cesion_entera"],
          ~d["uso_turistico"],
          d["estado_actividad"].eq("inactivo"),
-         d["es_repeticion"]],
+         d["es_repeticion"],
+         sin_precio_aprovechable(d)],
         MOTIVOS, default=None), index=d.index)
 
 
@@ -178,9 +212,19 @@ def marcar_repeticiones(d: pd.DataFrame) -> pd.DataFrame:
     es_hutb = d["licencia_regional"].str.match(r"^HUTB", na=False)
     d["vivienda_id"] = np.where(es_hutb, d["licencia_regional"], "anuncio:" + d["id"].astype(str))
     d["anuncios_de_la_vivienda"] = d.groupby("vivienda_id")["id"].transform("size")
-    # La primera por id: cualquier criterio estable sirve, lo que importa es que sea reproducible.
-    d["es_repeticion"] = d.sort_values("id").duplicated("vivienda_id") & es_hutb
-    d["es_repeticion"] = d["es_repeticion"].reindex(d.index).fillna(False)
+
+    # De cada vivienda se conserva la copia mas util, no la primera que salga. El orden es: que
+    # tenga precio, que su ultima resena sea mas reciente, y el id como desempate reproducible.
+    #
+    # No es un detalle de estilo. Quedarse con la primera por id dejaba 21 viviendas representadas
+    # por una copia sin precio mientras se descartaba la copia que si cotizaba: el mismo piso, el
+    # dato disponible, y tirado por el criterio de desempate.
+    orden = d.assign(
+        _con_precio=d["precio_anuncio"].notna().astype(int),
+        _resena=pd.to_datetime(d.get("last_review"), errors="coerce"),
+    ).sort_values(["_con_precio", "_resena", "id"], ascending=[False, False, True])
+    d["es_repeticion"] = orden.duplicated("vivienda_id").reindex(d.index) & es_hutb
+    d["es_repeticion"] = d["es_repeticion"].fillna(False)
     return d
 
 
@@ -208,6 +252,9 @@ def main() -> None:
     a = pd.read_csv(BRONZE / "airbnb_anuncios.csv", low_memory=False)
     print(f"Anuncios: {len(a):,}")
 
+    if "last_review" not in a.columns:
+        raise KeyError("falta last_review en bronze/airbnb_anuncios.csv")
+
     licencias = pd.read_csv(GOLD / "airbnb_situacion_licencia.csv", low_memory=False)
     a = a.merge(
         licencias[["id", "situacion", "sujeto_a_vut", "sin_licencia", "actividad_reciente"]],
@@ -218,6 +265,7 @@ def main() -> None:
     a = marcar_repeticiones(a)
     a = clasificar(a)
     a["estado_actividad"] = estado_de_actividad(a)
+    a["anuncios_del_anfitrion"] = a.groupby("host_id")["id"].transform("size")
     a["host_perfil"] = perfil_del_anfitrion(a)
     a["motivo_exclusion"] = motivo_de_exclusion(a)
     a["sujeto_a_ley_vut"] = a["motivo_exclusion"].isna()
