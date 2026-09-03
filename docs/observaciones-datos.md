@@ -118,3 +118,29 @@ pisos enteros de cuatro plazas con licencia verificada están en 54,7 €/plaza 
 en 26,7 €. No son el mismo producto compitiendo por el mismo cliente; los segundos son alquiler de
 temporada, con precio por noche de mensualidad. Al comparar oferta turística hay que separarlos, o
 la banda económica de Airbnb saldrá artificialmente barata.
+
+
+---
+
+## Los 893 que declaran exención están todos exactamente en 31 noches
+
+**Fecha:** 2026-09-02
+**Fuente:** `minimum_nights` y `license` de Inside Airbnb, volcado del 2026-06-24
+
+De los anuncios que declaran *«Exempt - seasonal rental»* y siguen siendo cesión de vivienda
+entera con estancia mínima de 31 noches o menos, **los 893 fijan su mínimo exactamente en 31**.
+No hay ninguno en 30, ni en 25, ni en 28.
+
+**Por qué no puede ser casualidad.** El Decret Llei 3/2023 define el uso turístico como cesión por
+un período *«igual o inferior a 31 dies»*. Un anuncio con mínimo de 31 puede alojar una estancia de
+31 noches, que es uso turístico y necesita licencia: la exención empieza en 32. Que los 893 se
+sitúen en el número exacto que **no** les exime, y ninguno por debajo, indica una regla aprendida
+—«31 días es un mes, luego es alquiler de temporada»— y no decisiones independientes.
+
+**Qué se puede afirmar y qué no.** Se puede afirmar que la exención declarada no les ampara. No se
+puede saber desde el dato si es una lectura equivocada de la norma, una instrucción que circula
+entre gestores, o una colocación deliberada en el borde. Los tres casos producen el mismo número.
+
+**Efecto en el recuento.** Estos 893 quedan **dentro** del conjunto sujeto a la ley de 2028, no
+fuera, y por eso llevan la marca `borde_31_noches`. Aceptar la exención tal como se declara habría
+restado casi mil viviendas del alcance de la eliminación.

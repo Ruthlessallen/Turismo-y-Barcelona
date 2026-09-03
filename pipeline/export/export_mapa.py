@@ -198,10 +198,16 @@ def exportar_airbnb() -> dict:
     para cuatro y 174 EUR de una habitacion de hotel no dicen nada enfrentados.
     """
     a = pd.read_csv(GOLD / "airbnb_bcn.csv", low_memory=False)
+    # Los excluidos entran solo para poder decir cuantos hay y por que, no para contarlos como
+    # oferta: son habitaciones, alojamiento reglado, anuncios apagados y repeticiones de una misma
+    # vivienda. Publicar el total sin ese desglose diria que hay 15.406 pisos turisticos.
+    fuera = pd.read_csv(GOLD / "airbnb_excluidos.csv", low_memory=False)
 
     def reparto(g: pd.DataFrame) -> dict:
         cuenta = g["banda_plaza"].value_counts()
         return {b: int(cuenta.get(b, 0)) for b in ("€", "€€", "€€€", "€€€€")}
+
+    excluidos_barrio = fuera.groupby("neighbourhood").size()
 
     filas = []
     for barrio, g in a.groupby("neighbourhood"):
@@ -210,6 +216,7 @@ def exportar_airbnb() -> dict:
             "barrio": barrio,
             "distrito": g["neighbourhood_group"].iloc[0],
             "anuncios": len(g),
+            "excluidos": int(excluidos_barrio.get(barrio, 0)),
             "sujetos_vut": int(g["sujeto_a_vut"].sum()),
             "sin_licencia": int(g["sin_licencia"].sum()),
             "con_precio": len(con_precio),
@@ -220,7 +227,9 @@ def exportar_airbnb() -> dict:
 
     volcar(DESTINO / "airbnb_por_barrio.json", filas)
     con = a["precio_plaza_anual"].notna()
-    return {"total": len(a), "barrios": len(filas),
+    return {"sujetos_a_la_ley": len(a), "excluidos": len(fuera),
+            "motivos": fuera["motivo_exclusion"].value_counts().to_dict(),
+            "barrios": len(filas),
             "con_precio_plaza": int(con.sum()),
             "precio_plaza_mediano": round(float(a.loc[con, "precio_plaza_anual"].median()), 1)}
 

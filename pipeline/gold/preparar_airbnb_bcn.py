@@ -37,12 +37,13 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from bandas import por_plaza
+from bandas import ETIQUETAS, por_plaza
 
 RAIZ = Path(__file__).resolve().parents[2]
 BRONZE = RAIZ / "data" / "bronze"
 GOLD = RAIZ / "data" / "gold"
 SALIDA = GOLD / "airbnb_bcn.csv"
+SALIDA_EXCLUIDOS = GOLD / "airbnb_excluidos.csv"
 
 # Mes del volcado de Inside Airbnb.
 MES_VOLCADO = 6
@@ -52,10 +53,25 @@ MES_VOLCADO = 6
 # que es uso turistico y necesita licencia. Solo a partir de 32 queda fuera del alcance de la ley.
 NOCHES_USO_TURISTICO = 31
 
+# Que figura legal declara cada prefijo del Registre. Solo la primera esta sujeta a la eliminacion
+# de 2028; las demas son alojamiento reglado que sigue operando y cuenta en el lado hotelero.
+REGIMEN = {"HUTB": "vivienda_uso_turistico", "HUT": "vivienda_uso_turistico",
+           "HB": "hotel", "HCC": "hotel", "AJ": "albergue",
+           "ATB": "apartament_turistic", "ATCC": "apartament_turistic"}
+
+# Un anuncio inactivo es el que tuvo huespedes y dejo de tenerlos. No basta con no tener resenas:
+# los 3.088 que no tienen ninguna ofrecen 282 noches de mediana, mas calendario abierto que los
+# que si las tienen, asi que son nuevos o simplemente no resenados, no muertos.
+DIAS_DISPONIBLES_MINIMOS = 30
+
 PATRON_REGIONAL = re.compile(
     r"Barcelona\s*-\s*Regional registration number\s*(?:<br\s*/?>)*\s*([^<]*)", re.I)
 
-COLUMNAS = ["id", "host_id", "host_perfil", "neighbourhood_group", "neighbourhood", "room_type",
+MOTIVOS = ["regimen_no_vut", "no_es_cesion_entera", "estancia_de_32_noches", "sin_actividad",
+           "repeticion_de_vivienda"]
+
+COLUMNAS = ["id", "host_id", "host_perfil", "regimen", "cesion_entera", "estado_actividad",
+            "sujeto_a_ley_vut", "motivo_exclusion", "neighbourhood_group", "neighbourhood", "room_type",
             "property_type", "accommodates", "bedrooms", "minimum_nights", "uso_turistico",
             "borde_31_noches", "licencia_regional", "vivienda_id", "anuncios_de_la_vivienda",
             "es_repeticion", "precio_anuncio", "precio_por_plaza", "precio_plaza_anual",
@@ -73,6 +89,70 @@ def factor_de_junio() -> float:
     """
     est = pd.read_csv(BRONZE / "adr_estacionalidad.csv")
     return float(est.loc[est["mes"] == MES_VOLCADO, "factor"].mean())
+
+
+def clasificar(d: pd.DataFrame) -> pd.DataFrame:
+    """Decide que anuncios cuentan como vivienda de uso turistico sujeta a la ley.
+
+    Tres criterios, y ninguno es opcional:
+
+    **El regimen declarado.** 897 anuncios declaran licencia de hotel, albergue o apartament
+    turistic. Son alojamiento reglado que la eliminacion de 2028 no toca: cuentan en el lado
+    hotelero, no en el de los pisos que desaparecen.
+
+    **La cesion ha de ser de la vivienda entera.** La figura del habitatge d'us turistic se define
+    por ceder el alojamiento completo; alquilar habitaciones sueltas no es un HUT. Son 4.494
+    anuncios de habitacion, y quedan fuera del recuento — lo que no significa que sean legales,
+    solo que no son lo que la ley de 2028 elimina. Entre ellos hay 631 que declaran un HUTB
+    anunciando una habitacion, que es usar una licencia de vivienda entera para otra cosa.
+
+    **La estancia minima.** Ver `NOCHES_USO_TURISTICO`.
+    """
+    d = d.copy()
+    prefijo = d["licencia_regional"].str.extract(r"^([A-Z]{2,4})", expand=False)
+    d["regimen"] = prefijo.map(REGIMEN).fillna("sin_declarar")
+    d["cesion_entera"] = d["room_type"].eq("Entire home/apt")
+    return d
+
+
+def estado_de_actividad(d: pd.DataFrame) -> pd.Series:
+    """Si el anuncio vende, no vende, o no se puede saber.
+
+    Un anuncio sin resenas en un ano no ha tenido huespedes que lo dejaran, y mantener una licencia
+    para algo que no se vende no tiene sentido economico. Pero "sin resenas" no basta como criterio:
+    hay que separar al que dejo de vender del que aun no ha empezado.
+
+    - `activo`        alguna resena en los ultimos doce meses.
+    - `sin_confirmar` ninguna resena nunca, pero mas de 30 noches disponibles. No se puede afirmar
+      que venda ni que no; su calendario esta abierto, asi que darlo por inexistente restaria
+      oferta real.
+    - `inactivo`      tuvo resenas y ninguna en doce meses, o no tuvo ninguna y ademas tiene el
+      calendario cerrado. La mediana de estos lleva ano y medio sin una resena y el percentil 90,
+      casi ocho anos.
+
+    El reparto valida el criterio por otro lado: el 51% de los `inactivo` no tienen ni precio,
+    frente al 5% de los `activo`. Los nulos de precio estan donde estan los anuncios apagados.
+    """
+    ltm = pd.to_numeric(d["number_of_reviews_ltm"], errors="coerce").fillna(0) > 0
+    nunca = pd.to_numeric(d["number_of_reviews"], errors="coerce").fillna(0) == 0
+    disponible = pd.to_numeric(d["availability_365"], errors="coerce").fillna(0) >         DIAS_DISPONIBLES_MINIMOS
+    return pd.Series(np.select([ltm, nunca & disponible], ["activo", "sin_confirmar"],
+                               default="inactivo"), index=d.index)
+
+
+def motivo_de_exclusion(d: pd.DataFrame) -> pd.Series:
+    """Por que un anuncio no cuenta. Se queda el primer motivo que aplica, en este orden.
+
+    El orden importa para leer el embudo: un hotel que ademas lleva dos anos sin resenas sale como
+    `regimen_no_vut`, porque lo primero que hay que decir de el es que nunca estuvo sujeto a la ley.
+    """
+    return pd.Series(np.select(
+        [d["regimen"].isin(["hotel", "albergue", "apartament_turistic"]),
+         ~d["cesion_entera"],
+         ~d["uso_turistico"],
+         d["estado_actividad"].eq("inactivo"),
+         d["es_repeticion"]],
+        MOTIVOS, default=None), index=d.index)
 
 
 def marcar_repeticiones(d: pd.DataFrame) -> pd.DataFrame:
@@ -136,35 +216,50 @@ def main() -> None:
     a["uso_turistico"] = a["minimum_nights"] <= NOCHES_USO_TURISTICO
     a["borde_31_noches"] = a["minimum_nights"] == NOCHES_USO_TURISTICO
     a = marcar_repeticiones(a)
+    a = clasificar(a)
+    a["estado_actividad"] = estado_de_actividad(a)
     a["host_perfil"] = perfil_del_anfitrion(a)
+    a["motivo_exclusion"] = motivo_de_exclusion(a)
+    a["sujeto_a_ley_vut"] = a["motivo_exclusion"].isna()
 
     factor = factor_de_junio()
     a["factor_temporada"] = round(factor, 3)
     a["precio_plaza_anual"] = (a["precio_por_plaza"] / factor).round(2)
     a["banda_plaza"] = por_plaza(a["precio_plaza_anual"])
 
-    a[COLUMNAS].to_csv(SALIDA, index=False, encoding="utf-8")
+    sujetos = a[a["sujeto_a_ley_vut"]]
+    excluidos = a[~a["sujeto_a_ley_vut"]]
+    sujetos[COLUMNAS].to_csv(SALIDA, index=False, encoding="utf-8")
+    excluidos[COLUMNAS].to_csv(SALIDA_EXCLUIDOS, index=False, encoding="utf-8")
 
-    con = a["banda_plaza"].notna()
-    print(f"  factor de temporada (junio): {factor:.3f}")
-    print(f"  uso turistico (<=31 noches): {int(a['uso_turistico'].sum()):,} "
-          f"| fuera de la ley (>=32): {int((~a['uso_turistico']).sum()):,}")
-    print(f"  en el borde de 31 noches   : {int(a['borde_31_noches'].sum()):,}")
-    print(f"  repeticiones de una HUTB   : {int(a['es_repeticion'].sum()):,} "
-          f"-> viviendas distintas {a.loc[~a['es_repeticion']].shape[0]:,}")
-    print(f"  perfil del anfitrion       : {a['host_perfil'].value_counts().to_dict()}")
+    print(); print("  EMBUDO")
+    print(f"    de partida                    {len(a):6,}")
+    for motivo in MOTIVOS:
+        print(f"    -{motivo:28s} {int((a['motivo_exclusion'] == motivo).sum()):6,}")
+    print(f"    = sujetos a la ley de 2028    {len(sujetos):6,}")
+
+    con = sujetos["banda_plaza"].notna()
+    print(); print(f"  factor de temporada (junio): {factor:.3f}")
+    print(f"  con precio y banda         : {int(con.sum()):,} de {len(sujetos):,} "
+          f"({con.mean():.1%}) | sin precio {int((~con).sum()):,}")
+    print(f"  en el borde de 31 noches   : {int(sujetos['borde_31_noches'].sum()):,}")
+    print(f"  perfil del anfitrion       : {sujetos['host_perfil'].value_counts().to_dict()}")
+    print(f"  estado                     : {sujetos['estado_actividad'].value_counts().to_dict()}")
     print(f"  con precio por plaza       : {int(con.sum()):,} ({con.mean():.1%})")
-    print(f"\n  reparto por banda: {a['banda_plaza'].value_counts().reindex(['€','€€','€€€','€€€€']).to_dict()}")
+    print(); print("  reparto por banda: "
+          f"{sujetos['banda_plaza'].value_counts().reindex(ETIQUETAS).to_dict()}")
 
-    print("\n  mediana de precio por plaza y noche, equivalente anual:")
-    print(a[con].groupby("room_type")["precio_plaza_anual"].agg(["size", "median"]).round(1)
-          .sort_values("size", ascending=False).to_string())
+    vivos = sujetos[con]
+    print(); print("  precio por plaza y noche, por perfil del anfitrion:")
+    print(vivos.groupby("host_perfil")["precio_plaza_anual"]
+          .agg(["size", "median"]).round(1).to_string())
 
-    print("\n  por situacion de licencia:")
-    print(a[con].groupby("situacion")["precio_plaza_anual"]
+    print(); print("  por situacion de licencia:")
+    print(vivos.groupby("situacion")["precio_plaza_anual"]
           .agg(["size", "median"]).round(1).sort_values("size", ascending=False).to_string())
 
-    print(f"\nGuardado en {SALIDA.relative_to(RAIZ)}")
+    print(); print(f"Guardado en {SALIDA.relative_to(RAIZ)}")
+    print(f"           {SALIDA_EXCLUIDOS.relative_to(RAIZ)}  ({len(excluidos):,} anuncios)")
 
 
 if __name__ == "__main__":
