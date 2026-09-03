@@ -43,3 +43,15 @@ lo que lleva la banda economica desde la ciudad al censo provincial para que el 
 le falta, así que se ejecuta después; y su resultado hay que recogerlo. No es circular —el rescate
 solo devuelve pares de licencia y precio— y es idempotente: la segunda vuelta no encuentra nada
 nuevo que hacer.
+
+## Linaje
+
+`python pipeline/generar_linaje.py` regenera `docs/linaje.md`: un diagrama Mermaid y una tabla de
+qué lee y qué escribe cada script, construidos recorriendo el AST del código.
+
+**Ejecutarlo después de cualquier cambio de rutas.** No se edita a mano: un diagrama dibujado
+describe el pipeline del día en que se dibujó, y este describe el que hay.
+
+Lo que no alcanza a ver queda listado en el propio documento —rutas que se componen en tiempo de
+ejecución, como las de `unificar_registros.py` y `preparar_geometria_web.py`—, para que el hueco se
+vea en vez de pasar por completo.

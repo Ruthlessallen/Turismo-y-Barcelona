@@ -245,14 +245,16 @@ El formato de la ficha, los tres estados y el detalle de qué valida el script e
 Cada vez que hagas un cambio importante:
 
 1. **Entrada en `changelog/`**, con `/changelog`. El formato está en `changelog/README.md`.
-2. **Actualiza la documentación que el cambio deja desfasada, en la misma sesión.** Tabla nueva →
+2. **Si el cambio toca rutas o añade un script de pipeline, regenera el linaje:**
+   `python pipeline/generar_linaje.py`. `docs/linaje.md` no se edita a mano.
+3. **Actualiza la documentación que el cambio deja desfasada, en la misma sesión.** Tabla nueva →
    `docs/data-model.md`. Patrón visual nuevo → `docs/design-system.md`. Cambio de estructura o
    servidor MCP → `docs/architecture.md`. Alcance nuevo → `docs/prd.md` y `docs/roadmap.md`, con su
    ID y su criterio de aceptación. Feature terminada → su ficha a **Verificada**. Alcance que
    cambia a mitad de feature → su tabla de cobertura, no solo el código.
-3. **`README.md`**, si el cambio afecta a cómo se instala, inicializa o usa el proyecto. Describe
+4. **`README.md`**, si el cambio afecta a cómo se instala, inicializa o usa el proyecto. Describe
    siempre el proyecto en su estado actual.
-4. **`/security-review`** antes de mergear a producción, o cuando el usuario lo pida.
+5. **`/security-review`** antes de mergear a producción, o cuando el usuario lo pida.
 
 ---
 
