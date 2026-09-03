@@ -9,8 +9,8 @@ esta, no como se documento. Volver a ejecutarlo despues de cualquier cambio.
 **Llamadas no resueltas:** `bronze/cruzar_precios_hoteles.py` (1), `bronze/unificar_registros.py` (3), `export/export_mapa.py` (3), `export/preparar_geometria_web.py` (2), `gold/auditar_licencias.py` (1), `sources/descargar_fuentes.py` (2), `sources/descargar_ine_barcelona.py` (1), `sources/descargar_serie_vut.py` (2), `sources/geocodificar_registros.py` (1). Son rutas que se componen en tiempo de ejecucion o que llegan como argumento; el grafo no las incluye y por eso se listan aqui en vez de pasar desapercibidas.
 
 ```mermaid
-flowchart LR
-  subgraph raw["raw · descargas"]
+flowchart TD
+  subgraph raw ["raw · descargas"]
     n_RAIZ_data_raw_airbnb_insideairbnb_barcelona_2026_06_24_listings_csv[("insideairbnb_barcelona_2026-06-24_listings.csv")]
     n_RAIZ_data_raw_airbnb_insideairbnb_barcelona_2026_06_24_listings_detalle_csv_gz[("insideairbnb_barcelona_2026-06-24_listings_detalle.csv.gz")]
     n_RAIZ_data_raw_geometria_icgc_municipis_catalunya_completa_geojson[("icgc_municipis_catalunya_completa.geojson")]
@@ -22,7 +22,7 @@ flowchart LR
     n_RAIZ_data_raw_precios_hoteles_google_hotels_2026_09_29_eur_csv[("google_hotels_2026-09-29_eur.csv")]
     n_RAIZ_data_raw_restauracion_hoteles_provincia_provincia_barcelona_restauracion_osm_2026_csv[("provincia_barcelona_restauracion_osm_2026.csv")]
   end
-  subgraph bronze["bronze · limpio"]
+  subgraph bronze ["bronze · limpio"]
     n_RAIZ_data_bronze_adr_estacionalidad_csv[("adr_estacionalidad.csv")]
     n_RAIZ_data_bronze_adr_por_categoria_csv[("adr_por_categoria.csv")]
     n_RAIZ_data_bronze_airbnb_anuncios_csv[("airbnb_anuncios.csv")]
@@ -39,7 +39,7 @@ flowchart LR
     n_RAIZ_data_bronze_titulares_csv[("titulares.csv")]
     n_RAIZ_data_bronze_vut_unificados_csv[("vut_unificados.csv")]
   end
-  subgraph gold["gold · transformado"]
+  subgraph gold ["gold · transformado"]
     n_RAIZ_data_gold_airbnb_bcn_csv[("airbnb_bcn.csv")]
     n_RAIZ_data_gold_airbnb_excluidos_csv[("airbnb_excluidos.csv")]
     n_RAIZ_data_gold_airbnb_situacion_licencia_csv[("airbnb_situacion_licencia.csv")]
@@ -50,12 +50,12 @@ flowchart LR
     n_RAIZ_data_gold_hoteles_bcn_csv[("hoteles_bcn.csv")]
     n_RAIZ_data_gold_hoteles_bcn_precio_estimado_csv[("hoteles_bcn_precio_estimado.csv")]
   end
-  subgraph exports["exports · web"]
+  subgraph exports ["exports · web"]
     n_RAIZ_data_exports_mapa_resumen_json[("resumen.json")]
     n_RAIZ_data_exports_mapa_vut_por_barrio_json[("vut_por_barrio.json")]
     n_RAIZ_data_exports_mapa_vut_por_municipio_json[("vut_por_municipio.json")]
   end
-  subgraph scripts["scripts"]
+  subgraph scripts ["scripts"]
     n_bronze_asignar_municipio_py["bronze/asignar_municipio.py"]
     n_bronze_cruzar_precios_hoteles_py["bronze/cruzar_precios_hoteles.py"]
     n_bronze_enriquecer_hoteles_con_booking_py["bronze/enriquecer_hoteles_con_booking.py"]

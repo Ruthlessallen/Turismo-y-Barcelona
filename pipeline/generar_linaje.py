@@ -64,6 +64,7 @@ class Rastreador(ast.NodeVisitor):
         return None
 
     def visit_Assign(self, nodo: ast.Assign) -> None:
+        """Registra constantes de ruta asignadas a variables en el módulo."""
         destino = nodo.targets[0]
         if isinstance(destino, ast.Name):
             resuelta = self.ruta(nodo.value)
@@ -72,6 +73,7 @@ class Rastreador(ast.NodeVisitor):
         self.generic_visit(nodo)
 
     def visit_Call(self, nodo: ast.Call) -> None:
+        """Intercepta llamadas de lectura y escritura para anotar las rutas involucradas."""
         nombre = nodo.func.attr if isinstance(nodo.func, ast.Attribute) else None
         if nombre in LECTURAS and nodo.args:
             self._anotar(self.ruta(nodo.args[0]), self.entradas, nombre)
@@ -100,6 +102,7 @@ class Rastreador(ast.NodeVisitor):
 
 
 def capa_de(ruta: str) -> str:
+    """Determina la capa de datos (raw, bronze, gold, etc.) según la ruta del fichero."""
     for parte in Path(ruta).parts:
         if parte in CAPAS:
             return CAPAS[parte]
@@ -107,6 +110,7 @@ def capa_de(ruta: str) -> str:
 
 
 def analizar() -> tuple[dict, list]:
+    """Recorre todos los scripts del pipeline analizando su AST para extraer dependencias."""
     grafo, avisos = {}, []
     for script in sorted(PIPELINE.rglob("*.py")):
         if script.name in ("generar_linaje.py", "bandas.py"):
@@ -121,28 +125,30 @@ def analizar() -> tuple[dict, list]:
 
 
 def identificador(texto: str) -> str:
+    """Genera un identificador válido para un nodo del diagrama Mermaid."""
     return "n_" + "".join(c if c.isalnum() else "_" for c in texto)
 
 
 def mermaid(grafo: dict) -> str:
+    """Construye el código del diagrama Mermaid a partir del grafo de dependencias."""
     ficheros: dict[str, str] = {}
     for datos in grafo.values():
         for f in datos["entradas"] + datos["salidas"]:
             ficheros[f] = capa_de(f)
 
-    lineas = ["flowchart LR"]
+    lineas = ["flowchart TD"]
     for capa, titulo in (("raw", "raw · descargas"), ("bronze", "bronze · limpio"),
                          ("gold", "gold · transformado"), ("exports", "exports · web"),
                          ("otros", "sin capa")):
         de_la_capa = [f for f, c in ficheros.items() if c == capa]
         if not de_la_capa:
             continue
-        lineas.append(f'  subgraph {capa}["{titulo}"]')
+        lineas.append(f'  subgraph {capa} ["{titulo}"]')
         for f in sorted(de_la_capa):
             lineas.append(f'    {identificador(f)}[("{Path(f).name}")]')
         lineas.append("  end")
 
-    lineas.append('  subgraph scripts["scripts"]')
+    lineas.append('  subgraph scripts ["scripts"]')
     for script in grafo:
         lineas.append(f'    {identificador(script)}["{script}"]')
     lineas.append("  end")
@@ -156,6 +162,7 @@ def mermaid(grafo: dict) -> str:
 
 
 def main() -> None:
+    """Función principal que ejecuta el análisis y genera el documento markdown con el linaje."""
     grafo, avisos = analizar()
     total_ficheros = len({f for d in grafo.values() for f in d["entradas"] + d["salidas"]})
 

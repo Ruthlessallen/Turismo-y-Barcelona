@@ -44,6 +44,19 @@ le falta, así que se ejecuta después; y su resultado hay que recogerlo. No es 
 solo devuelve pares de licencia y precio— y es idempotente: la segunda vuelta no encuentra nada
 nuevo que hacer.
 
+## Diagramas
+
+Dos, porque la trazabilidad tiene dos preguntas y no se responden con el mismo dibujo.
+
+`python pipeline/generar_criba.py` regenera `docs/criba.md`: **que le pasa a cada registro.**
+Rombos de decision, cuantos caen por cada rama y adonde van. Los recuentos se leen de los CSV que
+el pipeline acaba de producir.
+
+`python pipeline/generar_linaje.py` regenera `docs/linaje.md`: **que fichero alimenta a que
+script.**
+
+Ninguno se edita a mano.
+
 ## Linaje
 
 `python pipeline/generar_linaje.py` regenera `docs/linaje.md`: un diagrama Mermaid y una tabla de

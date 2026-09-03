@@ -245,8 +245,10 @@ El formato de la ficha, los tres estados y el detalle de qué valida el script e
 Cada vez que hagas un cambio importante:
 
 1. **Entrada en `changelog/`**, con `/changelog`. El formato está en `changelog/README.md`.
-2. **Si el cambio toca rutas o añade un script de pipeline, regenera el linaje:**
-   `python pipeline/generar_linaje.py`. `docs/linaje.md` no se edita a mano.
+2. **Regenera los diagramas que el cambio deje viejos.** `python pipeline/generar_criba.py` si
+   cambia algún criterio de inclusión o exclusión de registros; `python pipeline/generar_linaje.py`
+   si cambian rutas o entra un script nuevo. Ni `docs/criba.md` ni `docs/linaje.md` se editan a
+   mano: se generan del código y del dato, y por eso no pueden quedarse desfasados en silencio.
 3. **Actualiza la documentación que el cambio deja desfasada, en la misma sesión.** Tabla nueva →
    `docs/data-model.md`. Patrón visual nuevo → `docs/design-system.md`. Cambio de estructura o
    servidor MCP → `docs/architecture.md`. Alcance nuevo → `docs/prd.md` y `docs/roadmap.md`, con su
