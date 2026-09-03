@@ -235,3 +235,77 @@ anuncios declaran una licencia de vivienda de uso turístico y anuncian una habi
 Quedan fuera del recuento de VUT por no ser cesión entera, así que no afectan a la cifra de
 viviendas que la ley elimina. Se anota aquí porque pertenece a la auditoría de licencias, no al
 trabajo de precios: es una licencia usada para una actividad distinta de la que ampara.
+
+
+---
+
+## Los tres estados de licencia, y por qué no son dos
+
+**Fecha:** 2026-09-03
+**Fuente:** `revisar_airbnb_revisado.ipynb`, celdas 29 y 30
+
+Sobre los 15.406 anuncios, cada uno cae en uno de tres estados. La frontera entre ellos es **qué
+sabemos**, no qué sospechamos:
+
+| Estado | Anuncios | Qué significa |
+|---|---|---|
+| `con_licencia` | 7.005 | Declara una licencia que consta en el Registre, o una de establecimiento reglado |
+| `sin_licencia` | 8.284 | No acredita licencia utilizable |
+| `licencia_sin_acreditar` | 117 | No declara, pero su anfitrión acredita hotel o albergue en otros anuncios |
+
+**Por qué existe el tercer estado.** Un hotel y un albergue publican sus habitaciones por separado
+bajo una **única** licencia, así que un anuncio suyo sin declarar encaja con ella. No vale el mismo
+razonamiento con HUTB: cada una ampara **una vivienda**, y que un titular tenga veinte no dice nada
+sobre el piso veintiuno. Por eso los 1.427 anuncios cuyo anfitrión tiene HUTB en otros sitios van a
+`sin_licencia`, no a `licencia_sin_acreditar`.
+
+### Dentro de `sin_licencia` hay cinco situaciones
+
+| Motivo | Anuncios |
+|---|---|
+| No declara nada | 3.640 |
+| Declara exención | 2.123 |
+| Anfitrión con HUTB, pero nada liga esta vivienda | 1.427 |
+| **Número imposible: por encima de HUTB-80024** | **889** |
+| Número que no consta en el registro | 203 |
+| Número de relleno (123456, 000000) | 2 |
+
+**Los números imposibles son el caso más sólido del grupo.** El registro de Barcelona tiene 10.654
+licencias y la mayor es **HUTB-80024**. Un anuncio que declara un número por encima de ese techo no
+se ha equivocado al teclear: ha rellenado el campo para que pareciera cumplimentado.
+
+**Un fallo que costó encontrar ese techo.** El primer cálculo daba un máximo de HUTB-1.201.700.461.701
+y la regla no se disparaba nunca. La causa: `vut_unificados.csv` trae, además de los HUTB, 95
+entradas `OPENDATA-01-2018-0509` y una `1-2017-0046170-1`; al quitar los guiones sin filtrar antes,
+esa última producía el falso techo. Filtrando a `^HUTB-\d+$` quedan los 10.654 reales.
+
+### El conjunto que va a la web
+
+**6.377 viviendas** — cesión entera, estancia de 31 noches o menos, con reseñas desde 09/2025, y
+excluido el alojamiento reglado:
+
+| Estado | Viviendas | % |
+|---|---|---|
+| Con licencia | 4.985 | 78,2% |
+| **Sin licencia** | **1.380** | **21,6%** |
+| Licencia sin acreditar | 12 | 0,2% |
+
+### La nota que debe acompañar a estas cifras
+
+> `sin_licencia` significa que el anuncio **no acredita** la licencia que Barcelona obliga a
+> declarar en la plataforma. Es exactamente lo que dice el dato: que no consta.
+>
+> Que la licencia no exista es otra cosa, y este dato no la mide: un campo mal rellenado y una
+> vivienda sin licencia se ven igual desde aquí.
+>
+> Lo que sí se puede afirmar: estas viviendas se anuncian para uso turístico, tienen huéspedes
+> recientes y no acreditan licencia. Es un incumplimiento de la obligación de declarar, y
+> probablemente indique irregularidad, pero no la demuestra.
+
+### Lo que se retiró y por qué
+
+Las dos últimas celdas del notebook original medían distancias entre anuncios —`<150 m` y
+coincidencia GPS exacta— para vincular pisos al mismo edificio. Se eliminaron: Inside Airbnb
+desplaza cada anuncio hasta 150 m de forma **independiente**, así que dos pisos del mismo portal
+superan ese umbral el 41% de las veces. Y aunque las coordenadas fueran exactas, la distancia
+tampoco distinguiría «la misma vivienda declarada dos veces» de «otra vivienda del mismo bloque».
