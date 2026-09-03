@@ -255,7 +255,7 @@ def main() -> None:
     ]
     salida = anuncios[[c for c in columnas if c in anuncios]]
 
-    # Las coordenadas vienen ya ofuscadas ~200 m por Inside Airbnb, y aquí se conservan tal
+    # Las coordenadas vienen ya ofuscadas hasta 150 m por Inside Airbnb, y aquí se conservan tal
     # cual: el detalle se queda en `data/processed/`. La agregación por barrio o distrito para
     # lo que se publica es responsabilidad de `pipeline/export.py` (ver docs/data-model.md).
     RUTA_SALIDA.parent.mkdir(parents=True, exist_ok=True)

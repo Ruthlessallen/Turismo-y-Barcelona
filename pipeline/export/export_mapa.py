@@ -21,7 +21,7 @@ analizar un mercado de señalar domicilios.
 
 - `exacta` — coordenada del registro oficial u Open Data BCN
 - `geocodificada` — deducida de la dirección con el ICGC, verificada contra el municipio
-- `desplazada` — Inside Airbnb mueve cada anuncio hasta ~200 m a propósito
+- `desplazada` — Inside Airbnb mueve cada anuncio hasta 150 m a propósito
 
 Pintarlas con el mismo símbolo daría a entender una precisión que no tenemos.
 """
@@ -191,7 +191,7 @@ def exportar_vut(geo: pd.DataFrame) -> dict:
 
 
 def exportar_airbnb() -> dict:
-    """Coordenadas desplazadas ~200 m por la fuente: solo agregados por barrio.
+    """Coordenadas desplazadas hasta 150 m por la fuente: solo agregados por barrio.
 
     Se lee de `gold/airbnb_bcn.csv`, que trae el precio **por plaza** ya corregido de temporada.
     Es la unica escala en la que la oferta de Airbnb y la hotelera se comparan: 221 EUR de un piso

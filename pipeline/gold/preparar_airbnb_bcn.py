@@ -25,7 +25,7 @@ razonable —los dos venden noches a los mismos visitantes en la misma ciudad—
 Si la estacionalidad de Airbnb fuese mas plana, esta correccion lo abarataria de mas.
 
 **Que no se publica.** Ni el anuncio ni su ubicacion salen a `data/exports`: una VUT es una
-vivienda, y las coordenadas de Inside Airbnb ya vienen desplazadas hasta 200 m a proposito. Esta
+vivienda, y las coordenadas de Inside Airbnb ya vienen desplazadas hasta 150 m a proposito. Esta
 tabla existe para agregarse por barrio, no para senalar pisos.
 """
 

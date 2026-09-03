@@ -259,7 +259,7 @@ licencia declarado.
 | listing_id | VARCHAR (PK) | Identificador del anuncio, tal como lo da Inside Airbnb |
 | snapshot_fecha | DATE | Fecha del snapshot de Inside Airbnb usado |
 | codi_ine | VARCHAR FK → municipio | |
-| lat, lon | DOUBLE | Tal como las publica Inside Airbnb — **ya ofuscadas por la fuente, ~200m de margen respecto a la ubicación real**. No son coordenadas exactas y no se tratan como tales en ningún cálculo. |
+| lat, lon | DOUBLE | Tal como las publica Inside Airbnb — **ya ofuscadas por la fuente, hasta 150 m de margen respecto a la ubicación real**. No son coordenadas exactas y no se tratan como tales en ningún cálculo. |
 | tipo_propiedad | VARCHAR | Vivienda completa / habitación privada / habitación compartida |
 | host_id | VARCHAR | Identificador de anfitrión, tal como lo da la fuente |
 | host_num_listings | INTEGER | Nº de anuncios activos del mismo anfitrión — distingue particulares de operadores multi-propiedad |

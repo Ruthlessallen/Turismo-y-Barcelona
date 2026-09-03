@@ -58,7 +58,7 @@ ciudad) · 162.439 plazas y 84.759 habitaciones · 24.075 licencias VUT.
 |---|---|
 | Barcelona ciudad | coordenada real (`nivel_geo = coordenada`) |
 | Resto de la provincia | solo municipio → coropleta, no puntos |
-| Anuncios de Airbnb | coordenada **desplazada ~200 m** por Inside Airbnb |
+| Anuncios de Airbnb | coordenada **desplazada hasta 150 m** por Inside Airbnb |
 
 Pintarlas con el mismo símbolo sería mentir sobre lo que sabemos. La leyenda debe distinguirlas.
 

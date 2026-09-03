@@ -107,7 +107,7 @@ sirve por igual a varios perfiles:
   principal de cruce es **directo por número de licencia** (Airbnb obliga a declararlo en Barcelona
   y ~la mitad de los anuncios lo trae parseable); solo cuando no hay número declarado ni exención,
   cae a un fallback por dirección aproximada.
-  *Negativo:* el fallback por dirección parte de coordenadas ofuscadas ~200m por Inside Airbnb, así
+  *Negativo:* el fallback por dirección parte de coordenadas ofuscadas hasta 150 m por Inside Airbnb, así
   que es una estimación con margen de error, nunca una certeza — el dashboard etiqueta ese caso como
   "sin licencia acreditada", nunca como "ilegal confirmado" (ver WON'T). El match directo
   por número de licencia no tiene ese margen de error: es una comparación exacta contra el registro.
