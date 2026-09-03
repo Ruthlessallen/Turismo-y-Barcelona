@@ -122,25 +122,46 @@ la banda económica de Airbnb saldrá artificialmente barata.
 
 ---
 
-## Los 893 que declaran exención están todos exactamente en 31 noches
+## El umbral de exención de Airbnb está una noche por debajo del que exige la ley
 
 **Fecha:** 2026-09-02
 **Fuente:** `minimum_nights` y `license` de Inside Airbnb, volcado del 2026-06-24
 
-De los anuncios que declaran *«Exempt - seasonal rental»* y siguen siendo cesión de vivienda
-entera con estancia mínima de 31 noches o menos, **los 893 fijan su mínimo exactamente en 31**.
-No hay ninguno en 30, ni en 25, ni en 28.
+Distribución de la estancia mínima entre los 2.960 anuncios que declaran *«Exempt - seasonal
+rental»* en el campo de licencia de Barcelona:
 
-**Por qué no puede ser casualidad.** El Decret Llei 3/2023 define el uso turístico como cesión por
-un período *«igual o inferior a 31 dies»*. Un anuncio con mínimo de 31 puede alojar una estancia de
-31 noches, que es uso turístico y necesita licencia: la exención empieza en 32. Que los 893 se
-sitúen en el número exacto que **no** les exime, y ninguno por debajo, indica una regla aprendida
-—«31 días es un mes, luego es alquiler de temporada»— y no decisiones independientes.
+| Estancia mínima | Anuncios |
+|---|---|
+| Menos de 31 noches | **0** |
+| Exactamente 31 | **1.478** |
+| Exactamente 32 | **1.397** |
+| 33 a 365, dispersas | 85 |
 
-**Qué se puede afirmar y qué no.** Se puede afirmar que la exención declarada no les ampara. No se
-puede saber desde el dato si es una lectura equivocada de la norma, una instrucción que circula
-entre gestores, o una colocación deliberada en el borde. Los tres casos producen el mismo número.
+**Hay un suelo duro en 31 y libertad por encima.** Ningún anuncio con la exención declarada baja de
+31 noches, mientras que por encima aparecen 33, 35, 40, 45, 60, 90, 120, 180 y 365 con la
+dispersión que cabría esperar de decisiones individuales. Un suelo sin dispersión por debajo y con
+dispersión por encima es la firma de un límite impuesto por el formulario, no de miles de
+anfitriones coincidiendo en el mismo número.
 
-**Efecto en el recuento.** Estos 893 quedan **dentro** del conjunto sujeto a la ley de 2028, no
-fuera, y por eso llevan la marca `borde_31_noches`. Aceptar la exención tal como se declara habría
-restado casi mil viviendas del alcance de la eliminación.
+**Y el umbral está mal.** El Decret Llei 3/2023 define el uso turístico como cesión por un período
+*«igual o inferior a 31 dies»*: una estancia de 31 noches es uso turístico y necesita licencia. La
+exención empieza en 32. Los 1.478 que se apoyan en 31 declaran una exención que no les ampara.
+
+**Los dos picos dicen quién sabe dónde está la frontera.** 1.478 en 31 —el mínimo que el
+formulario permite— y 1.397 en 32 —el mínimo que la ley realmente exime—, casi mitad y mitad. Quien
+pone 32 conoce la norma; quien pone 31 se ha fiado de la plataforma.
+
+**Qué se puede afirmar y qué no.** Se puede afirmar que el suelo de 31 no lo fija el anfitrión: la
+ausencia total de valores inferiores no se explica por decisiones independientes. No se puede
+demostrar desde el dato que Airbnb lo bloquee en su formulario, solo que los datos son consistentes
+con eso y difíciles de explicar de otro modo. Confirmarlo exigiría abrir el formulario de
+declaración de licencia de un anuncio de Barcelona.
+
+**Corrección de una lectura anterior.** Una versión previa de esta nota atribuía la coincidencia a
+«una regla aprendida circulando entre gestores». Era una inferencia mal fundada: al mirar la
+distribución completa —y no solo los que quedan dentro del alcance de la ley— el suelo en 31 con
+dispersión libre por encima apunta a la plataforma, no a los anfitriones.
+
+**Efecto en el recuento.** Los 1.478 que se apoyan en 31 quedan **dentro** del conjunto sujeto a la
+eliminación de 2028, marcados con `borde_31_noches`. Aceptar la exención tal como se declara habría
+restado casi mil quinientas viviendas del alcance.
