@@ -328,14 +328,29 @@ nada las liga a una licencia.
 
 ### El conjunto para la web
 
-**6.848 anuncios** — 6.377 de vivienda entera y 471 de habitación bajo un HUTB — tras excluir 901
-de alojamiento reglado, 3.083 habitaciones sin HUTB y 1.848 con estancia mínima de 32 noches o más.
+**`df_v2`: 6.834 anuncios**, el conjunto definitivo tras toda la limpieza.
+
+```
+15.406  anuncios de partida
+  -901  alojamiento reglado (hotel, albergue, apartament turístic)
+-3.083  habitaciones que no declaran HUTB
+   -14  habitaciones de hotel, aunque declaren HUTB
+-1.848  estancia mínima de 32 noches o más
+ 6.834  df_v2
+```
+
+| Tipo de cesión | Anuncios |
+|---|---|
+| Vivienda entera | 6.377 |
+| Habitación bajo un HUTB | 457 |
 
 | Estado | Anuncios | % |
 |---|---|---|
-| Con licencia | 4.985 | 72,8% |
-| Sin licencia | 1.352 | 19,7% |
-| Licencia sin acreditar | 511 | 7,5% |
+| Con licencia | 4.985 | 72,9% |
+| Sin licencia | 1.351 | 19,8% |
+| Licencia sin acreditar | 498 | 7,3% |
+
+**Más de una cuarta parte (27,1%) opera con la licencia sin acreditar o sin ella.**
 
 En `data/gold/airbnb_para_web.csv`, con la columna `tipo_cesion` que separa vivienda entera de
 habitación.
