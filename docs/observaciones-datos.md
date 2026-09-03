@@ -311,15 +311,31 @@ titulares es un número que circula: se copia de un anuncio a otro, o alguien lo
 > En ninguno de los dos casos se puede afirmar que la licencia no exista. Lo que se mide es el
 > incumplimiento de la obligación de declararla en la plataforma.
 
+### Un HUTB usado para anunciar una habitación
+
+Una versión anterior excluía del conjunto todo lo que no fuera cesión de la vivienda entera, y con
+ello desaparecían **471 anuncios que declaran un HUTB y anuncian una habitación suelta**. Un HUTB
+ampara la cesión del alojamiento **completo**: no es que les falte licencia, es que la que tienen no
+cubre lo que anuncian. Desaparecer del análisis es lo peor que puede pasarle a un caso irregular.
+
+| | Anuncios | Adónde va |
+|---|---|---|
+| HUTB que **consta** + habitación | 70 | `licencia_sin_acreditar` — la licencia existe pero no ampara esto |
+| HUTB que **no consta** + habitación | 401 | `sin_licencia` — acumula las dos irregularidades |
+
+Las habitaciones que no declaran ningún HUTB (3.083) siguen fuera: no son lo que la ley elimina y
+nada las liga a una licencia.
+
 ### El conjunto para la web
 
-**6.377 viviendas de uso turístico**, tras excluir 901 de alojamiento reglado, 3.735 que no son
-cesión de vivienda entera y 1.847 con estancia mínima de 32 noches o más.
+**6.848 anuncios** — 6.377 de vivienda entera y 471 de habitación bajo un HUTB — tras excluir 901
+de alojamiento reglado, 3.083 habitaciones sin HUTB y 1.848 con estancia mínima de 32 noches o más.
 
-| Estado | Viviendas | % |
+| Estado | Anuncios | % |
 |---|---|---|
-| Con licencia | 4.985 | 78,2% |
-| Sin licencia | 951 | 14,9% |
-| Licencia sin acreditar | 441 | 6,9% |
+| Con licencia | 4.985 | 72,8% |
+| Sin licencia | 1.352 | 19,7% |
+| Licencia sin acreditar | 511 | 7,5% |
 
-En `data/gold/airbnb_para_web.csv`.
+En `data/gold/airbnb_para_web.csv`, con la columna `tipo_cesion` que separa vivienda entera de
+habitación.
