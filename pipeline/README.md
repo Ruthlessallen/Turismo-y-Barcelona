@@ -25,12 +25,12 @@ python pipeline/bronze/cruzar_precios_hoteles.py
 python pipeline/bronze/enriquecer_hoteles_con_booking.py
 python pipeline/bronze/preparar_adr_por_categoria.py
 python pipeline/bronze/unificar_airbnb.py
+# y despues, a mano: pipeline/notebooks/revisar_airbnb_v2.ipynb
 python pipeline/gold/auditar_licencias.py
 python pipeline/gold/preparar_hoteles_bcn.py
 python pipeline/bronze/rescatar_precios_hoteles.py     # segundo pase del cruce
 python pipeline/gold/preparar_hoteles_bcn.py           # recoge lo rescatado
 python pipeline/gold/modelar_precios_hoteles_bcn.py
-python pipeline/gold/preparar_airbnb_bcn.py
 python pipeline/gold/preparar_alojamientos_provincia.py
 python pipeline/export/preparar_geometria_web.py
 python pipeline/export/export_mapa.py
@@ -50,9 +50,13 @@ nuevo que hacer.
 contra el registro oficial, deduplicación, criba y construcción de `df_v2`, el conjunto que va a la
 web. Sus salidas son `data/gold/airbnb_para_web.csv` y `data/gold/airbnb_excluidos_web.csv`.
 
-**Su criterio y el de `pipeline/gold/preparar_airbnb_bcn.py` todavía no coinciden**: el script del
-pipeline aplica sus propios umbrales y produce `airbnb_bcn.csv`. Mientras no converjan, el que
-alimenta la web es el del notebook, y es el que describe `docs/criba.md`.
+Lee `data/bronze/airbnb_anuncios.csv` y escribe `data/gold/airbnb_para_web.csv` y
+`airbnb_excluidos_web.csv`, que son los que consumen `export/export_mapa.py` y `generar_criba.py`.
+
+**Es la única cadena de Airbnb del proyecto.** Hubo dos: `pipeline/gold/preparar_airbnb_bcn.py`
+aplicaba su propia criba y el mapa publicaba desde ella, no desde el notebook. Ese script está
+retirado en `scraps/pipeline_gold/`, y su cálculo de precio por plaza y banda económica vive ahora
+en el notebook.
 
 ## Diagramas
 

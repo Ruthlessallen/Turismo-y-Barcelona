@@ -47,7 +47,7 @@ DETALLE = RAW / "insideairbnb_barcelona_2026-06-24_listings_detalle.csv.gz"
 DEL_DETALLE = ["accommodates", "bedrooms", "beds", "bathrooms_text", "property_type",
                "review_scores_rating", "host_is_superhost", "instant_bookable"]
 
-COLUMNAS = ["id", "name", "host_id", "calculated_host_listings_count", "neighbourhood_group",
+COLUMNAS = ["id", "name", "host_id", "host_name", "calculated_host_listings_count", "neighbourhood_group",
             "neighbourhood", "latitude", "longitude", "room_type", "property_type",
             "accommodates", "bedrooms", "beds", "minimum_nights", "precio_anuncio",
             "precio_por_plaza", "availability_365", "number_of_reviews",

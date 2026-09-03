@@ -193,15 +193,18 @@ def exportar_vut(geo: pd.DataFrame) -> dict:
 def exportar_airbnb() -> dict:
     """Coordenadas desplazadas hasta 150 m por la fuente: solo agregados por barrio.
 
-    Se lee de `gold/airbnb_bcn.csv`, que trae el precio **por plaza** ya corregido de temporada.
+    Se lee de `gold/airbnb_para_web.csv`, que produce `notebooks/revisar_airbnb_v2.ipynb`: trae el
+    precio por plaza corregido de temporada y el estado de licencia contrastado contra el registro
+    oficial. Antes se leia `airbnb_bcn.csv`, salida de un segundo pipeline que aplicaba otra criba
+    --el mapa publicaba desde la cadena que no mandaba-- y que se ha retirado.
     Es la unica escala en la que la oferta de Airbnb y la hotelera se comparan: 221 EUR de un piso
     para cuatro y 174 EUR de una habitacion de hotel no dicen nada enfrentados.
     """
-    a = pd.read_csv(GOLD / "airbnb_bcn.csv", low_memory=False)
+    a = pd.read_csv(GOLD / "airbnb_para_web.csv", low_memory=False)
     # Los excluidos entran solo para poder decir cuantos hay y por que, no para contarlos como
     # oferta: son habitaciones, alojamiento reglado, anuncios apagados y repeticiones de una misma
     # vivienda. Publicar el total sin ese desglose diria que hay 15.406 pisos turisticos.
-    fuera = pd.read_csv(GOLD / "airbnb_excluidos.csv", low_memory=False)
+    fuera = pd.read_csv(GOLD / "airbnb_excluidos_web.csv", low_memory=False)
 
     def reparto(g: pd.DataFrame) -> dict:
         cuenta = g["banda_plaza"].value_counts()
@@ -217,8 +220,9 @@ def exportar_airbnb() -> dict:
             "distrito": g["neighbourhood_group"].iloc[0],
             "anuncios": len(g),
             "excluidos": int(excluidos_barrio.get(barrio, 0)),
-            "sujetos_vut": int(g["sujeto_a_vut"].sum()),
-            "sin_licencia": int(g["sin_licencia"].sum()),
+            "con_licencia": int((g["estado_licencia"] == "con_licencia").sum()),
+            "sin_licencia": int((g["estado_licencia"] == "sin_licencia").sum()),
+            "sin_acreditar": int((g["estado_licencia"] == "licencia_sin_acreditar").sum()),
             "con_precio": len(con_precio),
             "precio_plaza_mediano": (round(float(con_precio["precio_plaza_anual"].median()), 1)
                                      if len(con_precio) else None),
