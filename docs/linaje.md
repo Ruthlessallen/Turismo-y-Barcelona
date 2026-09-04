@@ -4,9 +4,9 @@
 cada script y anotando que ficheros lee y cuales escribe, asi que describe el pipeline tal como
 esta, no como se documento. Volver a ejecutarlo despues de cualquier cambio.
 
-20 scripts, 38 ficheros.
+19 scripts, 37 ficheros.
 
-**Llamadas no resueltas:** `bronze/cruzar_precios_hoteles.py` (1), `bronze/unificar_registros.py` (3), `export/export_mapa.py` (3), `export/preparar_geometria_web.py` (2), `gold/auditar_licencias.py` (1), `sources/descargar_fuentes.py` (2), `sources/descargar_ine_barcelona.py` (1), `sources/descargar_serie_vut.py` (2), `sources/geocodificar_registros.py` (1). Son rutas que se componen en tiempo de ejecucion o que llegan como argumento; el grafo no las incluye y por eso se listan aqui en vez de pasar desapercibidas.
+**Llamadas no resueltas:** `bronze/cruzar_precios_hoteles.py` (1), `bronze/unificar_registros.py` (3), `export/export_mapa.py` (3), `export/preparar_geometria_web.py` (2), `sources/descargar_fuentes.py` (2), `sources/descargar_ine_barcelona.py` (1), `sources/descargar_serie_vut.py` (2), `sources/geocodificar_registros.py` (1). Son rutas que se componen en tiempo de ejecucion o que llegan como argumento; el grafo no las incluye y por eso se listan aqui en vez de pasar desapercibidas.
 
 ```mermaid
 flowchart TD
@@ -42,7 +42,6 @@ flowchart TD
   subgraph gold ["gold · transformado"]
     n_RAIZ_data_gold_airbnb_excluidos_web_csv[("airbnb_excluidos_web.csv")]
     n_RAIZ_data_gold_airbnb_para_web_csv[("airbnb_para_web.csv")]
-    n_RAIZ_data_gold_airbnb_situacion_licencia_csv[("airbnb_situacion_licencia.csv")]
     n_RAIZ_data_gold_alojamientos_reglados_csv[("alojamientos_reglados.csv")]
     n_RAIZ_data_gold_calidad_modelos_precio_comparativa_csv[("modelos_precio_comparativa.csv")]
     n_RAIZ_data_gold_calidad_precio_cobertura_entrenamiento_csv[("precio_cobertura_entrenamiento.csv")]
@@ -70,7 +69,6 @@ flowchart TD
     n_export_export_mapa_py["export/export_mapa.py"]
     n_export_preparar_geometria_web_py["export/preparar_geometria_web.py"]
     n_generar_criba_py["generar_criba.py"]
-    n_gold_auditar_licencias_py["gold/auditar_licencias.py"]
     n_gold_modelar_precios_hoteles_bcn_py["gold/modelar_precios_hoteles_bcn.py"]
     n_gold_preparar_alojamientos_provincia_py["gold/preparar_alojamientos_provincia.py"]
     n_gold_preparar_hoteles_bcn_py["gold/preparar_hoteles_bcn.py"]
@@ -120,8 +118,6 @@ flowchart TD
   n_RAIZ_data_gold_airbnb_excluidos_web_csv --> n_generar_criba_py
   n_RAIZ_data_gold_airbnb_para_web_csv --> n_generar_criba_py
   n_generar_criba_py --> n_RAIZ_docs_criba_md
-  n_RAIZ_data_bronze_vut_unificados_csv --> n_gold_auditar_licencias_py
-  n_gold_auditar_licencias_py --> n_RAIZ_data_gold_airbnb_situacion_licencia_csv
   n_RAIZ_data_gold_hoteles_bcn_csv --> n_gold_modelar_precios_hoteles_bcn_py
   n_gold_modelar_precios_hoteles_bcn_py --> n_RAIZ_data_gold_calidad_modelos_precio_comparativa_csv
   n_gold_modelar_precios_hoteles_bcn_py --> n_RAIZ_data_gold_calidad_precio_cobertura_entrenamiento_csv
@@ -165,7 +161,6 @@ flowchart TD
 | `export/export_mapa.py` | export | geocodificacion_icgc.csv<br>restauracion_con_municipio.csv<br>vut_unificados.csv<br>airbnb_excluidos_web.csv<br>airbnb_para_web.csv<br>alojamientos_reglados.csv | resumen.json<br>vut_por_barrio.json<br>vut_por_municipio.json |
 | `export/preparar_geometria_web.py` | export | — | — |
 | `generar_criba.py` | generar_criba.py | airbnb_excluidos_web.csv<br>airbnb_para_web.csv | criba.md |
-| `gold/auditar_licencias.py` | gold | vut_unificados.csv | airbnb_situacion_licencia.csv |
 | `gold/modelar_precios_hoteles_bcn.py` | gold | hoteles_bcn.csv | modelos_precio_comparativa.csv<br>precio_cobertura_entrenamiento.csv<br>precio_error_por_segmento.csv<br>hoteles_bcn_precio_estimado.csv |
 | `gold/preparar_alojamientos_provincia.py` | gold | geocodificacion_verificada.csv<br>hoteles_y_apartaments_unificados.csv<br>hoteles_bcn_precio_estimado.csv | alojamientos_reglados.csv |
 | `gold/preparar_hoteles_bcn.py` | gold | adr_estacionalidad.csv<br>geocodificacion_verificada.csv<br>hoteles_geocodificados.csv<br>hoteles_y_apartaments_unificados.csv<br>precios_emparejamientos.csv<br>precios_hoteles_cruzados.csv<br>insideairbnb_barrios_barcelona.geojson<br>opendata_bcn_hotels_snapshot.csv | hoteles_bcn.csv |

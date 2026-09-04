@@ -26,7 +26,6 @@ python pipeline/bronze/enriquecer_hoteles_con_booking.py
 python pipeline/bronze/preparar_adr_por_categoria.py
 python pipeline/bronze/unificar_airbnb.py
 # y despues, a mano: pipeline/notebooks/revisar_airbnb_v2.ipynb
-python pipeline/gold/auditar_licencias.py
 python pipeline/gold/preparar_hoteles_bcn.py
 python pipeline/bronze/rescatar_precios_hoteles.py     # segundo pase del cruce
 python pipeline/gold/preparar_hoteles_bcn.py           # recoge lo rescatado

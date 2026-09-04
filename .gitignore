@@ -12,7 +12,7 @@ __pycache__/
 #  1. Contienen nombre y apellidos de titulares persona física (844 registros en el Registre de
 #     Turisme). Son públicos en origen, pero republicarlos aquí es una distribución distinta.
 #  2. Son pesados (~90 MB) y redescargables: `python pipeline/sources/descargar_fuentes.py`.
-# Lo derivado (data/processed/) sí se versiona: ya viene sin datos personales.
+# Lo derivado (data/bronze/, data/gold/, data/exports/) sí se versiona: ya viene sin datos personales.
 data/raw/*
 !data/raw/README.md
 # Los README de cada subcarpeta sí se versionan: documentan qué va dentro y de dónde sale.
