@@ -243,50 +243,93 @@ incompleta a nivel municipio para algunas métricas — se documentará caso por
 fuente, no se va a rellenar con estimaciones silenciosas.
 
 #### oferta_airbnb
-Soporta [M-08] en `prd.md`: mapa de oferta anunciada frente a licencias oficiales.
 
-**Verificado 2026-08-27 con datos reales** (snapshot 24/06/2026, 15.430 anuncios): el campo
-`license` de Inside Airbnb no es libre — Airbnb obliga a declarar el número HUTB en Barcelona, y
-**7.416 anuncios (48%) lo traen literal** (formato ruidoso, mezcla número nacional y autonómico
-separados por `<br />`, parseable con regex). El resto no es automáticamente "sin licencia": una
-parte relevante declara explícitamente una **exención** (`Exempt - seasonal rental`, `Exempt -
-hostel`, etc. — p. ej. alquileres de 31+ noches, fuera del ámbito de la VUT por definición). Esto
-cambia la metodología de cruce a mejor: el método principal ya no es la dirección, es el número de
-licencia declarado.
+**Tabla real: `data/gold/airbnb_para_web.csv` (6.834 anuncios), producida por
+`pipeline/notebooks/revisar_airbnb_v2.ipynb`.** El cuaderno es la fuente de verdad: cada paso de
+criba, contraste y modelado vive en una celda con su salida, y este diccionario describe lo que
+sale de ahi, no un esquema previsto. La contrapartida `airbnb_excluidos_web.csv` guarda los 8.572
+descartados con su `motivo_exclusion`, para que ningun anuncio desaparezca sin dejar rastro.
 
-| Campo | Tipo | Descripción |
+Soporta [M-08] (oferta anunciada frente a licencias oficiales) y [M-06] (banda economica como
+variable de sustitucion frente al alojamiento reglado).
+
+**Identificacion y ubicacion**
+
+| Campo | Tipo | Descripcion |
 |-------|------|-------------|
-| listing_id | VARCHAR (PK) | Identificador del anuncio, tal como lo da Inside Airbnb |
-| snapshot_fecha | DATE | Fecha del snapshot de Inside Airbnb usado |
-| codi_ine | VARCHAR FK → municipio | |
-| lat, lon | DOUBLE | Tal como las publica Inside Airbnb — **ya ofuscadas por la fuente, hasta 150 m de margen respecto a la ubicación real**. No son coordenadas exactas y no se tratan como tales en ningún cálculo. |
-| tipo_propiedad | VARCHAR | Vivienda completa / habitación privada / habitación compartida |
-| host_id | VARCHAR | Identificador de anfitrión, tal como lo da la fuente |
-| host_num_listings | INTEGER | Nº de anuncios activos del mismo anfitrión — distingue particulares de operadores multi-propiedad |
-| activo | BOOLEAN | Si el anuncio está activo en el snapshot |
-| licencia_declarada_raw | VARCHAR NULL | Contenido tal cual del campo `license` de la fuente, sin parsear — se conserva para poder auditar el parseo |
-| estado_licencia_declarada | VARCHAR | `con_hutb` \| `exento` \| `vacio` \| `otro` — clasificación del campo anterior. **`exento` nunca se trata como "sin licencia"**: es una categoría legítima distinta (ver WON'T) |
-| licencia_id_match | VARCHAR NULL FK → licencia_vut | Solo se rellena si `estado_licencia_declarada = con_hutb` Y el número extraído existe de verdad en el registro oficial |
-| metodo_match | VARCHAR NULL | `licencia_directa` (número HUTB parseado y verificado — método principal) \| `direccion` (fallback si no hay número parseable y `direccion` está disponible) \| `sin_match` |
+| `id` | BIGINT (PK) | Identificador del anuncio en Inside Airbnb |
+| `name` | VARCHAR | Titulo del anuncio |
+| `host_id`, `host_name` | | Anfitrion segun la fuente |
+| `calculated_host_listings_count` | INTEGER | Anuncios del mismo anfitrion: distingue particular de operador |
+| `neighbourhood`, `neighbourhood_group` | VARCHAR | Barrio (64) y distrito (10) |
+| `latitude`, `longitude` | DOUBLE | **Ya ofuscadas por la fuente hasta 150 m, de forma independiente por anuncio.** Los recuentos por barrio resisten (Spearman 0,998), la asignacion individual de barrio falla un 12% y la distancia entre anuncios es inservible. No se usan para nada que dependa del punto exacto |
 
-**Metodología de cruce (para [M-08]), en este orden:**
-1. Parsear `licencia_declarada_raw` en busca de un HUTB. Si aparece, verificar que existe en
-   `licencia_vut` → `metodo_match = licencia_directa`. Es un match exacto, no una estimación.
-2. Si `estado_licencia_declarada = exento`, no se busca match — se muestra como categoría propia,
-   nunca junto a los "sin licencia".
-3. Si no hay número parseable y no está exento, fallback por dirección aproximada (ver
-   `licencia_vut.direccion`) — esto sí es una estimación con margen de error, de ahí que el
-   dashboard público hable siempre de "sin licencia acreditada", nunca de "ilegal
-   confirmado" (ver `prd.md` → WON'T), y con más razón todavía para este método que para el match
-   directo.
+**Alojamiento**
 
-El pipeline interno (este esquema) puede llegar a este nivel de detalle; lo que se exporta a la web
-pública se agrega en clusters, nunca en puntos individuales resolubles (ver "Granularidad" arriba
-y `design-system.md` → `ListingClusterMap`).
+| Campo | Tipo | Descripcion |
+|-------|------|-------------|
+| `room_type`, `property_type` | VARCHAR | Tipo segun la plataforma |
+| `accommodates` | INTEGER | Plazas declaradas. **Es el divisor del precio por plaza**: sin nulos, a diferencia de `beds` y `bedrooms` |
+| `bedrooms`, `beds` | DOUBLE NULL | Se conservan por trazabilidad; excluidos del modelo por colinealidad con `accommodates` |
+| `minimum_nights` | DOUBLE | Maximo 31 tras la criba: 32 o mas queda fuera del ambito de la ley |
+| `availability_365`, `number_of_reviews`, `number_of_reviews_ltm`, `last_review`, `review_scores_rating` | | Actividad del anuncio |
+| `tipo_cesion` | VARCHAR | `vivienda entera` \| `habitacion`. Un HUTB ampara la cesion del alojamiento completo, asi que anunciar una habitacion bajo un HUTB es una irregularidad propia, no una falta de licencia |
 
-**Cobertura:** Inside Airbnb solo publica snapshot para la ciudad de Barcelona, no para el resto de
-la provincia — `oferta_airbnb` queda vacía fuera de `codi_ine` = Barcelona salvo que aparezca otra
-fuente equivalente para el resto de municipios.
+**Licencia: tres estados**
+
+| Campo | Tipo | Descripcion |
+|-------|------|-------------|
+| `license` | VARCHAR NULL | Campo `license` tal cual, sin parsear, para poder auditar el parseo |
+| `licencia_norm`, `prefijo` | VARCHAR NULL | Numero normalizado y su prefijo (`HUTB`, `HB`, `AJ`, `ATB`...) |
+| `categoria_licencia` | VARCHAR | Apartamento turistico (HUTB/TU) \| Exencion declarada \| No turistico \| Sin licencia / Nula |
+| `consta_en_registro` | BOOLEAN NULL | Si el numero aparece en el registro oficial de la Generalitat |
+| `estado_licencia` | VARCHAR | **`con_licencia` (4.985) \| `sin_licencia` (1.351) \| `licencia_sin_acreditar` (498)** |
+| `motivo_estado` | VARCHAR | Por que le corresponde ese estado, en texto |
+
+`licencia_sin_acreditar` es que el numero declarado no consta en el registro, o que la licencia
+existe pero no ampara lo que se anuncia. **En ningun caso se afirma que la licencia no exista:** lo
+que se mide es el incumplimiento de declararla en la plataforma. De los 889 que declaran un numero
+por encima del maximo emitido (HUTB-80024), 25 numeros aparecen en anuncios de anfitriones
+distintos --hasta quince para el mismo numero--, lo que descarta el error independiente.
+
+**Precio y banda economica**
+
+| Campo | Tipo | Descripcion |
+|-------|------|-------------|
+| `precio_anuncio` | DOUBLE NULL | Tarifa diaria anunciada del anuncio entero. `price` es la misma columna, duplicada |
+| `precio_por_plaza` | DOUBLE NULL | `precio_anuncio / accommodates`, en escala de junio |
+| `tramo_estancia` | VARCHAR | Corte en 7 noches: a partir de la septima el precio por plaza cae a la mitad |
+| `precio_plaza_recortado` | DOUBLE NULL | Winsorizado a 5x la mediana de su tramo. 8 anuncios recortados |
+| `precio_plaza_estimado` | DOUBLE NULL | Estimacion del modelo para los 221 sin precio observado |
+| `precio_plaza_es_estimado` | BOOLEAN | Marca de observado frente a estimado. **Obligatoria en la web** (`design-system.md`) |
+| `mae_modelo_eur` | DOUBLE | Error del modelo, 13.5 EUR por plaza |
+| `factor_temporada` | DOUBLE | 1.188: junio esta un 19% sobre la media anual segun la serie del INE |
+| `precio_plaza_final` | DOUBLE | Observado, y estimado donde no lo hay |
+| `precio_plaza_anual` | DOUBLE | `precio_plaza_final / factor_temporada`. **Es la columna comparable con el alojamiento reglado** |
+| `banda_plaza` | VARCHAR | Banda de `pipeline/gold/bandas.py`, cortes 40/70/120 EUR por plaza |
+
+**La unidad es precio por noche y por plaza disponible, igual en las dos fuentes.** No por ocupante:
+una pareja en un piso para cuatro paga el piso, igual que en un hotel paga la habitacion. Es la
+unica escala en la que un piso entero y una habitacion doble de hotel se comparan.
+
+Comprobado sobre el volcado: `price` coincide con `price_quote_price_per_night` (ratio 1,00 en
+13.355 anuncios) y `price_quote_raw` declara `"currency": "EUR"` en 13.380 cotizaciones. La moneda
+deja de ser una suposicion.
+
+**Limitacion que debe acompanar a la banda en la web.** El precio de Airbnb es la tarifa anunciada
+y se publica tal cual. Inside Airbnb no captura la limpieza --`cleaning_fee` viene vacio en las
+13.662 cotizaciones-- y el dato no permite saber quien la cobra aparte y quien la lleva ya incluida
+en la tarifa; estimar un importe comun para todos seria falso para los segundos, asi que no se
+corrige. El precio de hotel si incluye todo salvo la tasa turistica. Consecuencia asumida: en las
+estancias cortas, que son las que compiten con el hotel, la banda de Airbnb puede quedar por debajo
+de lo que se acaba pagando.
+
+**Cobertura.** Inside Airbnb solo publica volcado de la ciudad de Barcelona, no del resto de la
+provincia.
+
+**Granularidad publicada.** El pipeline llega al anuncio; `data/exports/mapa/airbnb_por_barrio.json`
+sale agregado por barrio (64 filas), nunca en puntos individuales resolubles (ver `prd.md` -> Fuera
+de alcance y `design-system.md` -> `ListingClusterMap`).
 
 ---
 
