@@ -71,7 +71,7 @@ si los datos que necesitamos existen de verdad, en qué forma, y si se pueden cr
       registros), usa Open Data BCN aparte — no es un fallo, es el reparto real entre fuentes
 - [x] Prueba de concepto de punta a punta — **hecha y superada**: `unificar_registros.py` cruza
       las dos fuentes para las dos categorías (VUT y hoteles+AT) de toda la provincia, no solo de
-      un municipio. Salidas en `data/processed/`, 0 duplicados. Ver
+      un municipio. Salidas en `data/bronze/`, 0 duplicados. Ver
       `changelog/2026-08-28_18-51_*` y `2026-08-28_19-40_*`
 
 **Objetivo de validación:** confirmar que las seis categorías de datos existen en fuentes públicas

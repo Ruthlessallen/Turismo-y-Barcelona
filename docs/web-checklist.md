@@ -58,7 +58,7 @@ ciudad) · 162.439 plazas y 84.759 habitaciones · 24.075 licencias VUT.
 |---|---|
 | Barcelona ciudad | coordenada real (`nivel_geo = coordenada`) |
 | Resto de la provincia | solo municipio → coropleta, no puntos |
-| Anuncios de Airbnb | coordenada **desplazada ~200 m** por Inside Airbnb |
+| Anuncios de Airbnb | coordenada **desplazada hasta 150 m** por Inside Airbnb |
 
 Pintarlas con el mismo símbolo sería mentir sobre lo que sabemos. La leyenda debe distinguirlas.
 
@@ -182,5 +182,44 @@ parecía.
 - [ ] ¿La comparativa entre municipios va en el paso 1 o es Fase 3 (M-07)?
 - [ ] Los `HB-` de hotel **sí serían verificables** contra el registro; los `AJ` de albergue no.
       Hoy se tratan igual: ¿conviene separarlos?
-- [ ] Precio de hotel: hay 395 con precio real (52%, sesgado a grandes) y el ADR del INE, que es
-      oficial pero agregado. ¿Cuál manda en la web?
+- [x] ~~Precio de hotel: hay 395 con precio real y el ADR del INE. ¿Cuál manda en la web?~~
+      **Resuelto 2026-09-02: mandan los dos, para cosas distintas.** El raspado da la posición
+      relativa de cada hotel; el ADR del INE da el nivel oficial y la estacionalidad. Contrastados
+      por categoría coinciden con desvíos de −3% a +12%, así que el raspado queda validado y el ADR
+      corrige su sesgo de fecha. Hoy son 451 con precio observado (58,7%).
+
+---
+
+## Cómo se presenta el precio: los tres estados del dato
+
+**Decidido 2026-09-02.** La web nunca da a entender que conoce el precio de un alojamiento cuando
+lo ha estimado. Cada cifra de precio llega marcada con su procedencia, y la marca es visible sin
+tener que abrir ninguna ficha:
+
+| Estado | Qué es | Cuántos |
+|---|---|---|
+| **Observado** | Precio raspado y cruzado con el registro oficial | 451 de 768 |
+| **Transformado** | Ese mismo precio llevado a equivalente anual con la estacionalidad del INE | los mismos 451 |
+| **Estimado** | Predicción del modelo para quien no tiene precio | 317 |
+
+**Se publica la banda, no el euro.** No es una simplificación de diseño: un mismo hotel varía un
+±22% según la habitación y el día —comprobado sobre Hostemplo, ver `observaciones-datos.md`— así
+que un número exacto afirmaría una precisión que la magnitud no tiene. La banda aguanta donde el
+euro no: el modelo acierta la banda exacta un 65% y la exacta o contigua un 99%.
+
+**Hay que decirlo en la página, no solo en una nota al pie.** El texto tiene que explicar que no
+existe una fuente pública de precio medio por noche y establecimiento, que por eso se trabaja con
+bandas, y que una parte de ellas son estimadas. Que el usuario sepa qué está mirando es parte del
+resultado, no un descargo de responsabilidad.
+
+**La banda `€` solo se publica cuando es observada.** De 52 alojamientos realmente por debajo de
+100 €, el modelo acierta 2. Pintar `€` estimado diría que hay alojamiento barato donde no consta.
+
+**Las 5 estimaciones sin apoyo no se publican.** Pensiones, residencias y apartaments turístics con
+menos de diez ejemplos comparables en el entrenamiento (`apoyo_estimacion = escaso`). Un hueco es
+más honesto que un número que nadie puede contradecir.
+
+**Airbnb hereda las mismas reglas**, con un problema añadido: el precio del anuncio no es
+comparable con el de una habitación de hotel. Un piso entero para cuatro a 221 € y una habitación
+a 64 € solo se comparan **por plaza** — 54 € y 43 €. La banda de Airbnb se construye sobre precio
+por plaza y noche, y se dice cuál es la unidad.

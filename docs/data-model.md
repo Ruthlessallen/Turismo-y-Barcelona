@@ -9,7 +9,7 @@ esperable que algunos campos cambien cuando se vea qué publica cada fuente en l
 no debería cambiar es la forma general: un pequeño esquema en estrella (dimensiones + hechos), que
 encaja con DuckDB/Parquet tal como se decidió en `architecture.md`.
 
-**Granularidad — raw vs. exportado:** `data/raw` y `data/processed` pueden guardar el detalle que
+**Granularidad — raw vs. exportado:** `data/raw`, `data/bronze` y `data/gold` pueden guardar el detalle que
 cada fuente publique (p. ej. dirección si la fuente la da). Lo que se exporta a `data/exports` y
 llega al frontend público **nunca baja de nivel municipio/barrio** — nunca dirección o vivienda
 individual (ver "Fuera de alcance" en `prd.md`). Esa agregación ocurre en `pipeline/export.py`.
@@ -157,6 +157,48 @@ esa serie es solo de hoteles, no de AT (verificar si Idescat también publica AT
 | fecha_alta | DATE | No viene directa — se deriva de snapshots sucesivos o de la serie de Idescat |
 | fecha_baja | DATE NULL | Igual que `fecha_alta` |
 
+**Derivados de precio (implementado 2026-09-02).** Barcelona ciudad, 768 establecimientos. Se
+generan en `pipeline/gold/preparar_hoteles_bcn.py` → `data/gold/hoteles_bcn.csv` y se completan en
+`modelar_precios_hoteles_bcn.py` → `hoteles_bcn_precio_estimado.csv`.
+
+| Campo | Tipo | Descripción |
+|-------|------|-------------|
+| estrellas | DOUBLE NULL | 1,0 a 5,0; **4,5 para "4 estrelles superior"**. Nula en hostales, pensiones y AT: no se miden en estrellas y ponerlos en cero afirmaría un orden que no existe |
+| tipo_alojamiento | VARCHAR | `hotel_estrellas` (462) \| `sin_estrellas` (293) \| `apartament_turistic` (13) |
+| subtipo | VARCHAR | Deducido del nombre comercial, distingue lo que la categoría oficial agrupa entero bajo "No aplica": `hostal` \| `pension` \| `residencia` \| `apartamentos` \| `sin_indicio` |
+| cadena, es_cadena | VARCHAR, BOOL | Grupo hotelero. 132 establecimientos en 25 grupos |
+| tamano | VARCHAR | Por habitaciones: `muy_pequeno` (≤15) \| `pequeno` (≤40) \| `mediano` (≤100) \| `grande`. Cortes de negocio, no estadísticos |
+| origen_coord | VARCHAR | `censo` (446) \| `icgc_verificada` (317) — qué fuente dio la coordenada |
+| distancia_centro_km | DOUBLE NULL | Haversine hasta Plaça Catalunya. **No euclídea**: a 41,4° un grado de longitud son 83 km y no 111 |
+| precio_noche | DOUBLE NULL | Por habitación y noche, observado. 451 de 768 (58,7%). Ventana del 29-09 al 07-10 de 2026 |
+| precio_noche_anual | DOUBLE NULL | `precio_noche` / `factor_temporada`. Es el que se modela y el que sostiene la banda |
+| factor_temporada | DOUBLE | Cuánto pesa la ventana raspada sobre la media del año, por categoría (1,10 a 1,18) — de `adr_estacionalidad.csv` |
+| origen_precio | VARCHAR NULL | `cruce_inicial` (430) \| `rescate` (21) |
+| precio_recortado | BOOL | El valor superaba 5× la mediana de su categoría y se llevó al techo. Dos casos |
+| precio_noche_estimado | DOUBLE | Predicción del modelo para **todas** las filas, tengan precio o no |
+| precio_es_estimado | BOOL | Si `precio_noche_final` viene del modelo |
+| precio_noche_final | DOUBLE | Observado donde lo hay, estimado donde no |
+| banda_precio | VARCHAR | `€` <100 \| `€€` 100-175 \| `€€€` 175-300 \| `€€€€` >300, sobre `precio_noche_final` |
+| apoyo_estimacion | VARCHAR | `observado` (451) \| `suficiente` (262) \| `justo` (50) \| `escaso` (5). Cuántos ejemplos con precio real sostienen el segmento de esa fila |
+| duplicado_probable | BOOL | Mismo nombre y dirección que otra licencia. 8 casos, **no se eliminan**: dos licencias en un portal pueden ser dos negocios |
+
+**Cómo leer `banda_precio`.** El modelo no sabe producir la banda `€`: de 52 establecimientos por
+debajo de 100 € acierta 2 y manda los otros 50 a `€€`. Publicar `€` solo cuando
+`precio_es_estimado` sea falso; para los estimados cerca del corte, agrupar como "económico". El
+acierto de banda exacta es del 65,2% y el de banda exacta o contigua del 98,9%.
+
+**Tabla publicable (`gold/alojamientos_reglados.csv`, 2026-09-02).** Une el censo provincial con
+lo que el analisis ha deducido, y es **la unica que debe leer el export**. 1.563 establecimientos,
+1.298 con coordenada; la banda economica solo llega a los 768 de la ciudad de Barcelona, porque el
+raspado y el modelo cubren la ciudad y extenderlos al resto de la provincia seria inventar. Los
+otros 795 salen con `banda_precio` nula, que es la respuesta honesta.
+
+| Campo | Descripcion |
+|-------|-------------|
+| precision | `exacta` (coordenada del registro) \| `geocodificada` (deducida y verificada contra su municipio). Viaja con el punto porque no valen lo mismo |
+| precio_noche_final, banda_precio | Solo ciudad de Barcelona |
+| precio_es_estimado, apoyo_estimacion | Sin estas dos, un precio imputado seria indistinguible de uno medido en el mapa |
+
 #### licencia_restauracion
 **Verificado 2026-08-28:** la Diputació de Barcelona (provincia) sí trae NIF y razón social —
 corrección sobre el supuesto anterior de que esta categoría no tendría titular identificable.
@@ -217,7 +259,7 @@ licencia declarado.
 | listing_id | VARCHAR (PK) | Identificador del anuncio, tal como lo da Inside Airbnb |
 | snapshot_fecha | DATE | Fecha del snapshot de Inside Airbnb usado |
 | codi_ine | VARCHAR FK → municipio | |
-| lat, lon | DOUBLE | Tal como las publica Inside Airbnb — **ya ofuscadas por la fuente, ~200m de margen respecto a la ubicación real**. No son coordenadas exactas y no se tratan como tales en ningún cálculo. |
+| lat, lon | DOUBLE | Tal como las publica Inside Airbnb — **ya ofuscadas por la fuente, hasta 150 m de margen respecto a la ubicación real**. No son coordenadas exactas y no se tratan como tales en ningún cálculo. |
 | tipo_propiedad | VARCHAR | Vivienda completa / habitación privada / habitación compartida |
 | host_id | VARCHAR | Identificador de anfitrión, tal como lo da la fuente |
 | host_num_listings | INTEGER | Nº de anuncios activos del mismo anfitrión — distingue particulares de operadores multi-propiedad |
@@ -286,11 +328,18 @@ exportar a nivel de vivienda individual).
 ## Cambios de esquema
 
 Sustituye a "Migraciones": sin base de datos en producción no hay ficheros de migración SQL, pero
-el esquema de `data/processed` sí cambia con el tiempo y conviene dejar rastro.
+el esquema de `data/bronze` y `data/gold` sí cambia con el tiempo y conviene dejar rastro.
 
 | Fecha | Cambio | Descripción |
 |-------|--------|-------------|
 | 2026-08-27 | Esquema inicial | Primer borrador: municipio, periodo, operador, licencia_vut, licencia_hotel, licencia_restauracion, entrada_turistica, estadistica_turistica. Sin verificar contra fuentes reales todavía. |
+| 2026-09-02 | Derivados de precio en `licencia_hotel` | 21 campos nuevos en `hoteles_bcn.csv` y `hoteles_bcn_precio_estimado.csv`: categoría desdoblada en `estrellas` + `tipo_alojamiento` + `subtipo`, precio observado y estimado, corrección de temporada y banda económica. Retira `categoria_num`, que trataba hostales y AT como escalones de una escala de estrellas. |
+| 2026-09-02 | Serie ADR por categoría | `adr_por_categoria.csv` (636 filas, 2013-2026) y `adr_estacionalidad.csv`. Fuente INE vía Portal de Dades del Ajuntament. Ancla el nivel de precio y da el factor de temporada. |
+| 2026-09-02 | Arquitectura medallon | `data/processed` se reparte en `data/bronze` (limpio) y `data/gold` (transformado), con `gold/calidad` para los informes. Los cuatro ficheros de precio se reducen a dos: `hoteles_cruce_base` era identico a `hoteles_con_precio` salvo nueve celdas, y `hoteles_bcn_precios_rescatados` era un subconjunto de `precios_emparejamientos`. Nuevo `titular_id`, entero estable por NIF, para agrupar por empresa. |
+| 2026-09-02 | Airbnb con capacidad y banda por plaza | `bronze/airbnb_anuncios.csv` une el resumen con el volcado de detalle de Inside Airbnb (90 columnas frente a 19) para incorporar `accommodates`; `gold/airbnb_bcn.csv` anade precio por plaza corregido de temporada y `banda_plaza`. Los alojamientos reglados reciben las mismas dos columnas. `pipeline/gold/bandas.py` guarda la definicion unica de ambas bandas. |
+| 2026-09-02 | Airbnb: uso turistico, repeticiones y perfil del anfitrion | `gold/airbnb_bcn.csv` anade `uso_turistico` (<=31 noches, el alcance real del decreto), `borde_31_noches`, `vivienda_id` + `es_repeticion` (una HUTB es una vivienda: 530 licencias aparecen en varios anuncios, 1.028 filas de mas) y `host_perfil` (`solo_con_licencia` / `solo_sin_licencia` / `mixto`). Nada se elimina: se marca. |
+| 2026-09-02 | Airbnb se parte en sujetos y excluidos | `gold/airbnb_bcn.csv` guarda ahora solo los 7.327 anuncios sujetos a la ley de 2028 y `gold/airbnb_excluidos.csv` los 8.079 restantes con su `motivo_exclusion`: regimen no VUT (897), no es cesion entera (3.739), 32 noches o mas (1.848), sin actividad (802), repeticion de vivienda (793). Columnas nuevas: `regimen`, `cesion_entera`, `estado_actividad`, `sujeto_a_ley_vut`, `motivo_exclusion`. |
+| 2026-09-03 | Una sola cadena de Airbnb | El notebook `revisar_airbnb_v2.ipynb` pasa a leer `bronze/airbnb_anuncios.csv` --que ya trae capacidad-- y a producir `gold/airbnb_para_web.csv` (6.834) y `gold/airbnb_excluidos_web.csv` (8.572), con `estado_licencia` contrastado contra el registro, `tipo_cesion`, `precio_plaza_anual` y `banda_plaza`. `preparar_airbnb_bcn.py` y sus salidas se retiran: aplicaban otra criba y el mapa publicaba desde ellas. |
 
 ---
 

@@ -75,4 +75,11 @@ pnpm-debug.log*
 
 # Carpeta de trabajo para pruebas y tanteos. No se versiona: lo que sirva se mueve
 # a pipeline/ y lo que no, se borra.
+# scraps/: material retirado del pipeline, a la espera de borrarse.
+#
+# No va en `main`. Vive en la rama `scraps`, que conserva el estado completo por si hay que
+# recuperar algo: scripts sustituidos, notebooks de versiones anteriores y los datos que
+# produjeron. Aqui se ignora entera para que la rama principal solo contenga el pipeline vigente.
+#
+# Para consultarlo:  git checkout scraps
 scraps/

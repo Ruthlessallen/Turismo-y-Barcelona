@@ -125,15 +125,18 @@ al empezar una sesión para saber qué hay en marcha (ver "Ciclo de trabajo de u
 ## Estructura de carpetas
 
 ```
-data/
-├── raw/              → descargas originales de cada fuente, sin transformar
-├── processed/        → Parquet limpio y cruzado
+data/                 → arquitectura medallón, ver data/README.md
+├── raw/              → descargas originales, sin transformar. Nada del pipeline escribe aquí
+├── bronze/           → limpio y tipado, una fila por entidad
+├── gold/             → transformado: lo que responde preguntas
+│   └── calidad/      → informes sobre los datos, no datos
 └── exports/          → JSON generado para el frontend, uno por panel
 
-pipeline/             → scripts Python de recolección y ETL
-├── sources/          → un módulo por fuente
-├── transform/        → limpieza, cruce, agregación
-└── export.py         → genera data/exports/*.json
+pipeline/             → un directorio por capa de destino, ver pipeline/README.md
+├── sources/          → todo lo que toca la red (descargas y geocodificación)
+├── bronze/           → limpieza, unificación, cruces de identidad
+├── gold/             → transformación con criterio de negocio
+└── export/           → recorte y simplificación para el navegador
 
 web/                  → app Next.js
 ├── app/               → rutas (App Router)
@@ -242,14 +245,18 @@ El formato de la ficha, los tres estados y el detalle de qué valida el script e
 Cada vez que hagas un cambio importante:
 
 1. **Entrada en `changelog/`**, con `/changelog`. El formato está en `changelog/README.md`.
-2. **Actualiza la documentación que el cambio deja desfasada, en la misma sesión.** Tabla nueva →
+2. **Regenera los diagramas que el cambio deje viejos.** `python pipeline/generar_criba.py` si
+   cambia algún criterio de inclusión o exclusión de registros; `python pipeline/generar_linaje.py`
+   si cambian rutas o entra un script nuevo. Ni `docs/criba.md` ni `docs/linaje.md` se editan a
+   mano: se generan del código y del dato, y por eso no pueden quedarse desfasados en silencio.
+3. **Actualiza la documentación que el cambio deja desfasada, en la misma sesión.** Tabla nueva →
    `docs/data-model.md`. Patrón visual nuevo → `docs/design-system.md`. Cambio de estructura o
    servidor MCP → `docs/architecture.md`. Alcance nuevo → `docs/prd.md` y `docs/roadmap.md`, con su
    ID y su criterio de aceptación. Feature terminada → su ficha a **Verificada**. Alcance que
    cambia a mitad de feature → su tabla de cobertura, no solo el código.
-3. **`README.md`**, si el cambio afecta a cómo se instala, inicializa o usa el proyecto. Describe
+4. **`README.md`**, si el cambio afecta a cómo se instala, inicializa o usa el proyecto. Describe
    siempre el proyecto en su estado actual.
-4. **`/security-review`** antes de mergear a producción, o cuando el usuario lo pida.
+5. **`/security-review`** antes de mergear a producción, o cuando el usuario lo pida.
 
 ---
 

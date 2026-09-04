@@ -21,7 +21,7 @@ analizar un mercado de señalar domicilios.
 
 - `exacta` — coordenada del registro oficial u Open Data BCN
 - `geocodificada` — deducida de la dirección con el ICGC, verificada contra el municipio
-- `desplazada` — Inside Airbnb mueve cada anuncio hasta ~200 m a propósito
+- `desplazada` — Inside Airbnb mueve cada anuncio hasta 150 m a propósito
 
 Pintarlas con el mismo símbolo daría a entender una precisión que no tenemos.
 """
@@ -33,8 +33,10 @@ from pathlib import Path
 
 import pandas as pd
 
-RAIZ = Path(__file__).resolve().parents[1]
-PROC = RAIZ / "data" / "processed"
+RAIZ = Path(__file__).resolve().parents[2]
+BRONZE = RAIZ / "data" / "bronze"
+GOLD = RAIZ / "data" / "gold"
+CALIDAD = GOLD / "calidad"
 DESTINO = RAIZ / "data" / "exports" / "mapa"
 
 
@@ -51,9 +53,9 @@ def volcar(ruta: Path, datos) -> None:
 
 def cargar_geocodificado() -> pd.DataFrame:
     """Coordenadas del ICGC que superaron la verificación por municipio."""
-    ruta = PROC / "geocodificacion_verificada.csv"
+    ruta = BRONZE / "geocodificacion_verificada.csv"
     if not ruta.exists():
-        ruta = PROC / "geocodificacion_icgc.csv"
+        ruta = BRONZE / "geocodificacion_icgc.csv"
     if not ruta.exists():
         return pd.DataFrame(columns=["licencia_id", "lat", "lon"])
 
@@ -80,56 +82,69 @@ def completar_coordenadas(d: pd.DataFrame, geo: pd.DataFrame) -> pd.DataFrame:
     return d.drop(columns=["lat_geo", "lon_geo"], errors="ignore")
 
 
-def exportar_hoteles(geo: pd.DataFrame) -> dict:
-    """Hoteles y apartaments turístics, en ficheros separados.
+def exportar_hoteles() -> dict:
+    """Hoteles y apartaments turistics, en ficheros separados.
 
-    Van aparte porque son figuras legales distintas y confundirlas es el error más fácil de
-    cometer con estos datos: la eliminación de 2028 afecta a las VUT, no a los AT, que seguirán
-    operando. Mezclarlos en una sola capa daría a entender que todo el alojamiento en apartamento
+    Van aparte porque son figuras legales distintas y confundirlas es el error mas facil de
+    cometer con estos datos: la eliminacion de 2028 afecta a las VUT, no a los AT, que seguiran
+    operando. Mezclarlos en una sola capa daria a entender que todo el alojamiento en apartamento
     desaparece.
+
+    **Se lee de `gold/alojamientos_reglados.csv`, no del censo de bronze.** Antes se leia el censo
+    y el precio crudo por separado, y llegaba al mapa un precio de una ventana de septiembre sin
+    banda y sin decir si estaba medido o estimado. Cada punto lleva ahora `banda`, `estimado` y
+    `apoyo`, que es lo que `docs/web-checklist.md` exige para no dar por sabido un precio imputado.
     """
-    h = pd.read_csv(PROC / "hoteles_y_apartaments_unificados.csv", dtype=str)
-    h = completar_coordenadas(h, geo)
-
-    # Un registro de Open Data BCN sin correspondencia en el Registre se queda sin `tipo`. Viene
-    # del fichero de hoteles del Ajuntament, así que hotel es: dejarlo nulo lo excluiría del mapa.
-    h["tipo"] = h["tipo"].fillna("hotel")
-
-    precios = pd.read_csv(PROC / "hoteles_con_precio.csv")
-    fiables = precios[precios["precio"].notna() & ~precios["dudoso"].fillna(False)]
-    h = h.merge(fiables[["licencia_id", "precio"]], on="licencia_id", how="left")
-
+    h = pd.read_csv(GOLD / "alojamientos_reglados.csv", dtype={"licencia_id": str},
+                    low_memory=False)
     con_punto = h[h["lat"].notna()]
+
     puntos = [{
         "id": r["licencia_id"],
         "nom": sin_nan(r["nombre_comercial"]),
         "tipo": sin_nan(r["tipo"]),
         "cat": sin_nan(r["categoria"]),
-        "plazas": int(float(r["plazas"])) if pd.notna(r["plazas"]) else None,
-        "hab": int(float(r["habitaciones"])) if pd.notna(r["habitaciones"]) else None,
-        "precio": round(float(r["precio"])) if pd.notna(r["precio"]) else None,
+        "plazas": int(r["plazas"]) if pd.notna(r["plazas"]) else None,
+        "hab": int(r["habitaciones"]) if pd.notna(r["habitaciones"]) else None,
+        "precio": round(float(r["precio_noche_final"])) if pd.notna(r["precio_noche_final"]) else None,
+        "banda": sin_nan(r["banda_precio"]),
+        # Sin estas dos, un precio estimado seria indistinguible de uno medido en el mapa.
+        "estimado": bool(r["precio_es_estimado"]) if pd.notna(r["precio_es_estimado"]) else None,
+        "apoyo": sin_nan(r["apoyo_estimacion"]),
         "mun": sin_nan(r["municipio"]),
+        "barrio": sin_nan(r["barrio"]),
         "lat": round(float(r["lat"]), 6),
         "lon": round(float(r["lon"]), 6),
-        "prec": r["precision"],
+        "prec": sin_nan(r["precision"]),
     } for _, r in con_punto.iterrows()]
+
+    # Las 5 estimaciones sin ejemplos comparables salen sin banda: un hueco es mas honesto que un
+    # numero que nadie puede contradecir (ver `apoyo_estimacion` en docs/data-model.md).
+    for p in puntos:
+        if p["apoyo"] == "escaso":
+            p["banda"] = None
+            p["precio"] = None
 
     hoteles = [p for p in puntos if p["tipo"] == "hotel"]
     apartamentos = [p for p in puntos if p["tipo"] == "apartament_turistic"]
     volcar(DESTINO / "hoteles.json", hoteles)
     volcar(DESTINO / "apartaments_turistics.json", apartamentos)
 
+    con_banda = [p for p in puntos if p["banda"]]
     return {
         "hoteles": {"total": int((h["tipo"] == "hotel").sum()), "con_punto": len(hoteles)},
         "apartaments_turistics": {
             "total": int((h["tipo"] == "apartament_turistic").sum()),
             "con_punto": len(apartamentos)},
-        "con_precio": int(con_punto["precio"].notna().sum()),
+        "con_banda": len(con_banda),
+        "banda_observada": len([p for p in con_banda if p["estimado"] is False]),
+        "banda_estimada": len([p for p in con_banda if p["estimado"] is True]),
+        "sin_banda_por_apoyo": len([p for p in puntos if p["apoyo"] == "escaso"]),
     }
 
 
 def exportar_restauracion() -> dict:
-    ruta = PROC / "restauracion_con_municipio.csv"
+    ruta = BRONZE / "restauracion_con_municipio.csv"
     if not ruta.exists():
         return {"total": 0, "con_punto": 0}
     d = pd.read_csv(ruta)
@@ -153,7 +168,7 @@ def exportar_restauracion() -> dict:
 
 def exportar_vut(geo: pd.DataFrame) -> dict:
     """Las VUT son viviendas: solo agregados, nunca puntos."""
-    v = pd.read_csv(PROC / "vut_unificados.csv", dtype=str)
+    v = pd.read_csv(BRONZE / "vut_unificados.csv", dtype=str)
     v = completar_coordenadas(v, geo)
     v["plazas_n"] = pd.to_numeric(v["plazas"], errors="coerce")
 
@@ -176,20 +191,51 @@ def exportar_vut(geo: pd.DataFrame) -> dict:
 
 
 def exportar_airbnb() -> dict:
-    """Coordenadas desplazadas ~200 m por la fuente: solo agregados."""
-    a = pd.read_csv(PROC / "airbnb_situacion_licencia.csv")
-    por_barrio = (a.groupby("neighbourhood")
-                  .agg(anuncios=("id", "size"),
-                       sujetos_vut=("sujeto_a_vut", "sum"),
-                       sin_licencia=("sin_licencia", "sum"),
-                       distrito=("neighbourhood_group", "first"))
-                  .reset_index().rename(columns={"neighbourhood": "barrio"}))
-    for c in ("sujetos_vut", "sin_licencia"):
-        por_barrio[c] = por_barrio[c].astype(int)
+    """Coordenadas desplazadas hasta 150 m por la fuente: solo agregados por barrio.
 
-    (DESTINO / "airbnb_por_barrio.json").write_text(
-        por_barrio.to_json(orient="records", force_ascii=False), encoding="utf-8")
-    return {"total": len(a), "barrios": len(por_barrio)}
+    Se lee de `gold/airbnb_para_web.csv`, que produce `notebooks/revisar_airbnb_v2.ipynb`: trae el
+    precio por plaza corregido de temporada y el estado de licencia contrastado contra el registro
+    oficial. Antes se leia `airbnb_bcn.csv`, salida de un segundo pipeline que aplicaba otra criba
+    --el mapa publicaba desde la cadena que no mandaba-- y que se ha retirado.
+    Es la unica escala en la que la oferta de Airbnb y la hotelera se comparan: 221 EUR de un piso
+    para cuatro y 174 EUR de una habitacion de hotel no dicen nada enfrentados.
+    """
+    a = pd.read_csv(GOLD / "airbnb_para_web.csv", low_memory=False)
+    # Los excluidos entran solo para poder decir cuantos hay y por que, no para contarlos como
+    # oferta: son habitaciones, alojamiento reglado, anuncios apagados y repeticiones de una misma
+    # vivienda. Publicar el total sin ese desglose diria que hay 15.406 pisos turisticos.
+    fuera = pd.read_csv(GOLD / "airbnb_excluidos_web.csv", low_memory=False)
+
+    def reparto(g: pd.DataFrame) -> dict:
+        cuenta = g["banda_plaza"].value_counts()
+        return {b: int(cuenta.get(b, 0)) for b in ("€", "€€", "€€€", "€€€€")}
+
+    excluidos_barrio = fuera.groupby("neighbourhood").size()
+
+    filas = []
+    for barrio, g in a.groupby("neighbourhood"):
+        con_precio = g[g["precio_plaza_anual"].notna()]
+        filas.append({
+            "barrio": barrio,
+            "distrito": g["neighbourhood_group"].iloc[0],
+            "anuncios": len(g),
+            "excluidos": int(excluidos_barrio.get(barrio, 0)),
+            "con_licencia": int((g["estado_licencia"] == "con_licencia").sum()),
+            "sin_licencia": int((g["estado_licencia"] == "sin_licencia").sum()),
+            "sin_acreditar": int((g["estado_licencia"] == "licencia_sin_acreditar").sum()),
+            "con_precio": len(con_precio),
+            "precio_plaza_mediano": (round(float(con_precio["precio_plaza_anual"].median()), 1)
+                                     if len(con_precio) else None),
+            "bandas": reparto(g),
+        })
+
+    volcar(DESTINO / "airbnb_por_barrio.json", filas)
+    con = a["precio_plaza_anual"].notna()
+    return {"sujetos_a_la_ley": len(a), "excluidos": len(fuera),
+            "motivos": fuera["motivo_exclusion"].value_counts().to_dict(),
+            "barrios": len(filas),
+            "con_precio_plaza": int(con.sum()),
+            "precio_plaza_mediano": round(float(a.loc[con, "precio_plaza_anual"].median()), 1)}
 
 
 def main() -> None:
@@ -198,7 +244,7 @@ def main() -> None:
     print(f"Coordenadas geocodificadas utilizables: {len(geo):,}\n")
 
     resumen = {
-        **exportar_hoteles(geo),
+        **exportar_hoteles(),
         "restauracion": exportar_restauracion(),
         "vut": exportar_vut(geo),
         "airbnb": exportar_airbnb(),

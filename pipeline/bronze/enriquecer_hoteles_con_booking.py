@@ -7,11 +7,15 @@
                                   hoteles_con_precio.csv
 
 Entradas
-    data/processed/hoteles_cruce_base.csv                    — el cruce ya hecho
+    data/bronze/precios_hoteles_cruzados.csv                 — el cruce ya hecho
     data/raw/hoteles/hoteles_booking_unificados_2026.csv     — precios de Booking
 Salidas
-    data/processed/hoteles_con_precio.csv
-    data/raw/hoteles/hoteles_con_precio.csv
+    data/bronze/precios_hoteles_cruzados.csv   (el mismo fichero, completado)
+
+**Se ejecuta despues de `cruzar_precios_hoteles.py` y sobre su misma salida.** Antes escribia un
+segundo fichero, y los dos resultaban tener las mismas 754 filas y las mismas 17 columnas: solo
+cambiaban nueve celdas, los precios que Booking rellena. Mantener dos copias de una tabla que
+difiere en nueve celdas invita a que alguien lea la equivocada.
 
 Solo toca los hoteles **sin precio**: los que el cruce principal ya resolvió por coordenada no se
 tocan, porque ese método es más fiable que emparejar por nombre.
@@ -35,14 +39,16 @@ RAIZ = Path(__file__).resolve().parents[2]
 # Leer de una copia rompía la cadena en silencio: el cruce mejoraba —489 emparejamientos por
 # coordenada en vez de 319 tras geocodificar— y este script seguía partiendo de la versión vieja,
 # así que el fichero final quedaba peor que su propia base sin que nada lo indicara.
-CENSO_CSV = RAIZ / "data" / "processed" / "hoteles_cruce_base.csv"
+CENSO_CSV = RAIZ / "data" / "bronze" / "precios_hoteles_cruzados.csv"
 # Los datos raspados son entrada, no resultado: viven en `data/raw/`, que no se versiona por
-# contener nombres y direcciones. Tenerlos también en `data/processed/` era una tercera copia del
+# NOTA HISTORICA: este script escribia ademas una copia en `data/raw/hoteles/`. Se retiro al
+# adoptar la arquitectura medallon: `raw` guarda descargas, no derivados. Esa copia ya habia
+# causado un fallo silencioso —otro script la leia congelada y no veia las mejoras de geocodificado.
+# Antes decia: contener nombres y direcciones. Tenerlos tambien en `data/processed/` era una copia del
 # mismo fichero, con el riesgo de que las tres se desincronizaran.
 BOOKING_CSV = RAIZ / "data" / "raw" / "hoteles" / "hoteles_booking_unificados_2026.csv"
 
-SALIDA_PROCESSED = RAIZ / "data" / "processed" / "hoteles_con_precio.csv"
-SALIDA_RAW = RAIZ / "data" / "raw" / "hoteles" / "hoteles_con_precio.csv"
+SALIDA = CENSO_CSV   # completa el mismo fichero: es la misma tabla en otra fase
 
 # Palabras genéricas que no deben usarse solas para validar una coincidencia
 PALABRAS_GENERICAS = {
@@ -168,11 +174,9 @@ def cruzar_y_enriquecer_censo() -> pd.DataFrame:
                 df_censo.at[idx, "similitud"] = mejor_score
                 df_censo.at[idx, "dudoso"] = False
 
-    SALIDA_PROCESSED.parent.mkdir(parents=True, exist_ok=True)
-    SALIDA_RAW.parent.mkdir(parents=True, exist_ok=True)
+    SALIDA.parent.mkdir(parents=True, exist_ok=True)
 
-    df_censo.to_csv(SALIDA_PROCESSED, index=False, encoding="utf-8")
-    df_censo.to_csv(SALIDA_RAW, index=False, encoding="utf-8")
+    df_censo.to_csv(SALIDA, index=False, encoding="utf-8")
 
     precios_finales = df_censo["precio"].notna().sum()
 
@@ -184,8 +188,7 @@ def cruzar_y_enriquecer_censo() -> pd.DataFrame:
     print(f"Hoteles verdaderos asignados desde Booking.com: {registros_rellenados}")
     print(f"Hoteles con precio tras el cruce estricto: {precios_finales} ({precios_finales / len(df_censo):.1%})")
     print("-" * 60)
-    print(f" - CSV procesado guardado en: {SALIDA_PROCESSED}")
-    print(f" - CSV raw actualizado en: {SALIDA_RAW}")
+    print(f" - CSV procesado guardado en: {SALIDA}")
     print("=" * 60)
 
     return df_censo

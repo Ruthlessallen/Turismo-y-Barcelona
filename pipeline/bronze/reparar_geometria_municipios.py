@@ -3,7 +3,7 @@
     python pipeline/transform/reparar_geometria_municipios.py
 
 Salida
-    data/processed/municipios_provincia_barcelona.geojson
+    data/bronze/municipios_provincia_barcelona.geojson
 
 El problema: el export WFS del ICGC mete **todas** las partes de un municipio como anillos de un
 único polígono, en vez de como polígonos separados del MultiPolygon. GeoJSON define el primer
@@ -34,7 +34,7 @@ from shapely.geometry.polygon import orient
 
 RAIZ = Path(__file__).resolve().parents[2]
 ENTRADA = RAIZ / "data" / "raw" / "geometria" / "icgc_municipis_provincia_barcelona.geojson"
-SALIDA = RAIZ / "data" / "processed" / "municipios_provincia_barcelona.geojson"
+SALIDA = RAIZ / "data" / "bronze" / "municipios_provincia_barcelona.geojson"
 
 # Margen al comparar el área reconstruida con la que declara el ICGC. Un 2% absorbe la diferencia
 # entre su cálculo y el nuestro sin dejar pasar una geometría realmente mal montada.

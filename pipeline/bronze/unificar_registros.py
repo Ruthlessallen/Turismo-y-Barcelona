@@ -38,7 +38,9 @@ import pandas as pd
 
 RAIZ = Path(__file__).resolve().parents[2]
 CRUDO = RAIZ / "data" / "raw"
-PROCESADO = RAIZ / "data" / "processed"
+BRONZE = RAIZ / "data" / "bronze"
+GOLD = RAIZ / "data" / "gold"
+CALIDAD = GOLD / "calidad"
 
 # Patrón de los números de registro del Registre de Turisme de Catalunya.
 # HB/HCC = hoteles, ATB/ATCC = apartamentos turísticos, HUTB = viviendas de uso turístico.
@@ -93,7 +95,7 @@ PERFILES = {
         nombre="hoteles",
         ruta_registre=CRUDO / "registre_turisme" / "hoteles_y_apartaments_turistics_provincia_barcelona.csv",
         ruta_opendata=CRUDO / "hoteles" / "opendata_bcn_hotels_snapshot.csv",
-        salida=PROCESADO / "hoteles_y_apartaments_unificados.csv",
+        salida=BRONZE / "hoteles_y_apartaments_unificados.csv",
         columnas_registre={
             "n_mero_inscripci": "licencia_id", "tipus_establiment": "tipo_raw",
             "r_tol": "nombre_comercial", "municipi": "municipio",
@@ -117,7 +119,7 @@ PERFILES = {
         nombre="vut",
         ruta_registre=CRUDO / "registre_turisme" / "hut_provincia_barcelona.csv",
         ruta_opendata=CRUDO / "vut" / "opendata_bcn_hut_2016-2026Q1.csv",
-        salida=PROCESADO / "vut_unificados.csv",
+        salida=BRONZE / "vut_unificados.csv",
         columnas_registre={
             "n_mero_inscripci": "licencia_id", "tipus_establiment": "tipo_raw",
             "r_tol": "nombre_comercial", "municipi": "municipio",
@@ -186,7 +188,7 @@ def normalizar_via(tipo: object, nombre: object) -> str:
 
 
 def primer_numero(valor: object) -> str:
-    """Extrae el primer número de un portal. '2-4' → '2'; el Catastro tampoco acepta rangos."""
+    """Extrae el primer número de un portal. '2-4' -> '2'; el Catastro tampoco acepta rangos."""
     encontrados = re.findall(r"\d+", texto_o_vacio(valor))
     return encontrados[0] if encontrados else ""
 
@@ -272,8 +274,12 @@ def cargar_registre(perfil: Perfil) -> pd.DataFrame:
     df["es_persona_fisica"] = df["nif"].eq("No aplica")
     df.loc[df["es_persona_fisica"], ["nif", "razon_social"]] = pd.NA
 
+    # `titular_id` va junto al NIF y no en su lugar: el CIF permite cruzar con registros
+    # mercantiles externos y el entero sirve para agrupar dentro de este proyecto.
+    df = asignar_titular_id(df)
+
     columnas = [c for c in perfil.columnas_registre.values() if c != "tipo_raw"]
-    return df[columnas + ["tipo", "es_persona_fisica"]]
+    return df[columnas + ["tipo", "es_persona_fisica", "titular_id"]]
 
 
 def cargar_opendata(perfil: Perfil) -> pd.DataFrame:
@@ -292,6 +298,43 @@ def cargar_opendata(perfil: Perfil) -> pd.DataFrame:
 
     columnas = ["codigo"] + [c for c in perfil.columnas_opendata.values()]
     return df[[c for c in dict.fromkeys(columnas) if c in df]]
+
+
+RUTA_TITULARES = BRONZE / "titulares.csv"
+
+
+def asignar_titular_id(df: pd.DataFrame) -> pd.DataFrame:
+    """Anade `titular_id`: un entero estable por NIF, para agrupar por empresa sin arrastrar texto.
+
+    El NIF que queda en los datos es siempre un CIF de sociedad —a las personas fisicas se les
+    anula unas lineas mas arriba, porque la fuente no lo publica— asi que esto no anonimiza nada
+    ni pretende hacerlo. Es una clave sustituta: un entero une mas rapido que una cadena, no se
+    rompe por mayusculas o espacios, y permite preguntar "cuantos alojamientos tiene este titular"
+    sin repetir el CIF en cada fila de cada consulta.
+
+    El mapa vive en `titulares.csv` y **se conserva entre ejecuciones**: un titular que ya tiene
+    numero lo mantiene aunque cambie el orden de las filas o entren registros nuevos. Si se
+    reasignara en cada pasada, cualquier analisis guardado con los ids anteriores dejaria de
+    corresponder sin previo aviso.
+    """
+    previos = (pd.read_csv(RUTA_TITULARES, dtype={"nif": str})
+               if RUTA_TITULARES.exists() else pd.DataFrame(columns=["nif", "titular_id"]))
+    mapa = dict(zip(previos["nif"], previos["titular_id"]))
+
+    nuevos = sorted({n for n in df["nif"].dropna().unique() if n not in mapa})
+    siguiente = (max(mapa.values()) + 1) if mapa else 1
+    for nif in nuevos:
+        mapa[nif] = siguiente
+        siguiente += 1
+
+    if nuevos:
+        (pd.DataFrame({"nif": list(mapa), "titular_id": list(mapa.values())})
+         .sort_values("titular_id").to_csv(RUTA_TITULARES, index=False, encoding="utf-8"))
+        print(f"  titulares: {len(nuevos)} nuevos, {len(mapa)} en total")
+
+    df = df.copy()
+    df["titular_id"] = df["nif"].map(mapa).astype("Int64")
+    return df
 
 
 def unificar(perfil: Perfil) -> pd.DataFrame:

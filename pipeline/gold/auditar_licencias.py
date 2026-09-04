@@ -6,10 +6,10 @@ está en `pipeline/notebooks/03_auditoria_licencias.ipynb`.
 
 Entradas
     data/raw/airbnb/insideairbnb_barcelona_<fecha>_listings.csv
-    data/processed/vut_unificados.csv   (generado por unificar_registros.py)
+    data/bronze/vut_unificados.csv   (generado por unificar_registros.py)
 
 Salida
-    data/processed/airbnb_situacion_licencia.csv
+    data/gold/airbnb_situacion_licencia.csv
 
 Tres cautelas que condicionan todo el diseño:
 
@@ -36,8 +36,8 @@ import pandas as pd
 
 RAIZ = Path(__file__).resolve().parents[2]
 DIR_AIRBNB = RAIZ / "data" / "raw" / "airbnb"
-RUTA_VUT = RAIZ / "data" / "processed" / "vut_unificados.csv"
-RUTA_SALIDA = RAIZ / "data" / "processed" / "airbnb_situacion_licencia.csv"
+RUTA_VUT = RAIZ / "data" / "bronze" / "vut_unificados.csv"
+RUTA_SALIDA = RAIZ / "data" / "gold" / "airbnb_situacion_licencia.csv"
 
 # Solo la sección regional lleva el número bueno (ver cautela 1 en el docstring).
 PATRON_REGIONAL = re.compile(
@@ -229,7 +229,7 @@ def informe(anuncios: pd.DataFrame, num_maximo: int) -> None:
     if not por_host.empty:
         grandes = por_host[por_host >= 5]
         print(f"\nAnfitriones afectados : {len(por_host):,}")
-        print(f"  con 5 o más anuncios     : {len(grandes):,}  → {grandes.sum():,} anuncios")
+        print(f"  con 5 o más anuncios     : {len(grandes):,}  -> {grandes.sum():,} anuncios")
 
 
 def main() -> None:
@@ -255,7 +255,7 @@ def main() -> None:
     ]
     salida = anuncios[[c for c in columnas if c in anuncios]]
 
-    # Las coordenadas vienen ya ofuscadas ~200 m por Inside Airbnb, y aquí se conservan tal
+    # Las coordenadas vienen ya ofuscadas hasta 150 m por Inside Airbnb, y aquí se conservan tal
     # cual: el detalle se queda en `data/processed/`. La agregación por barrio o distrito para
     # lo que se publica es responsabilidad de `pipeline/export.py` (ver docs/data-model.md).
     RUTA_SALIDA.parent.mkdir(parents=True, exist_ok=True)

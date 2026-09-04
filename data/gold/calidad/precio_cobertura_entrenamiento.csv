@@ -1,0 +1,25 @@
+corte,segmento,a_estimar,con_precio_real,apoyo,veredicto
+estrellas,nan,189,117,0.38,suficiente
+estrellas,4.0,33,118,0.78,suficiente
+estrellas,3.0,29,96,0.77,suficiente
+estrellas,2.0,23,27,0.54,apoyo justo
+estrellas,1.0,21,28,0.57,apoyo justo
+estrellas,4.5,11,29,0.72,apoyo justo
+estrellas,5.0,11,36,0.77,suficiente
+subtipo,sin_indicio,247,390,0.61,suficiente
+subtipo,hostal,55,36,0.4,suficiente
+subtipo,apartamentos,6,19,0.76,apoyo justo
+subtipo,pension,6,2,0.25,APOYO ESCASO
+subtipo,residencia,3,4,0.57,APOYO ESCASO
+tipo,sin_estrellas,184,109,0.37,suficiente
+tipo,hotel_estrellas,128,334,0.72,suficiente
+tipo,apartament_turistic,5,8,0.62,APOYO ESCASO
+tipo x tamaño,sin_estrellas / muy_pequeno,153,70,0.31,suficiente
+tipo x tamaño,hotel_estrellas / mediano,61,156,0.72,suficiente
+tipo x tamaño,sin_estrellas / pequeno,29,28,0.49,apoyo justo
+tipo x tamaño,hotel_estrellas / pequeno,26,64,0.71,suficiente
+tipo x tamaño,hotel_estrellas / grande,22,101,0.82,suficiente
+tipo x tamaño,hotel_estrellas / muy_pequeno,19,13,0.41,apoyo justo
+tipo x tamaño,apartament_turistic / muy_pequeno,4,2,0.33,APOYO ESCASO
+tipo x tamaño,sin_estrellas / mediano,2,10,0.83,apoyo justo
+tipo x tamaño,apartament_turistic / mediano,1,2,0.67,APOYO ESCASO
