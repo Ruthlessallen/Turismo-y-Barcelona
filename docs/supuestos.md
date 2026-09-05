@@ -83,8 +83,16 @@ De esas 173, **130 declaran una exención en su propio campo de licencia**: el a
 callado, ha dicho otra cosa. Arrastrarlas por lo que declara en otro anuncio sería sustituir su
 declaración por una inferencia nuestra.
 
-Se mantiene el criterio. El techo de lo que se ganaría afinando es un 5,6% de ese grupo, y para
-tres cuartas partes iría en contra de lo que el propio anuncio declara.
+Quedan **40** donde el anfitrión calla en este anuncio y declara en otro. Se probó a afinar más,
+exigiendo además que la habitación estuviera **en el mismo barrio** que un HUTB suyo: cumplen 20,
+de **7 anfitriones**. Pero esos anfitriones tienen carteras de 13 a 17 licencias repartidas en 6 a
+8 barrios, así que para ellos coincidir de barrio **es casi seguro por azar**: el criterio no
+discrimina. Y se apoyaría en la variable menos fiable que tenemos, porque la asignación individual
+de barrio falla el 12% (ver F1).
+
+Se mantiene el criterio. El techo de lo que se ganaría es un 5,6% de ese grupo —20 anuncios sobre
+6.834, el 0,3%—, para tres cuartas partes iría en contra de lo que el propio anuncio declara, y una
+licencia HUTB es de una vivienda, no de un anfitrión.
 
 ### B3. Las 14 `Hotel room` quedan fuera declaren lo que declaren
 
@@ -113,6 +121,24 @@ Falla en las dos direcciones, y conviene saber cómo:
 
 La alternativa —`availability_365`— es peor: un calendario abierto no prueba actividad, y un
 anfitrión puede cerrarlo sin dejar de alquilar por otra vía.
+
+**Y la otra alternativa, quedarse con los que tengan licencia vigente, sería circular.** Se probó
+(2026-09-04) y el reparto lo desaconseja solo:
+
+| | Descartados por inactividad | Los 6.834 que entran |
+|---|---:|---:|
+| Declaran HUTB | 37% | 86% |
+| Consta en el registro | 33% | 74% |
+
+Readmitiría 293 con licencia y **ni uno sin licencia**, subiendo mecánicamente el porcentaje de
+regulares. El filtro decidiría quién entra usando la misma variable cuyo reparto queremos medir.
+Aparte, el registro dice que la licencia existe, no que el piso se alquile: 239 de los 876 tienen
+su última reseña en 2023 o antes.
+
+**Lo que sí se hace** es contarlos aparte, sin tocar ningún denominador: la celda 43 del cuaderno
+publica los 293 como **capacidad latente** en `gold/airbnb_capacidad_latente.csv`. Son viviendas
+con licencia vigente que hoy no se anuncian, a las que la eliminación de 2028 alcanza igual y que
+pueden volver al mercado. Antes desaparecían del análisis sin dejar rastro.
 
 ### B6. Los duplicados se deciden por licencia, no por nombre y coordenadas
 
