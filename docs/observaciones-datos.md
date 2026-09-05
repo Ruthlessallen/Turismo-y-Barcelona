@@ -354,3 +354,96 @@ nada las liga a una licencia.
 
 En `data/gold/airbnb_para_web.csv`, con la columna `tipo_cesion` que separa vivienda entera de
 habitación.
+
+
+---
+
+## OSM se deja uno de cada cuatro locales de restauración en Barcelona
+
+**Fecha:** 2026-09-06
+**Fuentes:** `provincia_barcelona_restauracion_osm_2026.csv`,
+`bcn_cens_comercial_restauracion_2024.csv` (Ajuntament), `bcn_terrasses_restauracio_2026.csv`
+
+| Fuente | Locales en Barcelona ciudad |
+|---|---:|
+| OSM (cartografía voluntaria) | 7.430 |
+| Censo municipal 2024, sin alojamiento | **10.100** |
+| Diferencia | **2.670 (26% menos en OSM)** |
+
+**Cómo se detectó.** Al cruzar el fichero de terrazas con OSM salía que el **93%** de los locales
+tendrían terraza, y **doce barrios pasaban del 100%** —Sant Andreu 242%, la Nova Esquerra 150%—.
+Un porcentaje imposible no dice que el numerador esté mal: dice que el denominador es demasiado
+pequeño.
+
+Con el censo municipal como denominador, la cifra baja al **69%** y solo tres barrios pasan del
+100%, todos diminutos (Montbau 19 terrazas sobre 15 locales). Eso se explica solo: hay 620
+emplazamientos con más de una licencia, y el censo es de 2024 frente a unas terrazas de 2026.
+
+**Consecuencia.** Para Barcelona ciudad, OSM no sirve como recuento de la oferta de restauración.
+Sirve para el resto de la provincia, donde no hay alternativa, pero cualquier densidad o ratio
+calculado sobre OSM en la ciudad está infravalorado en torno a un 26%.
+
+---
+
+## El censo comercial no puede rellenar el tipo de cocina, y los nombres tampoco
+
+**Fecha:** 2026-09-06
+**Fuentes:** OSM 2026 y censo comercial del Ajuntament 2024
+
+Se planteó usar el censo municipal para rellenar los dos huecos de OSM. Ninguno de los dos sale.
+
+**El tipo de cocina no está en ninguna fuente.** `tipo_cocina` falta en 11.274 de 16.801 registros
+(67%). La clasificación más fina del censo es `Nom_Activitat`, y es tipo de local, no cocina:
+*Restaurants* 4.430, *Bars/Cibercafé* 4.273, *Take away* 778, *Discoteques* 387. El censo de la
+Diputació tampoco: su `descripcio_activitat` es `BAR`, `BAR RESTAURANT`, `BAR-CAFETERIA`. Ninguna
+distingue un japonés de un italiano.
+
+**Los nombres se podrían copiar, pero uno de cada cuatro sería falso.** Calibrado contra los 7.079
+locales de OSM que **sí** tienen nombre, que es donde se puede comprobar si el emparejamiento por
+coordenadas acierta:
+
+| Emparejamiento | Pares | Mismo local | Negocio distinto |
+|---|---:|---:|---:|
+| < 8 m, candidato único | 4.042 | 3.012 (75%) | **1.030 (25%)** |
+| < 15 m, candidato único | 3.458 | 2.431 (70%) | 1.027 (30%) |
+
+Cuenta como acierto la variante de formato (`McDonald's` / `MC DONALD'S`, `Fenicia` / `RESTAURANT
+LIBANÈS FENICIA`). El 25% restante son negocios distintos en el mismo local: `Palacio de China` →
+`SABORETTE`, `Pans & Company` → `LA FONT GAUDÍ`. **El censo es de 2024 y OSM de 2026**, y en dos
+años el local cambió de manos.
+
+**Por qué no se hace.** De los 351 sin nombre en Barcelona ciudad, se rellenarían 142 y quedarían
+209. Pero en esos 142 **no hay forma de saber cuál es cuál**, porque no tienen nombre con el que
+contrastar: se escribirían ~36 nombres falsos sin poder marcarlos. Es la misma decisión que en el
+supuesto B2 de `supuestos.md` — no sustituir un dato ausente por una inferencia que no se puede
+verificar caso a caso.
+
+Ampliar el radio empeora: a 30 m se rellenan 85 en vez de 142, porque aparecen varios candidatos y
+el emparejamiento deja de ser único.
+
+---
+
+## Las terrazas son el mejor fichero de la capa de restauración
+
+**Fecha:** 2026-09-06
+**Fuente:** `bcn_terrasses_restauracio_2026.csv`, volcado del 1 de julio de 2026
+
+6.942 licencias, **cero nulos** en todas las columnas clave (coordenadas, mesas, sillas, superficie,
+barrio, emplazamiento), una sola fecha de volcado y sin ambigüedad de versiones.
+
+| | |
+|---|---:|
+| Licencias | 6.942 |
+| Mesas | 33.166 |
+| Sillas | **127.482** |
+| Superficie de vía pública | **83.745 m²** |
+
+**No trae nombre de local, y eso lo salva:** no hay que emparejar nada, porque ya viene con barrio y
+distrito oficiales. Toda la agregación por barrio se hace sin inferir un solo vínculo.
+
+6.851 licencias son anuales y 91 de temporada; 6.762 en vía pública y 180 en espacio privado de uso
+público. 620 emplazamientos tienen más de una licencia, de ahí que las licencias (6.942) superen a
+los emplazamientos distintos (6.227).
+
+Es la única medida de **capacidad** que tenemos en restauración: el resto de la capa cuenta locales,
+no plazas.
