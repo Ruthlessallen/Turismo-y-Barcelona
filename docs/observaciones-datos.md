@@ -447,3 +447,59 @@ los emplazamientos distintos (6.227).
 
 Es la única medida de **capacidad** que tenemos en restauración: el resto de la capa cuenta locales,
 no plazas.
+
+
+---
+
+## El censo comercial no tiene edicion posterior a 2024
+
+**Fecha:** 2026-09-06
+**Fuente:** catalogo de Open Data BCN, `cens-locals-planta-baixa-act-economica`
+
+La serie publicada es **2014, 2016, 2019, 2022 y 2024**. El fichero que usamos
+(`241021_censcomercialbcn_opendata_2024_v5.csv`) es el ultimo, de octubre de 2024. No hay edicion
+de 2025 ni de 2026, asi que el desfase con las terrazas (julio de 2026) no se puede evitar
+cambiando de fichero.
+
+Dos avisos del propio catalogo que condicionan cualquier comparacion historica:
+
+- **Desde 2022 el censo recoge solo locales activos o pendientes de actividad**; antes recogia
+  todos, estuvieran activos o no.
+- **El fichero de 2022 se hizo con otra metodologia** y no es comparable con el resto. El de 2019
+  si es continuacion del de 2016.
+
+---
+
+## Cruzar terrazas con el censo: el `True` vale, el `False` no
+
+**Fecha:** 2026-09-06
+**Fuentes:** censo comercial 2024 y terrazas 2026, ambos del Ajuntament
+
+Ninguno de los dos ficheros trae identificador del otro, asi que el vinculo hay que construirlo.
+Se probaron dos vias y se usan las dos, porque fallan por motivos distintos:
+
+| Metodo | Locales marcados | Por que falla |
+|---|---:|---|
+| Misma direccion (via + numero) | 4.731 (47%) | nombres de via que no casan entre ficheros |
+| Terraza a menos de 10 m | 4.728 (47%) | la terraza se planta en la acera, no en el portal |
+| **Union de las dos** | **5.454 (54%)** | |
+
+Coinciden en el 83% de los casos y juntas recuperan 7 puntos mas que cualquiera por separado.
+
+**La proporcion real ronda el 63%** --6.942 licencias menos los 620 emplazamientos que tienen mas
+de una, sobre 10.100 locales--. El cruce llega al 54%, asi que **alrededor de uno de cada siete
+`False` es en realidad una terraza que el cruce no ve**. Por eso el campo se llama
+`terraza_acreditada` y no `tiene_terraza`: misma convencion que en las licencias de Airbnb, se
+nombra lo que se ha podido acreditar y nunca lo que se afirma que no existe.
+
+**Dos filtros que quitan falsos positivos.** Una direccion con mas de tres locales de restauracion
+no identifica a ninguno: sin ese tope, `potosi 2` marcaba 51 locales con una sola licencia y
+`diagonal 208` marcaba 30. Y un local dentro de un centro comercial, mercado o galeria no tiene
+terraza en via publica aunque su portal si la tenga. Con los dos, quedan 12 marcados en direcciones
+compartidas y ninguno en interior.
+
+**Validacion independiente.** El resultado reproduce el mapa regulatorio sin conocerlo: los cinco
+barrios con menos terraza por local son el Barri Gotic (19%), el Bon Pastor (21%), la Vila de
+Gracia (21%), el Raval (35%) y Sant Pere, Santa Caterina i la Ribera (36%), frente al 54% de media.
+Cuatro de esos cinco estan en las zonas con moratoria de nuevas licencias por saturacion
+--Ciutat Vella y Gracia--.
