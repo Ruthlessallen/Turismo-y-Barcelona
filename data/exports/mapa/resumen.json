@@ -39,6 +39,12 @@
     },
     "barrios": 64,
     "con_precio_plaza": 6834,
-    "precio_plaza_mediano": 51.8
+    "precio_plaza_mediano": 51.8,
+    "capacidad_latente": {
+      "viviendas": 293,
+      "plazas": 1534,
+      "recientes": 203,
+      "barrios": 38
+    }
   }
 }

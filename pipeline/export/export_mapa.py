@@ -205,16 +205,30 @@ def exportar_airbnb() -> dict:
     # oferta: son habitaciones, alojamiento reglado, anuncios apagados y repeticiones de una misma
     # vivienda. Publicar el total sin ese desglose diria que hay 15.406 pisos turisticos.
     fuera = pd.read_csv(GOLD / "airbnb_excluidos_web.csv", low_memory=False)
+    # Capacidad latente: licencia vigente en el registro y sin actividad reciente en la plataforma.
+    # No suma a `anuncios` --no es oferta anunciada-- pero la eliminacion de 2028 la alcanza igual,
+    # asi que se publica al lado y no dentro. `recientes` separa lo que dejo de anunciarse hace
+    # menos de dos anos de las licencias dormidas desde hace una decada: son dos cosas distintas
+    # ante la pregunta de si esa vivienda puede volver al mercado.
+    lat = pd.read_csv(GOLD / "airbnb_capacidad_latente.csv", low_memory=False)
+    lat["anio_ultima_resena"] = pd.to_datetime(lat["last_review"], errors="coerce").dt.year
 
     def reparto(g: pd.DataFrame) -> dict:
         cuenta = g["banda_plaza"].value_counts()
         return {b: int(cuenta.get(b, 0)) for b in ("€", "€€", "€€€", "€€€€")}
 
     excluidos_barrio = fuera.groupby("neighbourhood").size()
+    lat_barrio = {b: g for b, g in lat.groupby("neighbourhood")}
 
     filas = []
     for barrio, g in a.groupby("neighbourhood"):
         con_precio = g[g["precio_plaza_anual"].notna()]
+        gl = lat_barrio.get(barrio)
+        latente = {
+            "viviendas": 0 if gl is None else len(gl),
+            "plazas": 0 if gl is None else int(gl["accommodates"].sum()),
+            "recientes": 0 if gl is None else int((gl["anio_ultima_resena"] >= 2024).sum()),
+        }
         filas.append({
             "barrio": barrio,
             "distrito": g["neighbourhood_group"].iloc[0],
@@ -227,6 +241,7 @@ def exportar_airbnb() -> dict:
             "precio_plaza_mediano": (round(float(con_precio["precio_plaza_anual"].median()), 1)
                                      if len(con_precio) else None),
             "bandas": reparto(g),
+            "latente": latente,
         })
 
     volcar(DESTINO / "airbnb_por_barrio.json", filas)
@@ -235,7 +250,12 @@ def exportar_airbnb() -> dict:
             "motivos": fuera["motivo_exclusion"].value_counts().to_dict(),
             "barrios": len(filas),
             "con_precio_plaza": int(con.sum()),
-            "precio_plaza_mediano": round(float(a.loc[con, "precio_plaza_anual"].median()), 1)}
+            "precio_plaza_mediano": round(float(a.loc[con, "precio_plaza_anual"].median()), 1),
+            "capacidad_latente": {
+                "viviendas": len(lat),
+                "plazas": int(lat["accommodates"].sum()),
+                "recientes": int((lat["anio_ultima_resena"] >= 2024).sum()),
+                "barrios": lat["neighbourhood"].nunique()}}
 
 
 def main() -> None:

@@ -140,6 +140,11 @@ publica los 293 como **capacidad latente** en `gold/airbnb_capacidad_latente.csv
 con licencia vigente que hoy no se anuncian, a las que la eliminación de 2028 alcanza igual y que
 pueden volver al mercado. Antes desaparecían del análisis sin dejar rastro.
 
+Llegan a la web agregadas por barrio en `airbnb_por_barrio.json`, en un objeto `latente` aparte de
+`anuncios`: **no suman a la oferta anunciada**, porque no está anunciada. `recientes` separa las
+203 que dejaron de anunciarse en 2024 o después de las licencias dormidas desde hace una década:
+ante la pregunta de si esa vivienda puede volver al mercado, no son lo mismo.
+
 ### B6. Los duplicados se deciden por licencia, no por nombre y coordenadas
 
 Comprobado que la regla textual destruía 43 viviendas reales: mismo anfitrión, mismo nombre, mismo
