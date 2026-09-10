@@ -271,7 +271,12 @@ def cargar_registre(perfil: Perfil) -> pd.DataFrame:
     df["licencia_id"] = df["licencia_id"].apply(normalizar_codigo)
 
     # "No aplica" es el marcador de la fuente para titular persona física (protegido por RGPD).
-    df["es_persona_fisica"] = df["nif"].eq("No aplica")
+    # Pero el marcador no siempre está puesto: unas pocas filas traen el DNI escrito. Un CIF de
+    # sociedad empieza siempre por letra y un DNI son ocho dígitos y una letra, así que la forma
+    # del número distingue los dos casos sin recurrir al marcador. Se anulan también esos: un DNI
+    # identifica a una persona, y aquí solo hacen falta sociedades.
+    dni = df["nif"].fillna("").str.fullmatch(r"[0-9]{8}[A-Za-z]")
+    df["es_persona_fisica"] = df["nif"].eq("No aplica") | dni
     df.loc[df["es_persona_fisica"], ["nif", "razon_social"]] = pd.NA
 
     # `titular_id` va junto al NIF y no en su lugar: el CIF permite cruzar con registros
@@ -307,8 +312,13 @@ def asignar_titular_id(df: pd.DataFrame) -> pd.DataFrame:
     """Anade `titular_id`: un entero estable por NIF, para agrupar por empresa sin arrastrar texto.
 
     El NIF que queda en los datos es siempre un CIF de sociedad —a las personas fisicas se les
-    anula unas lineas mas arriba, porque la fuente no lo publica— asi que esto no anonimiza nada
-    ni pretende hacerlo. Es una clave sustituta: un entero une mas rapido que una cadena, no se
+    anula unas lineas mas arriba— asi que esto no anonimiza nada ni pretende hacerlo.
+
+    En `titulares.csv` quedan dos filas con el NIF vacio: son los dos titulares que la fuente
+    publico con DNI en vez del marcador "No aplica". El numero se conserva reservado a proposito,
+    porque `siguiente` sale de `max(mapa.values()) + 1`: borrar la fila liberaria ese entero y la
+    siguiente pasada se lo daria a otro titular, rompiendo la estabilidad que promete el parrafo
+    de abajo. Es una clave sustituta: un entero une mas rapido que una cadena, no se
     rompe por mayusculas o espacios, y permite preguntar "cuantos alojamientos tiene este titular"
     sin repetir el CIF en cada fila de cada consulta.
 
