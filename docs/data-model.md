@@ -199,6 +199,46 @@ otros 795 salen con `banda_precio` nula, que es la respuesta honesta.
 | precio_noche_final, banda_precio | Solo ciudad de Barcelona |
 | precio_es_estimado, apoyo_estimacion | Sin estas dos, un precio imputado seria indistinguible de uno medido en el mapa |
 
+#### restauracion_bcn
+
+**Tabla real: `data/gold/restauracion_bcn.csv` (9.479 locales), producida por
+`pipeline/gold/preparar_restauracion_bcn.py`.** Barcelona ciudad, del censo comercial municipal de
+2024. Las comprobaciones que justifican cada decision estan en
+`pipeline/notebooks/revisar_restauracion.ipynb`.
+
+| Campo | Tipo | Descripcion |
+|-------|------|-------------|
+| `local_id` | VARCHAR (PK) | `ID_Global` del censo, **normalizado**: 190 venian entre llaves `{uuid}` y uno con un caracter de mas |
+| `nombre` | VARCHAR NULL | Nulo en 56. El censo escribe `SN` --sense nom--; se pasa a nulo de verdad, porque como texto haria que 56 locales se llamaran igual |
+| `tipo_local` | VARCHAR | `restaurante` (4.429) \| `bar` (4.272) \| `comida_rapida` (778) |
+| `distrito`, `barrio`, `codigo_barrio` | VARCHAR | Oficiales, sin nulos. **Los 73 barrios y los 10 distritos** cubiertos |
+| `calle`, `numero`, `direccion` | VARCHAR | `direccion` es la `Direccio_Unica` del censo, que incluye el numero de local |
+| `latitud`, `longitud` | DOUBLE | Posicion real, **sin ofuscar**, precision de centimetros. 9.294 puntos distintos: 198 locales comparten punto con otro, y los 11 grupos que lo hacen tienen la misma referencia catastral --son locales del mismo edificio con el punto del portal-- |
+| `fecha_revision` | DATE | Cuando se visito ese local |
+| `local_identificado` | BOOLEAN | `False` en 197 (2,1%) |
+
+**El alcance son comidas y cenas.** Entran restaurantes, bares y take away. Quedan fuera **por
+decision, no por no ser restauracion**, el ocio nocturno (387: se bebe, no se cena) y las
+xocolateries/geladeries (148). Y quedan fuera por no serlo: `altres` (6, administraciones de
+loteria), `Altres (VENDING)` (4, tiendas 24h), `serveis de menjar i begudes` (74, cajon de sastre
+donde 73 no tienen ni nombre) y los 764 de alojamiento, que cuentan con los hoteles.
+
+**`local_identificado = False` no es un duplicado.** `Direccio_Unica` acaba en `LOC NA` cuando el
+censo sabe que en ese portal hay un establecimiento pero no cual: son mercados y centros
+comerciales --Els Encants 10, Mercat de la Barceloneta 2, Pg Potosi 2 con 48--. Son locales reales
+y distintos; borrarlos por repetir direccion y nombre se cargaria 197 que existen.
+
+**Solo se retiraron 2 duplicados reales**, mismo local visitado dos veces: `THREE MARKS COFFEE`
+(2021 y 2023) y `DgUSt` (dos veces el mismo dia). Se conserva la visita mas reciente.
+
+**El censo no es una foto de un dia.** El trabajo de campo va de 2023 a 2024: el 43% se visito en
+2024 y el 57% en 2023. Es la misma antiguedad desigual que se le reprocha a OSM, con la diferencia
+de que aqui viene por local y se puede medir. Los restaurantes se visitaron antes que los bares,
+asi que su dato es de media algo mas viejo.
+
+**Cobertura.** Solo Barcelona ciudad: el censo municipal no llega al resto de la provincia, donde
+la unica fuente sigue siendo OSM. La capa es hibrida y eso debe explicarse en la web.
+
 #### licencia_restauracion
 **Verificado 2026-08-28:** la Diputació de Barcelona (provincia) sí trae NIF y razón social —
 corrección sobre el supuesto anterior de que esta categoría no tendría titular identificable.
