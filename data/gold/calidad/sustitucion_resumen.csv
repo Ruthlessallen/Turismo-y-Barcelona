@@ -1,0 +1,6 @@
+escenario,w,plazas_colocadas,plazas_sin_sitio,km_mediano,sobrecoste_mediano,hoteles_usados,ocupacion_partida,plazas_regladas,plazas_vut
+solo_precio,0.0,27092,2975,2.32,22.8,762,0.6787,84314,30067
+sobre_todo_precio,0.25,27092,2975,0.63,22.0,762,0.6787,84314,30067
+equilibrio,0.5,27092,2975,0.48,24.0,762,0.6787,84314,30067
+sobre_todo_barrio,0.75,27092,2975,0.4,27.0,762,0.6787,84314,30067
+solo_barrio,1.0,27092,2975,0.35,33.4,762,0.6787,84314,30067

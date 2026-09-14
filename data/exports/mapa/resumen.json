@@ -46,5 +46,13 @@
       "recientes": 203,
       "barrios": 38
     }
+  },
+  "sustitucion_2028": {
+    "escenarios": 5,
+    "barrios": 64,
+    "ocupacion_partida": 0.6787,
+    "plazas_vut": 30067,
+    "plazas_regladas": 84314,
+    "sin_sitio": 2975
   }
 }
