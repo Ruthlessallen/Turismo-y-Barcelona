@@ -26,12 +26,12 @@ const LLEGA = "#2f6fb5";
  * Con 891 flechas rectas, las que van y vienen entre los mismos dos barrios se superponen y se
  * leen como una sola. Curvando siempre hacia el mismo lado, la ida y la vuelta quedan separadas.
  */
-function curva(a: [number, number], b: [number, number], pasos = 24): [number, number][] {
+function curva(a: [number, number], b: [number, number], arqueo = 0.3, pasos = 28): [number, number][] {
   const [lat1, lon1] = a;
   const [lat2, lon2] = b;
-  // Punto de control desplazado perpendicularmente al segmento; el 0,18 es cuánto se arquea.
-  const mx = (lat1 + lat2) / 2 + (lon2 - lon1) * 0.18;
-  const my = (lon1 + lon2) / 2 - (lat2 - lat1) * 0.18;
+  // Punto de control desplazado perpendicularmente al segmento: `arqueo` es cuánto se comba.
+  const mx = (lat1 + lat2) / 2 + (lon2 - lon1) * arqueo;
+  const my = (lon1 + lon2) / 2 - (lat2 - lat1) * arqueo;
 
   return Array.from({ length: pasos + 1 }, (_, i) => {
     const t = i / pasos;
@@ -130,15 +130,21 @@ export default function MapaFlujos({
 
     const pintar = () => {
       capa.clearLayers();
-      for (const f of visibles) {
+      // Todas las flechas de un barrio salen del mismo punto, así que con un arqueo único se
+      // solapan cerca del centroide y diez parecen dos. Se abanican: cada una se comba un poco
+      // distinto según su posición en la lista.
+      const ordenadas = [...visibles].sort((x, y) => y.turistas - x.turistas);
+
+      ordenadas.forEach((f, i) => {
         const a = centroides[f.origen];
         const b = centroides[f.destino];
-        if (!a || !b) continue;
+        if (!a || !b) return;
 
         // Cuando hay un barrio seleccionado, el color dice si el turista sale de él o llega a él.
         const color = !barrioActivo ? "#8a8783" : f.origen === barrioActivo ? SALE : LLEGA;
         const grosor = 1 + (f.turistas / maximo) * 7;
-        const puntos = curva(a, b);
+        const arqueo = barrioActivo ? 0.16 + (i % 5) * 0.12 : 0.3;
+        const puntos = curva(a, b, arqueo);
 
         const linea = L.polyline(puntos, {
           color,
@@ -160,7 +166,7 @@ export default function MapaFlujos({
             weight: 0,
           }),
         );
-      }
+      });
     };
 
     pintar();

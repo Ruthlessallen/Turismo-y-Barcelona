@@ -138,14 +138,26 @@ export default function PaginaFlujos() {
           </p>
         )}
 
-        <div className="mt-6 space-y-1 border-t border-[#e3e0da] pt-4 text-[11px] text-[#52514e]">
-          <p className="flex items-center gap-2">
-            <span className="h-1 w-6 rounded bg-[#cf4a30]" /> turistas que se van del barrio
-          </p>
-          <p className="flex items-center gap-2">
-            <span className="h-1 w-6 rounded bg-[#2f6fb5]" /> turistas que llegan al barrio
-          </p>
-          <p className="mt-2 leading-relaxed">
+        <div className="mt-6 space-y-1.5 border-t border-[#e3e0da] pt-4 text-[11px] text-[#52514e]">
+          {barrio ? (
+            <>
+              <p className="flex items-center gap-2">
+                <span className="inline-block h-1.5 w-7 shrink-0 rounded-full bg-[#cf4a30]" />
+                se van de {barrio}
+              </p>
+              <p className="flex items-center gap-2">
+                <span className="inline-block h-1.5 w-7 shrink-0 rounded-full bg-[#2f6fb5]" />
+                llegan a {barrio}
+              </p>
+            </>
+          ) : (
+            <p className="flex items-center gap-2">
+              <span className="inline-block h-1.5 w-7 shrink-0 rounded-full bg-[#8a8783]" />
+              todos los movimientos. <strong>Pincha un barrio</strong> y se separan en rojo los que
+              se van y azul los que llegan.
+            </p>
+          )}
+          <p className="pt-1 leading-relaxed">
             El grosor es el número de turistas. Los movimientos dentro del mismo barrio no se
             dibujan: no hay desplazamiento que enseñar.
           </p>
