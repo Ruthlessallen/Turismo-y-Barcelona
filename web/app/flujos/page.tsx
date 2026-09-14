@@ -55,6 +55,11 @@ export default function PaginaFlujos() {
           Cada flecha es un movimiento de turistas entre dos barrios: salen del barrio donde estaba
           su piso y acaban durmiendo donde queda sitio.
         </p>
+        <p className="mt-2 rounded border-l-2 border-[#d8d5cf] bg-[#faf9f7] px-3 py-2 text-[11px] leading-relaxed text-[#52514e]">
+          Solo se mueven los <strong>30.067 turistas de las 6.834 viviendas anunciadas hoy en
+          Airbnb</strong>. El registro oficial tiene 24.075 licencias con 61.899 plazas: las que no
+          se anuncian en Airbnb no están en este mapa.
+        </p>
 
         <h2 className="mt-6 mb-2 text-[11px] font-semibold uppercase tracking-wider text-[#52514e]">
           ¿Qué busca el turista?
