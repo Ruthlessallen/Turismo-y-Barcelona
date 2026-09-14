@@ -1,10 +1,14 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 import { ESCENARIOS, type BarrioSustitucion, type IdEscenario, type Sustitucion } from "@/app/lib/tipos";
+import type { Centroides, Flujo } from "@/app/lib/flechas";
 import type { Medida } from "@/app/components/MapaBarrios";
+
+type DatosFlujos = { centroides: Centroides; escenarios: Record<string, Flujo[]> };
 
 // Leaflet toca `window` al cargarse: sin esto el render del servidor revienta.
 const MapaBarrios = dynamic(() => import("@/app/components/MapaBarrios"), {
@@ -23,16 +27,34 @@ export default function Pagina() {
   const [escenario, setEscenario] = useState<IdEscenario>("equilibrio");
   const [medida, setMedida] = useState<Medida>("saldo");
   const [barrio, setBarrio] = useState<string | null>(null);
+  const [flechas, setFlechas] = useState(false);
+  const [minimoFlujo, setMinimoFlujo] = useState(200);
+  const [datosFlujos, setDatosFlujos] = useState<DatosFlujos | null>(null);
 
   useEffect(() => {
     fetch("/data/geo/barrios.geojson").then((r) => r.json()).then(setGeojson);
     fetch("/data/mapa/sustitucion_2028.json").then((r) => r.json()).then(setSustitucion);
   }, []);
 
+  // Los flujos pesan 92 KB y la capa arranca apagada: se piden la primera vez que se encienden.
+  useEffect(() => {
+    if (!flechas || datosFlujos) return;
+    fetch("/data/mapa/flujos_2028.json").then((r) => r.json()).then(setDatosFlujos);
+  }, [flechas, datosFlujos]);
+
   const porBarrio = useMemo(() => {
     const filas = sustitucion?.escenarios[escenario] ?? [];
     return Object.fromEntries(filas.map((f) => [f.barrio, f])) as Record<string, BarrioSustitucion>;
   }, [sustitucion, escenario]);
+
+  const flujosVisibles = useMemo(() => {
+    if (!flechas) return [];
+    const todos = datosFlujos?.escenarios[escenario] ?? [];
+    return todos.filter(
+      (f) =>
+        f.turistas >= minimoFlujo && (!barrio || f.origen === barrio || f.destino === barrio),
+    );
+  }, [flechas, datosFlujos, escenario, minimoFlujo, barrio]);
 
   const totales = sustitucion?.totales.find((t) => t.escenario === escenario);
   const activo = barrio ? porBarrio[barrio] : null;
@@ -112,6 +134,68 @@ export default function Pagina() {
           <p className="mt-5 text-[12px] text-[#52514e]">Pincha un barrio para ver su detalle.</p>
         )}
 
+        <div className="mt-6 border-t border-[#e3e0da] pt-4">
+          <label className="flex cursor-pointer items-center gap-2">
+            <input
+              type="checkbox"
+              checked={flechas}
+              onChange={(e) => setFlechas(e.target.checked)}
+              className="accent-[#2f6fb5]"
+            />
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-[#52514e]">
+              Adónde se van
+            </span>
+          </label>
+
+          {flechas && (
+            <>
+              <p className="mt-2 text-[11px] leading-relaxed text-[#52514e]">
+                Cada flecha es un movimiento entre dos barrios. El grosor es el número de turistas.
+              </p>
+              <div className="mt-2">
+                <input
+                  type="range"
+                  min={20}
+                  max={500}
+                  step={20}
+                  value={minimoFlujo}
+                  onChange={(e) => setMinimoFlujo(Number(e.target.value))}
+                  className="w-full accent-[#2f6fb5]"
+                  aria-label="Tamaño mínimo del flujo"
+                />
+                <p className="text-[11px] text-[#52514e]">
+                  {flujosVisibles.length} movimientos de más de {minimoFlujo} turistas
+                </p>
+              </div>
+              <div className="mt-2 space-y-1 text-[11px] text-[#52514e]">
+                {barrio ? (
+                  <>
+                    <p className="flex items-center gap-2">
+                      <span className="inline-block h-1.5 w-7 shrink-0 rounded-full bg-[#cf4a30]" />
+                      se van de {barrio}
+                    </p>
+                    <p className="flex items-center gap-2">
+                      <span className="inline-block h-1.5 w-7 shrink-0 rounded-full bg-[#2f6fb5]" />
+                      llegan a {barrio}
+                    </p>
+                  </>
+                ) : (
+                  <p className="flex items-center gap-2">
+                    <span className="inline-block h-1.5 w-7 shrink-0 rounded-full bg-[#8a8783]" />
+                    pincha un barrio para separar ida y vuelta
+                  </p>
+                )}
+              </div>
+              <Link
+                href="/flujos"
+                className="mt-2 inline-block text-[11px] text-[#52514e] underline underline-offset-2"
+              >
+                verlas en su propio mapa →
+              </Link>
+            </>
+          )}
+        </div>
+
         {totales && (
           <p className="mt-6 border-t border-[#e3e0da] pt-4 text-[11px] leading-relaxed text-[#52514e]">
             Los hoteles no están vacíos: se descuenta una ocupación del{" "}
@@ -133,6 +217,8 @@ export default function Pagina() {
           medida={medida}
           barrioActivo={barrio}
           onBarrio={setBarrio}
+          flujos={flujosVisibles}
+          centroides={datosFlujos?.centroides ?? {}}
         />
       </div>
     </main>

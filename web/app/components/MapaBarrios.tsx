@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
+import { dibujarFlechas, type Centroides, type Flujo } from "@/app/lib/flechas";
 import type { BarrioSustitucion } from "@/app/lib/tipos";
 
 /** Qué pinta el color del barrio. */
@@ -15,12 +16,15 @@ type Props = {
   medida: Medida;
   barrioActivo: string | null;
   onBarrio: (barrio: string | null) => void;
+  /** Flechas encima de las coropletas. Vacío si la capa está apagada. */
+  flujos?: Flujo[];
+  centroides?: Centroides;
 };
 
 const CENTRO: L.LatLngExpression = [41.397, 2.173];
 
 /**
- * Escala divergente para el saldo: el barrio gana o pierde plazas, y el cero importa.
+ * Escala divergente para el saldo: el barrio gana o pierde turistas, y el cero importa.
  * Nunca un arcoíris — dos tonos y un gris en medio, que es lo único que deja ver el signo.
  */
 const PIERDE = ["#fde8e4", "#f7b7a8", "#ea7a63", "#cf4a30"];
@@ -41,16 +45,27 @@ function colorPara(valor: number, medida: Medida, tope: number): string {
   return SECUENCIAL[Math.min(Math.floor(fuerza * SECUENCIAL.length), SECUENCIAL.length - 1)];
 }
 
-export default function MapaBarrios({ geojson, datos, medida, barrioActivo, onBarrio }: Props) {
+export default function MapaBarrios({
+  geojson,
+  datos,
+  medida,
+  barrioActivo,
+  onBarrio,
+  flujos = [],
+  centroides = {},
+}: Props) {
   const contenedor = useRef<HTMLDivElement>(null);
   const mapa = useRef<L.Map | null>(null);
   const capa = useRef<L.GeoJSON | null>(null);
+  const capaFlechas = useRef<L.LayerGroup | null>(null);
 
   // El tope se recalcula con la medida: si no, al cambiar de columna el color deja de decir nada.
   const tope = useMemo(() => {
     const valores = Object.values(datos).map((d) => Math.abs(d[medida] ?? 0));
     return Math.max(...valores, 1);
   }, [datos, medida]);
+
+  const maximoFlujo = useMemo(() => Math.max(...flujos.map((f) => f.turistas), 1), [flujos]);
 
   useEffect(() => {
     if (!contenedor.current || mapa.current) return;
@@ -61,6 +76,7 @@ export default function MapaBarrios({ geojson, datos, medida, barrioActivo, onBa
       attribution: "&copy; OpenStreetMap &copy; CARTO",
       maxZoom: 19,
     }).addTo(mapa.current);
+    capaFlechas.current = L.layerGroup().addTo(mapa.current);
     return () => {
       mapa.current?.remove();
       mapa.current = null;
@@ -106,7 +122,32 @@ export default function MapaBarrios({ geojson, datos, medida, barrioActivo, onBa
         });
       },
     }).addTo(mapa.current);
+    // Las coropletas se acaban de añadir, así que taparían las flechas si no se mandan al fondo.
+    capa.current.bringToBack();
   }, [geojson, datos, medida, tope, barrioActivo, onBarrio]);
+
+  useEffect(() => {
+    const m = mapa.current;
+    const cf = capaFlechas.current;
+    if (!m || !cf) return;
+
+    // Sobre las coropletas hace falta más opacidad que sobre el mapa en blanco de `/flujos`:
+    // con 0,35 la flecha se pierde dentro del relleno del barrio.
+    const pintar = () =>
+      dibujarFlechas(m, cf, {
+        flujos,
+        centroides,
+        barrioActivo,
+        maximo: maximoFlujo,
+        opacidad: barrioActivo ? 0.95 : 0.6,
+      });
+
+    pintar();
+    m.on("zoomend", pintar);
+    return () => {
+      m.off("zoomend", pintar);
+    };
+  }, [flujos, centroides, barrioActivo, maximoFlujo]);
 
   return <div ref={contenedor} className="h-full w-full" />;
 }
