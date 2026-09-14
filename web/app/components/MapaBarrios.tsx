@@ -88,8 +88,8 @@ export default function MapaBarrios({ geojson, datos, medida, barrioActivo, onBa
         const d = datos[nombre];
         layer.bindTooltip(
           d
-            ? `<b>${nombre}</b><br>${d.salen.toLocaleString("es")} plazas se van<br>` +
-                `${d.se_quedan.toLocaleString("es")} se quedan en el barrio<br>` +
+            ? `<b>${nombre}</b><br>${d.salen.toLocaleString("es")} turistas se quedan sin piso<br>` +
+                `${d.se_quedan.toLocaleString("es")} encuentran hotel aquí<br>` +
                 `${d.sin_sitio.toLocaleString("es")} sin sitio en la ciudad`
             : `<b>${nombre}</b><br>sin viviendas turísticas`,
           { sticky: true },

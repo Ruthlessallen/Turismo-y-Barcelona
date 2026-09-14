@@ -12,10 +12,9 @@ const MapaBarrios = dynamic(() => import("@/app/components/MapaBarrios"), {
   loading: () => <div className="h-full w-full bg-[#f5f4f1]" />,
 });
 
-const MEDIDAS: { id: Medida; etiqueta: string; ayuda: string }[] = [
-  { id: "saldo", etiqueta: "Saldo del barrio", ayuda: "Plazas que llegan menos las que se van" },
-  { id: "sin_sitio", etiqueta: "Sin sitio", ayuda: "Plazas que no encuentran hotel en la ciudad" },
-  { id: "se_quedan", etiqueta: "Se quedan", ayuda: "Plazas que encuentran hotel en su propio barrio" },
+const VISTAS: { id: Medida; etiqueta: string }[] = [
+  { id: "saldo", etiqueta: "Gana o pierde" },
+  { id: "sin_sitio", etiqueta: "Sin sitio" },
 ];
 
 export default function Pagina() {
@@ -41,11 +40,11 @@ export default function Pagina() {
 
   return (
     <main className="flex h-dvh w-full flex-col bg-[#faf9f7] text-[#24231f] lg:flex-row">
-      <aside className="w-full shrink-0 overflow-y-auto border-b border-[#e3e0da] bg-white p-5 lg:w-[340px] lg:border-r lg:border-b-0">
+      <aside className="w-full shrink-0 overflow-y-auto border-b border-[#e3e0da] bg-white p-5 lg:w-[330px] lg:border-r lg:border-b-0">
         <h1 className="text-[15px] font-semibold tracking-tight">Barcelona sin pisos turísticos</h1>
-        <p className="mt-1 text-xs text-[#52514e]">
-          Dónde se alojarían los turistas de las 6.834 viviendas de uso turístico anunciadas en
-          Airbnb cuando la licencia desaparezca en 2028.
+        <p className="mt-1 text-xs leading-relaxed text-[#52514e]">
+          Dónde dormirían en 2028 los turistas de las 6.834 viviendas de uso turístico anunciadas
+          hoy en Airbnb.
         </p>
 
         <h2 className="mt-6 mb-2 text-[11px] font-semibold uppercase tracking-wider text-[#52514e]">
@@ -59,57 +58,48 @@ export default function Pagina() {
           value={indice}
           onChange={(e) => setEscenario(ESCENARIOS[Number(e.target.value)].id)}
           className="w-full accent-[#2f6fb5]"
-          aria-label="Peso entre precio y barrio"
+          aria-label="Peso entre precio y ubicación"
         />
         <div className="flex justify-between text-[11px] text-[#52514e]">
-          <span>Su precio</span>
-          <span>Su barrio</span>
+          <span>Precio</span>
+          <span>Ubicación</span>
         </div>
-        <p className="mt-2 text-sm font-medium">{ESCENARIOS[indice].etiqueta}</p>
 
         {totales && (
-          <dl className="mt-4 grid grid-cols-2 gap-x-3 gap-y-2 text-sm">
+          <dl className="mt-4 grid grid-cols-3 gap-2">
             <Dato titulo="Se mueven" valor={`${totales.km_mediano} km`} />
             <Dato titulo="Pagan de más" valor={`${totales.sobrecoste_mediano} €`} />
-            <Dato titulo="Sin sitio" valor={totales.plazas_sin_sitio.toLocaleString("es")} />
-            <Dato titulo="Hoteles usados" valor={totales.hoteles_usados.toLocaleString("es")} />
+            <Dato titulo="Sin sitio" valor={totales.plazas_sin_sitio.toLocaleString("es")} fijo />
           </dl>
         )}
 
-        <p className="mt-3 border-l-2 border-[#e3e0da] pl-3 text-[11px] leading-relaxed text-[#52514e]">
-          Este peso <strong>no está medido</strong>: lo eliges tú. Un turista alemán y uno andaluz no
-          tienen la misma sensibilidad al precio, y ningún dato disponible los distingue.
-        </p>
-
         <h2 className="mt-6 mb-2 text-[11px] font-semibold uppercase tracking-wider text-[#52514e]">
-          Qué pinta el mapa
+          El mapa
         </h2>
-        <div className="flex flex-col gap-1">
-          {MEDIDAS.map((m) => (
-            <label key={m.id} className="flex cursor-pointer items-baseline gap-2 py-1 text-sm">
-              <input
-                type="radio"
-                name="medida"
-                checked={medida === m.id}
-                onChange={() => setMedida(m.id)}
-                className="accent-[#2f6fb5]"
-              />
-              <span>
-                {m.etiqueta}
-                <span className="block text-[11px] text-[#52514e]">{m.ayuda}</span>
-              </span>
-            </label>
+        <div className="flex gap-1 rounded border border-[#e3e0da] p-0.5">
+          {VISTAS.map((v) => (
+            <button
+              key={v.id}
+              onClick={() => setMedida(v.id)}
+              className={`flex-1 rounded px-2 py-1.5 text-[12px] transition ${
+                medida === v.id ? "bg-[#24231f] text-white" : "text-[#52514e] hover:bg-[#f5f4f1]"
+              }`}
+            >
+              {v.etiqueta}
+            </button>
           ))}
         </div>
 
-        {activo && (
-          <div className="mt-6 rounded border border-[#e3e0da] bg-[#faf9f7] p-3">
+        <Leyenda medida={medida} />
+
+        {activo ? (
+          <div className="mt-5 rounded border border-[#e3e0da] bg-[#faf9f7] p-3">
             <h3 className="text-sm font-semibold">{activo.barrio}</h3>
             <dl className="mt-2 space-y-1 text-[13px]">
-              <Linea titulo="Plazas que se van" valor={activo.salen} />
-              <Linea titulo="Se quedan en el barrio" valor={activo.se_quedan} />
-              <Linea titulo="Llegan de otros barrios" valor={activo.llegan} />
-              <Linea titulo="Sin sitio en la ciudad" valor={activo.sin_sitio} />
+              <Linea titulo="Turistas que se quedan sin piso" valor={activo.salen} />
+              <Linea titulo="Encuentran hotel aquí mismo" valor={activo.se_quedan} />
+              <Linea titulo="Llegan desde otros barrios" valor={activo.llegan} />
+              <Linea titulo="No encuentran sitio en la ciudad" valor={activo.sin_sitio} />
             </dl>
             <button
               onClick={() => setBarrio(null)}
@@ -118,21 +108,25 @@ export default function Pagina() {
               quitar selección
             </button>
           </div>
+        ) : (
+          <p className="mt-5 text-[12px] text-[#52514e]">Pincha un barrio para ver su detalle.</p>
         )}
 
         {totales && (
           <p className="mt-6 border-t border-[#e3e0da] pt-4 text-[11px] leading-relaxed text-[#52514e]">
             Los hoteles no están vacíos: se descuenta una ocupación del{" "}
             <strong>{(totales.ocupacion_partida * 100).toFixed(0)}%</strong>, media de los últimos
-            doce meses del INE. Quedan {(totales.plazas_regladas * (1 - totales.ocupacion_partida)).toLocaleString("es", { maximumFractionDigits: 0 })}{" "}
-            plazas libres para {totales.plazas_vut.toLocaleString("es")}, así que{" "}
-            <strong>{totales.plazas_sin_sitio.toLocaleString("es")} no caben</strong> en ningún
-            escenario.
+            doce meses del INE. Quedan 27.092 plazas libres para 30.067, así que{" "}
+            <strong>2.975 no caben en ningún escenario</strong>.
+            <br />
+            <br />
+            Esa cifra es la de un año medio. En noviembre, con la ocupación al 55,6%, cabrían todos.
+            En julio, al 79,1%, <strong>no cabrían 12.437</strong>.
           </p>
         )}
       </aside>
 
-      <div className="min-h-[50vh] flex-1">
+      <div className="min-h-[55vh] flex-1">
         <MapaBarrios
           geojson={geojson}
           datos={porBarrio}
@@ -145,11 +139,46 @@ export default function Pagina() {
   );
 }
 
-function Dato({ titulo, valor }: { titulo: string; valor: string }) {
+/** El color no se explica solo: sin esto, el rojo y el azul son decoración. */
+function Leyenda({ medida }: { medida: Medida }) {
+  const escalas: Record<Medida, { colores: string[]; izquierda: string; derecha: string }> = {
+    saldo: {
+      colores: ["#cf4a30", "#ea7a63", "#f7b7a8", "#eeece7", "#a8c8e8", "#6fa2d4", "#2f6fb5"],
+      izquierda: "pierde turistas",
+      derecha: "gana turistas",
+    },
+    sin_sitio: {
+      colores: ["#eeece7", "#f4efe6", "#e5d5b8", "#d4b184", "#bd8850", "#9c5f27"],
+      izquierda: "ninguno",
+      derecha: "muchos sin sitio",
+    },
+    se_quedan: {
+      colores: ["#eeece7", "#f4efe6", "#e5d5b8", "#d4b184", "#bd8850", "#9c5f27"],
+      izquierda: "ninguno",
+      derecha: "casi todos",
+    },
+  };
+  const escala = escalas[medida];
   return (
-    <div>
-      <dt className="text-[11px] text-[#52514e]">{titulo}</dt>
-      <dd className="text-base font-semibold tabular-nums">{valor}</dd>
+    <div className="mt-3">
+      <div className="flex h-3 overflow-hidden rounded-sm">
+        {escala.colores.map((c) => (
+          <div key={c} className="flex-1" style={{ backgroundColor: c }} />
+        ))}
+      </div>
+      <div className="mt-1 flex justify-between text-[10px] text-[#52514e]">
+        <span>{escala.izquierda}</span>
+        <span>{escala.derecha}</span>
+      </div>
+    </div>
+  );
+}
+
+function Dato({ titulo, valor, fijo }: { titulo: string; valor: string; fijo?: boolean }) {
+  return (
+    <div className={fijo ? "rounded bg-[#f5f4f1] px-2 py-1" : ""}>
+      <dt className="text-[10px] leading-tight text-[#52514e]">{titulo}</dt>
+      <dd className="text-[15px] font-semibold tabular-nums">{valor}</dd>
     </div>
   );
 }
@@ -158,7 +187,7 @@ function Linea({ titulo, valor }: { titulo: string; valor: number }) {
   return (
     <div className="flex justify-between gap-3">
       <dt className="text-[#52514e]">{titulo}</dt>
-      <dd className="tabular-nums font-medium">{valor.toLocaleString("es")}</dd>
+      <dd className="font-medium tabular-nums">{valor.toLocaleString("es")}</dd>
     </div>
   );
 }
