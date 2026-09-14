@@ -301,6 +301,55 @@ def exportar_sustitucion() -> dict:
             "sin_sitio": int(fila["plazas_sin_sitio"])}
 
 
+def centroides_de_barrio() -> dict[str, list[float]]:
+    """Punto donde anclar cada flecha, sacado de la geometria de barrios.
+
+    Se usa `representative_point` y no el centroide: el centroide de un barrio en forma de ele o
+    de media luna puede caer fuera del propio barrio, y una flecha que sale del mar no se entiende.
+    """
+    from shapely.geometry import shape
+
+    ruta = RAIZ / "data" / "exports" / "geo" / "barrios.geojson"
+    geo = json.loads(ruta.read_text(encoding="utf-8"))
+    puntos = {}
+    for feature in geo["features"]:
+        punto = shape(feature["geometry"]).representative_point()
+        puntos[feature["properties"]["barrio"]] = [round(punto.y, 6), round(punto.x, 6)]
+    return puntos
+
+
+def exportar_flujos() -> dict:
+    """Movimientos entre barrios: de donde sale el turista y donde acaba durmiendo.
+
+    Solo agregados barrio a barrio, nunca el recorrido de una vivienda concreta. Se excluye el
+    flujo de un barrio a si mismo --no es un movimiento-- y los de menos de 20 turistas, que
+    llenarian el mapa de rayas sin decir nada.
+    """
+    ruta = GOLD / "sustitucion_flujos_2028.csv"
+    if not ruta.exists():
+        return {"flujos": 0}
+    d = pd.read_csv(ruta)
+    centros = centroides_de_barrio()
+
+    # Un flujo cuyo barrio no esta en la geometria no se puede dibujar: se descarta y se cuenta,
+    # para que la diferencia no desaparezca en silencio.
+    sin_geometria = sorted({b for b in set(d["origen"]) | set(d["destino"]) if b not in centros})
+
+    escenarios = {}
+    for etiqueta, g in d.groupby("escenario"):
+        dibujables = g[g["origen"].isin(centros) & g["destino"].isin(centros)]
+        escenarios[etiqueta] = [{
+            "origen": r["origen"],
+            "destino": r["destino"],
+            "turistas": int(round(r["turistas"])),
+            "km": round(float(r["km_mediano"]), 2),
+        } for _, r in dibujables.iterrows()]
+
+    volcar(DESTINO / "flujos_2028.json", {"centroides": centros, "escenarios": escenarios})
+    return {"flujos": int(len(d)), "barrios_sin_geometria": sin_geometria,
+            "maximo_turistas": int(d["turistas"].max())}
+
+
 def main() -> None:
     DESTINO.mkdir(parents=True, exist_ok=True)
     geo = cargar_geocodificado()
@@ -312,6 +361,7 @@ def main() -> None:
         "vut": exportar_vut(geo),
         "airbnb": exportar_airbnb(),
         "sustitucion_2028": exportar_sustitucion(),
+        "flujos_2028": exportar_flujos(),
     }
     (DESTINO / "resumen.json").write_text(
         json.dumps(resumen, ensure_ascii=False, indent=2), encoding="utf-8")

@@ -54,5 +54,10 @@
     "plazas_vut": 30067,
     "plazas_regladas": 84314,
     "sin_sitio": 2975
+  },
+  "flujos_2028": {
+    "flujos": 891,
+    "barrios_sin_geometria": [],
+    "maximo_turistas": 797
   }
 }

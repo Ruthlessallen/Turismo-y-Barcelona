@@ -44,7 +44,12 @@ RAIZ = Path(__file__).resolve().parents[2]
 GOLD = RAIZ / "data" / "gold"
 BRONZE = RAIZ / "data" / "bronze"
 SALIDA = GOLD / "sustitucion_2028.csv"
+SALIDA_FLUJOS = GOLD / "sustitucion_flujos_2028.csv"
 SALIDA_RESUMEN = GOLD / "calidad" / "sustitucion_resumen.csv"
+
+# Un flujo de dos o tres turistas entre dos barrios no dice nada y llena el mapa de rayas. El
+# corte deja fuera el ruido sin perder ningun movimiento que se vea a simple vista.
+MINIMO_FLUJO = 20
 
 # Los valores que se precalculan. La web no puede resolver 5,2 millones de pares en el navegador,
 # asi que la barra se mueve entre estos cinco pasos.
@@ -134,6 +139,23 @@ def agregar_por_barrio(asignacion, vut, hoteles) -> pd.DataFrame:
     return barrios.round(2)
 
 
+def agregar_flujos(asignacion, vut, hoteles) -> pd.DataFrame:
+    """Movimientos barrio de origen -> barrio de destino, para dibujar las flechas.
+
+    Se excluye el flujo de un barrio a si mismo: el mapa cuenta quien SE MUEVE, y una flecha que
+    sale y entra en el mismo sitio no es un movimiento. Ese dato ya esta en `plazas_que_se_quedan`.
+    """
+    a = asignacion[asignacion["hotel_idx"] >= 0].copy()
+    a["origen"] = vut["neighbourhood"].to_numpy()[a["vut_idx"].to_numpy()]
+    a["destino"] = hoteles["barrio"].to_numpy()[a["hotel_idx"].to_numpy()]
+    a = a[a["origen"] != a["destino"]]
+
+    flujos = (a.groupby(["origen", "destino"])
+              .agg(turistas=("plazas", "sum"), km_mediano=("km", "median"))
+              .reset_index())
+    return flujos[flujos["turistas"] >= MINIMO_FLUJO].round(2)
+
+
 def main() -> None:
     vut, hoteles, ocupacion = cargar()
     distancia, cercania, parecido = matrices(vut, hoteles)
@@ -148,13 +170,17 @@ def main() -> None:
     print(f"  plazas VUT      {necesarias:>9,.0f}")
     print()
 
-    bloques, resumen = [], []
+    bloques, bloques_flujo, resumen = [], [], []
     for w, etiqueta in PESOS.items():
         asignacion = repartir(vut, hoteles, distancia, cercania, parecido, w, capacidad)
         barrios = agregar_por_barrio(asignacion, vut, hoteles)
         barrios.insert(0, "escenario", etiqueta)
         barrios.insert(1, "w", w)
         bloques.append(barrios.reset_index().rename(columns={"index": "barrio"}))
+
+        flujos = agregar_flujos(asignacion, vut, hoteles)
+        flujos.insert(0, "escenario", etiqueta)
+        bloques_flujo.append(flujos)
 
         colocadas = asignacion[asignacion["hotel_idx"] >= 0]
         sin_sitio = float(asignacion.loc[asignacion["hotel_idx"] < 0, "plazas"].sum())
@@ -173,6 +199,9 @@ def main() -> None:
     salida = pd.concat(bloques, ignore_index=True)
     salida.to_csv(SALIDA, index=False, encoding="utf-8")
 
+    flujos = pd.concat(bloques_flujo, ignore_index=True)
+    flujos.to_csv(SALIDA_FLUJOS, index=False, encoding="utf-8")
+
     tabla_resumen = pd.DataFrame(resumen)
     tabla_resumen["ocupacion_partida"] = round(ocupacion, 4)
     tabla_resumen["plazas_regladas"] = int(plazas_totales)
@@ -183,6 +212,8 @@ def main() -> None:
     print()
     print(f"Guardado en {SALIDA.relative_to(RAIZ)}  "
           f"({len(salida):,} filas: {salida['barrio'].nunique()} barrios x {len(PESOS)} escenarios)")
+    print(f"Guardado en {SALIDA_FLUJOS.relative_to(RAIZ)}  "
+          f"({len(flujos):,} flujos de mas de {MINIMO_FLUJO} turistas)")
     print(f"Guardado en {SALIDA_RESUMEN.relative_to(RAIZ)}")
 
 
