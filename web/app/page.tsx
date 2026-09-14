@@ -120,7 +120,9 @@ export default function Pagina() {
             <dl className="mt-2 space-y-1 text-[13px]">
               <Linea titulo="Turistas que se quedan sin piso" valor={activo.salen} />
               <Linea titulo="Encuentran hotel aquí mismo" valor={activo.se_quedan} />
-              <Linea titulo="Llegan desde otros barrios" valor={activo.llegan} />
+              {/* `llegan` incluye a los del propio barrio, así que la resta es lo que entra de fuera. */}
+              <Linea titulo="Llegan desde otros barrios" valor={activo.llegan - activo.se_quedan} />
+              <Linea titulo="Ocupan hoteles de aquí, en total" valor={activo.llegan} />
               <Linea titulo="No encuentran sitio en la ciudad" valor={activo.sin_sitio} />
             </dl>
             <button
