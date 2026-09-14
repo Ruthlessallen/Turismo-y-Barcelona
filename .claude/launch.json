@@ -2,10 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "prototipo-mapa",
-      "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8777"],
-      "port": 8777
+      "name": "turismo-web",
+      "runtimeExecutable": "corepack",
+      "runtimeArgs": ["pnpm@11", "--dir", "web", "dev", "--port", "3111"],
+      "port": 3111
     }
   ]
 }

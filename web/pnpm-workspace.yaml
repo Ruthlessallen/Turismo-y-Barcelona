@@ -1,0 +1,4 @@
+# unrs-resolver es el resolvedor nativo del eslint de Next. pnpm 11 bloquea la instalacion entera
+# mientras su script de instalacion quede sin aprobar, asi que se aprueba aqui de forma explicita.
+allowBuilds:
+  unrs-resolver: true

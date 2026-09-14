@@ -83,3 +83,8 @@ pnpm-debug.log*
 #
 # Para consultarlo:  git checkout scraps
 scraps/
+
+# Next.js
+web/node_modules/
+web/.next/
+web/out/
