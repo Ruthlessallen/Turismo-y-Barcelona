@@ -92,11 +92,15 @@ def exportar_hoteles() -> dict:
 
     **Se lee de `gold/alojamientos_reglados.csv`, no del censo de bronze.** Antes se leia el censo
     y el precio crudo por separado, y llegaba al mapa un precio de una ventana de septiembre sin
-    banda y sin decir si estaba medido o estimado. Cada punto lleva ahora `banda`, `estimado` y
-    `apoyo`, que es lo que `docs/web-checklist.md` exige para no dar por sabido un precio imputado.
+    banda y sin decir si estaba medido o estimado. Cada punto lleva ahora `banda` y `origen`
+    (`observado` o `estimado`), que es lo que `docs/web-checklist.md` exige para no dar por sabido
+    un precio imputado.
     """
     h = pd.read_csv(GOLD / "alojamientos_reglados.csv", dtype={"licencia_id": str},
                     low_memory=False)
+    # Solo la ciudad (2026-09-15): descartada la comparativa entre municipios, un hotel de Sitges
+    # no responde a ninguna pregunta de la web y ademas sale sin banda, que es ruido en la leyenda.
+    h = h[h["municipio"] == "Barcelona"]
     con_punto = h[h["lat"].notna()]
 
     puntos = [{
@@ -108,9 +112,8 @@ def exportar_hoteles() -> dict:
         "hab": int(r["habitaciones"]) if pd.notna(r["habitaciones"]) else None,
         "precio": round(float(r["precio_noche_final"])) if pd.notna(r["precio_noche_final"]) else None,
         "banda": sin_nan(r["banda_precio"]),
-        # Sin estas dos, un precio estimado seria indistinguible de uno medido en el mapa.
-        "estimado": bool(r["precio_es_estimado"]) if pd.notna(r["precio_es_estimado"]) else None,
-        "apoyo": sin_nan(r["apoyo_estimacion"]),
+        # Sin esto, un precio estimado seria indistinguible de uno medido en el mapa.
+        "origen": sin_nan(r["origen_precio"]),
         "mun": sin_nan(r["municipio"]),
         "barrio": sin_nan(r["barrio"]),
         "lat": round(float(r["lat"]), 6),
@@ -118,12 +121,8 @@ def exportar_hoteles() -> dict:
         "prec": sin_nan(r["precision"]),
     } for _, r in con_punto.iterrows()]
 
-    # Las 5 estimaciones sin ejemplos comparables salen sin banda: un hueco es mas honesto que un
-    # numero que nadie puede contradecir (ver `apoyo_estimacion` en docs/data-model.md).
-    for p in puntos:
-        if p["apoyo"] == "escaso":
-            p["banda"] = None
-            p["precio"] = None
+    # Las estimaciones sin ejemplos comparables ya salen sin banda desde gold: el corte vive en
+    # `preparar_alojamientos_provincia.py` para que no dependa de que el export se acuerde.
 
     hoteles = [p for p in puntos if p["tipo"] == "hotel"]
     apartamentos = [p for p in puntos if p["tipo"] == "apartament_turistic"]
@@ -137,27 +136,39 @@ def exportar_hoteles() -> dict:
             "total": int((h["tipo"] == "apartament_turistic").sum()),
             "con_punto": len(apartamentos)},
         "con_banda": len(con_banda),
-        "banda_observada": len([p for p in con_banda if p["estimado"] is False]),
-        "banda_estimada": len([p for p in con_banda if p["estimado"] is True]),
-        "sin_banda_por_apoyo": len([p for p in puntos if p["apoyo"] == "escaso"]),
+        "banda_observada": len([p for p in con_banda if p["origen"] == "observado"]),
+        "banda_estimada": len([p for p in con_banda if p["origen"] == "estimado"]),
     }
 
 
 def exportar_restauracion() -> dict:
-    ruta = BRONZE / "restauracion_con_municipio.csv"
+    """Restauracion de la ciudad, del censo comercial municipal.
+
+    **Se lee del censo y no de OSM (decidido 2026-09-10, aplicado aqui 2026-09-15).** OSM se deja
+    fuera un 26% de la restauracion de Barcelona —7.430 locales frente a los 10.100 del censo, y el
+    propio Ajuntament habla de «mas de diez mil»— asi que se eligio cobertura sobre actualidad: el
+    censo es trabajo de campo de 2023-2024 y OSM es de 2026 pero incompleto.
+
+    Esta funcion seguia leyendo OSM de bronze mucho despues de esa decision. No se notaba porque
+    ninguna pagina consume todavia `restauracion.json`, que es justo como un fichero equivocado
+    llega a produccion: nadie lo mira hasta que ya esta publicado.
+
+    **Solo la ciudad de Barcelona**, coherente con descartar la comparativa entre municipios
+    (2026-09-15). El censo no cubre el resto de la provincia y OSM ya no se usa para rellenarlo:
+    una capa mitad censo mitad OSM no se puede explicar en una leyenda.
+    """
+    ruta = GOLD / "restauracion_bcn.csv"
     if not ruta.exists():
-        return {"total": 0, "con_punto": 0}
-    d = pd.read_csv(ruta)
+        return {"total": 0, "por_tipo": {}}
+    d = pd.read_csv(ruta, low_memory=False)
     d = d[pd.to_numeric(d["latitud"], errors="coerce").notna()]
-    # Solo la provincia: OSM devolvió locales de fuera al consultar por caja envolvente.
-    d = d[d["municipio_poligono"].notna()]
 
     puntos = [{
-        "nom": sin_nan(r["nombre_comercial"]),
+        "nom": sin_nan(r["nombre"]),
         "tipo": sin_nan(r["tipo_local"]),
-        "cocina": sin_nan(r["tipo_cocina"]),
-        "mun": sin_nan(r["municipio_poligono"]),
-        "barrio": sin_nan(r.get("barrio")),
+        "mun": "Barcelona",
+        "barrio": sin_nan(r["barrio"]),
+        "distrito": sin_nan(r["distrito"]),
         "lat": round(float(r["latitud"]), 6),
         "lon": round(float(r["longitud"]), 6),
     } for _, r in d.iterrows()]
@@ -167,7 +178,13 @@ def exportar_restauracion() -> dict:
 
 
 def exportar_vut(geo: pd.DataFrame) -> dict:
-    """Las VUT son viviendas: solo agregados, nunca puntos."""
+    """Las VUT son viviendas: solo agregados, nunca puntos.
+
+    **Ya no se exporta el agregado por municipio (2026-09-15).** La comparativa entre municipios
+    queda descartada: el alcance es la ciudad de Barcelona. Un fichero que nadie consume y que
+    ademas invita a una pregunta que el proyecto ha decidido no responder es peor que no tenerlo.
+    El dato sigue en `bronze/vut_unificados.csv` si algun dia se retoma.
+    """
     v = pd.read_csv(BRONZE / "vut_unificados.csv", dtype=str)
     v = completar_coordenadas(v, geo)
     v["plazas_n"] = pd.to_numeric(v["plazas"], errors="coerce")
@@ -177,17 +194,10 @@ def exportar_vut(geo: pd.DataFrame) -> dict:
                   .reset_index())
     por_barrio["plazas"] = por_barrio["plazas"].fillna(0).astype(int)
 
-    por_municipio = (v.groupby("municipio")
-                     .agg(licencias=("licencia_id", "size"), plazas=("plazas_n", "sum"),
-                          con_coordenada=("lat", "count"))
-                     .reset_index())
-    por_municipio["plazas"] = por_municipio["plazas"].fillna(0).astype(int)
-
     (DESTINO / "vut_por_barrio.json").write_text(
         por_barrio.to_json(orient="records", force_ascii=False), encoding="utf-8")
-    (DESTINO / "vut_por_municipio.json").write_text(
-        por_municipio.to_json(orient="records", force_ascii=False), encoding="utf-8")
-    return {"total": len(v), "barrios": len(por_barrio), "municipios": len(por_municipio)}
+    return {"total": len(v), "barrios": len(por_barrio),
+            "licencias_en_barrios": int(por_barrio["licencias"].sum())}
 
 
 def exportar_airbnb() -> dict:
@@ -301,6 +311,100 @@ def exportar_sustitucion() -> dict:
             "sin_sitio": int(fila["plazas_sin_sitio"])}
 
 
+def exportar_restauracion_2028() -> dict:
+    """Cuantos turistas alojados le caen cerca a los bares de cada barrio, hoy y en 2028.
+
+    **Una sola cifra, no cinco.** No depende del escenario: la demanda supera a la oferta hotelera
+    libre, asi que los 757 hoteles se llenan elija lo que elija el turista. Publicar cinco copias
+    identicas bajo una barra que no las mueve seria dar a entender una sensibilidad que no existe.
+    """
+    ruta = GOLD / "restauracion_presion_2028.csv"
+    if not ruta.exists():
+        return {"barrios": 0}
+    d = pd.read_csv(ruta)
+    filas = [{
+        "barrio": r["barrio"],
+        "locales": int(r["locales"]),
+        "hoy": int(round(r["hoy"])),
+        "en_2028": int(round(r["en_2028"])),
+        "cambio": int(round(r["cambio"])),
+        "por_local_hoy": round(float(r["por_local_hoy"]), 2),
+        "por_local_2028": round(float(r["por_local_2028"]), 2),
+    } for _, r in d.iterrows()]
+    volcar(DESTINO / "restauracion_2028.json", filas)
+    return {"barrios": len(filas),
+            "ganan": int((d["cambio"] > 0).sum()),
+            "pierden": int((d["cambio"] < 0).sum()),
+            "locales": int(d["locales"].sum())}
+
+
+# La criba, en el orden en que se aplica. La clave es el `motivo_exclusion` del CSV; el resto es
+# como se cuenta en la web. El orden va de lo estructural a lo circunstancial: primero si la ley le
+# alcanza, despues si sigue vivo, y al final si es una repeticion.
+#
+# **Un anuncio puede fallar varias condiciones a la vez y solo se cuenta en la primera.** Por eso el
+# orden no es decorativo: moverlo cambia los numeros de cada paso sin cambiar el total.
+PASOS_CRIBA = [
+    ("alojamiento_reglado", "Declara ser un hotel, albergue o apartament turístic",
+     "Se rige por otro régimen y la ley de 2028 no lo toca. Cuenta en el lado hotelero."),
+    ("habitacion_sin_hutb", "Alquila una habitación suelta, sin declarar licencia",
+     "Lo que desaparece en 2028 son las licencias de vivienda de uso turístico, no las "
+     "habitaciones dentro de una casa."),
+    ("habitacion_de_hotel", "Es una habitación de hotel anunciada en Airbnb",
+     "El mismo establecimiento ya está contado en el registro de alojamiento reglado."),
+    ("estancia_de_32_noches", "Exige quedarse más de 31 noches",
+     "La normativa catalana define estancia turística como 31 días o menos. Por encima es "
+     "alquiler de temporada, que la ley de 2028 no toca."),
+    ("sin_actividad_desde_09_2025", "No tiene ninguna reseña desde septiembre de 2025",
+     "Sigue publicado pero no vende. Contarlo diría que hay oferta donde no la hay."),
+    ("duplicado de nombre y anfitrion", "Repite nombre y anfitrión de otro anuncio ya contado",
+     "Una misma vivienda puede anunciarse varias veces. Contarla dos veces infla el parque."),
+]
+
+
+def exportar_criba_airbnb() -> dict:
+    """El embudo de 15.406 anuncios a 6.834 viviendas, paso a paso.
+
+    Se publican **anuncios y plazas** en cada paso. Solo con anuncios, descartar 3.083 habitaciones
+    sueltas y 901 hoteles parece comparable, y en plazas no lo es: una habitacion suelta aloja a dos
+    personas y un hotel a doscientas.
+    """
+    ruta = GOLD / "airbnb_excluidos_web.csv"
+    if not ruta.exists():
+        return {"pasos": 0}
+    fuera = pd.read_csv(ruta, low_memory=False)
+    dentro = pd.read_csv(GOLD / "airbnb_para_web.csv", low_memory=False)
+
+    # Si la criba cambia y este listado no, los numeros saldrian mal en silencio.
+    claves = {c for c, *_ in PASOS_CRIBA}
+    sobran = set(fuera["motivo_exclusion"].unique()) - claves
+    if sobran:
+        raise ValueError(f"motivos sin paso declarado en PASOS_CRIBA: {sobran}")
+
+    quedan = len(fuera) + len(dentro)
+    plazas = float(fuera["accommodates"].fillna(0).sum() + dentro["accommodates"].fillna(0).sum())
+    pasos = []
+    for clave, titulo, porque in PASOS_CRIBA:
+        caen = fuera[fuera["motivo_exclusion"] == clave]
+        quedan -= len(caen)
+        plazas -= float(caen["accommodates"].fillna(0).sum())
+        pasos.append({
+            "clave": clave, "titulo": titulo, "porque": porque,
+            "descartados": len(caen),
+            "plazas_descartadas": int(round(caen["accommodates"].fillna(0).sum())),
+            "quedan": quedan,
+            "plazas_restantes": int(round(plazas)),
+        })
+
+    volcar(DESTINO / "criba_airbnb.json", {
+        "inicio": {"anuncios": len(fuera) + len(dentro),
+                   "plazas": int(round(float(fuera["accommodates"].fillna(0).sum()
+                                             + dentro["accommodates"].fillna(0).sum())))},
+        "pasos": pasos,
+    })
+    return {"pasos": len(pasos), "inicio": len(fuera) + len(dentro), "final": quedan}
+
+
 def centroides_de_barrio() -> dict[str, list[float]]:
     """Punto donde anclar cada flecha, sacado de la geometria de barrios.
 
@@ -358,8 +462,10 @@ def main() -> None:
     resumen = {
         **exportar_hoteles(),
         "restauracion": exportar_restauracion(),
+        "restauracion_2028": exportar_restauracion_2028(),
         "vut": exportar_vut(geo),
         "airbnb": exportar_airbnb(),
+        "criba_airbnb": exportar_criba_airbnb(),
         "sustitucion_2028": exportar_sustitucion(),
         "flujos_2028": exportar_flujos(),
     }

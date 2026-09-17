@@ -187,17 +187,29 @@ debajo de 100 € acierta 2 y manda los otros 50 a `€€`. Publicar `€` solo
 `precio_es_estimado` sea falso; para los estimados cerca del corte, agrupar como "económico". El
 acierto de banda exacta es del 65,2% y el de banda exacta o contigua del 98,9%.
 
-**Tabla publicable (`gold/alojamientos_reglados.csv`, 2026-09-02).** Une el censo provincial con
-lo que el analisis ha deducido, y es **la unica que debe leer el export**. 1.563 establecimientos,
-1.298 con coordenada; la banda economica solo llega a los 768 de la ciudad de Barcelona, porque el
-raspado y el modelo cubren la ciudad y extenderlos al resto de la provincia seria inventar. Los
-otros 795 salen con `banda_precio` nula, que es la respuesta honesta.
+**Tabla publicable (`gold/alojamientos_reglados.csv`, revisada 2026-09-15).** Une el censo
+provincial con lo que el analisis ha deducido, y es **la unica que debe leer el export**. 1.563
+establecimientos, 1.298 con coordenada; la banda economica solo llega a los 763 de la ciudad de
+Barcelona, porque el raspado y el modelo cubren la ciudad y extenderlos al resto de la provincia
+seria inventar. Los otros 800 salen con `banda_precio` nula, que es la respuesta honesta.
 
 | Campo | Descripcion |
 |-------|-------------|
 | precision | `exacta` (coordenada del registro) \| `geocodificada` (deducida y verificada contra su municipio). Viaja con el punto porque no valen lo mismo |
 | precio_noche_final, banda_precio | Solo ciudad de Barcelona |
-| precio_es_estimado, apoyo_estimacion | Sin estas dos, un precio imputado seria indistinguible de uno medido en el mapa |
+| origen_precio | `observado` (451) \| `estimado` (312) \| vacio (800). Sin esta columna un precio imputado seria indistinguible de uno medido en el mapa |
+
+**Una sola columna de procedencia, y es deliberado (2026-09-15).** Antes viajaban aqui
+`precio_es_estimado` y `apoyo_estimacion`, y aguas arriba hay ademas `origen_precio` con otros
+valores, `metodo_cruce`, `estimacion_fiable`, `modelo_precio` y `mae_modelo_eur`: siete formas de
+describir de donde sale un numero. Esa granularidad es correcta para auditar el cruce y el modelo
+—se queda intacta en `hoteles_bcn_precio_estimado.csv`— pero publicarla entera obliga a quien lee
+el mapa a reconstruir a mano si el precio esta medido o inventado. Aqui sobrevive solo esa
+pregunta.
+
+Las 5 estimaciones sin ejemplos comparables (`apoyo_estimacion = escaso`) pierden precio y banda
+**en esta tabla**, no en el export. El corte estaba en `export_mapa.py` y dependia de que el export
+se acordara; en gold ningun consumidor futuro puede saltarselo.
 
 #### restauracion_bcn
 

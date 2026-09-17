@@ -1,30 +1,33 @@
 {
   "hoteles": {
-    "total": 1443,
-    "con_punto": 1214
+    "total": 755,
+    "con_punto": 750
   },
   "apartaments_turistics": {
-    "total": 120,
-    "con_punto": 84
+    "total": 13,
+    "con_punto": 13
   },
   "con_banda": 758,
   "banda_observada": 451,
   "banda_estimada": 307,
-  "sin_banda_por_apoyo": 5,
   "restauracion": {
-    "total": 14501,
+    "total": 9479,
     "por_tipo": {
-      "restaurant": 7384,
-      "cafe": 2529,
-      "bar": 2111,
-      "fast_food": 1271,
-      "pub": 1206
+      "restaurante": 4429,
+      "bar": 4272,
+      "comida_rapida": 778
     }
+  },
+  "restauracion_2028": {
+    "barrios": 73,
+    "ganan": 25,
+    "pierden": 40,
+    "locales": 9479
   },
   "vut": {
     "total": 24075,
     "barrios": 65,
-    "municipios": 279
+    "licencias_en_barrios": 10712
   },
   "airbnb": {
     "sujetos_a_la_ley": 6834,
@@ -47,17 +50,22 @@
       "barrios": 38
     }
   },
+  "criba_airbnb": {
+    "pasos": 6,
+    "inicio": 15406,
+    "final": 6834
+  },
   "sustitucion_2028": {
     "escenarios": 5,
     "barrios": 64,
     "ocupacion_partida": 0.6787,
     "plazas_vut": 30067,
-    "plazas_regladas": 84314,
-    "sin_sitio": 2975
+    "plazas_regladas": 84058,
+    "sin_sitio": 3057
   },
   "flujos_2028": {
-    "flujos": 891,
+    "flujos": 887,
     "barrios_sin_geometria": [],
-    "maximo_turistas": 797
+    "maximo_turistas": 770
   }
 }

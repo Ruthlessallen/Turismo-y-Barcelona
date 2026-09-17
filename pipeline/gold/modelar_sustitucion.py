@@ -46,6 +46,11 @@ BRONZE = RAIZ / "data" / "bronze"
 SALIDA = GOLD / "sustitucion_2028.csv"
 SALIDA_FLUJOS = GOLD / "sustitucion_flujos_2028.csv"
 SALIDA_RESUMEN = GOLD / "calidad" / "sustitucion_resumen.csv"
+SALIDA_RESTAURACION = GOLD / "restauracion_presion_2028.csv"
+
+# A cuanta distancia de su hotel cena un turista. 200 m deja una mediana de 44 locales por hotel
+# y solo 5 hoteles sin ninguno; a 150 m son 7 hoteles y a 400 m la "cercania" deja de serlo.
+RADIO_COMIDA_M = 200
 
 # Un flujo de dos o tres turistas entre dos barrios no dice nada y llena el mapa de rayas. El
 # corte deja fuera el ruido sin perder ningun movimiento que se vea a simple vista.
@@ -156,9 +161,74 @@ def agregar_flujos(asignacion, vut, hoteles) -> pd.DataFrame:
     return flujos[flujos["turistas"] >= MINIMO_FLUJO].round(2)
 
 
+def cargar_restauracion() -> pd.DataFrame:
+    r = pd.read_csv(GOLD / "restauracion_bcn.csv", low_memory=False)
+    return r[r["latitud"].notna() & r["longitud"].notna()].reset_index(drop=True)
+
+
+def vecindad(lat, lon, locales: pd.DataFrame) -> np.ndarray:
+    """Matriz hotel x local: que parte de un turista de ese hotel le toca a cada local.
+
+    **El turista cena cerca de donde duerme.** No es una afirmacion sobre el turismo en general
+    —quien se aloja en Sants va a las Ramblas y eso pasa mucho— sino sobre las comidas ordinarias:
+    el desayuno, la cena al volver. Nadie cruza la ciudad tres veces al dia para comer.
+
+    **El reparto es a partes iguales entre los locales del radio.** Es lo unico que el dato
+    sostiene: no sabemos que bar prefiere nadie, y ponderar por distancia dentro de 200 m seria
+    inventar una preferencia con dos decimales de precision falsa. Cada turista reparte un punto
+    entre los locales que tiene a mano.
+
+    Los 5 hoteles sin ningun local a 200 m van al mas cercano, sea cual sea la distancia: dejarlos
+    fuera diria que sus turistas no cenan.
+    """
+    H = proyectar(lat, lon)
+    L = proyectar(locales["latitud"], locales["longitud"])
+    metros = np.sqrt(((H[:, None, :] - L[None, :, :]) ** 2).sum(axis=2)) * 1000
+
+    dentro = (metros <= RADIO_COMIDA_M).astype(float)
+    huerfanos = dentro.sum(axis=1) == 0
+    if huerfanos.any():
+        dentro[huerfanos, metros[huerfanos].argmin(axis=1)] = 1.0
+    return dentro / dentro.sum(axis=1, keepdims=True)
+
+
+def agregar_restauracion(asignacion, vut, hoteles, locales, reparto_hotel, reparto_vut):
+    """Donde cenan hoy estos turistas y donde cenarian en 2028, por barrio del local.
+
+    El barrio que cuenta es el **del local**, no el del alojamiento: un hotel pegado al limite
+    alimenta bares del barrio de al lado, y esa fuga es justo lo que un agregado por barrio del
+    hotel no ensena.
+
+    **No depende del escenario, y eso es un resultado, no un descuido.** La demanda (30.067 plazas)
+    supera a la oferta libre (27.008), asi que los 757 hoteles se llenan en los cinco escenarios:
+    da igual si el turista prefiere precio o barrio, el reparto sobre los hoteles es el mismo y el
+    que cae sobre los bares tambien. La barra de la web mueve quien va a que hotel, no cuantos
+    hoteles se llenan. Solo variaria con una ocupacion de partida mas baja —en noviembre, al 55,6%,
+    sobrarian plazas— y ahi si decidiria la preferencia del turista.
+    """
+    por_hotel = np.zeros(len(hoteles))
+    colocadas = asignacion[asignacion["hotel_idx"] >= 0]
+    np.add.at(por_hotel, colocadas["hotel_idx"].to_numpy(), colocadas["plazas"].to_numpy())
+
+    d = pd.DataFrame({
+        "barrio": locales["barrio"],
+        "en_2028": por_hotel @ reparto_hotel,
+        "hoy": vut["accommodates"].to_numpy() @ reparto_vut,
+    })
+    a = d.groupby("barrio").agg(locales=("hoy", "size"), hoy=("hoy", "sum"),
+                                en_2028=("en_2028", "sum")).reset_index()
+    a["cambio"] = a["en_2028"] - a["hoy"]
+    a["por_local_hoy"] = a["hoy"] / a["locales"]
+    a["por_local_2028"] = a["en_2028"] / a["locales"]
+    return a.round(2)
+
+
 def main() -> None:
     vut, hoteles, ocupacion = cargar()
     distancia, cercania, parecido = matrices(vut, hoteles)
+    locales = cargar_restauracion()
+    reparto_hotel = vecindad(hoteles["lat"], hoteles["lon"], locales)
+    reparto_vut = vecindad(vut["latitude"], vut["longitude"], locales)
 
     plazas_totales = float(hoteles["plazas"].sum())
     necesarias = float(vut["accommodates"].sum())
@@ -170,7 +240,7 @@ def main() -> None:
     print(f"  plazas VUT      {necesarias:>9,.0f}")
     print()
 
-    bloques, bloques_flujo, resumen = [], [], []
+    bloques, bloques_flujo, bloques_rest, resumen = [], [], [], []
     for w, etiqueta in PESOS.items():
         asignacion = repartir(vut, hoteles, distancia, cercania, parecido, w, capacidad)
         barrios = agregar_por_barrio(asignacion, vut, hoteles)
@@ -181,6 +251,10 @@ def main() -> None:
         flujos = agregar_flujos(asignacion, vut, hoteles)
         flujos.insert(0, "escenario", etiqueta)
         bloques_flujo.append(flujos)
+
+        if not bloques_rest:
+            bloques_rest.append(agregar_restauracion(asignacion, vut, hoteles, locales,
+                                                     reparto_hotel, reparto_vut))
 
         colocadas = asignacion[asignacion["hotel_idx"] >= 0]
         sin_sitio = float(asignacion.loc[asignacion["hotel_idx"] < 0, "plazas"].sum())
@@ -202,6 +276,9 @@ def main() -> None:
     flujos = pd.concat(bloques_flujo, ignore_index=True)
     flujos.to_csv(SALIDA_FLUJOS, index=False, encoding="utf-8")
 
+    restauracion = bloques_rest[0]
+    restauracion.to_csv(SALIDA_RESTAURACION, index=False, encoding="utf-8")
+
     tabla_resumen = pd.DataFrame(resumen)
     tabla_resumen["ocupacion_partida"] = round(ocupacion, 4)
     tabla_resumen["plazas_regladas"] = int(plazas_totales)
@@ -214,6 +291,8 @@ def main() -> None:
           f"({len(salida):,} filas: {salida['barrio'].nunique()} barrios x {len(PESOS)} escenarios)")
     print(f"Guardado en {SALIDA_FLUJOS.relative_to(RAIZ)}  "
           f"({len(flujos):,} flujos de mas de {MINIMO_FLUJO} turistas)")
+    print(f"Guardado en {SALIDA_RESTAURACION.relative_to(RAIZ)}  "
+          f"({len(restauracion):,} barrios; no varia por escenario, ver docstring)")
     print(f"Guardado en {SALIDA_RESUMEN.relative_to(RAIZ)}")
 
 

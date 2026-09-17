@@ -1,321 +1,321 @@
 barrio,escenario,w,plazas_que_salen,plazas_que_llegan,plazas_sin_sitio,plazas_que_se_quedan,km_mediano,sobrecoste_mediano,saldo
-Can Baró,solo_precio,0.0,80.0,0.0,16.0,0.0,3.73,86.38,-80.0
-Diagonal Mar i el Front Marítim del Poblenou,solo_precio,0.0,385.0,1330.29,20.0,24.71,4.23,0.12,945.29
-Horta,solo_precio,0.0,23.0,17.03,3.0,0.0,5.25,171.99,-5.97
-Hostafrancs,solo_precio,0.0,373.0,857.94,18.0,13.0,2.58,32.56,484.94
+Can Baró,solo_precio,0.0,80.0,0.0,16.0,0.0,3.53,86.44,-80.0
+Diagonal Mar i el Front Marítim del Poblenou,solo_precio,0.0,385.0,1330.29,20.0,36.0,4.28,0.11,945.29
+Horta,solo_precio,0.0,23.0,17.03,3.0,0.0,5.45,274.25,-5.97
+Hostafrancs,solo_precio,0.0,373.0,857.94,18.0,14.0,2.76,33.08,484.94
 Montbau,solo_precio,0.0,3.0,0.0,3.0,0.0,,,-3.0
-Navas,solo_precio,0.0,50.0,93.83,6.0,0.0,3.96,47.87,43.83
-Pedralbes,solo_precio,0.0,19.0,111.5,0.0,0.0,4.09,14.18,92.5
+Navas,solo_precio,0.0,50.0,93.83,6.0,0.0,3.56,48.66,43.83
+Pedralbes,solo_precio,0.0,19.0,111.5,0.0,0.0,3.85,14.18,92.5
 Porta,solo_precio,0.0,12.0,101.54,5.0,0.0,4.3,-0.94,89.54
-Provençals del Poblenou,solo_precio,0.0,150.0,371.45,36.0,3.0,3.56,0.08,221.45
-Sant Andreu,solo_precio,0.0,73.0,6.11,26.0,0.0,5.8,22.93,-66.89
-Sant Antoni,solo_precio,0.0,2048.0,450.5,199.0,27.52,1.74,18.74,-1597.5
+Provençals del Poblenou,solo_precio,0.0,150.0,371.45,38.0,3.0,3.79,0.08,221.45
+Sant Andreu,solo_precio,0.0,73.0,6.11,26.0,0.0,6.11,25.58,-66.89
+Sant Antoni,solo_precio,0.0,2048.0,450.5,210.0,24.99,1.78,17.93,-1597.5
 Sant Genís dels Agudells,solo_precio,0.0,6.0,4.5,6.0,0.0,,,-1.5
-Sant Gervasi - Galvany,solo_precio,0.0,578.0,660.97,61.0,17.25,2.47,12.73,82.97
-Sant Gervasi - la Bonanova,solo_precio,0.0,148.0,192.47,16.0,0.0,3.36,49.26,44.47
-Sant Martí de Provençals,solo_precio,0.0,53.0,0.0,5.0,0.0,1.78,109.52,-53.0
-"Sant Pere, Santa Caterina i la Ribera",solo_precio,0.0,1142.0,925.42,218.8,26.51,1.74,18.29,-216.58
-Sants,solo_precio,0.0,562.0,499.66,62.0,5.0,3.31,47.01,-62.34
-Sants - Badal,solo_precio,0.0,235.0,48.52,65.0,0.0,3.97,61.83,-186.48
-Sarrià,solo_precio,0.0,53.0,114.71,13.0,0.0,4.33,38.24,61.71
-Vallcarca i els Penitents,solo_precio,0.0,149.0,35.99,53.0,0.0,4.22,81.36,-113.01
-"Vallvidrera, el Tibidabo i les Planes",solo_precio,0.0,19.0,44.99,10.0,0.0,7.22,28.45,25.99
-Verdun,solo_precio,0.0,12.0,0.0,4.0,0.0,6.62,149.72,-12.0
-Vilapicina i la Torre Llobeta,solo_precio,0.0,34.0,6.43,18.0,0.0,4.46,36.89,-27.57
-el Baix Guinardó,solo_precio,0.0,144.0,118.57,10.0,0.0,3.0,16.72,-25.43
-el Barri Gòtic,solo_precio,0.0,1215.0,2607.55,197.0,88.55,1.77,0.3,1392.55
-el Besòs i el Maresme,solo_precio,0.0,155.0,168.37,21.0,0.0,5.2,24.65,13.37
+Sant Gervasi - Galvany,solo_precio,0.0,578.0,651.33,61.0,10.25,2.51,12.69,73.33
+Sant Gervasi - la Bonanova,solo_precio,0.0,148.0,192.47,16.0,0.0,4.04,45.53,44.47
+Sant Martí de Provençals,solo_precio,0.0,53.0,0.0,5.0,0.0,3.92,111.89,-53.0
+"Sant Pere, Santa Caterina i la Ribera",solo_precio,0.0,1142.0,925.42,229.0,18.14,1.82,18.37,-216.58
+Sants,solo_precio,0.0,562.0,499.66,62.0,5.0,3.39,47.55,-62.34
+Sants - Badal,solo_precio,0.0,235.0,48.52,65.0,0.0,3.93,62.08,-186.48
+Sarrià,solo_precio,0.0,53.0,114.71,13.0,0.0,4.72,42.0,61.71
+Vallcarca i els Penitents,solo_precio,0.0,149.0,35.99,53.0,0.0,4.06,81.36,-113.01
+"Vallvidrera, el Tibidabo i les Planes",solo_precio,0.0,19.0,44.99,10.0,0.0,6.89,28.45,25.99
+Verdun,solo_precio,0.0,12.0,0.0,4.0,0.0,7.09,151.74,-12.0
+Vilapicina i la Torre Llobeta,solo_precio,0.0,34.0,6.43,18.0,0.0,4.29,37.14,-27.57
+el Baix Guinardó,solo_precio,0.0,144.0,118.57,10.0,4.0,2.92,16.72,-25.43
+el Barri Gòtic,solo_precio,0.0,1215.0,2607.55,202.0,76.08,1.96,0.19,1392.55
+el Besòs i el Maresme,solo_precio,0.0,155.0,168.37,21.0,2.0,4.89,37.96,13.37
 el Bon Pastor,solo_precio,0.0,8.0,57.84,0.0,0.0,5.4,171.67,49.84
-el Camp d'en Grassot i Gràcia Nova,solo_precio,0.0,566.0,141.06,49.0,0.0,2.65,29.99,-424.94
-el Camp de l'Arpa del Clot,solo_precio,0.0,540.0,312.97,30.0,0.0,3.13,34.68,-227.03
-el Carmel,solo_precio,0.0,103.0,0.0,23.0,0.0,3.89,52.92,-103.0
-el Clot,solo_precio,0.0,76.0,5.78,12.0,0.0,2.78,36.85,-70.22
-el Coll,solo_precio,0.0,60.0,81.62,8.0,0.0,4.46,75.95,21.62
-el Congrés i els Indians,solo_precio,0.0,52.0,0.0,24.0,0.0,4.58,65.46,-52.0
-el Fort Pienc,solo_precio,0.0,1188.0,419.97,102.0,31.0,2.02,18.47,-768.03
-el Guinardó,solo_precio,0.0,190.0,141.7,22.0,0.0,3.89,35.8,-48.3
-el Parc i la Llacuna del Poblenou,solo_precio,0.0,370.0,1350.21,2.0,15.5,2.41,0.09,980.21
-el Poble Sec,solo_precio,0.0,1638.0,823.88,169.0,39.92,2.26,39.12,-814.12
-el Poblenou,solo_precio,0.0,868.0,1084.15,56.0,23.0,3.44,16.16,216.15
-el Putxet i el Farró,solo_precio,0.0,374.0,231.35,50.0,5.0,2.99,29.01,-142.65
-el Raval,solo_precio,0.0,1269.0,2851.76,270.0,82.51,1.9,42.36,1582.76
+el Camp d'en Grassot i Gràcia Nova,solo_precio,0.0,566.0,141.06,49.0,3.71,2.57,29.38,-424.94
+el Camp de l'Arpa del Clot,solo_precio,0.0,540.0,307.19,40.0,4.0,3.06,36.8,-232.81
+el Carmel,solo_precio,0.0,103.0,0.0,23.0,0.0,3.68,52.44,-103.0
+el Clot,solo_precio,0.0,76.0,5.78,12.0,0.0,3.04,34.62,-70.22
+el Coll,solo_precio,0.0,60.0,81.62,8.0,0.0,4.11,76.73,21.62
+el Congrés i els Indians,solo_precio,0.0,52.0,0.0,24.0,0.0,4.14,80.43,-52.0
+el Fort Pienc,solo_precio,0.0,1188.0,419.97,102.0,17.0,2.0,18.75,-768.03
+el Guinardó,solo_precio,0.0,190.0,141.7,22.0,0.0,4.16,28.79,-48.3
+el Parc i la Llacuna del Poblenou,solo_precio,0.0,370.0,1350.21,2.0,12.5,2.44,0.14,980.21
+el Poble Sec,solo_precio,0.0,1638.0,823.88,183.06,67.85,2.23,38.68,-814.12
+el Poblenou,solo_precio,0.0,868.0,1084.15,56.0,16.0,3.59,15.0,216.15
+el Putxet i el Farró,solo_precio,0.0,374.0,231.35,55.0,10.0,3.05,27.19,-142.65
+el Raval,solo_precio,0.0,1269.0,2797.13,270.0,86.84,1.71,42.28,1528.13
 el Turó de la Peira,solo_precio,0.0,4.0,0.0,2.0,0.0,6.58,-0.11,-4.0
-l'Antiga Esquerra de l'Eixample,solo_precio,0.0,2001.0,1334.78,137.0,58.6,1.73,18.39,-666.22
-la Barceloneta,solo_precio,0.0,342.0,804.28,70.0,10.0,2.49,0.16,462.28
-la Bordeta,solo_precio,0.0,107.0,12.53,7.0,0.0,3.43,47.74,-94.47
-la Dreta de l'Eixample,solo_precio,0.0,5276.0,4888.32,267.0,791.21,1.7,0.06,-387.68
-la Font d'en Fargues,solo_precio,0.0,19.0,0.0,0.0,0.0,3.97,-0.01,-19.0
-la Font de la Guatlla,solo_precio,0.0,166.0,170.3,11.0,0.0,3.06,46.02,4.3
-la Guineueta,solo_precio,0.0,6.0,0.0,4.0,0.0,6.5,23.18,-6.0
+l'Antiga Esquerra de l'Eixample,solo_precio,0.0,2001.0,1334.78,143.0,77.93,1.76,18.41,-666.22
+la Barceloneta,solo_precio,0.0,342.0,804.28,70.0,8.0,2.61,0.14,462.28
+la Bordeta,solo_precio,0.0,107.0,12.53,7.0,0.0,3.25,47.99,-94.47
+la Dreta de l'Eixample,solo_precio,0.0,5276.0,4888.32,271.0,868.2,1.72,0.05,-387.68
+la Font d'en Fargues,solo_precio,0.0,19.0,0.0,0.0,0.0,4.63,-0.01,-19.0
+la Font de la Guatlla,solo_precio,0.0,166.0,170.3,11.0,0.0,2.97,46.59,4.3
+la Guineueta,solo_precio,0.0,6.0,0.0,4.0,0.0,6.02,23.25,-6.0
 la Marina de Port,solo_precio,0.0,22.0,131.1,10.0,0.0,3.91,-0.05,109.1
 la Marina del Prat Vermell,solo_precio,0.0,3.0,61.05,0.0,0.0,4.0,0.0,58.05
-la Maternitat i Sant Ramon,solo_precio,0.0,168.0,812.31,28.0,11.0,4.43,34.14,644.31
-la Nova Esquerra de l'Eixample,solo_precio,0.0,1457.0,696.63,185.0,35.62,2.07,35.92,-760.37
-la Sagrada Família,solo_precio,0.0,2347.0,192.47,130.0,11.93,2.5,23.24,-2154.53
-la Sagrera,solo_precio,0.0,51.0,13.5,7.0,0.0,3.94,95.35,-37.5
-la Salut,solo_precio,0.0,94.0,18.64,29.0,0.0,3.21,51.18,-75.36
-la Teixonera,solo_precio,0.0,18.0,0.0,13.0,0.0,3.98,71.75,-18.0
-la Trinitat Vella,solo_precio,0.0,2.0,0.0,0.0,0.0,5.44,376.72,-2.0
+la Maternitat i Sant Ramon,solo_precio,0.0,168.0,812.31,28.0,11.0,4.16,41.54,644.31
+la Nova Esquerra de l'Eixample,solo_precio,0.0,1457.0,696.63,185.0,57.71,2.11,37.73,-760.37
+la Sagrada Família,solo_precio,0.0,2347.0,180.26,136.0,11.72,2.45,22.99,-2166.74
+la Sagrera,solo_precio,0.0,51.0,13.5,7.0,0.0,4.57,95.41,-37.5
+la Salut,solo_precio,0.0,94.0,18.64,29.0,0.0,3.23,51.9,-75.36
+la Teixonera,solo_precio,0.0,18.0,0.0,13.0,0.0,2.32,72.37,-18.0
+la Trinitat Vella,solo_precio,0.0,2.0,0.0,0.0,0.0,5.72,397.68,-2.0
 la Vall d'Hebron,solo_precio,0.0,4.0,100.25,0.0,0.0,6.7,41.41,96.25
-la Verneda i la Pau,solo_precio,0.0,22.0,0.0,2.0,0.0,2.43,106.04,-22.0
-la Vila Olímpica del Poblenou,solo_precio,0.0,346.0,237.14,16.0,4.0,2.6,0.01,-108.86
-la Vila de Gràcia,solo_precio,0.0,1991.0,237.14,83.0,24.7,2.42,21.97,-1753.86
-les Corts,solo_precio,0.0,512.0,1038.84,51.0,9.0,3.14,45.73,526.84
-les Roquetes,solo_precio,0.0,12.0,0.0,4.0,0.0,5.56,266.02,-12.0
-les Tres Torres,solo_precio,0.0,74.0,72.3,10.0,0.0,3.52,6.14,-1.7
+la Verneda i la Pau,solo_precio,0.0,22.0,0.0,2.0,0.0,3.96,106.04,-22.0
+la Vila Olímpica del Poblenou,solo_precio,0.0,346.0,237.14,16.0,4.0,2.61,0.0,-108.86
+la Vila de Gràcia,solo_precio,0.0,1991.0,237.14,92.0,19.56,2.54,21.97,-1753.86
+les Corts,solo_precio,0.0,512.0,1038.84,51.0,7.39,3.12,45.94,526.84
+les Roquetes,solo_precio,0.0,12.0,0.0,4.0,0.0,7.76,295.72,-12.0
+les Tres Torres,solo_precio,0.0,74.0,72.3,10.0,0.0,3.4,12.08,-1.7
 Can Baró,sobre_todo_precio,0.25,80.0,0.0,16.0,0.0,2.68,71.27,-80.0
-Diagonal Mar i el Front Marítim del Poblenou,sobre_todo_precio,0.25,385.0,1330.29,20.0,221.55,0.63,24.7,945.29
-Horta,sobre_todo_precio,0.25,23.0,17.03,3.0,4.0,3.85,171.99,-5.97
-Hostafrancs,sobre_todo_precio,0.25,373.0,857.94,18.0,168.82,0.41,28.11,484.94
+Diagonal Mar i el Front Marítim del Poblenou,sobre_todo_precio,0.25,385.0,1330.29,20.0,219.9,0.63,23.6,945.29
+Horta,sobre_todo_precio,0.25,23.0,17.03,3.0,4.0,5.16,171.99,-5.97
+Hostafrancs,sobre_todo_precio,0.25,373.0,857.94,18.0,170.89,0.43,29.11,484.94
 Montbau,sobre_todo_precio,0.25,3.0,0.0,3.0,0.0,,,-3.0
 Navas,sobre_todo_precio,0.25,50.0,93.83,6.0,0.0,2.16,55.67,43.83
-Pedralbes,sobre_todo_precio,0.25,19.0,111.5,0.0,8.0,0.85,16.81,92.5
+Pedralbes,sobre_todo_precio,0.25,19.0,111.5,0.0,8.0,1.15,29.38,92.5
 Porta,sobre_todo_precio,0.25,12.0,101.54,5.0,0.0,2.09,26.63,89.54
-Provençals del Poblenou,sobre_todo_precio,0.25,150.0,371.45,36.0,19.0,0.75,7.51,221.45
+Provençals del Poblenou,sobre_todo_precio,0.25,150.0,371.45,38.0,19.0,0.73,7.15,221.45
 Sant Andreu,sobre_todo_precio,0.25,73.0,6.11,26.0,4.11,0.9,-1.43,-66.89
-Sant Antoni,sobre_todo_precio,0.25,2048.0,450.5,199.0,266.97,0.61,16.77,-1597.5
+Sant Antoni,sobre_todo_precio,0.25,2048.0,450.5,210.0,270.38,0.62,16.89,-1597.5
 Sant Genís dels Agudells,sobre_todo_precio,0.25,6.0,4.5,6.0,0.0,,,-1.5
-Sant Gervasi - Galvany,sobre_todo_precio,0.25,578.0,660.97,61.0,171.26,0.6,9.73,82.97
-Sant Gervasi - la Bonanova,sobre_todo_precio,0.25,148.0,192.47,16.0,34.93,1.54,35.65,44.47
-Sant Martí de Provençals,sobre_todo_precio,0.25,53.0,0.0,5.0,0.0,1.26,72.58,-53.0
-"Sant Pere, Santa Caterina i la Ribera",sobre_todo_precio,0.25,1142.0,925.42,218.8,337.49,0.33,15.91,-216.58
-Sants,sobre_todo_precio,0.25,562.0,499.66,62.0,160.4,0.95,30.36,-62.34
+Sant Gervasi - Galvany,sobre_todo_precio,0.25,578.0,651.33,61.0,171.72,0.64,8.44,73.33
+Sant Gervasi - la Bonanova,sobre_todo_precio,0.25,148.0,192.47,16.0,34.93,1.01,34.27,44.47
+Sant Martí de Provençals,sobre_todo_precio,0.25,53.0,0.0,5.0,0.0,1.37,89.15,-53.0
+"Sant Pere, Santa Caterina i la Ribera",sobre_todo_precio,0.25,1142.0,925.42,229.0,333.59,0.33,15.21,-216.58
+Sants,sobre_todo_precio,0.25,562.0,499.66,62.0,160.4,0.95,29.98,-62.34
 Sants - Badal,sobre_todo_precio,0.25,235.0,48.52,65.0,11.59,1.32,50.65,-186.48
 Sarrià,sobre_todo_precio,0.25,53.0,114.71,13.0,21.0,0.7,30.57,61.71
-Vallcarca i els Penitents,sobre_todo_precio,0.25,149.0,35.99,53.0,2.0,2.53,92.96,-113.01
+Vallcarca i els Penitents,sobre_todo_precio,0.25,149.0,35.99,53.0,2.0,2.5,92.96,-113.01
 "Vallvidrera, el Tibidabo i les Planes",sobre_todo_precio,0.25,19.0,44.99,10.0,0.0,2.86,20.99,25.99
-Verdun,sobre_todo_precio,0.25,12.0,0.0,4.0,0.0,4.78,137.5,-12.0
+Verdun,sobre_todo_precio,0.25,12.0,0.0,4.0,0.0,4.92,115.3,-12.0
 Vilapicina i la Torre Llobeta,sobre_todo_precio,0.25,34.0,6.43,18.0,2.89,1.78,22.95,-27.57
-el Baix Guinardó,sobre_todo_precio,0.25,144.0,118.57,10.0,30.26,1.7,0.5,-25.43
-el Barri Gòtic,sobre_todo_precio,0.25,1215.0,2607.55,197.0,714.31,0.19,13.63,1392.55
+el Baix Guinardó,sobre_todo_precio,0.25,144.0,118.57,10.0,30.26,1.85,-5.85,-25.43
+el Barri Gòtic,sobre_todo_precio,0.25,1215.0,2607.55,202.0,724.38,0.19,13.63,1392.55
 el Besòs i el Maresme,sobre_todo_precio,0.25,155.0,168.37,21.0,27.0,0.51,51.59,13.37
 el Bon Pastor,sobre_todo_precio,0.25,8.0,57.84,0.0,2.0,3.0,172.92,49.84
-el Camp d'en Grassot i Gràcia Nova,sobre_todo_precio,0.25,566.0,141.06,49.0,46.35,1.45,36.27,-424.94
-el Camp de l'Arpa del Clot,sobre_todo_precio,0.25,540.0,312.97,30.0,51.0,1.61,54.76,-227.03
+el Camp d'en Grassot i Gràcia Nova,sobre_todo_precio,0.25,566.0,141.06,49.0,46.35,1.63,46.09,-424.94
+el Camp de l'Arpa del Clot,sobre_todo_precio,0.25,540.0,307.19,40.0,53.52,1.61,53.25,-232.81
 el Carmel,sobre_todo_precio,0.25,103.0,0.0,23.0,0.0,2.54,40.8,-103.0
-el Clot,sobre_todo_precio,0.25,76.0,5.78,12.0,0.0,0.63,54.24,-70.22
+el Clot,sobre_todo_precio,0.25,76.0,5.78,12.0,0.0,0.67,54.73,-70.22
 el Coll,sobre_todo_precio,0.25,60.0,81.62,8.0,4.0,2.41,92.52,21.62
 el Congrés i els Indians,sobre_todo_precio,0.25,52.0,0.0,24.0,0.0,2.45,65.52,-52.0
-el Fort Pienc,sobre_todo_precio,0.25,1188.0,419.97,102.0,171.0,0.97,25.92,-768.03
-el Guinardó,sobre_todo_precio,0.25,190.0,141.7,22.0,22.31,2.49,29.92,-48.3
-el Parc i la Llacuna del Poblenou,sobre_todo_precio,0.25,370.0,1350.21,2.0,190.0,0.43,11.25,980.21
-el Poble Sec,sobre_todo_precio,0.25,1638.0,823.88,169.0,490.98,0.66,30.48,-814.12
-el Poblenou,sobre_todo_precio,0.25,868.0,1084.15,56.0,531.51,0.46,26.34,216.15
-el Putxet i el Farró,sobre_todo_precio,0.25,374.0,231.35,50.0,47.22,1.41,26.96,-142.65
-el Raval,sobre_todo_precio,0.25,1269.0,2851.76,270.0,563.75,0.35,37.0,1582.76
+el Fort Pienc,sobre_todo_precio,0.25,1188.0,419.97,102.0,171.0,0.96,25.69,-768.03
+el Guinardó,sobre_todo_precio,0.25,190.0,141.7,22.0,22.31,2.45,4.39,-48.3
+el Parc i la Llacuna del Poblenou,sobre_todo_precio,0.25,370.0,1350.21,2.0,187.54,0.45,13.25,980.21
+el Poble Sec,sobre_todo_precio,0.25,1638.0,823.88,183.06,484.13,0.66,30.4,-814.12
+el Poblenou,sobre_todo_precio,0.25,868.0,1084.15,56.0,533.02,0.46,26.33,216.15
+el Putxet i el Farró,sobre_todo_precio,0.25,374.0,231.35,55.0,49.46,1.4,26.23,-142.65
+el Raval,sobre_todo_precio,0.25,1269.0,2797.13,270.0,582.82,0.33,37.11,1528.13
 el Turó de la Peira,sobre_todo_precio,0.25,4.0,0.0,2.0,0.0,1.4,-5.91,-4.0
-l'Antiga Esquerra de l'Eixample,sobre_todo_precio,0.25,2001.0,1334.78,137.0,766.55,0.42,28.39,-666.22
-la Barceloneta,sobre_todo_precio,0.25,342.0,804.28,70.0,63.68,0.81,2.09,462.28
-la Bordeta,sobre_todo_precio,0.25,107.0,12.53,7.0,3.86,0.83,10.91,-94.47
-la Dreta de l'Eixample,sobre_todo_precio,0.25,5276.0,4888.32,267.0,2773.59,0.42,9.32,-387.68
+l'Antiga Esquerra de l'Eixample,sobre_todo_precio,0.25,2001.0,1334.78,143.0,761.14,0.42,26.54,-666.22
+la Barceloneta,sobre_todo_precio,0.25,342.0,804.28,70.0,63.68,0.81,2.44,462.28
+la Bordeta,sobre_todo_precio,0.25,107.0,12.53,7.0,3.86,0.85,10.94,-94.47
+la Dreta de l'Eixample,sobre_todo_precio,0.25,5276.0,4888.32,271.0,2758.06,0.43,9.28,-387.68
 la Font d'en Fargues,sobre_todo_precio,0.25,19.0,0.0,0.0,0.0,0.92,-12.32,-19.0
-la Font de la Guatlla,sobre_todo_precio,0.25,166.0,170.3,11.0,25.0,0.98,30.79,4.3
+la Font de la Guatlla,sobre_todo_precio,0.25,166.0,170.3,11.0,25.0,0.97,30.74,4.3
 la Guineueta,sobre_todo_precio,0.25,6.0,0.0,4.0,0.0,1.15,-10.94,-6.0
 la Marina de Port,sobre_todo_precio,0.25,22.0,131.1,10.0,7.0,1.02,-4.88,109.1
 la Marina del Prat Vermell,sobre_todo_precio,0.25,3.0,61.05,0.0,0.0,2.25,-5.69,58.05
 la Maternitat i Sant Ramon,sobre_todo_precio,0.25,168.0,812.31,28.0,90.08,0.49,42.85,644.31
-la Nova Esquerra de l'Eixample,sobre_todo_precio,0.25,1457.0,696.63,185.0,319.11,0.61,30.26,-760.37
-la Sagrada Família,sobre_todo_precio,0.25,2347.0,192.47,130.0,147.9,1.22,26.66,-2154.53
+la Nova Esquerra de l'Eixample,sobre_todo_precio,0.25,1457.0,696.63,185.0,320.31,0.61,30.26,-760.37
+la Sagrada Família,sobre_todo_precio,0.25,2347.0,180.26,136.0,135.9,1.23,26.84,-2166.74
 la Sagrera,sobre_todo_precio,0.25,51.0,13.5,7.0,4.0,2.81,63.58,-37.5
 la Salut,sobre_todo_precio,0.25,94.0,18.64,29.0,6.57,2.05,35.97,-75.36
 la Teixonera,sobre_todo_precio,0.25,18.0,0.0,13.0,0.0,3.37,82.13,-18.0
-la Trinitat Vella,sobre_todo_precio,0.25,2.0,0.0,0.0,0.0,5.44,376.72,-2.0
+la Trinitat Vella,sobre_todo_precio,0.25,2.0,0.0,0.0,0.0,5.72,397.68,-2.0
 la Vall d'Hebron,sobre_todo_precio,0.25,4.0,100.25,0.0,0.0,3.22,47.74,96.25
 la Verneda i la Pau,sobre_todo_precio,0.25,22.0,0.0,2.0,0.0,1.74,88.16,-22.0
-la Vila Olímpica del Poblenou,sobre_todo_precio,0.25,346.0,237.14,16.0,161.28,0.56,8.0,-108.86
-la Vila de Gràcia,sobre_todo_precio,0.25,1991.0,237.14,83.0,183.32,0.81,25.51,-1753.86
-les Corts,sobre_todo_precio,0.25,512.0,1038.84,51.0,200.41,0.72,40.09,526.84
+la Vila Olímpica del Poblenou,sobre_todo_precio,0.25,346.0,237.14,16.0,164.2,0.53,8.0,-108.86
+la Vila de Gràcia,sobre_todo_precio,0.25,1991.0,237.14,92.0,183.32,0.8,25.51,-1753.86
+les Corts,sobre_todo_precio,0.25,512.0,1038.84,51.0,195.88,0.72,34.71,526.84
 les Roquetes,sobre_todo_precio,0.25,12.0,0.0,4.0,0.0,5.44,266.02,-12.0
 les Tres Torres,sobre_todo_precio,0.25,74.0,72.3,10.0,16.27,0.56,5.17,-1.7
-Can Baró,equilibrio,0.5,80.0,0.0,16.0,0.0,2.43,120.62,-80.0
+Can Baró,equilibrio,0.5,80.0,0.0,16.0,0.0,2.43,109.92,-80.0
 Diagonal Mar i el Front Marítim del Poblenou,equilibrio,0.5,385.0,1330.29,20.0,313.13,0.41,34.63,945.29
 Horta,equilibrio,0.5,23.0,17.03,3.0,4.0,5.25,104.94,-5.97
 Hostafrancs,equilibrio,0.5,373.0,857.94,18.0,208.11,0.34,23.21,484.94
 Montbau,equilibrio,0.5,3.0,0.0,3.0,0.0,,,-3.0
-Navas,equilibrio,0.5,50.0,93.83,6.0,4.0,1.98,4.0,43.83
+Navas,equilibrio,0.5,50.0,93.83,6.0,4.0,1.81,3.45,43.83
 Pedralbes,equilibrio,0.5,19.0,111.5,0.0,0.0,0.92,15.42,92.5
 Porta,equilibrio,0.5,12.0,101.54,5.0,0.0,0.88,-2.81,89.54
-Provençals del Poblenou,equilibrio,0.5,150.0,371.45,36.0,77.0,0.3,38.04,221.45
+Provençals del Poblenou,equilibrio,0.5,150.0,371.45,38.0,77.0,0.28,37.46,221.45
 Sant Andreu,equilibrio,0.5,73.0,6.11,26.0,6.11,0.71,-19.06,-66.89
-Sant Antoni,equilibrio,0.5,2048.0,450.5,199.0,347.31,0.46,18.14,-1597.5
+Sant Antoni,equilibrio,0.5,2048.0,450.5,210.0,347.31,0.46,18.01,-1597.5
 Sant Genís dels Agudells,equilibrio,0.5,6.0,4.5,6.0,0.0,,,-1.5
-Sant Gervasi - Galvany,equilibrio,0.5,578.0,660.97,61.0,211.59,0.34,10.62,82.97
-Sant Gervasi - la Bonanova,equilibrio,0.5,148.0,192.47,16.0,45.96,0.86,33.64,44.47
+Sant Gervasi - Galvany,equilibrio,0.5,578.0,651.33,61.0,210.93,0.37,10.62,73.33
+Sant Gervasi - la Bonanova,equilibrio,0.5,148.0,192.47,16.0,42.26,0.73,30.32,44.47
 Sant Martí de Provençals,equilibrio,0.5,53.0,0.0,5.0,0.0,1.16,66.36,-53.0
-"Sant Pere, Santa Caterina i la Ribera",equilibrio,0.5,1142.0,925.42,218.8,342.51,0.23,16.67,-216.58
-Sants,equilibrio,0.5,562.0,499.66,62.0,215.56,0.71,18.26,-62.34
+"Sant Pere, Santa Caterina i la Ribera",equilibrio,0.5,1142.0,925.42,229.0,338.79,0.23,16.04,-216.58
+Sants,equilibrio,0.5,562.0,499.66,62.0,214.31,0.71,18.84,-62.34
 Sants - Badal,equilibrio,0.5,235.0,48.52,65.0,23.99,1.09,35.39,-186.48
 Sarrià,equilibrio,0.5,53.0,114.71,13.0,21.73,0.54,16.15,61.71
-Vallcarca i els Penitents,equilibrio,0.5,149.0,35.99,53.0,0.0,2.46,92.86,-113.01
+Vallcarca i els Penitents,equilibrio,0.5,149.0,35.99,53.0,0.0,2.48,92.86,-113.01
 "Vallvidrera, el Tibidabo i les Planes",equilibrio,0.5,19.0,44.99,10.0,0.0,2.9,5.22,25.99
 Verdun,equilibrio,0.5,12.0,0.0,4.0,0.0,4.99,103.36,-12.0
 Vilapicina i la Torre Llobeta,equilibrio,0.5,34.0,6.43,18.0,4.0,0.47,-7.57,-27.57
-el Baix Guinardó,equilibrio,0.5,144.0,118.57,10.0,17.93,1.69,-5.0,-25.43
-el Barri Gòtic,equilibrio,0.5,1215.0,2607.55,197.0,786.4,0.13,8.74,1392.55
-el Besòs i el Maresme,equilibrio,0.5,155.0,168.37,21.0,7.0,0.46,52.49,13.37
+el Baix Guinardó,equilibrio,0.5,144.0,118.57,10.0,17.93,1.68,-5.37,-25.43
+el Barri Gòtic,equilibrio,0.5,1215.0,2607.55,202.0,783.86,0.13,8.61,1392.55
+el Besòs i el Maresme,equilibrio,0.5,155.0,168.37,21.0,7.23,0.48,53.39,13.37
 el Bon Pastor,equilibrio,0.5,8.0,57.84,0.0,2.0,2.93,104.62,49.84
-el Camp d'en Grassot i Gràcia Nova,equilibrio,0.5,566.0,141.06,49.0,47.81,1.28,50.21,-424.94
-el Camp de l'Arpa del Clot,equilibrio,0.5,540.0,312.97,30.0,69.61,1.43,52.28,-227.03
+el Camp d'en Grassot i Gràcia Nova,equilibrio,0.5,566.0,141.06,49.0,52.55,1.3,50.33,-424.94
+el Camp de l'Arpa del Clot,equilibrio,0.5,540.0,307.19,40.0,68.4,1.43,52.28,-232.81
 el Carmel,equilibrio,0.5,103.0,0.0,23.0,0.0,1.52,-4.96,-103.0
 el Clot,equilibrio,0.5,76.0,5.78,12.0,0.0,0.79,52.49,-70.22
 el Coll,equilibrio,0.5,60.0,81.62,8.0,6.0,2.41,94.18,21.62
 el Congrés i els Indians,equilibrio,0.5,52.0,0.0,24.0,0.0,2.49,65.52,-52.0
-el Fort Pienc,equilibrio,0.5,1188.0,419.97,102.0,190.98,0.88,23.62,-768.03
-el Guinardó,equilibrio,0.5,190.0,141.7,22.0,27.0,2.29,-3.62,-48.3
-el Parc i la Llacuna del Poblenou,equilibrio,0.5,370.0,1350.21,2.0,173.0,0.36,13.22,980.21
-el Poble Sec,equilibrio,0.5,1638.0,823.88,169.0,593.07,0.51,31.86,-814.12
+el Fort Pienc,equilibrio,0.5,1188.0,419.97,102.0,188.56,0.89,23.69,-768.03
+el Guinardó,equilibrio,0.5,190.0,141.7,22.0,27.0,2.31,-2.35,-48.3
+el Parc i la Llacuna del Poblenou,equilibrio,0.5,370.0,1350.21,2.0,173.0,0.36,13.25,980.21
+el Poble Sec,equilibrio,0.5,1638.0,823.88,183.06,596.56,0.51,31.66,-814.12
 el Poblenou,equilibrio,0.5,868.0,1084.15,56.0,572.85,0.37,22.73,216.15
-el Putxet i el Farró,equilibrio,0.5,374.0,231.35,50.0,92.06,0.84,16.48,-142.65
-el Raval,equilibrio,0.5,1269.0,2851.76,270.0,727.01,0.21,29.43,1582.76
+el Putxet i el Farró,equilibrio,0.5,374.0,231.35,55.0,93.57,0.78,15.95,-142.65
+el Raval,equilibrio,0.5,1269.0,2797.13,270.0,715.73,0.22,28.68,1528.13
 el Turó de la Peira,equilibrio,0.5,4.0,0.0,2.0,0.0,1.15,-4.37,-4.0
-l'Antiga Esquerra de l'Eixample,equilibrio,0.5,2001.0,1334.78,137.0,817.54,0.3,32.18,-666.22
-la Barceloneta,equilibrio,0.5,342.0,804.28,70.0,55.67,0.71,5.69,462.28
+l'Antiga Esquerra de l'Eixample,equilibrio,0.5,2001.0,1334.78,143.0,810.39,0.3,31.91,-666.22
+la Barceloneta,equilibrio,0.5,342.0,804.28,70.0,57.67,0.72,5.69,462.28
 la Bordeta,equilibrio,0.5,107.0,12.53,7.0,0.0,0.8,15.58,-94.47
-la Dreta de l'Eixample,equilibrio,0.5,5276.0,4888.32,267.0,3108.53,0.28,20.35,-387.68
+la Dreta de l'Eixample,equilibrio,0.5,5276.0,4888.32,271.0,3136.08,0.28,20.35,-387.68
 la Font d'en Fargues,equilibrio,0.5,19.0,0.0,0.0,0.0,0.83,-13.41,-19.0
-la Font de la Guatlla,equilibrio,0.5,166.0,170.3,11.0,58.63,0.33,17.89,4.3
+la Font de la Guatlla,equilibrio,0.5,166.0,170.3,11.0,58.63,0.37,26.98,4.3
 la Guineueta,equilibrio,0.5,6.0,0.0,4.0,0.0,1.15,-10.94,-6.0
 la Marina de Port,equilibrio,0.5,22.0,131.1,10.0,7.0,0.75,-5.63,109.1
 la Marina del Prat Vermell,equilibrio,0.5,3.0,61.05,0.0,0.0,0.96,-35.93,58.05
 la Maternitat i Sant Ramon,equilibrio,0.5,168.0,812.31,28.0,110.0,0.3,42.08,644.31
-la Nova Esquerra de l'Eixample,equilibrio,0.5,1457.0,696.63,185.0,363.48,0.51,29.48,-760.37
-la Sagrada Família,equilibrio,0.5,2347.0,192.47,130.0,149.65,1.29,36.19,-2154.53
+la Nova Esquerra de l'Eixample,equilibrio,0.5,1457.0,696.63,185.0,360.34,0.52,29.55,-760.37
+la Sagrada Família,equilibrio,0.5,2347.0,180.26,136.0,137.28,1.26,36.0,-2166.74
 la Sagrera,equilibrio,0.5,51.0,13.5,7.0,8.0,2.33,69.54,-37.5
-la Salut,equilibrio,0.5,94.0,18.64,29.0,4.0,1.94,67.41,-75.36
+la Salut,equilibrio,0.5,94.0,18.64,29.0,4.0,2.13,67.41,-75.36
 la Teixonera,equilibrio,0.5,18.0,0.0,13.0,0.0,2.27,109.68,-18.0
 la Trinitat Vella,equilibrio,0.5,2.0,0.0,0.0,0.0,5.44,376.72,-2.0
 la Vall d'Hebron,equilibrio,0.5,4.0,100.25,0.0,4.0,0.15,-9.82,96.25
 la Verneda i la Pau,equilibrio,0.5,22.0,0.0,2.0,0.0,1.57,69.85,-22.0
 la Vila Olímpica del Poblenou,equilibrio,0.5,346.0,237.14,16.0,187.14,0.46,8.84,-108.86
-la Vila de Gràcia,equilibrio,0.5,1991.0,237.14,83.0,225.71,0.73,21.68,-1753.86
-les Corts,equilibrio,0.5,512.0,1038.84,51.0,308.78,0.52,37.79,526.84
+la Vila de Gràcia,equilibrio,0.5,1991.0,237.14,92.0,225.71,0.7,22.11,-1753.86
+les Corts,equilibrio,0.5,512.0,1038.84,51.0,305.05,0.51,36.95,526.84
 les Roquetes,equilibrio,0.5,12.0,0.0,4.0,0.0,5.44,266.02,-12.0
 les Tres Torres,equilibrio,0.5,74.0,72.3,10.0,16.0,0.49,7.15,-1.7
-Can Baró,sobre_todo_barrio,0.75,80.0,0.0,16.0,0.0,2.89,31.38,-80.0
-Diagonal Mar i el Front Marítim del Poblenou,sobre_todo_barrio,0.75,385.0,1330.29,20.0,325.0,0.29,48.37,945.29
+Can Baró,sobre_todo_barrio,0.75,80.0,0.0,16.0,0.0,2.44,11.27,-80.0
+Diagonal Mar i el Front Marítim del Poblenou,sobre_todo_barrio,0.75,385.0,1330.29,20.0,330.72,0.29,48.61,945.29
 Horta,sobre_todo_barrio,0.75,23.0,17.03,3.0,4.0,5.25,104.94,-5.97
 Hostafrancs,sobre_todo_barrio,0.75,373.0,857.94,18.0,219.63,0.31,27.13,484.94
 Montbau,sobre_todo_barrio,0.75,3.0,0.0,3.0,0.0,,,-3.0
 Navas,sobre_todo_barrio,0.75,50.0,93.83,6.0,0.0,1.81,-0.76,43.83
 Pedralbes,sobre_todo_barrio,0.75,19.0,111.5,0.0,8.0,0.25,28.51,92.5
 Porta,sobre_todo_barrio,0.75,12.0,101.54,5.0,4.57,0.48,-21.68,89.54
-Provençals del Poblenou,sobre_todo_barrio,0.75,150.0,371.45,36.0,73.0,0.2,53.14,221.45
+Provençals del Poblenou,sobre_todo_barrio,0.75,150.0,371.45,38.0,73.0,0.18,50.84,221.45
 Sant Andreu,sobre_todo_barrio,0.75,73.0,6.11,26.0,6.11,0.67,-19.06,-66.89
-Sant Antoni,sobre_todo_barrio,0.75,2048.0,450.5,199.0,360.73,0.43,28.64,-1597.5
+Sant Antoni,sobre_todo_barrio,0.75,2048.0,450.5,210.0,360.73,0.43,28.64,-1597.5
 Sant Genís dels Agudells,sobre_todo_barrio,0.75,6.0,4.5,6.0,0.0,,,-1.5
-Sant Gervasi - Galvany,sobre_todo_barrio,0.75,578.0,660.97,61.0,236.74,0.27,11.77,82.97
+Sant Gervasi - Galvany,sobre_todo_barrio,0.75,578.0,651.33,61.0,235.51,0.27,10.77,73.33
 Sant Gervasi - la Bonanova,sobre_todo_barrio,0.75,148.0,192.47,16.0,76.0,0.51,21.24,44.47
-Sant Martí de Provençals,sobre_todo_barrio,0.75,53.0,0.0,5.0,0.0,1.0,71.36,-53.0
-"Sant Pere, Santa Caterina i la Ribera",sobre_todo_barrio,0.75,1142.0,925.42,218.8,397.67,0.18,20.47,-216.58
+Sant Martí de Provençals,sobre_todo_barrio,0.75,53.0,0.0,5.0,0.0,1.03,68.78,-53.0
+"Sant Pere, Santa Caterina i la Ribera",sobre_todo_barrio,0.75,1142.0,925.42,229.0,395.67,0.18,20.13,-216.58
 Sants,sobre_todo_barrio,0.75,562.0,499.66,62.0,306.61,0.53,21.67,-62.34
 Sants - Badal,sobre_todo_barrio,0.75,235.0,48.52,65.0,28.0,1.08,24.26,-186.48
-Sarrià,sobre_todo_barrio,0.75,53.0,114.71,13.0,25.0,0.34,19.77,61.71
+Sarrià,sobre_todo_barrio,0.75,53.0,114.71,13.0,25.0,0.33,18.02,61.71
 Vallcarca i els Penitents,sobre_todo_barrio,0.75,149.0,35.99,53.0,0.0,2.42,36.63,-113.01
 "Vallvidrera, el Tibidabo i les Planes",sobre_todo_barrio,0.75,19.0,44.99,10.0,3.0,1.96,14.57,25.99
 Verdun,sobre_todo_barrio,0.75,12.0,0.0,4.0,0.0,5.03,86.54,-12.0
 Vilapicina i la Torre Llobeta,sobre_todo_barrio,0.75,34.0,6.43,18.0,4.0,0.47,-7.57,-27.57
-el Baix Guinardó,sobre_todo_barrio,0.75,144.0,118.57,10.0,22.62,1.62,-0.45,-25.43
-el Barri Gòtic,sobre_todo_barrio,0.75,1215.0,2607.55,197.0,872.6,0.08,12.46,1392.55
+el Baix Guinardó,sobre_todo_barrio,0.75,144.0,118.57,10.0,22.62,1.58,-1.74,-25.43
+el Barri Gòtic,sobre_todo_barrio,0.75,1215.0,2607.55,202.0,870.6,0.08,12.42,1392.55
 el Besòs i el Maresme,sobre_todo_barrio,0.75,155.0,168.37,21.0,2.0,0.45,53.76,13.37
 el Bon Pastor,sobre_todo_barrio,0.75,8.0,57.84,0.0,2.0,2.93,104.62,49.84
-el Camp d'en Grassot i Gràcia Nova,sobre_todo_barrio,0.75,566.0,141.06,49.0,56.49,1.26,62.6,-424.94
-el Camp de l'Arpa del Clot,sobre_todo_barrio,0.75,540.0,312.97,30.0,64.0,1.47,54.54,-227.03
+el Camp d'en Grassot i Gràcia Nova,sobre_todo_barrio,0.75,566.0,141.06,49.0,56.49,1.28,62.76,-424.94
+el Camp de l'Arpa del Clot,sobre_todo_barrio,0.75,540.0,307.19,40.0,60.0,1.45,54.1,-232.81
 el Carmel,sobre_todo_barrio,0.75,103.0,0.0,23.0,0.0,1.57,-3.84,-103.0
-el Clot,sobre_todo_barrio,0.75,76.0,5.78,12.0,3.0,0.49,87.0,-70.22
+el Clot,sobre_todo_barrio,0.75,76.0,5.78,12.0,3.01,0.47,55.12,-70.22
 el Coll,sobre_todo_barrio,0.75,60.0,81.62,8.0,8.0,1.75,-2.28,21.62
-el Congrés i els Indians,sobre_todo_barrio,0.75,52.0,0.0,24.0,0.0,1.6,-0.15,-52.0
-el Fort Pienc,sobre_todo_barrio,0.75,1188.0,419.97,102.0,209.5,0.77,24.95,-768.03
+el Congrés i els Indians,sobre_todo_barrio,0.75,52.0,0.0,24.0,0.0,2.28,6.82,-52.0
+el Fort Pienc,sobre_todo_barrio,0.75,1188.0,419.97,102.0,209.22,0.77,24.02,-768.03
 el Guinardó,sobre_todo_barrio,0.75,190.0,141.7,22.0,32.46,1.83,7.46,-48.3
-el Parc i la Llacuna del Poblenou,sobre_todo_barrio,0.75,370.0,1350.21,2.0,175.0,0.31,13.25,980.21
-el Poble Sec,sobre_todo_barrio,0.75,1638.0,823.88,169.0,613.44,0.45,25.42,-814.12
+el Parc i la Llacuna del Poblenou,sobre_todo_barrio,0.75,370.0,1350.21,2.0,167.0,0.31,13.22,980.21
+el Poble Sec,sobre_todo_barrio,0.75,1638.0,823.88,183.06,603.44,0.44,24.47,-814.12
 el Poblenou,sobre_todo_barrio,0.75,868.0,1084.15,56.0,640.89,0.27,24.02,216.15
-el Putxet i el Farró,sobre_todo_barrio,0.75,374.0,231.35,50.0,99.59,0.44,14.02,-142.65
-el Raval,sobre_todo_barrio,0.75,1269.0,2851.76,270.0,835.22,0.17,23.86,1582.76
+el Putxet i el Farró,sobre_todo_barrio,0.75,374.0,231.35,55.0,99.26,0.59,12.14,-142.65
+el Raval,sobre_todo_barrio,0.75,1269.0,2797.13,270.0,794.04,0.17,23.97,1528.13
 el Turó de la Peira,sobre_todo_barrio,0.75,4.0,0.0,2.0,0.0,0.81,-24.68,-4.0
-l'Antiga Esquerra de l'Eixample,sobre_todo_barrio,0.75,2001.0,1334.78,137.0,884.49,0.24,34.1,-666.22
-la Barceloneta,sobre_todo_barrio,0.75,342.0,804.28,70.0,46.67,0.64,8.24,462.28
+l'Antiga Esquerra de l'Eixample,sobre_todo_barrio,0.75,2001.0,1334.78,143.0,883.38,0.23,33.95,-666.22
+la Barceloneta,sobre_todo_barrio,0.75,342.0,804.28,70.0,48.67,0.64,9.28,462.28
 la Bordeta,sobre_todo_barrio,0.75,107.0,12.53,7.0,6.0,0.78,16.51,-94.47
-la Dreta de l'Eixample,sobre_todo_barrio,0.75,5276.0,4888.32,267.0,3347.28,0.2,30.24,-387.68
+la Dreta de l'Eixample,sobre_todo_barrio,0.75,5276.0,4888.32,271.0,3348.07,0.2,30.15,-387.68
 la Font d'en Fargues,sobre_todo_barrio,0.75,19.0,0.0,0.0,0.0,0.83,-13.41,-19.0
-la Font de la Guatlla,sobre_todo_barrio,0.75,166.0,170.3,11.0,64.09,0.5,33.2,4.3
+la Font de la Guatlla,sobre_todo_barrio,0.75,166.0,170.3,11.0,64.09,0.41,33.2,4.3
 la Guineueta,sobre_todo_barrio,0.75,6.0,0.0,4.0,0.0,1.15,-10.94,-6.0
 la Marina de Port,sobre_todo_barrio,0.75,22.0,131.1,10.0,7.0,0.62,-23.74,109.1
 la Marina del Prat Vermell,sobre_todo_barrio,0.75,3.0,61.05,0.0,0.0,0.96,-35.93,58.05
 la Maternitat i Sant Ramon,sobre_todo_barrio,0.75,168.0,812.31,28.0,129.45,0.33,43.8,644.31
-la Nova Esquerra de l'Eixample,sobre_todo_barrio,0.75,1457.0,696.63,185.0,440.21,0.42,32.34,-760.37
-la Sagrada Família,sobre_todo_barrio,0.75,2347.0,192.47,130.0,170.46,1.23,43.08,-2154.53
+la Nova Esquerra de l'Eixample,sobre_todo_barrio,0.75,1457.0,696.63,185.0,440.21,0.43,32.38,-760.37
+la Sagrada Família,sobre_todo_barrio,0.75,2347.0,180.26,136.0,163.48,1.22,43.55,-2166.74
 la Sagrera,sobre_todo_barrio,0.75,51.0,13.5,7.0,8.0,2.25,66.91,-37.5
-la Salut,sobre_todo_barrio,0.75,94.0,18.64,29.0,2.0,1.99,60.22,-75.36
+la Salut,sobre_todo_barrio,0.75,94.0,18.64,29.0,2.0,2.21,67.27,-75.36
 la Teixonera,sobre_todo_barrio,0.75,18.0,0.0,13.0,0.0,1.31,-2.33,-18.0
 la Trinitat Vella,sobre_todo_barrio,0.75,2.0,0.0,0.0,0.0,5.44,376.72,-2.0
 la Vall d'Hebron,sobre_todo_barrio,0.75,4.0,100.25,0.0,4.0,0.15,-9.82,96.25
 la Verneda i la Pau,sobre_todo_barrio,0.75,22.0,0.0,2.0,0.0,1.67,70.24,-22.0
 la Vila Olímpica del Poblenou,sobre_todo_barrio,0.75,346.0,237.14,16.0,176.14,0.35,16.25,-108.86
-la Vila de Gràcia,sobre_todo_barrio,0.75,1991.0,237.14,83.0,230.81,0.73,33.92,-1753.86
-les Corts,sobre_todo_barrio,0.75,512.0,1038.84,51.0,341.69,0.38,41.86,526.84
+la Vila de Gràcia,sobre_todo_barrio,0.75,1991.0,237.14,92.0,230.81,0.74,34.4,-1753.86
+les Corts,sobre_todo_barrio,0.75,512.0,1038.84,51.0,341.69,0.38,42.04,526.84
 les Roquetes,sobre_todo_barrio,0.75,12.0,0.0,4.0,0.0,5.44,266.02,-12.0
 les Tres Torres,sobre_todo_barrio,0.75,74.0,72.3,10.0,31.96,0.4,12.45,-1.7
 Can Baró,solo_barrio,1.0,80.0,0.0,16.0,0.0,2.35,2.36,-80.0
 Diagonal Mar i el Front Marítim del Poblenou,solo_barrio,1.0,385.0,1330.29,20.0,359.0,0.18,109.99,945.29
-Horta,solo_barrio,1.0,23.0,17.03,3.0,4.0,4.93,167.21,-5.97
+Horta,solo_barrio,1.0,23.0,17.03,3.0,4.0,5.13,264.24,-5.97
 Hostafrancs,solo_barrio,1.0,373.0,857.94,18.0,235.7,0.23,20.33,484.94
 Montbau,solo_barrio,1.0,3.0,0.0,3.0,0.0,,,-3.0
-Navas,solo_barrio,1.0,50.0,93.83,6.0,3.0,1.62,53.83,43.83
+Navas,solo_barrio,1.0,50.0,93.83,6.0,3.0,1.64,53.83,43.83
 Pedralbes,solo_barrio,1.0,19.0,111.5,0.0,16.0,0.18,84.96,92.5
 Porta,solo_barrio,1.0,12.0,101.54,5.0,4.0,0.26,-8.59,89.54
-Provençals del Poblenou,solo_barrio,1.0,150.0,371.45,36.0,87.0,0.16,59.67,221.45
+Provençals del Poblenou,solo_barrio,1.0,150.0,371.45,38.0,87.0,0.16,59.23,221.45
 Sant Andreu,solo_barrio,1.0,73.0,6.11,26.0,6.11,0.65,-16.72,-66.89
-Sant Antoni,solo_barrio,1.0,2048.0,450.5,199.0,389.08,0.4,25.17,-1597.5
+Sant Antoni,solo_barrio,1.0,2048.0,450.5,210.0,389.08,0.4,25.3,-1597.5
 Sant Genís dels Agudells,solo_barrio,1.0,6.0,4.5,6.0,0.0,,,-1.5
-Sant Gervasi - Galvany,solo_barrio,1.0,578.0,660.97,61.0,274.24,0.18,17.46,82.97
-Sant Gervasi - la Bonanova,solo_barrio,1.0,148.0,192.47,16.0,78.0,0.34,27.52,44.47
+Sant Gervasi - Galvany,solo_barrio,1.0,578.0,651.33,61.0,274.24,0.19,16.28,73.33
+Sant Gervasi - la Bonanova,solo_barrio,1.0,148.0,192.47,16.0,78.0,0.3,27.52,44.47
 Sant Martí de Provençals,solo_barrio,1.0,53.0,0.0,5.0,0.0,0.89,73.04,-53.0
-"Sant Pere, Santa Caterina i la Ribera",solo_barrio,1.0,1142.0,925.42,218.8,504.48,0.13,36.5,-216.58
-Sants,solo_barrio,1.0,562.0,499.66,62.0,324.27,0.51,23.31,-62.34
-Sants - Badal,solo_barrio,1.0,235.0,48.52,65.0,29.43,0.95,45.82,-186.48
-Sarrià,solo_barrio,1.0,53.0,114.71,13.0,29.0,0.34,19.77,61.71
-Vallcarca i els Penitents,solo_barrio,1.0,149.0,35.99,53.0,0.0,2.13,51.02,-113.01
+"Sant Pere, Santa Caterina i la Ribera",solo_barrio,1.0,1142.0,925.42,229.0,504.48,0.13,35.74,-216.58
+Sants,solo_barrio,1.0,562.0,499.66,62.0,324.27,0.51,23.23,-62.34
+Sants - Badal,solo_barrio,1.0,235.0,48.52,65.0,29.43,0.95,45.32,-186.48
+Sarrià,solo_barrio,1.0,53.0,114.71,13.0,29.0,0.33,18.02,61.71
+Vallcarca i els Penitents,solo_barrio,1.0,149.0,35.99,53.0,0.0,2.2,42.63,-113.01
 "Vallvidrera, el Tibidabo i les Planes",solo_barrio,1.0,19.0,44.99,10.0,3.0,1.96,14.57,25.99
 Verdun,solo_barrio,1.0,12.0,0.0,4.0,0.0,2.04,15.86,-12.0
 Vilapicina i la Torre Llobeta,solo_barrio,1.0,34.0,6.43,18.0,0.0,0.58,-7.0,-27.57
-el Baix Guinardó,solo_barrio,1.0,144.0,118.57,10.0,23.0,1.54,32.1,-25.43
-el Barri Gòtic,solo_barrio,1.0,1215.0,2607.55,197.0,915.85,0.05,26.59,1392.55
+el Baix Guinardó,solo_barrio,1.0,144.0,118.57,10.0,23.0,1.45,23.75,-25.43
+el Barri Gòtic,solo_barrio,1.0,1215.0,2607.55,202.0,915.85,0.05,27.32,1392.55
 el Besòs i el Maresme,solo_barrio,1.0,155.0,168.37,21.0,74.0,0.31,66.28,13.37
 el Bon Pastor,solo_barrio,1.0,8.0,57.84,0.0,2.0,2.68,69.86,49.84
 el Camp d'en Grassot i Gràcia Nova,solo_barrio,1.0,566.0,141.06,49.0,58.43,1.39,56.93,-424.94
-el Camp de l'Arpa del Clot,solo_barrio,1.0,540.0,312.97,30.0,79.5,1.36,53.91,-227.03
+el Camp de l'Arpa del Clot,solo_barrio,1.0,540.0,307.19,40.0,74.67,1.35,54.09,-232.81
 el Carmel,solo_barrio,1.0,103.0,0.0,23.0,0.0,1.47,-3.84,-103.0
-el Clot,solo_barrio,1.0,76.0,5.78,12.0,0.0,0.6,58.33,-70.22
-el Coll,solo_barrio,1.0,60.0,81.62,8.0,12.0,1.85,6.7,21.62
+el Clot,solo_barrio,1.0,76.0,5.78,12.0,0.0,0.6,57.66,-70.22
+el Coll,solo_barrio,1.0,60.0,81.62,8.0,12.0,1.75,2.38,21.62
 el Congrés i els Indians,solo_barrio,1.0,52.0,0.0,24.0,0.0,1.44,0.69,-52.0
-el Fort Pienc,solo_barrio,1.0,1188.0,419.97,102.0,237.0,0.68,28.13,-768.03
-el Guinardó,solo_barrio,1.0,190.0,141.7,22.0,37.49,1.27,2.51,-48.3
+el Fort Pienc,solo_barrio,1.0,1188.0,419.97,102.0,231.75,0.67,28.44,-768.03
+el Guinardó,solo_barrio,1.0,190.0,141.7,22.0,36.88,1.28,2.82,-48.3
 el Parc i la Llacuna del Poblenou,solo_barrio,1.0,370.0,1350.21,2.0,218.0,0.18,13.25,980.21
-el Poble Sec,solo_barrio,1.0,1638.0,823.88,169.0,696.38,0.39,31.34,-814.12
-el Poblenou,solo_barrio,1.0,868.0,1084.15,56.0,605.76,0.25,36.47,216.15
-el Putxet i el Farró,solo_barrio,1.0,374.0,231.35,50.0,129.38,0.37,16.86,-142.65
-el Raval,solo_barrio,1.0,1269.0,2851.76,270.0,868.8,0.1,30.45,1582.76
+el Poble Sec,solo_barrio,1.0,1638.0,823.88,183.06,696.38,0.37,27.84,-814.12
+el Poblenou,solo_barrio,1.0,868.0,1084.15,56.0,603.26,0.25,36.73,216.15
+el Putxet i el Farró,solo_barrio,1.0,374.0,231.35,55.0,129.38,0.37,17.08,-142.65
+el Raval,solo_barrio,1.0,1269.0,2797.13,270.0,867.01,0.1,30.27,1528.13
 el Turó de la Peira,solo_barrio,1.0,4.0,0.0,2.0,0.0,0.81,-24.68,-4.0
-l'Antiga Esquerra de l'Eixample,solo_barrio,1.0,2001.0,1334.78,137.0,946.19,0.19,35.29,-666.22
-la Barceloneta,solo_barrio,1.0,342.0,804.28,70.0,69.0,0.64,20.59,462.28
+l'Antiga Esquerra de l'Eixample,solo_barrio,1.0,2001.0,1334.78,143.0,942.19,0.2,35.37,-666.22
+la Barceloneta,solo_barrio,1.0,342.0,804.28,70.0,72.0,0.64,20.59,462.28
 la Bordeta,solo_barrio,1.0,107.0,12.53,7.0,7.53,0.59,14.68,-94.47
-la Dreta de l'Eixample,solo_barrio,1.0,5276.0,4888.32,267.0,3454.59,0.14,39.14,-387.68
+la Dreta de l'Eixample,solo_barrio,1.0,5276.0,4888.32,271.0,3459.78,0.14,39.12,-387.68
 la Font d'en Fargues,solo_barrio,1.0,19.0,0.0,0.0,0.0,0.83,-13.41,-19.0
 la Font de la Guatlla,solo_barrio,1.0,166.0,170.3,11.0,79.0,0.33,35.87,4.3
 la Guineueta,solo_barrio,1.0,6.0,0.0,4.0,0.0,1.15,-10.94,-6.0
 la Marina de Port,solo_barrio,1.0,22.0,131.1,10.0,7.0,0.63,-31.86,109.1
 la Marina del Prat Vermell,solo_barrio,1.0,3.0,61.05,0.0,0.0,0.96,-35.93,58.05
 la Maternitat i Sant Ramon,solo_barrio,1.0,168.0,812.31,28.0,136.64,0.34,57.84,644.31
-la Nova Esquerra de l'Eixample,solo_barrio,1.0,1457.0,696.63,185.0,456.98,0.38,33.26,-760.37
-la Sagrada Família,solo_barrio,1.0,2347.0,192.47,130.0,164.47,1.16,38.12,-2154.53
-la Sagrera,solo_barrio,1.0,51.0,13.5,7.0,8.0,1.61,13.8,-37.5
-la Salut,solo_barrio,1.0,94.0,18.64,29.0,2.0,1.36,15.34,-75.36
+la Nova Esquerra de l'Eixample,solo_barrio,1.0,1457.0,696.63,185.0,456.98,0.38,33.25,-760.37
+la Sagrada Família,solo_barrio,1.0,2347.0,180.26,136.0,156.48,1.17,38.57,-2166.74
+la Sagrera,solo_barrio,1.0,51.0,13.5,7.0,8.0,1.52,13.38,-37.5
+la Salut,solo_barrio,1.0,94.0,18.64,29.0,2.0,1.52,38.86,-75.36
 la Teixonera,solo_barrio,1.0,18.0,0.0,13.0,0.0,1.31,-2.33,-18.0
 la Trinitat Vella,solo_barrio,1.0,2.0,0.0,0.0,0.0,5.13,108.4,-2.0
 la Vall d'Hebron,solo_barrio,1.0,4.0,100.25,0.0,4.0,0.15,-9.82,96.25
 la Verneda i la Pau,solo_barrio,1.0,22.0,0.0,2.0,0.0,1.37,70.24,-22.0
 la Vila Olímpica del Poblenou,solo_barrio,1.0,346.0,237.14,16.0,169.38,0.25,23.97,-108.86
-la Vila de Gràcia,solo_barrio,1.0,1991.0,237.14,83.0,229.14,0.73,39.33,-1753.86
-les Corts,solo_barrio,1.0,512.0,1038.84,51.0,329.03,0.29,42.82,526.84
+la Vila de Gràcia,solo_barrio,1.0,1991.0,237.14,92.0,229.14,0.75,39.59,-1753.86
+les Corts,solo_barrio,1.0,512.0,1038.84,51.0,331.03,0.3,43.02,526.84
 les Roquetes,solo_barrio,1.0,12.0,0.0,4.0,0.0,5.42,106.72,-12.0
 les Tres Torres,solo_barrio,1.0,74.0,72.3,10.0,22.96,0.4,19.28,-1.7

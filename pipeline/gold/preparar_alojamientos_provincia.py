@@ -22,6 +22,12 @@ el analisis ha deducido: coordenada utilizable, precio por noche, banda economic
 web no puede cumplir lo que promete en `docs/web-checklist.md`, que es no dar por sabido un precio
 que se ha imputado.
 
+**Un precio, dos procedencias, una columna.** `origen_precio` vale `observado` (451, del cruce con
+los precios raspados) o `estimado` (317, del modelo), y esta vacia donde no hay precio. Airbnb no
+interviene: no aporta ni un solo precio de hotel, solo la geometria de barrios en
+`preparar_hoteles_bcn.py`. Los siete matices que usa el analisis para auditar el cruce y el modelo
+se quedan en `hoteles_bcn_precio_estimado.csv`, que es su sitio.
+
 **La banda solo llega a la ciudad de Barcelona.** Los 795 establecimientos del resto de la
 provincia se quedan sin precio: el raspado cubrio la ciudad y el modelo se entreno con ella, asi
 que extenderlo al Maresme o al Valles seria inventar. Salen con `banda_precio` nula, que es la
@@ -45,7 +51,7 @@ SALIDA = GOLD / "alojamientos_reglados.csv"
 COLUMNAS = ["licencia_id", "nombre_comercial", "tipo", "municipio", "codi_ine", "barrio",
             "categoria", "estrellas", "tipo_alojamiento", "plazas", "habitaciones", "titular_id",
             "lat", "lon", "precision", "precio_noche_final", "banda_precio",
-            "precio_plaza", "banda_plaza", "precio_es_estimado", "apoyo_estimacion"]
+            "precio_plaza", "banda_plaza", "origen_precio"]
 
 
 def completar_coordenadas(d: pd.DataFrame) -> pd.DataFrame:
@@ -72,6 +78,32 @@ def completar_coordenadas(d: pd.DataFrame) -> pd.DataFrame:
     return d.drop(columns=["lat_geo", "lon_geo"])
 
 
+def resolver_origen(d: pd.DataFrame) -> pd.DataFrame:
+    """Colapsa a una sola columna de que sabemos del precio: `observado`, `estimado` o nada.
+
+    La capa de analisis distingue siete matices (`origen_precio`, `metodo_cruce`,
+    `precio_es_estimado`, `apoyo_estimacion`, `estimacion_fiable`, `modelo_precio`,
+    `mae_modelo_eur`) y esa granularidad es correcta ahi: sirve para auditar el cruce y el modelo.
+    Publicarla entera es otra cosa — obliga a quien lee el mapa a reconstruir a mano si el precio
+    esta medido o inventado a partir de columnas que se contradicen en apariencia. Aqui solo
+    sobrevive esa pregunta, que es la unica que cambia como hay que leer el numero. El detalle
+    sigue intacto en `hoteles_bcn_precio_estimado.csv`.
+
+    Las estimaciones sin ejemplos comparables (`apoyo_estimacion == "escaso"`) pierden el precio y
+    la banda aqui, no en el export. Un hueco es mas honesto que un numero que nadie puede
+    contradecir, y si el corte vive en gold ningun consumidor futuro puede saltarselo por olvido.
+    """
+    d = d.copy()
+    sin_apoyo = d["apoyo_estimacion"].eq("escaso")
+    d.loc[sin_apoyo, ["precio_noche_final", "banda_precio"]] = np.nan
+
+    estimado = d["precio_es_estimado"].astype("boolean")
+    d["origen_precio"] = np.where(
+        d["banda_precio"].isna(), None,
+        np.where(estimado.fillna(False), "estimado", "observado"))
+    return d.drop(columns=["precio_es_estimado", "apoyo_estimacion"])
+
+
 def main() -> None:
     censo = pd.read_csv(BRONZE / "hoteles_y_apartaments_unificados.csv", dtype=str,
                         low_memory=False)
@@ -92,8 +124,7 @@ def main() -> None:
                 "banda_precio", "precio_es_estimado", "apoyo_estimacion"]],
         on="licencia_id", how="left")
 
-    # Fuera de la ciudad no hay banda, y la columna lo dice en vez de fingir un valor.
-    d["precio_es_estimado"] = d["precio_es_estimado"].astype("boolean")
+    d = resolver_origen(d)
 
     # La banda por plaza es la unica escala en la que un hotel y un piso de Airbnb se comparan.
     # `banda_precio` sigue siendo por habitacion, que es lo que paga quien reserva y lo que mide
@@ -112,8 +143,7 @@ def main() -> None:
     print(f"  por banda (habitacion): {d['banda_precio'].value_counts().to_dict()}")
     print(f"  por banda (plaza)     : {d['banda_plaza'].value_counts().to_dict()}")
     print(f"  precio/plaza mediano  : {d['precio_plaza'].median():.0f} EUR")
-    print(f"  precio observado {int((d['precio_es_estimado'] == False).sum())}, "  # noqa: E712
-          f"estimado {int((d['precio_es_estimado'] == True).sum())}")  # noqa: E712
+    print(f"  origen del precio     : {d['origen_precio'].value_counts(dropna=False).to_dict()}")
     print(f"\nGuardado en {SALIDA.relative_to(RAIZ)}")
 
 

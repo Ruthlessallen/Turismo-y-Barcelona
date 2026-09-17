@@ -35,6 +35,27 @@ export type Sustitucion = {
   totales: TotalesEscenario[];
 };
 
+/**
+ * Una fila de `restauracion_2028.json`.
+ *
+ * **No hay una versión por escenario, y es a propósito.** La demanda supera a la capacidad
+ * hotelera libre, así que todos los hoteles se llenan elija lo que elija el turista: la barra
+ * mueve quién va a qué hotel, no cuántos hoteles se llenan.
+ */
+export type BarrioRestauracion = {
+  barrio: string;
+  /** Locales de restauración del barrio, del censo comercial municipal. */
+  locales: number;
+  /** Turistas de estas viviendas que hoy duermen a menos de 200 m de esos locales. */
+  hoy: number;
+  /** Los mismos turistas, ya realojados en hoteles, a menos de 200 m de esos locales. */
+  en_2028: number;
+  /** en_2028 − hoy. Negativo: al barrio le llegan menos comensales que ahora. */
+  cambio: number;
+  por_local_hoy: number;
+  por_local_2028: number;
+};
+
 export type BarrioAirbnb = {
   barrio: string;
   distrito: string;

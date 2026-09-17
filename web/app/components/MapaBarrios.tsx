@@ -5,14 +5,17 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 import { dibujarFlechas, type Centroides, type Flujo } from "@/app/lib/flechas";
-import type { BarrioSustitucion } from "@/app/lib/tipos";
+import type { BarrioRestauracion, BarrioSustitucion } from "@/app/lib/tipos";
 
-/** Qué pinta el color del barrio. */
-export type Medida = "saldo" | "sin_sitio" | "se_quedan";
+/** Qué pinta el color del barrio. Las dos últimas leen de `restauracion`, no de `datos`. */
+export type Medida = "saldo" | "sin_sitio" | "se_quedan" | "locales" | "cambio";
+
+const MEDIDAS_RESTAURACION: Medida[] = ["locales", "cambio"];
 
 type Props = {
   geojson: GeoJSON.FeatureCollection | null;
   datos: Record<string, BarrioSustitucion>;
+  restauracion?: Record<string, BarrioRestauracion>;
   medida: Medida;
   barrioActivo: string | null;
   onBarrio: (barrio: string | null) => void;
@@ -34,20 +37,59 @@ const NEUTRO = "#eeece7";
 /** Secuencial de un solo tono para magnitudes sin signo. */
 const SECUENCIAL = ["#f4efe6", "#e5d5b8", "#d4b184", "#bd8850", "#9c5f27"];
 
+/** Restauración: verde, para que nunca se confunda con el azul de «gana turistas». */
+const VERDE = ["#e8f0e4", "#c3ddb9", "#93c088", "#5d9e5a", "#2f7a3e"];
+
+/**
+ * Divergente del cambio de comensales: verde gana, morado pierde.
+ * Verde y morado se distinguen en las tres formas de daltonismo comunes; verde y rojo no.
+ */
+const PIERDE_COMENSALES = ["#e6dcea", "#c3a7cf", "#9a6fae", "#6f3f8a"];
+const GANA_COMENSALES = ["#d8ead2", "#a8cf9c", "#6fae6b", "#2f7a3e"];
+
 function colorPara(valor: number, medida: Medida, tope: number): string {
   if (!valor) return NEUTRO;
-  if (medida === "saldo") {
-    const escala = valor < 0 ? PIERDE : GANA;
+  if (medida === "saldo" || medida === "cambio") {
+    const negativa = medida === "saldo" ? PIERDE : PIERDE_COMENSALES;
+    const positiva = medida === "saldo" ? GANA : GANA_COMENSALES;
+    const escala = valor < 0 ? negativa : positiva;
     const fuerza = Math.min(Math.abs(valor) / tope, 1);
     return escala[Math.min(Math.floor(fuerza * escala.length), escala.length - 1)];
   }
+  const rampa = medida === "locales" ? VERDE : SECUENCIAL;
   const fuerza = Math.min(valor / tope, 1);
-  return SECUENCIAL[Math.min(Math.floor(fuerza * SECUENCIAL.length), SECUENCIAL.length - 1)];
+  return rampa[Math.min(Math.floor(fuerza * rampa.length), rampa.length - 1)];
+}
+
+const n = (v: number) => Math.round(v).toLocaleString("es");
+
+function textoTooltip(
+  nombre: string,
+  medida: Medida,
+  d?: BarrioSustitucion,
+  r?: BarrioRestauracion,
+): string {
+  if (MEDIDAS_RESTAURACION.includes(medida)) {
+    if (!r) return `<b>${nombre}</b><br>sin locales de restauración`;
+    const signo = r.cambio > 0 ? "+" : "";
+    return (
+      `<b>${nombre}</b><br>${n(r.locales)} bares y restaurantes<br>` +
+      `hoy duermen cerca ${n(r.hoy)} de estos turistas<br>` +
+      `en 2028, ${n(r.en_2028)} (${signo}${n(r.cambio)})`
+    );
+  }
+  if (!d) return `<b>${nombre}</b><br>sin viviendas turísticas`;
+  return (
+    `<b>${nombre}</b><br>${n(d.salen)} turistas se quedan sin piso<br>` +
+    `${n(d.se_quedan)} encuentran hotel aquí<br>` +
+    `${n(d.sin_sitio)} sin sitio en la ciudad`
+  );
 }
 
 export default function MapaBarrios({
   geojson,
   datos,
+  restauracion = {},
   medida,
   barrioActivo,
   onBarrio,
@@ -59,11 +101,25 @@ export default function MapaBarrios({
   const capa = useRef<L.GeoJSON | null>(null);
   const capaFlechas = useRef<L.LayerGroup | null>(null);
 
+  // De qué tabla sale el número que se pinta. Restauración cubre 73 barrios y sustitución 64:
+  // son universos distintos y por eso no pueden compartir el mismo registro.
+  const valorDe = useMemo(() => {
+    const deRestauracion = MEDIDAS_RESTAURACION.includes(medida);
+    return (barrio: string): number | null => {
+      const fila = deRestauracion ? restauracion[barrio] : datos[barrio];
+      if (!fila) return null;
+      return (fila as Record<string, unknown>)[medida] as number;
+    };
+  }, [datos, restauracion, medida]);
+
   // El tope se recalcula con la medida: si no, al cambiar de columna el color deja de decir nada.
   const tope = useMemo(() => {
-    const valores = Object.values(datos).map((d) => Math.abs(d[medida] ?? 0));
+    const fuente = MEDIDAS_RESTAURACION.includes(medida) ? restauracion : datos;
+    const valores = Object.values(fuente).map((d) =>
+      Math.abs(((d as Record<string, unknown>)[medida] as number) ?? 0),
+    );
     return Math.max(...valores, 1);
-  }, [datos, medida]);
+  }, [datos, restauracion, medida]);
 
   const maximoFlujo = useMemo(() => Math.max(...flujos.map((f) => f.turistas), 1), [flujos]);
 
@@ -90,26 +146,20 @@ export default function MapaBarrios({
     capa.current = L.geoJSON(geojson, {
       style: (feature) => {
         const nombre = feature?.properties?.barrio as string;
-        const d = datos[nombre];
+        const valor = valorDe(nombre);
         const activo = barrioActivo === nombre;
         return {
-          fillColor: d ? colorPara(d[medida] ?? 0, medida, tope) : "#f5f4f1",
-          fillOpacity: d ? 0.85 : 0.35,
+          fillColor: valor === null ? "#f5f4f1" : colorPara(valor, medida, tope),
+          fillOpacity: valor === null ? 0.35 : 0.85,
           color: activo ? "#24231f" : "#ffffff",
           weight: activo ? 2.5 : 1,
         };
       },
       onEachFeature: (feature, layer) => {
         const nombre = feature.properties?.barrio as string;
-        const d = datos[nombre];
-        layer.bindTooltip(
-          d
-            ? `<b>${nombre}</b><br>${d.salen.toLocaleString("es")} turistas se quedan sin piso<br>` +
-                `${d.se_quedan.toLocaleString("es")} encuentran hotel aquí<br>` +
-                `${d.sin_sitio.toLocaleString("es")} sin sitio en la ciudad`
-            : `<b>${nombre}</b><br>sin viviendas turísticas`,
-          { sticky: true },
-        );
+        layer.bindTooltip(textoTooltip(nombre, medida, datos[nombre], restauracion[nombre]), {
+          sticky: true,
+        });
         layer.on({
           click: () => onBarrio(barrioActivo === nombre ? null : nombre),
           mouseover: (e) => (e.target as L.Path).setStyle({ weight: 2.5, color: "#24231f" }),
@@ -124,7 +174,7 @@ export default function MapaBarrios({
     }).addTo(mapa.current);
     // Las coropletas se acaban de añadir, así que taparían las flechas si no se mandan al fondo.
     capa.current.bringToBack();
-  }, [geojson, datos, medida, tope, barrioActivo, onBarrio]);
+  }, [geojson, datos, restauracion, valorDe, medida, tope, barrioActivo, onBarrio]);
 
   useEffect(() => {
     const m = mapa.current;

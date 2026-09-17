@@ -1,281 +1,154 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { ESCENARIOS, type BarrioSustitucion, type IdEscenario, type Sustitucion } from "@/app/lib/tipos";
-import type { Centroides, Flujo } from "@/app/lib/flechas";
-import type { Medida } from "@/app/components/MapaBarrios";
+/** Lo que publica `export_mapa.py` en `resumen.json`. Solo los campos que esta página usa. */
+type Resumen = {
+  hoteles: { total: number };
+  restauracion: { total: number; por_tipo: Record<string, number> };
+  restauracion_2028: { ganan: number; pierden: number };
+  vut: { total: number };
+  airbnb: { sujetos_a_la_ley: number; precio_plaza_mediano: number };
+  criba_airbnb: { inicio: number; final: number };
+  sustitucion_2028: {
+    ocupacion_partida: number;
+    plazas_vut: number;
+    plazas_regladas: number;
+    sin_sitio: number;
+  };
+};
 
-type DatosFlujos = { centroides: Centroides; escenarios: Record<string, Flujo[]> };
+const n = (v: number) => v.toLocaleString("es", { useGrouping: "always" });
 
-// Leaflet toca `window` al cargarse: sin esto el render del servidor revienta.
-const MapaBarrios = dynamic(() => import("@/app/components/MapaBarrios"), {
-  ssr: false,
-  loading: () => <div className="h-full w-full bg-[#f5f4f1]" />,
-});
-
-const VISTAS: { id: Medida; etiqueta: string }[] = [
-  { id: "saldo", etiqueta: "Gana o pierde" },
-  { id: "sin_sitio", etiqueta: "Sin sitio" },
-];
-
-export default function Pagina() {
-  const [geojson, setGeojson] = useState<GeoJSON.FeatureCollection | null>(null);
-  const [sustitucion, setSustitucion] = useState<Sustitucion | null>(null);
-  const [escenario, setEscenario] = useState<IdEscenario>("equilibrio");
-  const [medida, setMedida] = useState<Medida>("saldo");
-  const [barrio, setBarrio] = useState<string | null>(null);
-  const [flechas, setFlechas] = useState(false);
-  const [minimoFlujo, setMinimoFlujo] = useState(200);
-  const [datosFlujos, setDatosFlujos] = useState<DatosFlujos | null>(null);
+export default function Portada() {
+  const [r, setResumen] = useState<Resumen | null>(null);
 
   useEffect(() => {
-    fetch("/data/geo/barrios.geojson").then((r) => r.json()).then(setGeojson);
-    fetch("/data/mapa/sustitucion_2028.json").then((r) => r.json()).then(setSustitucion);
+    fetch("/data/mapa/resumen.json").then((x) => x.json()).then(setResumen);
   }, []);
 
-  // Los flujos pesan 92 KB y la capa arranca apagada: se piden la primera vez que se encienden.
-  useEffect(() => {
-    if (!flechas || datosFlujos) return;
-    fetch("/data/mapa/flujos_2028.json").then((r) => r.json()).then(setDatosFlujos);
-  }, [flechas, datosFlujos]);
+  if (!r) return <main className="min-h-full bg-[#faf9f7]" />;
 
-  const porBarrio = useMemo(() => {
-    const filas = sustitucion?.escenarios[escenario] ?? [];
-    return Object.fromEntries(filas.map((f) => [f.barrio, f])) as Record<string, BarrioSustitucion>;
-  }, [sustitucion, escenario]);
-
-  const flujosVisibles = useMemo(() => {
-    if (!flechas) return [];
-    const todos = datosFlujos?.escenarios[escenario] ?? [];
-    return todos.filter(
-      (f) =>
-        f.turistas >= minimoFlujo && (!barrio || f.origen === barrio || f.destino === barrio),
-    );
-  }, [flechas, datosFlujos, escenario, minimoFlujo, barrio]);
-
-  const totales = sustitucion?.totales.find((t) => t.escenario === escenario);
-  const activo = barrio ? porBarrio[barrio] : null;
-  const indice = ESCENARIOS.findIndex((e) => e.id === escenario);
+  const libres = Math.round(r.sustitucion_2028.plazas_regladas * (1 - r.sustitucion_2028.ocupacion_partida));
 
   return (
-    <main className="flex h-dvh w-full flex-col bg-[#faf9f7] text-[#24231f] lg:flex-row">
-      <aside className="w-full shrink-0 overflow-y-auto border-b border-[#e3e0da] bg-white p-5 lg:w-[330px] lg:border-r lg:border-b-0">
-        <h1 className="text-[15px] font-semibold tracking-tight">Barcelona sin pisos turísticos</h1>
-        <p className="mt-1 text-xs leading-relaxed text-[#52514e]">
-          Dónde dormirían en 2028 los turistas de las 6.834 viviendas de uso turístico anunciadas
-          hoy en Airbnb.
+    <main className="min-h-full bg-[#faf9f7] text-[#24231f]">
+      <div className="mx-auto max-w-6xl px-5 py-8 sm:px-8">
+        <h1 className="max-w-2xl text-2xl leading-tight font-semibold tracking-tight">
+          Barcelona elimina las licencias de piso turístico en noviembre de 2028
+        </h1>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[#52514e]">
+          Qué hay hoy, qué desaparece y dónde acabarían durmiendo esos turistas. Todas las cifras
+          salen de fuentes públicas y cada una dice de dónde viene.
         </p>
 
-        <h2 className="mt-6 mb-2 text-[11px] font-semibold uppercase tracking-wider text-[#52514e]">
-          ¿Qué busca el turista?
+        <h2 className="mt-8 mb-3 text-[11px] font-semibold uppercase tracking-wider text-[#52514e]">
+          Lo que hay hoy
         </h2>
-        <input
-          type="range"
-          min={0}
-          max={ESCENARIOS.length - 1}
-          step={1}
-          value={indice}
-          onChange={(e) => setEscenario(ESCENARIOS[Number(e.target.value)].id)}
-          className="w-full accent-[#2f6fb5]"
-          aria-label="Peso entre precio y ubicación"
-        />
-        <div className="flex justify-between text-[11px] text-[#52514e]">
-          <span>Precio</span>
-          <span>Ubicación</span>
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <Cifra
+            valor={n(r.vut.total)}
+            titulo="Licencias de piso turístico"
+            pie="En la provincia, del registro oficial"
+          />
+          <Cifra
+            valor={n(r.criba_airbnb.inicio)}
+            titulo="Anuncios en Airbnb"
+            pie="Volcado del 24 de junio de 2026"
+          />
+          <Cifra valor={n(r.hoteles.total)} titulo="Hoteles en la ciudad" pie="Del Registre de Turisme" />
+          <Cifra
+            valor={n(r.restauracion.total)}
+            titulo="Bares y restaurantes"
+            pie="Censo comercial municipal"
+          />
         </div>
 
-        {totales && (
-          <dl className="mt-4 grid grid-cols-3 gap-2">
-            <Dato titulo="Se mueven" valor={`${totales.km_mediano} km`} />
-            <Dato titulo="Pagan de más" valor={`${totales.sobrecoste_mediano} €`} />
-            <Dato titulo="Sin sitio" valor={totales.plazas_sin_sitio.toLocaleString("es")} fijo />
-          </dl>
-        )}
-
-        <h2 className="mt-6 mb-2 text-[11px] font-semibold uppercase tracking-wider text-[#52514e]">
-          El mapa
+        <h2 className="mt-8 mb-3 text-[11px] font-semibold uppercase tracking-wider text-[#52514e]">
+          Lo que desaparece
         </h2>
-        <div className="flex gap-1 rounded border border-[#e3e0da] p-0.5">
-          {VISTAS.map((v) => (
-            <button
-              key={v.id}
-              onClick={() => setMedida(v.id)}
-              className={`flex-1 rounded px-2 py-1.5 text-[12px] transition ${
-                medida === v.id ? "bg-[#24231f] text-white" : "text-[#52514e] hover:bg-[#f5f4f1]"
-              }`}
-            >
-              {v.etiqueta}
-            </button>
-          ))}
+        <div className="grid gap-3 lg:grid-cols-3">
+          <Bloque
+            titulo="6.834 viviendas, no 15.406 anuncios"
+            enlace={{ href: "/airbnb", texto: "pasar las tarjetas del embudo →" }}
+          >
+            De los {n(r.criba_airbnb.inicio)} anuncios publicados, la mayoría no es lo que la ley
+            elimina: hay hoteles, habitaciones sueltas, alquiler de temporada, anuncios apagados y
+            repeticiones de una misma vivienda. Quedan{" "}
+            <strong>{n(r.criba_airbnb.final)}</strong>, con {n(r.sustitucion_2028.plazas_vut)}{" "}
+            plazas.
+          </Bloque>
+          <Bloque
+            titulo={`${n(r.sustitucion_2028.sin_sitio)} turistas no caben`}
+            enlace={{ href: "/mapa", texto: "ver el mapa barrio a barrio →" }}
+          >
+            Los hoteles no están vacíos: descontada la ocupación real del{" "}
+            {(r.sustitucion_2028.ocupacion_partida * 100).toFixed(0)}%, quedan {n(libres)} plazas
+            libres para {n(r.sustitucion_2028.plazas_vut)} turistas. En un año medio{" "}
+            <strong>{n(r.sustitucion_2028.sin_sitio)} se quedan fuera de la ciudad</strong>, y en
+            julio serían 12.490.
+          </Bloque>
+          <Bloque
+            titulo="40 barrios pierden clientela"
+            enlace={{ href: "/mapa", texto: "ver la capa de restauración →" }}
+          >
+            Al mudarse el turista, se muda con quién cena. De los 73 barrios con locales,{" "}
+            <strong>{r.restauracion_2028.pierden} pierden</strong> comensales y{" "}
+            {r.restauracion_2028.ganan} ganan. La Sagrada Família pierde 2.137; el Raval gana 1.255.
+          </Bloque>
         </div>
 
-        <Leyenda medida={medida} />
-
-        {activo ? (
-          <div className="mt-5 rounded border border-[#e3e0da] bg-[#faf9f7] p-3">
-            <h3 className="text-sm font-semibold">{activo.barrio}</h3>
-            <dl className="mt-2 space-y-1 text-[13px]">
-              <Linea titulo="Turistas que se quedan sin piso" valor={activo.salen} />
-              <Linea titulo="Encuentran hotel aquí mismo" valor={activo.se_quedan} />
-              {/* `llegan` incluye a los del propio barrio, así que la resta es lo que entra de fuera. */}
-              <Linea titulo="Llegan desde otros barrios" valor={activo.llegan - activo.se_quedan} />
-              <Linea titulo="Ocupan hoteles de aquí, en total" valor={activo.llegan} />
-              <Linea titulo="No encuentran sitio en la ciudad" valor={activo.sin_sitio} />
-            </dl>
-            <button
-              onClick={() => setBarrio(null)}
-              className="mt-3 text-[11px] text-[#52514e] underline underline-offset-2"
-            >
-              quitar selección
-            </button>
-          </div>
-        ) : (
-          <p className="mt-5 text-[12px] text-[#52514e]">Pincha un barrio para ver su detalle.</p>
-        )}
-
-        <div className="mt-6 border-t border-[#e3e0da] pt-4">
-          <label className="flex cursor-pointer items-center gap-2">
-            <input
-              type="checkbox"
-              checked={flechas}
-              onChange={(e) => setFlechas(e.target.checked)}
-              className="accent-[#2f6fb5]"
-            />
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-[#52514e]">
-              Adónde se van
-            </span>
-          </label>
-
-          {flechas && (
-            <>
-              <p className="mt-2 text-[11px] leading-relaxed text-[#52514e]">
-                Cada flecha es un movimiento entre dos barrios. El grosor es el número de turistas.
-              </p>
-              <div className="mt-2">
-                <input
-                  type="range"
-                  min={20}
-                  max={500}
-                  step={20}
-                  value={minimoFlujo}
-                  onChange={(e) => setMinimoFlujo(Number(e.target.value))}
-                  className="w-full accent-[#2f6fb5]"
-                  aria-label="Tamaño mínimo del flujo"
-                />
-                <p className="text-[11px] text-[#52514e]">
-                  {flujosVisibles.length} movimientos de más de {minimoFlujo} turistas
-                </p>
-              </div>
-              <div className="mt-2 space-y-1 text-[11px] text-[#52514e]">
-                {barrio ? (
-                  <>
-                    <p className="flex items-center gap-2">
-                      <span className="inline-block h-1.5 w-7 shrink-0 rounded-full bg-[#cf4a30]" />
-                      se van de {barrio}
-                    </p>
-                    <p className="flex items-center gap-2">
-                      <span className="inline-block h-1.5 w-7 shrink-0 rounded-full bg-[#2f6fb5]" />
-                      llegan a {barrio}
-                    </p>
-                  </>
-                ) : (
-                  <p className="flex items-center gap-2">
-                    <span className="inline-block h-1.5 w-7 shrink-0 rounded-full bg-[#8a8783]" />
-                    pincha un barrio para separar ida y vuelta
-                  </p>
-                )}
-              </div>
-              <Link
-                href="/flujos"
-                className="mt-2 inline-block text-[11px] text-[#52514e] underline underline-offset-2"
-              >
-                verlas en su propio mapa →
-              </Link>
-            </>
-          )}
-        </div>
-
-        {totales && (
-          <p className="mt-6 border-t border-[#e3e0da] pt-4 text-[11px] leading-relaxed text-[#52514e]">
-            Los hoteles no están vacíos: se descuenta una ocupación del{" "}
-            <strong>{(totales.ocupacion_partida * 100).toFixed(0)}%</strong>, media de los últimos
-            doce meses del INE. Quedan 27.092 plazas libres para 30.067, así que{" "}
-            <strong>2.975 no caben en ningún escenario</strong>.
-            <br />
-            <br />
-            Esa cifra es la de un año medio. En noviembre, con la ocupación al 55,6%, cabrían todos.
-            En julio, al 79,1%, <strong>no cabrían 12.437</strong>.
+        <section className="mt-8 rounded border border-[#e3e0da] bg-white p-5">
+          <h2 className="text-[15px] font-semibold tracking-tight">Antes de leer ninguna cifra</h2>
+          <p className="mt-2 max-w-3xl text-[14px] leading-relaxed text-[#3a3935]">
+            Esto <strong>no cubre las {n(r.vut.total)} licencias</strong> del registro oficial:
+            cubre las {n(r.criba_airbnb.final)} viviendas que hoy se anuncian en Airbnb. Lo que se
+            alquila por otras plataformas, o por ninguna, no aparece. Y el reparto de 2028 es un
+            modelo con supuestos, no una predicción: el peso entre precio y ubicación lo elige quien
+            mira el mapa, porque ningún dato disponible lo decide.
           </p>
-        )}
-      </aside>
-
-      <div className="min-h-[55vh] flex-1">
-        <MapaBarrios
-          geojson={geojson}
-          datos={porBarrio}
-          medida={medida}
-          barrioActivo={barrio}
-          onBarrio={setBarrio}
-          flujos={flujosVisibles}
-          centroides={datosFlujos?.centroides ?? {}}
-        />
+          <Link
+            href="/fuentes"
+            className="mt-3 inline-block text-[12px] text-[#52514e] underline underline-offset-2"
+          >
+            fuentes, decisiones y límites →
+          </Link>
+        </section>
       </div>
     </main>
   );
 }
 
-/** El color no se explica solo: sin esto, el rojo y el azul son decoración. */
-function Leyenda({ medida }: { medida: Medida }) {
-  const escalas: Record<Medida, { colores: string[]; izquierda: string; derecha: string }> = {
-    saldo: {
-      colores: ["#cf4a30", "#ea7a63", "#f7b7a8", "#eeece7", "#a8c8e8", "#6fa2d4", "#2f6fb5"],
-      izquierda: "pierde turistas",
-      derecha: "gana turistas",
-    },
-    sin_sitio: {
-      colores: ["#eeece7", "#f4efe6", "#e5d5b8", "#d4b184", "#bd8850", "#9c5f27"],
-      izquierda: "ninguno",
-      derecha: "muchos sin sitio",
-    },
-    se_quedan: {
-      colores: ["#eeece7", "#f4efe6", "#e5d5b8", "#d4b184", "#bd8850", "#9c5f27"],
-      izquierda: "ninguno",
-      derecha: "casi todos",
-    },
-  };
-  const escala = escalas[medida];
+function Cifra({ valor, titulo, pie }: { valor: string; titulo: string; pie: string }) {
   return (
-    <div className="mt-3">
-      <div className="flex h-3 overflow-hidden rounded-sm">
-        {escala.colores.map((c) => (
-          <div key={c} className="flex-1" style={{ backgroundColor: c }} />
-        ))}
-      </div>
-      <div className="mt-1 flex justify-between text-[10px] text-[#52514e]">
-        <span>{escala.izquierda}</span>
-        <span>{escala.derecha}</span>
-      </div>
+    <div className="rounded border border-[#e3e0da] bg-white p-4">
+      <p className="text-[28px] leading-none font-semibold tabular-nums">{valor}</p>
+      <p className="mt-1.5 text-[13px] font-medium">{titulo}</p>
+      <p className="mt-0.5 text-[11px] leading-snug text-[#52514e]">{pie}</p>
     </div>
   );
 }
 
-function Dato({ titulo, valor, fijo }: { titulo: string; valor: string; fijo?: boolean }) {
+function Bloque({
+  titulo,
+  enlace,
+  children,
+}: {
+  titulo: string;
+  enlace: { href: string; texto: string };
+  children: React.ReactNode;
+}) {
   return (
-    <div className={fijo ? "rounded bg-[#f5f4f1] px-2 py-1" : ""}>
-      <dt className="text-[10px] leading-tight text-[#52514e]">{titulo}</dt>
-      <dd className="text-[15px] font-semibold tabular-nums">{valor}</dd>
-    </div>
-  );
-}
-
-function Linea({ titulo, valor }: { titulo: string; valor: number }) {
-  return (
-    <div className="flex justify-between gap-3">
-      <dt className="text-[#52514e]">{titulo}</dt>
-      <dd className="font-medium tabular-nums">{valor.toLocaleString("es")}</dd>
-    </div>
+    <article className="flex flex-col rounded border border-[#e3e0da] bg-white p-5">
+      <h3 className="text-[15px] font-semibold tracking-tight">{titulo}</h3>
+      <p className="mt-2 flex-1 text-[14px] leading-relaxed text-[#3a3935]">{children}</p>
+      <Link
+        href={enlace.href}
+        className="mt-3 text-[12px] text-[#52514e] underline underline-offset-2"
+      >
+        {enlace.texto}
+      </Link>
+    </article>
   );
 }

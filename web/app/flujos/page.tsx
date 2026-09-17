@@ -45,9 +45,9 @@ export default function PaginaFlujos() {
   );
 
   return (
-    <main className="flex h-dvh w-full flex-col bg-[#faf9f7] text-[#24231f] lg:flex-row">
+    <main className="flex h-full w-full flex-col bg-[#faf9f7] text-[#24231f] lg:flex-row">
       <aside className="w-full shrink-0 overflow-y-auto border-b border-[#e3e0da] bg-white p-5 lg:w-[330px] lg:border-r lg:border-b-0">
-        <Link href="/" className="text-[11px] text-[#52514e] underline underline-offset-2">
+        <Link href="/mapa" className="text-[11px] text-[#52514e] underline underline-offset-2">
           ← mapa de barrios
         </Link>
         <h1 className="mt-3 text-[15px] font-semibold tracking-tight">Adónde se van</h1>
