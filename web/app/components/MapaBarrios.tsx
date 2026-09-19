@@ -5,6 +5,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 import { dibujarFlechas, type Centroides, type Flujo } from "@/app/lib/flechas";
+import { fondoDelMapa } from "@/app/lib/fondo";
 import type { BarrioRestauracion, BarrioSustitucion } from "@/app/lib/tipos";
 
 /** Qué pinta el color del barrio. Las dos últimas leen de `restauracion`, no de `datos`. */
@@ -127,11 +128,7 @@ export default function MapaBarrios({
     if (!contenedor.current || mapa.current) return;
     mapa.current = L.map(contenedor.current, { zoomControl: false }).setView(CENTRO, 13);
     L.control.zoom({ position: "bottomright" }).addTo(mapa.current);
-    // Fondo sin etiquetas comerciales: el mapa habla de barrios, no de negocios.
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png", {
-      attribution: "&copy; OpenStreetMap &copy; CARTO",
-      maxZoom: 19,
-    }).addTo(mapa.current);
+    fondoDelMapa(mapa.current);
     capaFlechas.current = L.layerGroup().addTo(mapa.current);
     return () => {
       mapa.current?.remove();

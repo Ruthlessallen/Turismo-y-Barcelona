@@ -5,6 +5,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 import { dibujarFlechas, type Centroides, type Flujo } from "@/app/lib/flechas";
+import { fondoDelMapa } from "@/app/lib/fondo";
 
 export type { Centroides, Flujo };
 
@@ -44,10 +45,7 @@ export default function MapaFlujos({
     if (!contenedor.current || mapa.current) return;
     mapa.current = L.map(contenedor.current, { zoomControl: false }).setView(CENTRO, 13);
     L.control.zoom({ position: "bottomright" }).addTo(mapa.current);
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png", {
-      attribution: "&copy; OpenStreetMap &copy; CARTO",
-      maxZoom: 19,
-    }).addTo(mapa.current);
+    fondoDelMapa(mapa.current);
     capaFlechas.current = L.layerGroup().addTo(mapa.current);
     return () => {
       mapa.current?.remove();
