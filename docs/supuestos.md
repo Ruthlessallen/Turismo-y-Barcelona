@@ -13,12 +13,16 @@ manuales), `criba.md` (recuentos de cada filtro, generado del dato) y `data-mode
 
 ## A. Los que sostienen la comparación entre hoteles y Airbnb
 
-### A1. La plaza es la unidad comparable
+### A1. La plaza es la unidad comparable **del precio**
 
 Se divide entre la capacidad **declarada**, no entre los ocupantes reales. Un piso para cuatro con
 una pareja dentro cuenta como cuatro plazas, igual que una habitación doble de hotel cuenta como
 dos aunque duerma una persona. Es precio por plaza **disponible**, y se aplica igual a los dos
 lados: es lo que hace la comparación válida.
+
+**Ojo: esto vale para el precio, no para la capacidad.** Desde el 2026-10-04 el reparto de 2028 se
+hace en **habitaciones**, no en plazas (ver F1). Son dos preguntas distintas y cada una tiene su
+unidad; mezclarlas fue justo el error que hubo que corregir.
 
 ### A2. Los dos divisores
 
@@ -251,3 +255,63 @@ Medido qué sobrevive:
 | Distancia entre dos anuncios | **Inservible** |
 
 Por eso el mapa publica agregados por barrio y nunca puntos individuales.
+
+
+---
+
+## F. El reparto de 2028
+
+Añadidos el 2026-10-04, al corregir el modelo. Antes de esa fecha el reparto se hacía en plazas y
+solo descontaba la ocupación del lado hotelero, lo que producía una escasez que el dato no sostiene.
+
+### F1. La habitación es la unidad de la capacidad
+
+Una plaza libre de hotel suele ser la segunda cama de una habitación ya vendida: no se puede vender
+aparte, y un grupo de cuatro no cabe en ella. Lo que limita a un hotel es la habitación.
+
+Del lado de la vivienda se usa el dormitorio (`bedrooms`), que falta en el 2,8% de los anuncios y
+ahí se deduce como `accommodates / 2`, la mediana observada en los que sí lo declaran.
+
+**Las dos unidades son comparables sin corregir nada:** 1,88 plazas por habitación en nuestros
+hoteles frente a 2,00 por dormitorio en Airbnb. Si esa ratio se separara, la comparación se
+desplazaría entera.
+
+### F2. Se descuenta la ocupación en los dos lados
+
+| Lado | Ocupación | Procedencia |
+|---|---|---|
+| Hotel | 80,2% anual · 86,5% en julio | INE, **por habitaciones** |
+| Airbnb | 38,3% anual · 44,6% en julio | Estimada, ver F3 |
+
+Descontarla solo en el lado hotelero comparaba una capacidad declarada con una ocupación real.
+
+### F3. La ocupación de Airbnb se estima, y no hay dato oficial
+
+Ninguna estadística pública dice cuántas noches se alquila un piso turístico. Dos vías
+independientes:
+
+| Vía | Qué supone | Resultado |
+|---|---|---|
+| Calendario, `(365 − availability_365) / 365` | nada | **38,3%** |
+| Reseñas, `reseñas_12m / 0,50 × 3 noches / 365` | tasa de reseña y duración | 38,8% |
+
+Se publica el 38,3% porque es el que no depende de suponer nada. **Es el supuesto más frágil de
+esta sección**: con estancias de 4 noches la segunda vía da 48,6%, y a esa ocupación julio se
+quedaría corto para unos 3.000 turistas en vez de 1.273.
+
+### F4. La estacionalidad de Airbnb se toma de la hotelera
+
+No existe una serie estacional del alquiler turístico, así que la ocupación de julio se escala con
+el factor de la serie hotelera (×1,165). Mismo supuesto, y misma fragilidad, que A4.
+
+### F5. Dos momentos y no doce
+
+Se publican el año medio y julio. El año medio solo escondería el problema de la punta; julio solo
+lo extendería a doce meses. Los meses intermedios no se publican porque no cambian la conclusión:
+por habitaciones, los únicos meses que no cuadran son julio, junio y abril.
+
+### F6. El turista desplazado sigue viniendo
+
+El modelo realoja a todos los que hoy duermen en esos pisos. **Nadie se queda en su casa ni se va a
+otra ciudad.** Es el supuesto que hace que la pregunta tenga sentido, pero si parte de la demanda
+simplemente no viniera, la escasez de julio se reduciría o desaparecería.

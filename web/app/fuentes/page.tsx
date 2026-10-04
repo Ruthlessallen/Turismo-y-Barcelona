@@ -60,12 +60,12 @@ export default function PaginaFuentes() {
                 ["barrios.geojson", "Los 75 barrios de la ciudad", "ICGC, simplificado para el navegador"],
                 [
                   "sustitucion_2028.json",
-                  "64 barrios × 5 escenarios: quién sale, quién llega, quién no cabe",
+                  "64 barrios × 5 escenarios × 2 momentos: quién sale, quién llega, quién no cabe",
                   "modelar_sustitucion.py",
                 ],
                 [
                   "flujos_2028.json",
-                  "887 movimientos entre barrios, y el centro de cada uno",
+                  "848 movimientos entre barrios, por momento y escenario",
                   "modelar_sustitucion.py",
                 ],
               ]}
@@ -132,10 +132,15 @@ export default function PaginaFuentes() {
               fecha="Últimos 60 meses, punto turístico Barcelona"
             >
               <P>
-                Dos usos distintos. Uno: la <strong>ocupación de partida</strong> —el 67,9% de media
-                de los últimos doce meses— que descuenta las plazas de hotel que ya están ocupadas
-                antes de repartir a nadie. Dos: la <strong>estacionalidad</strong>, trece años de
-                serie, que permite llevar un precio de una fecha concreta a equivalente anual.
+                Dos usos distintos. Uno: la <strong>ocupación de partida</strong> —el 80,2% de media
+                anual y el 86,5% de julio— que descuenta las habitaciones ya vendidas antes de
+                repartir a nadie. Dos: la <strong>estacionalidad</strong>, trece años de serie, que
+                permite llevar un precio de una fecha concreta a equivalente anual.
+              </P>
+              <P>
+                Se usa la ocupación <em>por habitaciones</em> y no la de plazas, que es más baja
+                (67,9%), porque la habitación es lo que limita a un hotel. Las dos salen de la misma
+                encuesta y el mismo mes; miden cosas distintas.
               </P>
               <P>
                 Su límite: es un agregado de la ciudad. Sirve para el nivel y la tendencia, nunca
@@ -234,10 +239,20 @@ export default function PaginaFuentes() {
               tomarlas y no contarlas.
             </P>
 
-            <Decision titulo="La plaza es la unidad comparable">
-              Un piso entero para cuatro a 221 € y una habitación doble a 64 € no se pueden comparar;
-              54 € y 43 € por plaza, sí. Se divide entre la capacidad <em>declarada</em>, no entre
-              los ocupantes reales, y se aplica igual a los dos lados.
+            <Decision titulo="Dos unidades, y cada una para una pregunta">
+              Para <strong>cuánto cuesta</strong>, la plaza: un piso para cuatro a 221 € y una
+              habitación doble a 64 € no se comparan, pero 54 € y 43 € por plaza, sí. Para{" "}
+              <strong>si cabe la gente</strong>, la habitación: una plaza libre de hotel suele ser
+              la segunda cama de una habitación ya vendida, no se vende aparte, y un grupo de cuatro
+              no cabe en ella.
+            </Decision>
+
+            <Decision titulo="La ocupación de los pisos turísticos se estima">
+              No existe ninguna estadística pública que diga cuántas noches se alquila un piso
+              turístico. Se calcula por dos vías que no comparten supuestos —el calendario del
+              anuncio y el recuento de reseñas— y dan <strong>38,3% y 38,8%</strong>. Que coincidan
+              es lo que la hace publicable. Consecuencia: los 6.834 pisos no alojan a 30.067
+              personas cada noche, sino a <strong>11.516</strong>.
             </Decision>
 
             <Decision titulo="Se publica la banda, no el euro">
@@ -279,16 +294,22 @@ export default function PaginaFuentes() {
               publican cinco escenarios y decide quien mira.
             </Decision>
 
-            <Decision titulo="Los hoteles no están vacíos">
-              Se descuenta la ocupación real del INE: 67,9%. Quedan 27.010 plazas libres para 30.067
-              turistas, así que <strong>3.057 no caben en ningún escenario</strong>. En noviembre,
-              con la ocupación al 55,6%, cabrían todos; en julio, al 79,1%, no cabrían 12.490.
+            <Decision titulo="Ni los hoteles están vacíos ni los pisos están llenos">
+              Se descuenta la ocupación real a los dos lados. Lo que se reparte son habitaciones
+              ocupadas una noche cualquiera:
             </Decision>
-
-            <Decision titulo="Se usa la ocupación media del año, no la de cada mes">
-              Los precios del análisis son equivalentes anuales. Cruzar un precio anual con la
-              ocupación de julio mezclaría dos escalas de tiempo distintas.
-            </Decision>
+            <Tabla
+              cabeceras={["Momento", "Habitaciones libres", "Piden", "Sin sitio"]}
+              filas={[
+                ["Un año medio", "8.841", "5.706", "nadie"],
+                ["Julio, la punta", "6.028", "6.647", "1.273 turistas"],
+              ]}
+            />
+            <P>
+              <strong>La ciudad los absorbe a todos salvo en la punta del verano.</strong> Publicar
+              solo la media anual escondería el problema de julio; publicar solo julio lo extendería
+              a doce meses. Por eso están los dos, y el mapa deja elegir.
+            </P>
 
             <Decision titulo="El reparto va de la vivienda más cara a la más barata">
               Hace falta un orden para que el resultado sea el mismo cada vez que se ejecuta, y ese
@@ -340,8 +361,14 @@ export default function PaginaFuentes() {
                 esperable— el reparto cambia.
               </li>
               <li>
-                <strong>No mide meses.</strong> Todo es equivalente anual, salvo las cifras de julio
-                y noviembre que se dan aparte como contexto.
+                <strong>Solo mide dos momentos, no doce.</strong> Un año medio y julio. Los meses
+                intermedios no cambiarían la conclusión: por habitaciones, los únicos que no cuadran
+                son julio, junio y abril.
+              </li>
+              <li>
+                <strong>Da por hecho que el turista sigue viniendo.</strong> Realoja a todos los que
+                hoy duermen en esos pisos: nadie se queda en su casa ni se va a otra ciudad. Si
+                parte de esa demanda no viniera, la escasez de julio se reduciría o desaparecería.
               </li>
               <li>
                 <strong>Un hotel no tiene un precio, tiene un rango.</strong> Se publica una banda

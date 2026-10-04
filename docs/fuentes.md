@@ -86,8 +86,9 @@ habitaciones de hotel (14), alquiler de temporada de más de 31 noches (1.848), 
 desde septiembre de 2025 (876) y repeticiones del mismo anuncio (1.850).
 
 **El salto que hay que decir en voz alta:** el registro oficial tiene 24.075 licencias y 61.899
-plazas. Nosotros movemos 30.067 turistas, los de 6.834 viviendas anunciadas hoy en Airbnb. Las que
-no se anuncian en Airbnb no están en el mapa. La web lo advierte en el mapa de flechas.
+plazas. Nosotros movemos los turistas de 6.834 viviendas anunciadas hoy en Airbnb — y no sus 30.067
+plazas declaradas, sino las **11.516 personas** que hay dentro una noche cualquiera, porque esos
+pisos no se llenan los 365 días. Las que no se anuncian en Airbnb no están en el mapa. La web lo advierte en el mapa de flechas.
 
 ### 2.4 INE — Encuesta de Ocupación Hotelera
 
@@ -95,8 +96,14 @@ no se anuncian en Airbnb no están en el mapa. La web lo advierte en el mapa de 
   pernoctaciones), 46298 (ADR) y 2076 (establecimientos, plazas y ocupación), punto turístico
   Barcelona, últimos 60 meses.
 - **Dos usos distintos:**
-  1. **Ocupación de partida** — `Grado de ocupación por plazas`, media de los doce últimos meses
-     (67,9%). Es lo que descuenta las plazas hoteleras ya ocupadas antes de repartir a nadie.
+  1. **Ocupación de partida** — `Grado de ocupación por habitaciones`, media de los doce últimos
+     meses: **80,2%**, y **86,5% en julio**. Es lo que descuenta las habitaciones ya vendidas antes
+     de repartir a nadie.
+
+     Se usa la ocupación por habitaciones y no la de plazas, que es más baja (67,9%), porque **la
+     habitación es lo que limita a un hotel**: una plaza libre suele ser la segunda cama de una
+     habitación ya vendida, no se puede vender aparte, y un grupo de cuatro no cabe en ella. Las
+     dos cifras salen de la misma encuesta y el mismo mes; miden cosas distintas.
   2. **Estacionalidad** — trece años de serie, lo que permite llevar el precio de una ventana
      concreta a equivalente anual.
 - **Su límite:** es agregado por punto turístico. Sirve para el nivel de la ciudad, nunca para
@@ -159,9 +166,17 @@ toca, bronze limpia y tipa, gold decide, exports agrega para el navegador.
 
 ### 3.1 Las decisiones que más mueven el resultado
 
-**La plaza es la unidad comparable.** Un piso entero para cuatro a 221 € y una habitación doble a
-64 € no se pueden comparar; 54 € y 43 € por plaza sí. Se divide entre la capacidad **declarada**,
-no entre los ocupantes reales, y se aplica igual a los dos lados.
+**Dos unidades, y cada una responde a una pregunta distinta.** Conviene no mezclarlas:
+
+| Pregunta | Unidad | Por qué |
+|---|---|---|
+| ¿Cuánto cuesta? | **La plaza** | Un piso para cuatro a 221 € y una habitación doble a 64 € no se comparan; 54 € y 43 € por plaza, sí |
+| ¿Cabe la gente? | **La habitación** | Una plaza libre de hotel suele ser la segunda cama de una habitación ya vendida: no se vende aparte, y un grupo de cuatro no cabe en ella |
+
+En el precio se divide entre la capacidad **declarada**, no entre los ocupantes reales, y se aplica
+igual a los dos lados. En la capacidad se usa la habitación de hotel frente al dormitorio de la
+vivienda, que son comparables sin corregir nada: 1,88 plazas por habitación en nuestros hoteles
+frente a 2,00 plazas por dormitorio en Airbnb.
 
 **Se publica la banda, no el euro.** El mismo hotel se mueve un ±22% sobre su propia mediana en
 quince días según el tipo de habitación y la fecha. El modelo de imputación tiene un 27% de error:
@@ -199,6 +214,20 @@ y su capacidad sí constan. El error se mide con validación cruzada repetida, n
 cruzada sobre los mismos datos daba 57 €. Y se publica el error **por segmento**, porque los
 hoteles con precio tienen 58 habitaciones de mediana y los que hay que imputar, 13.
 
+**La ocupación de Airbnb se estima, porque no existe el dato.** Ninguna estadística pública dice
+cuántas noches se alquila un piso turístico. Se calcula por dos vías independientes:
+
+| Vía | Qué supone | Resultado |
+|---|---|---|
+| Calendario | Nada: `(365 − noches disponibles) / 365` | **38,3%** |
+| Reseñas | Que reseña la mitad de los huéspedes y que la estancia media es de 3 noches | 38,8% |
+
+**Que dos métodos que no comparten supuestos den lo mismo es lo que la hace publicable.** Con
+estancias de 4 noches la segunda sube al 48,6%, así que la horquilla honesta es 38-48% y se toma el
+extremo bajo: es el que coincide con el calendario, que no supone nada.
+
+Consecuencia: los 6.834 pisos no alojan a 30.067 personas cada noche, sino a **11.516**.
+
 **La estacionalidad hotelera se aplica a Airbnb.** El volcado es del 24 de junio y se lleva a
 equivalente anual con el factor 1,188 de la serie del INE, **porque no existe serie estacional del
 alquiler turístico**. Es el supuesto más frágil de todos: si el alquiler turístico fuera más plano
@@ -217,22 +246,31 @@ utilidad = w × cercanía + (1 − w) × parecido_de_precio
   del precio sale **positivo**, que es causalidad inversa y no sensibilidad al precio. Además un
   turista alemán y uno andaluz no tienen la misma sensibilidad y ningún dato disponible los
   distingue. Se precalculan cinco valores de `w` y la web deja elegir: la barra del mapa es eso.
-- **Los hoteles no están vacíos.** Se descuenta la ocupación real del INE (67,9%). Quedan 27.010
-  plazas libres para 30.067 turistas: **3.057 no caben en ningún escenario**. En noviembre, con
-  ocupación del 55,6%, cabrían todos; en julio, al 79,1%, no cabrían 12.490.
+- **Se descuenta la ocupación en los dos lados, y en habitaciones.** Ni los hoteles están vacíos ni
+  los pisos turísticos están llenos. Lo que se reparte son habitaciones ocupadas una noche
+  cualquiera:
+
+  | | Habitaciones libres | Habitaciones que piden | Sin sitio |
+  |---|---|---|---|
+  | Un año medio | 8.841 | 5.706 | **nadie** |
+  | Julio, la punta | 6.028 | 6.647 | **1.273 turistas** |
+
+  **La ciudad absorbe a todos salvo en la punta del verano.** Publicar solo la media anual
+  escondería el problema de julio; publicar solo julio lo extendería a doce meses, y por eso se
+  publican los dos.
 - **Se usa la ocupación media anual, no la mensual**, porque los precios del proyecto son
   equivalentes anuales. Cruzar precio anual con ocupación de julio mezclaría dos escalas de tiempo.
 - **El reparto va de la VUT más cara a la más barata.** Hace falta un orden para que el resultado
   sea determinista, y **no es neutral**: quien paga menos se queda sin sitio. Está dicho aquí
   porque cambia quién aparece en el mapa como "sin sitio".
-- **La capacidad es un límite duro.** Un hotel de 200 plazas no absorbe 500.
+- **La capacidad es un límite duro.** Un hotel de 80 habitaciones no absorbe 200.
 - **La distancia se mide en kilómetros, no en grados.** A 41,39° N un grado de longitud mide 83 km
   y uno de latitud 111: mezclarlos deformaría el mapa a favor del este-oeste.
 - **Los flujos por debajo de 20 turistas no se publican.** Dos o tres personas entre dos barrios no
   dicen nada y llenan el mapa de rayas.
 
-La segmentación por precio **no está impuesta, emerge**: el 82% de las plazas VUT de banda `€€€€`
-acaba en hoteles de 4-5 estrellas, y ninguna plaza `€` o `€€` llega a un 5 estrellas.
+La segmentación por precio **no está impuesta, emerge**: las viviendas de banda `€€€€` acaban en
+hoteles de 4 y 5 estrellas, y ninguna de las dos bandas baratas llega a un 5 estrellas.
 
 ### 3.3 Lo que nunca sale del pipeline
 
