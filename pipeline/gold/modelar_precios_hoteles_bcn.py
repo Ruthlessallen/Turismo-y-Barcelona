@@ -60,6 +60,8 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from xgboost import XGBRegressor
 
+from bandas import CORTES_HABITACION, ETIQUETAS, por_habitacion
+
 optuna.logging.set_verbosity(optuna.logging.WARNING)
 
 RAIZ = Path(__file__).resolve().parents[2]
@@ -93,8 +95,7 @@ NOMBRES_TAMANO = ["muy_pequeno", "pequeno", "mediano", "grande"]
 # del modelo y que además nadie sabe leer. Estos separan el alojamiento económico del urbano
 # corriente, del alto y del lujo, y el modelo acierta la banda exacta un 65,6% de las veces
 # —frente al 45,7% de decir siempre la mayoritaria— y cae en la correcta o la contigua un 93%.
-CORTES_BANDA = [100, 175, 300]
-ETIQUETAS_BANDA = ["€", "€€", "€€€", "€€€€"]
+# Los cortes y las etiquetas viven en `bandas.py`, que es la definición única.
 
 # Un precio por encima de este múltiplo de la mediana de su categoría no se cree. Es relativo a la
 # categoría y no absoluto para no penalizar a un cinco estrellas por ser caro: lo que delata a un
@@ -256,14 +257,6 @@ def recortar_atipicos(d: pd.DataFrame) -> pd.DataFrame:
     return d
 
 
-def asignar_banda(precio: pd.Series) -> pd.Series:
-    """Banda económica al estilo €–€€€€."""
-    return pd.Series(np.where(precio.isna(), None,
-                              np.take(ETIQUETAS_BANDA, np.digitize(precio.fillna(0),
-                                                                   CORTES_BANDA))),
-                     index=precio.index)
-
-
 def acierto_de_banda(real: np.ndarray, pred: np.ndarray) -> None:
     """Cuánto acierta el modelo en lo que de verdad se publica.
 
@@ -274,14 +267,14 @@ def acierto_de_banda(real: np.ndarray, pred: np.ndarray) -> None:
     Se compara contra decir siempre la banda mayoritaria, que es el listón real: con bandas
     desiguales, un acierto alto puede venir de que casi todo cae en la misma.
     """
-    br, bp = np.digitize(real, CORTES_BANDA), np.digitize(pred, CORTES_BANDA)
+    br, bp = np.digitize(real, CORTES_HABITACION), np.digitize(pred, CORTES_HABITACION)
     mayoritaria = pd.Series(br).value_counts(normalize=True).max()
     print("\n=== Acierto de banda económica (lo que se publica) ===")
     print(f"  banda exacta        : {(br == bp).mean():.1%}  "
           f"(decir siempre la mayoritaria daría {mayoritaria:.1%})")
     print(f"  banda exacta o vecina: {(np.abs(br - bp) <= 1).mean():.1%}")
-    tabla = pd.crosstab(pd.Series([ETIQUETAS_BANDA[i] for i in br], name="real"),
-                        pd.Series([ETIQUETAS_BANDA[i] for i in bp], name="estimada"))
+    tabla = pd.crosstab(pd.Series([ETIQUETAS[i] for i in br], name="real"),
+                        pd.Series([ETIQUETAS[i] for i in bp], name="estimada"))
     print(tabla.to_string())
 
 
@@ -445,7 +438,7 @@ def main() -> None:
     d["precio_noche_estimado"] = np.round(mejor.predict(d[COLUMNAS]), 2)
     d["precio_es_estimado"] = d[OBJETIVO].isna()
     d["precio_noche_final"] = d[OBJETIVO].fillna(d["precio_noche_estimado"])
-    d["banda_precio"] = asignar_banda(d["precio_noche_final"])
+    d["banda_precio"] = por_habitacion(d["precio_noche_final"])
     d["modelo_precio"] = f"{ganador['modelo']}+{ganador['optimizador']}"
     d["mae_modelo_eur"] = round(float(repetida.mean()), 1)
 
@@ -461,7 +454,7 @@ def main() -> None:
         ["observado", "sin_apoyo", "escaso", "justo"], default="suficiente")
     d.to_csv(SALIDA, index=False, encoding="utf-8")
 
-    print(f"\nBandas: {d['banda_precio'].value_counts().reindex(ETIQUETAS_BANDA).to_dict()}")
+    print(f"\nBandas: {d['banda_precio'].value_counts().reindex(ETIQUETAS).to_dict()}")
     no_fiables = int((~d["estimacion_fiable"]).sum())
     print(f"Estimaciones marcadas como poco fiables: {no_fiables}")
     print(f"Apoyo de cada estimacion: {d['apoyo_estimacion'].value_counts().to_dict()}")

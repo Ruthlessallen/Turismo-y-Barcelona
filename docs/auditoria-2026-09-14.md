@@ -2,7 +2,7 @@
 
 **Fecha:** 2026-09-14
 **Alcance:** de la web hasta la fuente, y el modelo por dentro.
-**Script:** reproducible en `scripts/auditar_web.py`
+**Script:** `scripts/auditar_web.py`, retirado el 2026-10-04: el modelo pasó a anidar el JSON por momento y dejó de funcionar.
 
 ## Resultado
 
