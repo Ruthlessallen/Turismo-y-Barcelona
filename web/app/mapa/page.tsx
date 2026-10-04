@@ -6,6 +6,8 @@ import { useEffect, useMemo, useState } from "react";
 
 import {
   ESCENARIOS,
+  MOMENTOS,
+  type IdMomento,
   type BarrioRestauracion,
   type BarrioSustitucion,
   type IdEscenario,
@@ -14,7 +16,7 @@ import {
 import type { Centroides, Flujo } from "@/app/lib/flechas";
 import type { Medida } from "@/app/components/MapaBarrios";
 
-type DatosFlujos = { centroides: Centroides; escenarios: Record<string, Flujo[]> };
+type DatosFlujos = { centroides: Centroides; momentos: Record<string, Record<string, Flujo[]>> };
 
 // Leaflet toca `window` al cargarse: sin esto el render del servidor revienta.
 const MapaBarrios = dynamic(() => import("@/app/components/MapaBarrios"), {
@@ -37,17 +39,21 @@ export default function Pagina() {
   const [geojson, setGeojson] = useState<GeoJSON.FeatureCollection | null>(null);
   const [sustitucion, setSustitucion] = useState<Sustitucion | null>(null);
   const [escenario, setEscenario] = useState<IdEscenario>("equilibrio");
+  const [momento, setMomento] = useState<IdMomento>("anio_medio");
   const [medida, setMedida] = useState<Medida>("saldo");
   const [barrio, setBarrio] = useState<string | null>(null);
   const [flechas, setFlechas] = useState(false);
   const [minimoFlujo, setMinimoFlujo] = useState(200);
   const [datosFlujos, setDatosFlujos] = useState<DatosFlujos | null>(null);
-  const [restauracion, setRestauracion] = useState<BarrioRestauracion[] | null>(null);
+  const [restauracion, setRestauracion] =
+    useState<Record<string, BarrioRestauracion[]> | null>(null);
 
   useEffect(() => {
     fetch("/data/geo/barrios.geojson").then((r) => r.json()).then(setGeojson);
     fetch("/data/mapa/sustitucion_2028.json").then((r) => r.json()).then(setSustitucion);
-    fetch("/data/mapa/restauracion_2028.json").then((r) => r.json()).then(setRestauracion);
+    fetch("/data/mapa/restauracion_2028.json")
+      .then((r) => r.json())
+      .then((d) => setRestauracion(d.momentos));
   }, []);
 
   // Los flujos pesan 92 KB y la capa arranca apagada: se piden la primera vez que se encienden.
@@ -57,26 +63,26 @@ export default function Pagina() {
   }, [flechas, datosFlujos]);
 
   const porBarrio = useMemo(() => {
-    const filas = sustitucion?.escenarios[escenario] ?? [];
+    const filas = sustitucion?.momentos[momento]?.escenarios[escenario] ?? [];
     return Object.fromEntries(filas.map((f) => [f.barrio, f])) as Record<string, BarrioSustitucion>;
-  }, [sustitucion, escenario]);
+  }, [sustitucion, momento, escenario]);
 
   const flujosVisibles = useMemo(() => {
     if (!flechas) return [];
-    const todos = datosFlujos?.escenarios[escenario] ?? [];
+    const todos = datosFlujos?.momentos[momento]?.[escenario] ?? [];
     return todos.filter(
       (f) =>
         f.turistas >= minimoFlujo && (!barrio || f.origen === barrio || f.destino === barrio),
     );
-  }, [flechas, datosFlujos, escenario, minimoFlujo, barrio]);
+  }, [flechas, datosFlujos, momento, escenario, minimoFlujo, barrio]);
 
   const porBarrioRest = useMemo(
-    () => Object.fromEntries((restauracion ?? []).map((f) => [f.barrio, f])),
-    [restauracion],
+    () => Object.fromEntries((restauracion?.[momento] ?? []).map((f) => [f.barrio, f])),
+    [restauracion, momento],
   );
 
   const enRestauracion = medida === "locales" || medida === "cambio";
-  const totales = sustitucion?.totales.find((t) => t.escenario === escenario);
+  const totales = sustitucion?.momentos[momento]?.totales.find((t) => t.escenario === escenario);
   const activo = barrio ? porBarrio[barrio] : null;
   const activoRest = barrio ? porBarrioRest[barrio] : null;
   const indice = ESCENARIOS.findIndex((e) => e.id === escenario);
@@ -91,6 +97,23 @@ export default function Pagina() {
         </p>
 
         <h2 className="mt-6 mb-2 text-[11px] font-semibold uppercase tracking-wider text-[#52514e]">
+          ¿Cuándo?
+        </h2>
+        <div className="flex gap-1 rounded border border-[#e3e0da] p-0.5">
+          {MOMENTOS.map((m) => (
+            <button
+              key={m.id}
+              onClick={() => setMomento(m.id)}
+              className={`flex-1 rounded px-2 py-1.5 text-[12px] transition ${
+                momento === m.id ? "bg-[#24231f] text-white" : "text-[#52514e] hover:bg-[#f5f4f1]"
+              }`}
+            >
+              {m.etiqueta}
+            </button>
+          ))}
+        </div>
+
+        <h2 className="mt-5 mb-2 text-[11px] font-semibold uppercase tracking-wider text-[#52514e]">
           ¿Qué busca el turista?
         </h2>
         <input
@@ -120,7 +143,11 @@ export default function Pagina() {
           <dl className="mt-4 grid grid-cols-3 gap-2">
             <Dato titulo="Se mueven" valor={`${totales.km_mediano} km`} />
             <Dato titulo="Pagan de más" valor={`${totales.sobrecoste_mediano} €`} />
-            <Dato titulo="Sin sitio" valor={totales.plazas_sin_sitio.toLocaleString("es", { useGrouping: "always" })} fijo />
+            <Dato
+              titulo="Sin sitio"
+              valor={totales.turistas_sin_sitio.toLocaleString("es", { useGrouping: "always" })}
+              fijo
+            />
           </dl>
         )}
 
@@ -273,16 +300,41 @@ export default function Pagina() {
         </div>
 
         {totales && (
-          <p className="mt-6 border-t border-[#e3e0da] pt-4 text-[11px] leading-relaxed text-[#52514e]">
-            Los hoteles no están vacíos: se descuenta una ocupación del{" "}
-            <strong>{(totales.ocupacion_partida * 100).toFixed(0)}%</strong>, media de los últimos
-            doce meses del INE. Quedan 27.010 plazas libres para 30.067, así que{" "}
-            <strong>3.057 no caben en ningún escenario</strong>.
-            <br />
-            <br />
-            Esa cifra es la de un año medio. En noviembre, con la ocupación al 55,6%, cabrían todos.
-            En julio, al 79,1%, <strong>no cabrían 12.490</strong>.
-          </p>
+          <div className="mt-6 border-t border-[#e3e0da] pt-4 text-[11px] leading-relaxed text-[#52514e]">
+            <p>
+              Lo que se reparte son <strong>habitaciones</strong>, no camas sueltas: una plaza libre
+              de hotel suele ser la segunda cama de una habitación ya vendida, y un grupo de cuatro
+              no cabe en ella.
+            </p>
+            <dl className="mt-2 space-y-0.5">
+              <Linea titulo="Habitaciones de hotel" valor={totales.habitaciones_hotel} />
+              <Linea
+                titulo={`Libres, al ${(totales.ocupacion_hotel * 100).toFixed(1)}% de ocupación`}
+                valor={totales.habitaciones_libres}
+              />
+              <Linea titulo="Turistas que hay que realojar" valor={totales.turistas_a_realojar} />
+            </dl>
+            <p className="mt-2">
+              {totales.turistas_sin_sitio > 0 ? (
+                <>
+                  No caben <strong>{totales.turistas_sin_sitio.toLocaleString("es")}</strong>. En un
+                  año medio sí caben todos: la ciudad se queda corta en la punta del verano, no los
+                  doce meses.
+                </>
+              ) : (
+                <>
+                  <strong>Caben todos</strong>, y sobran habitaciones. La ciudad solo se queda corta
+                  en la punta del verano — cambia el momento, arriba, para verlo.
+                </>
+              )}
+            </p>
+            <p className="mt-2">
+              Los anuncios de Airbnb no están llenos todo el año: se les aplica una ocupación del{" "}
+              <strong>{(totales.ocupacion_airbnb * 100).toFixed(0)}%</strong>, estimada por dos vías
+              que coinciden. Descontar la ocupación a los hoteles y no a los pisos era lo que hacía
+              salir una escasez que el dato no sostiene.
+            </p>
+          </div>
         )}
 
         <Link
@@ -368,7 +420,7 @@ function Dato({ titulo, valor, fijo }: { titulo: string; valor: string; fijo?: b
 function Linea({ titulo, valor, signo }: { titulo: string; valor: number; signo?: boolean }) {
   // El signo solo se fuerza donde la dirección es la información: «+120» y «120» dicen cosas
   // distintas cuando la fila es una diferencia.
-  const texto = `${signo && valor > 0 ? "+" : ""}${valor.toLocaleString("es")}`;
+  const texto = `${signo && valor > 0 ? "+" : ""}${valor.toLocaleString("es", { useGrouping: "always" })}`;
   const color = signo ? (valor < 0 ? "text-[#6f3f8a]" : "text-[#2f7a3e]") : "";
   return (
     <div className="flex justify-between gap-3">

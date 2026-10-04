@@ -19,9 +19,10 @@
     }
   },
   "restauracion_2028": {
+    "momentos": 2,
     "barrios": 73,
-    "ganan": 25,
-    "pierden": 40,
+    "ganan": 27,
+    "pierden": 38,
     "locales": 9479
   },
   "vut": {
@@ -56,16 +57,16 @@
     "final": 6834
   },
   "sustitucion_2028": {
+    "momentos": 2,
     "escenarios": 5,
     "barrios": 64,
-    "ocupacion_partida": 0.6787,
-    "plazas_vut": 30067,
-    "plazas_regladas": 84058,
-    "sin_sitio": 3057
+    "sin_sitio_anio_medio": 0,
+    "sin_sitio_julio": 1273,
+    "turistas_a_realojar": 11516
   },
   "flujos_2028": {
-    "flujos": 887,
+    "flujos": 848,
     "barrios_sin_geometria": [],
-    "maximo_turistas": 770
+    "maximo_turistas": 384
   }
 }

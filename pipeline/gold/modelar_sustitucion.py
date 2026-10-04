@@ -61,6 +61,33 @@ MINIMO_FLUJO = 20
 PESOS = {0.0: "solo_precio", 0.25: "sobre_todo_precio", 0.5: "equilibrio",
          0.75: "sobre_todo_barrio", 1.0: "solo_barrio"}
 
+# Ocupacion media de los anuncios de Airbnb, ponderada por capacidad. **No es un dato oficial: no
+# existe.** Se estima por dos vias independientes que convergen, y por eso se publica:
+#
+#   calendario  (365 - availability_365) / 365        -> 38,3%
+#   resenas     resenas_12m / 0,50 x 3 noches / 365   -> 38,8%   (metodo de Inside Airbnb)
+#
+# Con estancias de 4 noches la segunda via sube al 48,6%, asi que la horquilla honesta es 38-48%.
+# Se toma el extremo bajo porque es el que coincide con la via del calendario, que no depende de
+# suponer ni tasa de resena ni duracion.
+OCUPACION_AIRBNB = 0.383
+
+# Los dos momentos que se publican. La ocupacion hotelera es la del INE **por habitaciones**, no
+# por plazas: una habitacion doble vendida a una persona deja una plaza vacia que no se puede
+# vender a nadie, asi que la habitacion es el limite real de un hotel.
+#
+# Julio no es un adorno: es el unico mes en el que la cuenta no sale, y publicarlo solo en media
+# anual escondia justo el problema.
+MOMENTOS = {
+    "anio_medio": {"etiqueta": "Un ano medio", "ocupacion_hotel": 0.802, "factor_airbnb": 1.0},
+    "julio": {"etiqueta": "Julio, la punta", "ocupacion_hotel": 0.865, "factor_airbnb": 1.165},
+}
+
+# Plazas por dormitorio donde Airbnb no lo declara (2,8% de los anuncios). Es la mediana observada
+# en los que si lo declaran, y coincide con la ratio de nuestros hoteles (1,88 plazas/habitacion):
+# por eso las dos unidades se pueden comparar sin corregir nada.
+PLAZAS_POR_DORMITORIO = 2.0
+
 LAT0 = 41.39
 
 
@@ -70,19 +97,28 @@ def proyectar(lat, lon) -> np.ndarray:
                  np.asarray(lat, float) * 110.570]
 
 
-def cargar() -> tuple[pd.DataFrame, pd.DataFrame, float]:
+def cargar() -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Las dos tablas, ya con la habitacion como unidad.
+
+    **Por que la habitacion y no la plaza.** Comparar plazas declaradas de VUT con plazas libres de
+    hotel mezclaba dos cosas: una plaza libre de hotel suele ser la segunda cama de una habitacion
+    ya vendida, que no se puede vender por separado. Un grupo de cuatro no cabe en una habitacion
+    doble por mucho que el hotel tenga cuatro plazas sueltas repartidas.
+    """
     vut = pd.read_csv(GOLD / "airbnb_para_web.csv", low_memory=False)
     hoteles = pd.read_csv(GOLD / "alojamientos_reglados.csv", low_memory=False)
-    hoteles = hoteles[hoteles["banda_plaza"].notna() & hoteles["lat"].notna()].reset_index(drop=True)
+    hoteles = hoteles[hoteles["banda_plaza"].notna() & hoteles["lat"].notna()
+                      & hoteles["habitaciones"].notna()].reset_index(drop=True)
 
-    serie = pd.read_csv(BRONZE / "serie_ine_barcelona.csv", low_memory=False)
-    ocupacion = serie[serie["serie"].str.contains("Grado de ocupaci", na=False)
-                      & serie["serie"].str.contains("por plazas. B", na=False)]
-    media = float(ocupacion.sort_values("mes").tail(12)["valor"].mean()) / 100
+    dormitorios = pd.to_numeric(vut["bedrooms"], errors="coerce")
+    plazas = pd.to_numeric(vut["accommodates"], errors="coerce")
+    # Un estudio declara 0 dormitorios y sigue alojando gente: cuenta como uno.
+    vut["dormitorios"] = dormitorios.where(dormitorios > 0).fillna(
+        (plazas / PLAZAS_POR_DORMITORIO).round()).clip(lower=1)
 
     vut["precio"] = vut["precio_plaza_anual"]
     hoteles["precio"] = hoteles["precio_plaza"]
-    return vut, hoteles, media
+    return vut, hoteles
 
 
 def matrices(vut: pd.DataFrame, hoteles: pd.DataFrame) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
@@ -94,7 +130,13 @@ def matrices(vut: pd.DataFrame, hoteles: pd.DataFrame) -> tuple[np.ndarray, np.n
 
 
 def repartir(vut, hoteles, distancia, cercania, parecido, w, capacidad) -> pd.DataFrame:
-    """Las VUT eligen por turnos, de mas cara a mas barata, hasta agotar el aforo."""
+    """Las VUT eligen por turnos, de mas cara a mas barata, hasta agotar las habitaciones libres.
+
+    Lo que se reparte son **habitaciones por noche**, descontada la ocupacion de los dos lados: una
+    vivienda ocupada el 38% de las noches pide sus dormitorios el 38% de las noches, y un hotel al
+    80% solo ofrece el 20% de las suyas. Antes se descontaba la ocupacion al hotel y no a la
+    vivienda, que es lo que hacia salir una escasez que el dato no sostiene.
+    """
     orden_hoteles = np.argsort(-(w * cercania + (1 - w) * parecido), axis=1)
     turno = np.argsort(-vut["precio"].to_numpy())
     libre = capacidad.astype(float).copy()
@@ -102,7 +144,7 @@ def repartir(vut, hoteles, distancia, cercania, parecido, w, capacidad) -> pd.Da
 
     filas = []
     for i in turno:
-        pendientes = float(vut["accommodates"].iloc[i])
+        pendientes = float(vut["demanda"].iloc[i])
         for j in orden_hoteles[i]:
             if pendientes <= 0:
                 break
@@ -111,36 +153,44 @@ def repartir(vut, hoteles, distancia, cercania, parecido, w, capacidad) -> pd.Da
             cabe = min(pendientes, libre[j])
             libre[j] -= cabe
             pendientes -= cabe
-            filas.append({"vut_idx": i, "hotel_idx": j, "plazas": cabe,
+            filas.append({"vut_idx": i, "hotel_idx": j, "habitaciones": cabe,
                           "km": distancia[i, j],
                           "salto_precio": precio_hotel[j] - vut["precio"].iloc[i]})
         if pendientes > 0:
-            filas.append({"vut_idx": i, "hotel_idx": -1, "plazas": pendientes,
+            filas.append({"vut_idx": i, "hotel_idx": -1, "habitaciones": pendientes,
                           "km": np.nan, "salto_precio": np.nan})
     return pd.DataFrame(filas)
 
 
 def agregar_por_barrio(asignacion, vut, hoteles) -> pd.DataFrame:
-    """Un barrio aparece como origen y como destino, y son dos cosas distintas."""
+    """Un barrio aparece como origen y como destino, y son dos cosas distintas.
+
+    Se reparten habitaciones, pero se publican **turistas**: una habitacion no le dice nada a quien
+    lee el mapa. Las dos cifras viajan juntas porque la que manda es la habitacion —es el limite
+    que hace que alguien se quede sin sitio— y la que se entiende es la persona.
+    """
     a = asignacion.copy()
     a["barrio_origen"] = vut["neighbourhood"].to_numpy()[a["vut_idx"].to_numpy()]
+    a["turistas"] = a["habitaciones"] * vut["por_habitacion"].to_numpy()[a["vut_idx"].to_numpy()]
     colocadas = a[a["hotel_idx"] >= 0].copy()
     colocadas["barrio_destino"] = hoteles["barrio"].to_numpy()[colocadas["hotel_idx"].to_numpy()]
 
-    salen = a.groupby("barrio_origen")["plazas"].sum().rename("plazas_que_salen")
-    llegan = colocadas.groupby("barrio_destino")["plazas"].sum().rename("plazas_que_llegan")
-    sin_sitio = (a[a["hotel_idx"] < 0].groupby("barrio_origen")["plazas"].sum()
-                 .rename("plazas_sin_sitio"))
+    salen = a.groupby("barrio_origen")["turistas"].sum().rename("turistas_que_salen")
+    llegan = colocadas.groupby("barrio_destino")["turistas"].sum().rename("turistas_que_llegan")
+    sin_sitio = (a[a["hotel_idx"] < 0].groupby("barrio_origen")["turistas"].sum()
+                 .rename("turistas_sin_sitio"))
     se_quedan = (colocadas[colocadas["barrio_origen"] == colocadas["barrio_destino"]]
-                 .groupby("barrio_origen")["plazas"].sum().rename("plazas_que_se_quedan"))
+                 .groupby("barrio_origen")["turistas"].sum().rename("turistas_que_se_quedan"))
+    habitaciones = colocadas.groupby("barrio_destino")["habitaciones"].sum().rename("habitaciones_ocupadas")
     recorrido = colocadas.groupby("barrio_origen")["km"].median().rename("km_mediano")
     sobrecoste = colocadas.groupby("barrio_origen")["salto_precio"].median().rename("sobrecoste_mediano")
 
-    barrios = pd.concat([salen, llegan, sin_sitio, se_quedan, recorrido, sobrecoste], axis=1)
-    barrios[["plazas_que_salen", "plazas_que_llegan", "plazas_sin_sitio",
-             "plazas_que_se_quedan"]] = barrios[["plazas_que_salen", "plazas_que_llegan",
-                                                 "plazas_sin_sitio", "plazas_que_se_quedan"]].fillna(0)
-    barrios["saldo"] = barrios["plazas_que_llegan"] - barrios["plazas_que_salen"]
+    columnas = ["turistas_que_salen", "turistas_que_llegan", "turistas_sin_sitio",
+                "turistas_que_se_quedan", "habitaciones_ocupadas"]
+    barrios = pd.concat([salen, llegan, sin_sitio, se_quedan, habitaciones, recorrido, sobrecoste],
+                        axis=1)
+    barrios[columnas] = barrios[columnas].fillna(0)
+    barrios["saldo"] = barrios["turistas_que_llegan"] - barrios["turistas_que_salen"]
     return barrios.round(2)
 
 
@@ -148,15 +198,17 @@ def agregar_flujos(asignacion, vut, hoteles) -> pd.DataFrame:
     """Movimientos barrio de origen -> barrio de destino, para dibujar las flechas.
 
     Se excluye el flujo de un barrio a si mismo: el mapa cuenta quien SE MUEVE, y una flecha que
-    sale y entra en el mismo sitio no es un movimiento. Ese dato ya esta en `plazas_que_se_quedan`.
+    sale y entra en el mismo sitio no es un movimiento. Ese dato ya esta en
+    `turistas_que_se_quedan`.
     """
     a = asignacion[asignacion["hotel_idx"] >= 0].copy()
     a["origen"] = vut["neighbourhood"].to_numpy()[a["vut_idx"].to_numpy()]
     a["destino"] = hoteles["barrio"].to_numpy()[a["hotel_idx"].to_numpy()]
+    a["turistas"] = a["habitaciones"] * vut["por_habitacion"].to_numpy()[a["vut_idx"].to_numpy()]
     a = a[a["origen"] != a["destino"]]
 
     flujos = (a.groupby(["origen", "destino"])
-              .agg(turistas=("plazas", "sum"), km_mediano=("km", "median"))
+              .agg(turistas=("turistas", "sum"), km_mediano=("km", "median"))
               .reset_index())
     return flujos[flujos["turistas"] >= MINIMO_FLUJO].round(2)
 
@@ -208,12 +260,18 @@ def agregar_restauracion(asignacion, vut, hoteles, locales, reparto_hotel, repar
     """
     por_hotel = np.zeros(len(hoteles))
     colocadas = asignacion[asignacion["hotel_idx"] >= 0]
-    np.add.at(por_hotel, colocadas["hotel_idx"].to_numpy(), colocadas["plazas"].to_numpy())
+    # Turistas, no habitaciones: quien cena es la persona.
+    turistas = (colocadas["habitaciones"].to_numpy()
+                * vut["por_habitacion"].to_numpy()[colocadas["vut_idx"].to_numpy()])
+    np.add.at(por_hotel, colocadas["hotel_idx"].to_numpy(), turistas)
 
+    # El "hoy" se mide con la misma ocupacion que el 2028: comparar una ocupacion real con una
+    # capacidad declarada es justo el error que este cambio corrige.
+    hoy = (vut["accommodates"] * vut["ocupacion"]).to_numpy()
     d = pd.DataFrame({
         "barrio": locales["barrio"],
         "en_2028": por_hotel @ reparto_hotel,
-        "hoy": vut["accommodates"].to_numpy() @ reparto_vut,
+        "hoy": hoy @ reparto_vut,
     })
     a = d.groupby("barrio").agg(locales=("hoy", "size"), hoy=("hoy", "sum"),
                                 en_2028=("en_2028", "sum")).reset_index()
@@ -224,75 +282,91 @@ def agregar_restauracion(asignacion, vut, hoteles, locales, reparto_hotel, repar
 
 
 def main() -> None:
-    vut, hoteles, ocupacion = cargar()
+    vut, hoteles = cargar()
     distancia, cercania, parecido = matrices(vut, hoteles)
     locales = cargar_restauracion()
     reparto_hotel = vecindad(hoteles["lat"], hoteles["lon"], locales)
     reparto_vut = vecindad(vut["latitude"], vut["longitude"], locales)
 
-    plazas_totales = float(hoteles["plazas"].sum())
-    necesarias = float(vut["accommodates"].sum())
-    capacidad = (hoteles["plazas"] * (1 - ocupacion)).to_numpy()
-
-    print(f"Ocupacion hotelera (INE, media 12 meses): {ocupacion:.1%}")
-    print(f"  plazas regladas {plazas_totales:>9,.0f}")
-    print(f"  libres          {capacidad.sum():>9,.0f}")
-    print(f"  plazas VUT      {necesarias:>9,.0f}")
-    print()
+    habitaciones_hotel = float(hoteles["habitaciones"].sum())
+    vut["por_habitacion"] = vut["accommodates"] / vut["dormitorios"]
 
     bloques, bloques_flujo, bloques_rest, resumen = [], [], [], []
-    for w, etiqueta in PESOS.items():
-        asignacion = repartir(vut, hoteles, distancia, cercania, parecido, w, capacidad)
-        barrios = agregar_por_barrio(asignacion, vut, hoteles)
-        barrios.insert(0, "escenario", etiqueta)
-        barrios.insert(1, "w", w)
-        bloques.append(barrios.reset_index().rename(columns={"index": "barrio"}))
+    for clave, momento in MOMENTOS.items():
+        ocupacion = momento["ocupacion_hotel"]
+        ocupacion_vut = min(OCUPACION_AIRBNB * momento["factor_airbnb"], 1.0)
+        # Lo que de verdad hay que realojar esa noche, y lo que de verdad hay libre esa noche.
+        vut["ocupacion"] = ocupacion_vut
+        vut["demanda"] = vut["dormitorios"] * ocupacion_vut
+        capacidad = (hoteles["habitaciones"] * (1 - ocupacion)).to_numpy()
+        turistas = float((vut["demanda"] * vut["por_habitacion"]).sum())
 
-        flujos = agregar_flujos(asignacion, vut, hoteles)
-        flujos.insert(0, "escenario", etiqueta)
-        bloques_flujo.append(flujos)
+        print(f"{momento['etiqueta']}  (hotel {ocupacion:.1%} por habitacion, "
+              f"Airbnb {ocupacion_vut:.1%})")
+        print(f"  habitaciones de hotel  {habitaciones_hotel:>9,.0f}")
+        print(f"  libres una noche       {capacidad.sum():>9,.0f}")
+        print(f"  habitaciones que piden {vut['demanda'].sum():>9,.0f}  ({turistas:,.0f} turistas)")
 
-        if not bloques_rest:
-            bloques_rest.append(agregar_restauracion(asignacion, vut, hoteles, locales,
-                                                     reparto_hotel, reparto_vut))
+        for w, etiqueta in PESOS.items():
+            asignacion = repartir(vut, hoteles, distancia, cercania, parecido, w, capacidad)
 
-        colocadas = asignacion[asignacion["hotel_idx"] >= 0]
-        sin_sitio = float(asignacion.loc[asignacion["hotel_idx"] < 0, "plazas"].sum())
-        resumen.append({
-            "escenario": etiqueta, "w": w,
-            "plazas_colocadas": int(colocadas["plazas"].sum()),
-            "plazas_sin_sitio": int(round(sin_sitio)),
-            "km_mediano": round(float(colocadas["km"].median()), 2),
-            "sobrecoste_mediano": round(float(colocadas["salto_precio"].median()), 1),
-            "hoteles_usados": int(colocadas["hotel_idx"].nunique()),
-        })
-        print(f"  {etiqueta:<20} sin sitio {sin_sitio:>7,.0f}   "
-              f"{resumen[-1]['km_mediano']:>5.2f} km   "
-              f"{resumen[-1]['sobrecoste_mediano']:>6.1f} EUR/plaza")
+            barrios = agregar_por_barrio(asignacion, vut, hoteles)
+            barrios.insert(0, "momento", clave)
+            barrios.insert(1, "escenario", etiqueta)
+            barrios.insert(2, "w", w)
+            bloques.append(barrios.reset_index().rename(columns={"index": "barrio"}))
+
+            flujos = agregar_flujos(asignacion, vut, hoteles)
+            flujos.insert(0, "momento", clave)
+            flujos.insert(1, "escenario", etiqueta)
+            bloques_flujo.append(flujos)
+
+            # La restauracion se calcula una vez por momento: dentro de un momento no depende del
+            # escenario cuando los hoteles se saturan, y cuando no se saturan si — pero el reparto
+            # sobre los bares lo hace el hotel, no la preferencia, asi que basta el equilibrio.
+            if w == 0.5:
+                rest = agregar_restauracion(asignacion, vut, hoteles, locales,
+                                            reparto_hotel, reparto_vut)
+                rest.insert(0, "momento", clave)
+                bloques_rest.append(rest)
+
+            colocadas = asignacion[asignacion["hotel_idx"] >= 0]
+            fuera = asignacion[asignacion["hotel_idx"] < 0]
+            por_hab = vut["por_habitacion"].to_numpy()
+            sin_sitio = float((fuera["habitaciones"] * por_hab[fuera["vut_idx"].to_numpy()]).sum())
+            resumen.append({
+                "momento": clave, "etiqueta": momento["etiqueta"], "escenario": etiqueta, "w": w,
+                "turistas_colocados": int((colocadas["habitaciones"]
+                                           * por_hab[colocadas["vut_idx"].to_numpy()]).sum()),
+                "turistas_sin_sitio": int(round(sin_sitio)),
+                "habitaciones_sin_sitio": int(round(float(fuera["habitaciones"].sum()))),
+                "km_mediano": round(float(colocadas["km"].median()), 2),
+                "sobrecoste_mediano": round(float(colocadas["salto_precio"].median()), 1),
+                "hoteles_usados": int(colocadas["hotel_idx"].nunique()),
+                "ocupacion_hotel": ocupacion,
+                "ocupacion_airbnb": round(ocupacion_vut, 4),
+                "habitaciones_hotel": int(habitaciones_hotel),
+                "habitaciones_libres": int(round(float(capacidad.sum()))),
+                "turistas_a_realojar": int(round(turistas)),
+            })
+            print(f"    {etiqueta:<20} sin sitio {sin_sitio:>7,.0f} turistas   "
+                  f"{resumen[-1]['km_mediano']:>5.2f} km")
+        print()
 
     salida = pd.concat(bloques, ignore_index=True)
     salida.to_csv(SALIDA, index=False, encoding="utf-8")
-
     flujos = pd.concat(bloques_flujo, ignore_index=True)
     flujos.to_csv(SALIDA_FLUJOS, index=False, encoding="utf-8")
-
-    restauracion = bloques_rest[0]
+    restauracion = pd.concat(bloques_rest, ignore_index=True)
     restauracion.to_csv(SALIDA_RESTAURACION, index=False, encoding="utf-8")
 
-    tabla_resumen = pd.DataFrame(resumen)
-    tabla_resumen["ocupacion_partida"] = round(ocupacion, 4)
-    tabla_resumen["plazas_regladas"] = int(plazas_totales)
-    tabla_resumen["plazas_vut"] = int(necesarias)
     SALIDA_RESUMEN.parent.mkdir(parents=True, exist_ok=True)
-    tabla_resumen.to_csv(SALIDA_RESUMEN, index=False, encoding="utf-8")
+    pd.DataFrame(resumen).to_csv(SALIDA_RESUMEN, index=False, encoding="utf-8")
 
-    print()
-    print(f"Guardado en {SALIDA.relative_to(RAIZ)}  "
-          f"({len(salida):,} filas: {salida['barrio'].nunique()} barrios x {len(PESOS)} escenarios)")
-    print(f"Guardado en {SALIDA_FLUJOS.relative_to(RAIZ)}  "
-          f"({len(flujos):,} flujos de mas de {MINIMO_FLUJO} turistas)")
-    print(f"Guardado en {SALIDA_RESTAURACION.relative_to(RAIZ)}  "
-          f"({len(restauracion):,} barrios; no varia por escenario, ver docstring)")
+    print(f"Guardado en {SALIDA.relative_to(RAIZ)}  ({len(salida):,} filas: "
+          f"{salida['barrio'].nunique()} barrios x {len(PESOS)} escenarios x {len(MOMENTOS)} momentos)")
+    print(f"Guardado en {SALIDA_FLUJOS.relative_to(RAIZ)}  ({len(flujos):,} flujos)")
+    print(f"Guardado en {SALIDA_RESTAURACION.relative_to(RAIZ)}  ({len(restauracion):,} filas)")
     print(f"Guardado en {SALIDA_RESUMEN.relative_to(RAIZ)}")
 
 

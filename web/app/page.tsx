@@ -12,14 +12,15 @@ type Resumen = {
   airbnb: { sujetos_a_la_ley: number; precio_plaza_mediano: number };
   criba_airbnb: { inicio: number; final: number };
   sustitucion_2028: {
-    ocupacion_partida: number;
-    plazas_vut: number;
-    plazas_regladas: number;
-    sin_sitio: number;
+    sin_sitio_anio_medio: number;
+    sin_sitio_julio: number;
+    turistas_a_realojar: number;
   };
 };
 
-const n = (v: number) => v.toLocaleString("es", { useGrouping: "always" });
+// Tolera un campo que aún no exista: la portada se queda sin ese número, no en blanco entera.
+const n = (v: number | undefined) =>
+  v === undefined ? "—" : v.toLocaleString("es", { useGrouping: "always" });
 
 export default function Portada() {
   const [r, setResumen] = useState<Resumen | null>(null);
@@ -29,8 +30,6 @@ export default function Portada() {
   }, []);
 
   if (!r) return <main className="min-h-full bg-[#faf9f7]" />;
-
-  const libres = Math.round(r.sustitucion_2028.plazas_regladas * (1 - r.sustitucion_2028.ocupacion_partida));
 
   return (
     <main className="min-h-full bg-[#faf9f7] text-[#24231f]">
@@ -76,18 +75,17 @@ export default function Portada() {
             De los {n(r.criba_airbnb.inicio)} anuncios publicados, la mayoría no es lo que la ley
             elimina: hay hoteles, habitaciones sueltas, alquiler de temporada, anuncios apagados y
             repeticiones de una misma vivienda. Quedan{" "}
-            <strong>{n(r.criba_airbnb.final)}</strong>, con {n(r.sustitucion_2028.plazas_vut)}{" "}
-            plazas.
+            <strong>{n(r.criba_airbnb.final)}</strong>, que una noche cualquiera alojan a{" "}
+            {n(r.sustitucion_2028.turistas_a_realojar)} personas.
           </Bloque>
           <Bloque
-            titulo={`${n(r.sustitucion_2028.sin_sitio)} turistas no caben`}
+            titulo="Caben, salvo en julio"
             enlace={{ href: "/mapa", texto: "ver el mapa barrio a barrio →" }}
           >
-            Los hoteles no están vacíos: descontada la ocupación real del{" "}
-            {(r.sustitucion_2028.ocupacion_partida * 100).toFixed(0)}%, quedan {n(libres)} plazas
-            libres para {n(r.sustitucion_2028.plazas_vut)} turistas. En un año medio{" "}
-            <strong>{n(r.sustitucion_2028.sin_sitio)} se quedan fuera de la ciudad</strong>, y en
-            julio serían 12.490.
+            En un año medio los hoteles tienen habitaciones libres de sobra y{" "}
+            <strong>no se queda nadie fuera</strong>. En la punta del verano no:{" "}
+            <strong>{n(r.sustitucion_2028.sin_sitio_julio)} turistas</strong> no encontrarían
+            habitación en la ciudad. Lo que falla es la habitación, no la cama suelta.
           </Bloque>
           <Bloque
             titulo="40 barrios pierden clientela"
@@ -106,7 +104,8 @@ export default function Portada() {
             cubre las {n(r.criba_airbnb.final)} viviendas que hoy se anuncian en Airbnb. Lo que se
             alquila por otras plataformas, o por ninguna, no aparece. Y el reparto de 2028 es un
             modelo con supuestos, no una predicción: el peso entre precio y ubicación lo elige quien
-            mira el mapa, porque ningún dato disponible lo decide.
+            mira el mapa, y la ocupación de los pisos turísticos es una estimación —no existe un
+            dato oficial— aunque dos métodos independientes coincidan en ella.
           </p>
           <Link
             href="/fuentes"

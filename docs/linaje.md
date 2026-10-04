@@ -135,7 +135,6 @@ flowchart TD
   n_gold_modelar_precios_hoteles_bcn_py --> n_RAIZ_data_gold_calidad_precio_cobertura_entrenamiento_csv
   n_gold_modelar_precios_hoteles_bcn_py --> n_RAIZ_data_gold_calidad_precio_error_por_segmento_csv
   n_gold_modelar_precios_hoteles_bcn_py --> n_RAIZ_data_gold_hoteles_bcn_precio_estimado_csv
-  n_RAIZ_data_bronze_serie_ine_barcelona_csv --> n_gold_modelar_sustitucion_py
   n_RAIZ_data_gold_airbnb_para_web_csv --> n_gold_modelar_sustitucion_py
   n_RAIZ_data_gold_alojamientos_reglados_csv --> n_gold_modelar_sustitucion_py
   n_RAIZ_data_gold_restauracion_bcn_csv --> n_gold_modelar_sustitucion_py
@@ -184,7 +183,7 @@ flowchart TD
 | `export/preparar_geometria_web.py` | export | — | — |
 | `generar_criba.py` | generar_criba.py | airbnb_excluidos_web.csv<br>airbnb_para_web.csv | criba.md |
 | `gold/modelar_precios_hoteles_bcn.py` | gold | hoteles_bcn.csv | modelos_precio_comparativa.csv<br>precio_cobertura_entrenamiento.csv<br>precio_error_por_segmento.csv<br>hoteles_bcn_precio_estimado.csv |
-| `gold/modelar_sustitucion.py` | gold | serie_ine_barcelona.csv<br>airbnb_para_web.csv<br>alojamientos_reglados.csv<br>restauracion_bcn.csv | sustitucion_resumen.csv<br>restauracion_presion_2028.csv<br>sustitucion_2028.csv<br>sustitucion_flujos_2028.csv |
+| `gold/modelar_sustitucion.py` | gold | airbnb_para_web.csv<br>alojamientos_reglados.csv<br>restauracion_bcn.csv | sustitucion_resumen.csv<br>restauracion_presion_2028.csv<br>sustitucion_2028.csv<br>sustitucion_flujos_2028.csv |
 | `gold/preparar_alojamientos_provincia.py` | gold | geocodificacion_verificada.csv<br>hoteles_y_apartaments_unificados.csv<br>hoteles_bcn_precio_estimado.csv | alojamientos_reglados.csv |
 | `gold/preparar_hoteles_bcn.py` | gold | adr_estacionalidad.csv<br>geocodificacion_verificada.csv<br>hoteles_geocodificados.csv<br>hoteles_y_apartaments_unificados.csv<br>precios_emparejamientos.csv<br>precios_hoteles_cruzados.csv<br>insideairbnb_barrios_barcelona.geojson<br>opendata_bcn_hotels_snapshot.csv | hoteles_bcn.csv |
 | `gold/preparar_restauracion_bcn.py` | gold | bcn_cens_comercial_restauracion_2024.csv | restauracion_bcn.csv |

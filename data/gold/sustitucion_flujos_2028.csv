@@ -1,888 +1,849 @@
-escenario,origen,destino,turistas,km_mediano
-solo_precio,Can Baró,la Dreta de l'Eixample,26.0,2.45
-solo_precio,Diagonal Mar i el Front Marítim del Poblenou,el Barri Gòtic,49.4,4.11
-solo_precio,Diagonal Mar i el Front Marítim del Poblenou,el Raval,24.01,4.21
-solo_precio,Diagonal Mar i el Front Marítim del Poblenou,l'Antiga Esquerra de l'Eixample,30.0,5.03
-solo_precio,Diagonal Mar i el Front Marítim del Poblenou,la Dreta de l'Eixample,90.85,3.99
-solo_precio,Diagonal Mar i el Front Marítim del Poblenou,les Corts,33.0,6.16
-solo_precio,Hostafrancs,Diagonal Mar i el Front Marítim del Poblenou,20.0,7.03
-solo_precio,Hostafrancs,el Barri Gòtic,30.86,2.69
-solo_precio,Hostafrancs,el Parc i la Llacuna del Poblenou,30.06,4.7
-solo_precio,Hostafrancs,el Raval,39.93,2.3
-solo_precio,Hostafrancs,la Dreta de l'Eixample,51.08,2.72
-solo_precio,Hostafrancs,la Maternitat i Sant Ramon,35.0,2.49
-solo_precio,Provençals del Poblenou,la Dreta de l'Eixample,27.43,3.8
-solo_precio,Sant Antoni,Diagonal Mar i el Front Marítim del Poblenou,81.0,5.74
-solo_precio,Sant Antoni,Hostafrancs,55.0,1.45
-solo_precio,Sant Antoni,Sant Gervasi - Galvany,74.14,2.14
-solo_precio,Sant Antoni,"Sant Pere, Santa Caterina i la Ribera",28.53,1.82
-solo_precio,Sant Antoni,Sants,48.81,1.63
-solo_precio,Sant Antoni,el Barri Gòtic,182.47,1.33
-solo_precio,Sant Antoni,el Besòs i el Maresme,23.0,5.94
-solo_precio,Sant Antoni,el Fort Pienc,36.39,2.4
-solo_precio,Sant Antoni,el Parc i la Llacuna del Poblenou,78.9,3.23
-solo_precio,Sant Antoni,el Poble Sec,69.67,1.21
-solo_precio,Sant Antoni,el Poblenou,66.0,4.14
-solo_precio,Sant Antoni,el Raval,156.79,1.02
-solo_precio,Sant Antoni,l'Antiga Esquerra de l'Eixample,133.16,1.42
-solo_precio,Sant Antoni,la Barceloneta,85.45,2.95
-solo_precio,Sant Antoni,la Dreta de l'Eixample,359.44,1.56
-solo_precio,Sant Antoni,la Maternitat i Sant Ramon,30.0,3.43
-solo_precio,Sant Antoni,la Nova Esquerra de l'Eixample,36.0,1.04
-solo_precio,Sant Antoni,la Vila Olímpica del Poblenou,26.0,3.08
-solo_precio,Sant Antoni,les Corts,80.3,2.17
-solo_precio,Sant Gervasi - Galvany,el Barri Gòtic,62.76,3.11
-solo_precio,Sant Gervasi - Galvany,el Parc i la Llacuna del Poblenou,49.0,3.81
-solo_precio,Sant Gervasi - Galvany,el Poblenou,25.0,4.64
-solo_precio,Sant Gervasi - Galvany,el Raval,54.0,2.66
-solo_precio,Sant Gervasi - Galvany,l'Antiga Esquerra de l'Eixample,22.22,1.42
-solo_precio,Sant Gervasi - Galvany,la Barceloneta,22.0,4.17
-solo_precio,Sant Gervasi - Galvany,la Dreta de l'Eixample,119.09,2.06
-solo_precio,Sant Gervasi - la Bonanova,Provençals del Poblenou,23.0,6.06
-solo_precio,"Sant Pere, Santa Caterina i la Ribera",Diagonal Mar i el Front Marítim del Poblenou,63.54,4.06
-solo_precio,"Sant Pere, Santa Caterina i la Ribera",Sant Antoni,27.18,1.86
-solo_precio,"Sant Pere, Santa Caterina i la Ribera",Sant Gervasi - Galvany,32.22,2.63
-solo_precio,"Sant Pere, Santa Caterina i la Ribera",Sants,28.08,3.4
-solo_precio,"Sant Pere, Santa Caterina i la Ribera",el Barri Gòtic,70.39,0.67
-solo_precio,"Sant Pere, Santa Caterina i la Ribera",el Fort Pienc,34.0,1.4
-solo_precio,"Sant Pere, Santa Caterina i la Ribera",el Poble Sec,21.19,1.79
-solo_precio,"Sant Pere, Santa Caterina i la Ribera",el Poblenou,29.16,2.5
-solo_precio,"Sant Pere, Santa Caterina i la Ribera",el Raval,88.11,1.08
-solo_precio,"Sant Pere, Santa Caterina i la Ribera",l'Antiga Esquerra de l'Eixample,53.0,1.81
-solo_precio,"Sant Pere, Santa Caterina i la Ribera",la Barceloneta,40.81,1.62
-solo_precio,"Sant Pere, Santa Caterina i la Ribera",la Dreta de l'Eixample,165.74,1.33
-solo_precio,"Sant Pere, Santa Caterina i la Ribera",la Maternitat i Sant Ramon,30.0,4.78
-solo_precio,"Sant Pere, Santa Caterina i la Ribera",les Corts,64.0,3.89
-solo_precio,Sants,Diagonal Mar i el Front Marítim del Poblenou,22.0,7.74
-solo_precio,Sants,"Sant Pere, Santa Caterina i la Ribera",23.02,3.98
-solo_precio,Sants,el Barri Gòtic,49.41,3.56
-solo_precio,Sants,el Coll,26.2,4.56
-solo_precio,Sants,el Parc i la Llacuna del Poblenou,39.0,5.11
-solo_precio,Sants,el Raval,49.99,3.21
-solo_precio,Sants,l'Antiga Esquerra de l'Eixample,28.43,2.19
-solo_precio,Sants,la Barceloneta,23.0,5.09
-solo_precio,Sants,la Dreta de l'Eixample,85.6,3.29
-solo_precio,Sants,les Corts,34.17,1.36
-solo_precio,Sants - Badal,la Dreta de l'Eixample,69.91,3.92
-solo_precio,Vallcarca i els Penitents,la Dreta de l'Eixample,37.19,2.95
-solo_precio,el Barri Gòtic,Diagonal Mar i el Front Marítim del Poblenou,60.49,4.21
-solo_precio,el Barri Gòtic,Hostafrancs,78.53,2.76
-solo_precio,el Barri Gòtic,Sant Antoni,22.43,1.16
-solo_precio,el Barri Gòtic,el Parc i la Llacuna del Poblenou,73.24,2.29
-solo_precio,el Barri Gòtic,el Poble Sec,20.0,1.42
-solo_precio,el Barri Gòtic,el Poblenou,39.0,2.85
-solo_precio,el Barri Gòtic,el Raval,97.04,0.77
-solo_precio,el Barri Gòtic,l'Antiga Esquerra de l'Eixample,64.58,1.71
-solo_precio,el Barri Gòtic,la Barceloneta,25.0,1.63
-solo_precio,el Barri Gòtic,la Dreta de l'Eixample,164.9,1.37
-solo_precio,el Barri Gòtic,la Maternitat i Sant Ramon,25.0,4.52
-solo_precio,el Barri Gòtic,la Nova Esquerra de l'Eixample,22.11,2.31
-solo_precio,el Barri Gòtic,la Vall d'Hebron,26.0,6.57
-solo_precio,el Barri Gòtic,les Corts,41.0,3.45
-solo_precio,el Besòs i el Maresme,la Dreta de l'Eixample,23.23,4.61
-solo_precio,el Camp d'en Grassot i Gràcia Nova,Diagonal Mar i el Front Marítim del Poblenou,23.0,4.33
-solo_precio,el Camp d'en Grassot i Gràcia Nova,Provençals del Poblenou,20.0,2.71
-solo_precio,el Camp d'en Grassot i Gràcia Nova,"Sant Pere, Santa Caterina i la Ribera",32.46,2.69
-solo_precio,el Camp d'en Grassot i Gràcia Nova,el Barri Gòtic,22.39,2.89
-solo_precio,el Camp d'en Grassot i Gràcia Nova,el Parc i la Llacuna del Poblenou,28.27,2.28
-solo_precio,el Camp d'en Grassot i Gràcia Nova,el Raval,65.52,2.98
-solo_precio,el Camp d'en Grassot i Gràcia Nova,l'Antiga Esquerra de l'Eixample,65.34,2.14
-solo_precio,el Camp d'en Grassot i Gràcia Nova,la Barceloneta,25.59,3.44
-solo_precio,el Camp d'en Grassot i Gràcia Nova,la Dreta de l'Eixample,55.15,1.63
-solo_precio,el Camp d'en Grassot i Gràcia Nova,les Corts,30.52,3.1
-solo_precio,el Camp de l'Arpa del Clot,Diagonal Mar i el Front Marítim del Poblenou,23.96,2.81
-solo_precio,el Camp de l'Arpa del Clot,Hostafrancs,20.64,4.65
-solo_precio,el Camp de l'Arpa del Clot,el Barri Gòtic,23.77,3.1
-solo_precio,el Camp de l'Arpa del Clot,el Poble Sec,26.87,4.56
-solo_precio,el Camp de l'Arpa del Clot,el Raval,74.48,3.29
-solo_precio,el Camp de l'Arpa del Clot,la Barceloneta,27.0,2.95
-solo_precio,el Camp de l'Arpa del Clot,la Dreta de l'Eixample,122.97,2.44
-solo_precio,el Camp de l'Arpa del Clot,la Maternitat i Sant Ramon,24.0,5.73
-solo_precio,el Camp de l'Arpa del Clot,les Corts,30.15,4.36
-solo_precio,el Carmel,la Dreta de l'Eixample,26.0,3.07
-solo_precio,el Fort Pienc,Diagonal Mar i el Front Marítim del Poblenou,34.52,3.2
-solo_precio,el Fort Pienc,Hostafrancs,34.0,3.67
-solo_precio,el Fort Pienc,Sant Antoni,33.09,2.35
-solo_precio,el Fort Pienc,Sant Gervasi - la Bonanova,20.45,3.82
-solo_precio,el Fort Pienc,"Sant Pere, Santa Caterina i la Ribera",50.52,1.49
-solo_precio,el Fort Pienc,el Barri Gòtic,131.28,1.68
-solo_precio,el Fort Pienc,el Parc i la Llacuna del Poblenou,85.0,1.05
-solo_precio,el Fort Pienc,el Poble Sec,29.39,2.79
-solo_precio,el Fort Pienc,el Poblenou,20.0,1.53
-solo_precio,el Fort Pienc,el Raval,142.63,2.08
-solo_precio,el Fort Pienc,l'Antiga Esquerra de l'Eixample,51.44,2.07
-solo_precio,el Fort Pienc,la Dreta de l'Eixample,164.97,1.22
-solo_precio,el Fort Pienc,la Maternitat i Sant Ramon,38.0,5.51
-solo_precio,el Fort Pienc,la Nova Esquerra de l'Eixample,26.25,2.87
-solo_precio,el Fort Pienc,la Vall d'Hebron,24.0,4.61
-solo_precio,el Fort Pienc,la Vila de Gràcia,23.51,1.75
-solo_precio,el Fort Pienc,les Corts,36.92,3.53
-solo_precio,el Guinardó,Hostafrancs,21.0,4.9
-solo_precio,el Guinardó,el Raval,20.49,4.5
-solo_precio,el Guinardó,la Dreta de l'Eixample,33.84,3.07
-solo_precio,el Parc i la Llacuna del Poblenou,Sant Antoni,31.57,3.36
-solo_precio,el Parc i la Llacuna del Poblenou,Sant Gervasi - Galvany,30.85,3.45
-solo_precio,el Parc i la Llacuna del Poblenou,"Sant Pere, Santa Caterina i la Ribera",25.12,1.06
-solo_precio,el Parc i la Llacuna del Poblenou,el Barri Gòtic,26.3,1.71
-solo_precio,el Parc i la Llacuna del Poblenou,el Poblenou,20.88,1.3
-solo_precio,el Parc i la Llacuna del Poblenou,la Dreta de l'Eixample,64.88,1.73
-solo_precio,el Parc i la Llacuna del Poblenou,les Corts,21.0,4.94
-solo_precio,el Poble Sec,Diagonal Mar i el Front Marítim del Poblenou,108.49,5.85
-solo_precio,el Poble Sec,Hostafrancs,52.17,1.91
-solo_precio,el Poble Sec,Provençals del Poblenou,38.39,5.59
-solo_precio,el Poble Sec,Sant Gervasi - Galvany,22.7,2.57
-solo_precio,el Poble Sec,"Sant Pere, Santa Caterina i la Ribera",66.04,1.95
-solo_precio,el Poble Sec,Sants,31.42,2.17
-solo_precio,el Poble Sec,el Barri Gòtic,123.37,1.65
-solo_precio,el Poble Sec,el Fort Pienc,20.0,3.21
-solo_precio,el Poble Sec,el Parc i la Llacuna del Poblenou,46.0,3.44
-solo_precio,el Poble Sec,el Poblenou,44.55,4.44
-solo_precio,el Poble Sec,el Raval,147.78,1.1
-solo_precio,el Poble Sec,l'Antiga Esquerra de l'Eixample,67.35,2.03
-solo_precio,el Poble Sec,la Barceloneta,77.0,2.68
-solo_precio,el Poble Sec,la Dreta de l'Eixample,217.71,2.22
-solo_precio,el Poble Sec,la Maternitat i Sant Ramon,46.78,4.57
-solo_precio,el Poble Sec,la Nova Esquerra de l'Eixample,30.39,1.56
-solo_precio,el Poble Sec,les Corts,84.37,2.71
-solo_precio,el Poblenou,Diagonal Mar i el Front Marítim del Poblenou,27.0,1.5
-solo_precio,el Poblenou,Hostafrancs,40.0,5.67
-solo_precio,el Poblenou,Sant Antoni,27.57,3.96
-solo_precio,el Poblenou,Sant Gervasi - Galvany,37.74,4.59
-solo_precio,el Poblenou,Sants,24.98,5.89
-solo_precio,el Poblenou,el Barri Gòtic,82.51,3.18
-solo_precio,el Poblenou,el Parc i la Llacuna del Poblenou,20.62,1.16
-solo_precio,el Poblenou,el Poble Sec,40.38,4.04
-solo_precio,el Poblenou,el Raval,76.46,3.66
-solo_precio,el Poblenou,l'Antiga Esquerra de l'Eixample,46.07,4.32
-solo_precio,el Poblenou,la Barceloneta,21.11,2.0
-solo_precio,el Poblenou,la Dreta de l'Eixample,148.04,3.32
-solo_precio,el Poblenou,les Corts,43.09,5.87
-solo_precio,el Putxet i el Farró,el Barri Gòtic,47.66,3.58
-solo_precio,el Putxet i el Farró,el Raval,31.94,3.62
-solo_precio,el Putxet i el Farró,la Dreta de l'Eixample,70.2,2.58
-solo_precio,el Raval,Diagonal Mar i el Front Marítim del Poblenou,50.0,5.08
-solo_precio,el Raval,Hostafrancs,24.0,2.01
-solo_precio,el Raval,"Sant Pere, Santa Caterina i la Ribera",44.47,1.09
-solo_precio,el Raval,Sants,22.0,2.61
-solo_precio,el Raval,el Barri Gòtic,86.29,0.7
-solo_precio,el Raval,el Fort Pienc,25.68,2.21
-solo_precio,el Raval,el Parc i la Llacuna del Poblenou,71.0,2.86
-solo_precio,el Raval,el Poblenou,43.55,3.64
-solo_precio,el Raval,l'Antiga Esquerra de l'Eixample,62.06,1.29
-solo_precio,el Raval,la Barceloneta,47.0,2.17
-solo_precio,el Raval,la Dreta de l'Eixample,219.6,1.46
-solo_precio,el Raval,les Corts,38.0,3.08
-solo_precio,l'Antiga Esquerra de l'Eixample,Diagonal Mar i el Front Marítim del Poblenou,143.15,4.97
-solo_precio,l'Antiga Esquerra de l'Eixample,Hostafrancs,39.75,1.59
-solo_precio,l'Antiga Esquerra de l'Eixample,Navas,26.57,3.87
-solo_precio,l'Antiga Esquerra de l'Eixample,Provençals del Poblenou,29.34,5.25
-solo_precio,l'Antiga Esquerra de l'Eixample,Sant Antoni,32.85,0.89
-solo_precio,l'Antiga Esquerra de l'Eixample,Sant Gervasi - Galvany,33.15,1.3
-solo_precio,l'Antiga Esquerra de l'Eixample,"Sant Pere, Santa Caterina i la Ribera",62.82,2.05
-solo_precio,l'Antiga Esquerra de l'Eixample,el Barri Gòtic,156.2,1.6
-solo_precio,l'Antiga Esquerra de l'Eixample,el Camp de l'Arpa del Clot,20.0,3.16
-solo_precio,l'Antiga Esquerra de l'Eixample,el Fort Pienc,32.16,2.23
-solo_precio,l'Antiga Esquerra de l'Eixample,el Parc i la Llacuna del Poblenou,117.0,3.17
-solo_precio,l'Antiga Esquerra de l'Eixample,el Poble Sec,25.66,2.2
-solo_precio,l'Antiga Esquerra de l'Eixample,el Poblenou,81.88,3.92
-solo_precio,l'Antiga Esquerra de l'Eixample,el Putxet i el Farró,23.0,1.76
-solo_precio,l'Antiga Esquerra de l'Eixample,el Raval,187.18,1.63
-solo_precio,l'Antiga Esquerra de l'Eixample,la Dreta de l'Eixample,345.43,1.17
-solo_precio,l'Antiga Esquerra de l'Eixample,la Maternitat i Sant Ramon,79.06,3.38
-solo_precio,l'Antiga Esquerra de l'Eixample,la Nova Esquerra de l'Eixample,52.38,1.03
-solo_precio,l'Antiga Esquerra de l'Eixample,la Vila de Gràcia,22.22,1.13
-solo_precio,l'Antiga Esquerra de l'Eixample,les Corts,102.53,1.88
-solo_precio,la Barceloneta,el Barri Gòtic,31.0,1.03
-solo_precio,la Barceloneta,el Raval,30.19,1.74
-solo_precio,la Barceloneta,la Dreta de l'Eixample,66.07,2.26
-solo_precio,la Dreta de l'Eixample,Diagonal Mar i el Front Marítim del Poblenou,203.78,4.12
-solo_precio,la Dreta de l'Eixample,Hostafrancs,112.33,2.73
-solo_precio,la Dreta de l'Eixample,Navas,29.96,2.92
-solo_precio,la Dreta de l'Eixample,Pedralbes,28.0,4.61
-solo_precio,la Dreta de l'Eixample,Porta,20.93,4.78
-solo_precio,la Dreta de l'Eixample,Provençals del Poblenou,37.0,3.22
-solo_precio,la Dreta de l'Eixample,Sant Antoni,86.45,1.48
-solo_precio,la Dreta de l'Eixample,Sant Gervasi - Galvany,133.89,1.8
-solo_precio,la Dreta de l'Eixample,Sant Gervasi - la Bonanova,40.03,2.96
-solo_precio,la Dreta de l'Eixample,"Sant Pere, Santa Caterina i la Ribera",156.2,1.46
-solo_precio,la Dreta de l'Eixample,Sants,111.03,2.94
-solo_precio,la Dreta de l'Eixample,el Baix Guinardó,27.91,1.8
-solo_precio,la Dreta de l'Eixample,el Barri Gòtic,581.65,1.23
-solo_precio,la Dreta de l'Eixample,el Camp de l'Arpa del Clot,65.98,2.44
-solo_precio,la Dreta de l'Eixample,el Fort Pienc,86.48,1.32
-solo_precio,la Dreta de l'Eixample,el Guinardó,47.53,3.11
-solo_precio,la Dreta de l'Eixample,el Parc i la Llacuna del Poblenou,258.99,2.01
-solo_precio,la Dreta de l'Eixample,el Poble Sec,195.55,2.42
-solo_precio,la Dreta de l'Eixample,el Poblenou,281.23,2.86
-solo_precio,la Dreta de l'Eixample,el Putxet i el Farró,58.09,2.49
-solo_precio,la Dreta de l'Eixample,el Raval,575.0,1.45
-solo_precio,la Dreta de l'Eixample,l'Antiga Esquerra de l'Eixample,218.05,1.23
-solo_precio,la Dreta de l'Eixample,la Barceloneta,67.87,2.41
-solo_precio,la Dreta de l'Eixample,la Font de la Guatlla,27.55,3.51
-solo_precio,la Dreta de l'Eixample,la Marina de Port,20.0,4.28
-solo_precio,la Dreta de l'Eixample,la Marina del Prat Vermell,20.67,8.36
-solo_precio,la Dreta de l'Eixample,la Maternitat i Sant Ramon,124.88,4.56
-solo_precio,la Dreta de l'Eixample,la Nova Esquerra de l'Eixample,159.76,2.05
-solo_precio,la Dreta de l'Eixample,la Sagrada Família,29.21,1.34
-solo_precio,la Dreta de l'Eixample,la Vila Olímpica del Poblenou,39.18,1.98
-solo_precio,la Dreta de l'Eixample,la Vila de Gràcia,42.7,1.21
-solo_precio,la Dreta de l'Eixample,les Corts,148.77,2.67
-solo_precio,la Font de la Guatlla,la Dreta de l'Eixample,35.69,2.85
-solo_precio,la Maternitat i Sant Ramon,el Barri Gòtic,33.43,4.47
-solo_precio,la Maternitat i Sant Ramon,la Barceloneta,24.0,5.93
-solo_precio,la Nova Esquerra de l'Eixample,Diagonal Mar i el Front Marítim del Poblenou,67.94,6.23
-solo_precio,la Nova Esquerra de l'Eixample,Hostafrancs,47.41,0.83
-solo_precio,la Nova Esquerra de l'Eixample,Sant Gervasi - Galvany,29.39,1.46
-solo_precio,la Nova Esquerra de l'Eixample,"Sant Pere, Santa Caterina i la Ribera",51.59,2.53
-solo_precio,la Nova Esquerra de l'Eixample,Sants,25.0,1.02
-solo_precio,la Nova Esquerra de l'Eixample,el Barri Gòtic,170.72,2.18
-solo_precio,la Nova Esquerra de l'Eixample,el Camp d'en Grassot i Gràcia Nova,22.21,2.96
-solo_precio,la Nova Esquerra de l'Eixample,el Parc i la Llacuna del Poblenou,66.0,4.0
-solo_precio,la Nova Esquerra de l'Eixample,el Poblenou,56.0,4.65
-solo_precio,la Nova Esquerra de l'Eixample,el Raval,104.34,1.8
-solo_precio,la Nova Esquerra de l'Eixample,l'Antiga Esquerra de l'Eixample,44.25,1.22
-solo_precio,la Nova Esquerra de l'Eixample,la Barceloneta,52.0,3.86
-solo_precio,la Nova Esquerra de l'Eixample,la Dreta de l'Eixample,243.3,1.91
-solo_precio,la Nova Esquerra de l'Eixample,la Maternitat i Sant Ramon,42.6,2.76
-solo_precio,la Nova Esquerra de l'Eixample,la Sagrada Família,22.43,3.37
-solo_precio,la Nova Esquerra de l'Eixample,les Corts,29.0,1.35
-solo_precio,la Sagrada Família,Diagonal Mar i el Front Marítim del Poblenou,75.0,3.37
-solo_precio,la Sagrada Família,Hostafrancs,72.72,4.0
-solo_precio,la Sagrada Família,Provençals del Poblenou,40.52,2.58
-solo_precio,la Sagrada Família,Sant Antoni,28.93,3.38
-solo_precio,la Sagrada Família,Sant Gervasi - Galvany,42.85,2.49
-solo_precio,la Sagrada Família,"Sant Pere, Santa Caterina i la Ribera",91.0,2.36
-solo_precio,la Sagrada Família,Sants,36.22,3.98
-solo_precio,la Sagrada Família,el Barri Gòtic,166.06,2.45
-solo_precio,la Sagrada Família,el Besòs i el Maresme,20.0,3.61
-solo_precio,la Sagrada Família,el Camp d'en Grassot i Gràcia Nova,21.0,0.63
-solo_precio,la Sagrada Família,el Camp de l'Arpa del Clot,39.81,1.04
-solo_precio,la Sagrada Família,el Fort Pienc,25.44,1.13
-solo_precio,la Sagrada Família,el Parc i la Llacuna del Poblenou,106.29,1.47
-solo_precio,la Sagrada Família,el Poble Sec,70.88,3.55
-solo_precio,la Sagrada Família,el Poblenou,120.11,2.36
-solo_precio,la Sagrada Família,el Raval,242.13,2.66
-solo_precio,la Sagrada Família,l'Antiga Esquerra de l'Eixample,104.08,2.32
-solo_precio,la Sagrada Família,la Barceloneta,46.86,2.7
-solo_precio,la Sagrada Família,la Dreta de l'Eixample,413.51,1.61
-solo_precio,la Sagrada Família,la Font de la Guatlla,32.0,4.33
-solo_precio,la Sagrada Família,la Maternitat i Sant Ramon,58.59,5.5
-solo_precio,la Sagrada Família,la Nova Esquerra de l'Eixample,77.13,3.37
-solo_precio,la Sagrada Família,la Vila Olímpica del Poblenou,21.55,2.47
-solo_precio,la Sagrada Família,les Corts,69.61,3.42
-solo_precio,la Vila Olímpica del Poblenou,Sant Antoni,26.22,3.33
-solo_precio,la Vila Olímpica del Poblenou,"Sant Pere, Santa Caterina i la Ribera",33.3,1.39
-solo_precio,la Vila Olímpica del Poblenou,el Barri Gòtic,21.29,2.04
-solo_precio,la Vila Olímpica del Poblenou,el Parc i la Llacuna del Poblenou,22.34,1.34
-solo_precio,la Vila Olímpica del Poblenou,el Raval,39.44,2.46
-solo_precio,la Vila Olímpica del Poblenou,l'Antiga Esquerra de l'Eixample,24.74,3.04
-solo_precio,la Vila Olímpica del Poblenou,la Dreta de l'Eixample,42.43,2.09
-solo_precio,la Vila de Gràcia,Diagonal Mar i el Front Marítim del Poblenou,124.76,4.91
-solo_precio,la Vila de Gràcia,Hostafrancs,58.1,2.76
-solo_precio,la Vila de Gràcia,Provençals del Poblenou,30.08,3.47
-solo_precio,la Vila de Gràcia,Sant Antoni,24.03,2.32
-solo_precio,la Vila de Gràcia,Sant Gervasi - Galvany,78.16,1.2
-solo_precio,la Vila de Gràcia,"Sant Pere, Santa Caterina i la Ribera",44.91,2.59
-solo_precio,la Vila de Gràcia,Sants,48.71,2.88
-solo_precio,la Vila de Gràcia,el Barri Gòtic,164.81,2.39
-solo_precio,la Vila de Gràcia,el Besòs i el Maresme,24.0,5.6
-solo_precio,la Vila de Gràcia,el Camp de l'Arpa del Clot,23.21,2.48
-solo_precio,la Vila de Gràcia,el Fort Pienc,32.09,1.76
-solo_precio,la Vila de Gràcia,el Parc i la Llacuna del Poblenou,75.33,2.87
-solo_precio,la Vila de Gràcia,el Poble Sec,68.97,2.91
-solo_precio,la Vila de Gràcia,el Poblenou,85.11,3.41
-solo_precio,la Vila de Gràcia,el Raval,214.23,2.58
-solo_precio,la Vila de Gràcia,l'Antiga Esquerra de l'Eixample,94.41,1.44
-solo_precio,la Vila de Gràcia,la Barceloneta,68.0,3.65
-solo_precio,la Vila de Gràcia,la Dreta de l'Eixample,282.08,1.51
-solo_precio,la Vila de Gràcia,la Maternitat i Sant Ramon,78.0,3.79
-solo_precio,la Vila de Gràcia,la Nova Esquerra de l'Eixample,61.53,2.3
-solo_precio,la Vila de Gràcia,les Corts,41.0,2.28
-solo_precio,les Corts,Diagonal Mar i el Front Marítim del Poblenou,25.0,7.0
-solo_precio,les Corts,Hostafrancs,25.41,1.25
-solo_precio,les Corts,el Barri Gòtic,41.61,3.79
-solo_precio,les Corts,el Poblenou,23.0,5.52
-solo_precio,les Corts,el Raval,40.21,3.25
-solo_precio,les Corts,l'Antiga Esquerra de l'Eixample,21.27,1.75
-solo_precio,les Corts,la Dreta de l'Eixample,86.83,2.85
-solo_precio,les Corts,la Maternitat i Sant Ramon,20.25,1.47
-sobre_todo_precio,Diagonal Mar i el Front Marítim del Poblenou,el Poblenou,127.87,0.88
-sobre_todo_precio,Hostafrancs,Sants,32.29,0.46
-sobre_todo_precio,Hostafrancs,la Font de la Guatlla,40.89,0.4
-sobre_todo_precio,Hostafrancs,la Maternitat i Sant Ramon,68.23,2.28
-sobre_todo_precio,Provençals del Poblenou,Diagonal Mar i el Front Marítim del Poblenou,30.0,0.59
-sobre_todo_precio,Provençals del Poblenou,el Poblenou,39.22,0.82
-sobre_todo_precio,Sant Antoni,Diagonal Mar i el Front Marítim del Poblenou,41.0,6.11
-sobre_todo_precio,Sant Antoni,Hostafrancs,161.89,0.9
-sobre_todo_precio,Sant Antoni,el Barri Gòtic,49.63,1.19
-sobre_todo_precio,Sant Antoni,el Poble Sec,166.77,0.58
-sobre_todo_precio,Sant Antoni,el Raval,690.08,0.69
-sobre_todo_precio,Sant Antoni,l'Antiga Esquerra de l'Eixample,58.59,0.18
-sobre_todo_precio,Sant Antoni,la Barceloneta,39.0,2.88
-sobre_todo_precio,Sant Antoni,la Dreta de l'Eixample,89.51,1.07
-sobre_todo_precio,Sant Antoni,la Maternitat i Sant Ramon,44.0,3.28
-sobre_todo_precio,Sant Antoni,la Nova Esquerra de l'Eixample,160.15,0.4
-sobre_todo_precio,Sant Antoni,les Corts,24.0,1.76
-sobre_todo_precio,Sant Gervasi - Galvany,l'Antiga Esquerra de l'Eixample,33.36,0.33
-sobre_todo_precio,Sant Gervasi - Galvany,la Dreta de l'Eixample,51.0,1.16
-sobre_todo_precio,Sant Gervasi - Galvany,la Maternitat i Sant Ramon,43.0,3.09
-sobre_todo_precio,Sant Gervasi - Galvany,les Corts,137.79,1.2
-sobre_todo_precio,Sant Gervasi - la Bonanova,les Corts,51.68,1.75
-sobre_todo_precio,"Sant Pere, Santa Caterina i la Ribera",Diagonal Mar i el Front Marítim del Poblenou,32.67,4.02
-sobre_todo_precio,"Sant Pere, Santa Caterina i la Ribera",el Barri Gòtic,429.97,0.36
-sobre_todo_precio,"Sant Pere, Santa Caterina i la Ribera",la Barceloneta,69.37,1.33
-sobre_todo_precio,"Sant Pere, Santa Caterina i la Ribera",la Dreta de l'Eixample,31.07,0.23
-sobre_todo_precio,Sants,Hostafrancs,22.78,0.61
-sobre_todo_precio,Sants,la Barceloneta,22.0,4.71
-sobre_todo_precio,Sants,la Font de la Guatlla,20.0,0.91
-sobre_todo_precio,Sants,la Marina de Port,26.0,1.82
-sobre_todo_precio,Sants,la Maternitat i Sant Ramon,121.0,2.05
-sobre_todo_precio,Sants,les Corts,66.22,1.24
-sobre_todo_precio,Sants - Badal,la Marina de Port,33.0,2.1
-sobre_todo_precio,Sants - Badal,la Maternitat i Sant Ramon,74.41,1.1
-sobre_todo_precio,Vallcarca i els Penitents,"Vallvidrera, el Tibidabo i les Planes",32.99,2.71
-sobre_todo_precio,Vallcarca i els Penitents,les Corts,20.0,2.57
-sobre_todo_precio,el Baix Guinardó,la Dreta de l'Eixample,33.0,2.26
-sobre_todo_precio,el Barri Gòtic,"Sant Pere, Santa Caterina i la Ribera",51.56,0.34
-sobre_todo_precio,el Barri Gòtic,el Raval,154.18,0.41
-sobre_todo_precio,el Barri Gòtic,la Barceloneta,54.88,1.57
-sobre_todo_precio,el Besòs i el Maresme,Diagonal Mar i el Front Marítim del Poblenou,97.0,0.44
-sobre_todo_precio,el Camp d'en Grassot i Gràcia Nova,el Fort Pienc,20.15,1.08
-sobre_todo_precio,el Camp d'en Grassot i Gràcia Nova,el Parc i la Llacuna del Poblenou,25.18,2.24
-sobre_todo_precio,el Camp d'en Grassot i Gràcia Nova,el Putxet i el Farró,32.0,2.06
-sobre_todo_precio,el Camp d'en Grassot i Gràcia Nova,la Dreta de l'Eixample,189.48,1.47
-sobre_todo_precio,el Camp d'en Grassot i Gràcia Nova,la Vall d'Hebron,22.27,3.1
-sobre_todo_precio,el Camp de l'Arpa del Clot,Diagonal Mar i el Front Marítim del Poblenou,74.0,2.9
-sobre_todo_precio,el Camp de l'Arpa del Clot,Porta,34.0,2.62
-sobre_todo_precio,el Camp de l'Arpa del Clot,Provençals del Poblenou,102.0,2.11
-sobre_todo_precio,el Camp de l'Arpa del Clot,el Parc i la Llacuna del Poblenou,103.0,1.22
-sobre_todo_precio,el Camp de l'Arpa del Clot,el Poblenou,23.0,1.28
-sobre_todo_precio,el Camp de l'Arpa del Clot,la Barceloneta,20.0,2.79
-sobre_todo_precio,el Camp de l'Arpa del Clot,la Vall d'Hebron,30.0,3.59
-sobre_todo_precio,el Carmel,les Corts,24.69,3.87
-sobre_todo_precio,el Fort Pienc,Diagonal Mar i el Front Marítim del Poblenou,20.0,3.02
-sobre_todo_precio,el Fort Pienc,"Sant Pere, Santa Caterina i la Ribera",113.48,1.18
-sobre_todo_precio,el Fort Pienc,el Barri Gòtic,129.97,1.75
-sobre_todo_precio,el Fort Pienc,el Parc i la Llacuna del Poblenou,306.18,0.81
-sobre_todo_precio,el Fort Pienc,el Poblenou,81.48,1.53
-sobre_todo_precio,el Fort Pienc,la Barceloneta,39.0,1.51
-sobre_todo_precio,el Fort Pienc,la Dreta de l'Eixample,169.19,0.88
-sobre_todo_precio,el Guinardó,Diagonal Mar i el Front Marítim del Poblenou,32.0,4.03
-sobre_todo_precio,el Guinardó,Porta,23.18,2.29
-sobre_todo_precio,el Guinardó,el Besòs i el Maresme,23.0,3.85
-sobre_todo_precio,el Guinardó,el Parc i la Llacuna del Poblenou,23.0,1.74
-sobre_todo_precio,el Parc i la Llacuna del Poblenou,"Sant Pere, Santa Caterina i la Ribera",26.87,0.75
-sobre_todo_precio,el Parc i la Llacuna del Poblenou,el Barri Gòtic,31.77,1.15
-sobre_todo_precio,el Parc i la Llacuna del Poblenou,el Poblenou,43.0,0.53
-sobre_todo_precio,el Parc i la Llacuna del Poblenou,la Vila Olímpica del Poblenou,50.46,0.31
-sobre_todo_precio,el Poble Sec,Diagonal Mar i el Front Marítim del Poblenou,72.0,5.93
-sobre_todo_precio,el Poble Sec,Hostafrancs,124.65,0.74
-sobre_todo_precio,el Poble Sec,Sant Antoni,33.38,0.32
-sobre_todo_precio,el Poble Sec,el Barri Gòtic,82.94,1.19
-sobre_todo_precio,el Poble Sec,el Raval,489.66,0.94
-sobre_todo_precio,el Poble Sec,la Barceloneta,78.0,2.27
-sobre_todo_precio,el Poble Sec,la Marina del Prat Vermell,26.05,6.51
-sobre_todo_precio,el Poblenou,Diagonal Mar i el Front Marítim del Poblenou,201.0,0.62
-sobre_todo_precio,el Poblenou,el Parc i la Llacuna del Poblenou,35.0,0.6
-sobre_todo_precio,el Putxet i el Farró,Sant Gervasi - la Bonanova,41.46,0.74
-sobre_todo_precio,el Putxet i el Farró,la Dreta de l'Eixample,27.0,2.03
-sobre_todo_precio,el Putxet i el Farró,la Maternitat i Sant Ramon,30.0,3.67
-sobre_todo_precio,el Putxet i el Farró,les Corts,73.0,1.79
-sobre_todo_precio,el Raval,el Barri Gòtic,200.25,0.52
-sobre_todo_precio,el Raval,el Poble Sec,64.29,0.52
-sobre_todo_precio,el Raval,la Barceloneta,69.0,2.02
-sobre_todo_precio,el Raval,la Dreta de l'Eixample,52.0,0.23
-sobre_todo_precio,l'Antiga Esquerra de l'Eixample,Diagonal Mar i el Front Marítim del Poblenou,60.0,5.37
-sobre_todo_precio,l'Antiga Esquerra de l'Eixample,Hostafrancs,20.21,1.22
-sobre_todo_precio,l'Antiga Esquerra de l'Eixample,Sant Antoni,82.24,0.4
-sobre_todo_precio,l'Antiga Esquerra de l'Eixample,Sant Gervasi - Galvany,39.0,0.42
-sobre_todo_precio,l'Antiga Esquerra de l'Eixample,Sants,59.36,1.6
-sobre_todo_precio,l'Antiga Esquerra de l'Eixample,el Raval,114.54,0.58
-sobre_todo_precio,l'Antiga Esquerra de l'Eixample,la Barceloneta,21.0,3.2
-sobre_todo_precio,l'Antiga Esquerra de l'Eixample,la Dreta de l'Eixample,379.98,0.68
-sobre_todo_precio,l'Antiga Esquerra de l'Eixample,la Maternitat i Sant Ramon,26.0,2.85
-sobre_todo_precio,l'Antiga Esquerra de l'Eixample,la Nova Esquerra de l'Eixample,150.96,0.69
-sobre_todo_precio,l'Antiga Esquerra de l'Eixample,les Corts,115.31,1.29
-sobre_todo_precio,la Barceloneta,"Sant Pere, Santa Caterina i la Ribera",94.16,0.64
-sobre_todo_precio,la Barceloneta,el Barri Gòtic,99.16,0.91
-sobre_todo_precio,la Dreta de l'Eixample,Diagonal Mar i el Front Marítim del Poblenou,87.54,4.05
-sobre_todo_precio,la Dreta de l'Eixample,Sant Gervasi - Galvany,32.35,1.06
-sobre_todo_precio,la Dreta de l'Eixample,"Sant Pere, Santa Caterina i la Ribera",179.94,1.07
-sobre_todo_precio,la Dreta de l'Eixample,el Barri Gòtic,739.37,0.9
-sobre_todo_precio,la Dreta de l'Eixample,el Fort Pienc,64.26,0.46
-sobre_todo_precio,la Dreta de l'Eixample,el Parc i la Llacuna del Poblenou,53.92,1.25
-sobre_todo_precio,la Dreta de l'Eixample,el Poblenou,25.5,2.06
-sobre_todo_precio,la Dreta de l'Eixample,el Raval,638.73,0.66
-sobre_todo_precio,la Dreta de l'Eixample,l'Antiga Esquerra de l'Eixample,267.85,0.44
-sobre_todo_precio,la Dreta de l'Eixample,la Barceloneta,72.0,2.51
-sobre_todo_precio,la Dreta de l'Eixample,la Vila de Gràcia,32.0,0.3
-sobre_todo_precio,la Font de la Guatlla,Hostafrancs,44.0,0.39
-sobre_todo_precio,la Font de la Guatlla,la Marina de Port,20.0,1.56
-sobre_todo_precio,la Nova Esquerra de l'Eixample,Diagonal Mar i el Front Marítim del Poblenou,28.94,6.35
-sobre_todo_precio,la Nova Esquerra de l'Eixample,Hostafrancs,306.51,0.55
-sobre_todo_precio,la Nova Esquerra de l'Eixample,Pedralbes,24.2,2.37
-sobre_todo_precio,la Nova Esquerra de l'Eixample,Sant Antoni,52.0,0.67
-sobre_todo_precio,la Nova Esquerra de l'Eixample,Sants,107.83,0.77
-sobre_todo_precio,la Nova Esquerra de l'Eixample,el Raval,26.0,1.66
-sobre_todo_precio,la Nova Esquerra de l'Eixample,l'Antiga Esquerra de l'Eixample,34.71,0.38
-sobre_todo_precio,la Nova Esquerra de l'Eixample,la Barceloneta,42.0,3.81
-sobre_todo_precio,la Nova Esquerra de l'Eixample,la Dreta de l'Eixample,45.43,1.58
-sobre_todo_precio,la Nova Esquerra de l'Eixample,la Font de la Guatlla,26.48,0.77
-sobre_todo_precio,la Nova Esquerra de l'Eixample,la Maternitat i Sant Ramon,123.18,3.18
-sobre_todo_precio,la Nova Esquerra de l'Eixample,les Corts,100.11,1.35
-sobre_todo_precio,la Sagrada Família,Diagonal Mar i el Front Marítim del Poblenou,94.0,3.36
-sobre_todo_precio,la Sagrada Família,Navas,53.99,1.42
-sobre_todo_precio,la Sagrada Família,Provençals del Poblenou,103.22,2.35
-sobre_todo_precio,la Sagrada Família,"Sant Pere, Santa Caterina i la Ribera",56.3,1.86
-sobre_todo_precio,la Sagrada Família,el Baix Guinardó,70.54,0.42
-sobre_todo_precio,la Sagrada Família,el Barri Gòtic,68.81,2.2
-sobre_todo_precio,la Sagrada Família,el Besòs i el Maresme,45.38,3.62
-sobre_todo_precio,la Sagrada Família,el Camp d'en Grassot i Gràcia Nova,84.0,0.46
-sobre_todo_precio,la Sagrada Família,el Camp de l'Arpa del Clot,217.12,0.86
-sobre_todo_precio,la Sagrada Família,el Fort Pienc,164.56,0.63
-sobre_todo_precio,la Sagrada Família,el Guinardó,47.85,1.2
-sobre_todo_precio,la Sagrada Família,el Parc i la Llacuna del Poblenou,432.29,1.33
-sobre_todo_precio,la Sagrada Família,el Poblenou,111.62,1.85
-sobre_todo_precio,la Sagrada Família,el Raval,54.1,2.11
-sobre_todo_precio,la Sagrada Família,la Barceloneta,38.0,2.85
-sobre_todo_precio,la Sagrada Família,la Dreta de l'Eixample,358.59,1.44
-sobre_todo_precio,la Sagrada Família,la Vall d'Hebron,34.98,3.61
-sobre_todo_precio,la Sagrera,Diagonal Mar i el Front Marítim del Poblenou,23.0,3.11
-sobre_todo_precio,la Vila Olímpica del Poblenou,el Parc i la Llacuna del Poblenou,85.36,0.53
-sobre_todo_precio,la Vila Olímpica del Poblenou,el Poblenou,30.44,0.89
-sobre_todo_precio,la Vila Olímpica del Poblenou,la Barceloneta,24.0,0.68
-sobre_todo_precio,la Vila de Gràcia,Diagonal Mar i el Front Marítim del Poblenou,25.0,5.11
-sobre_todo_precio,la Vila de Gràcia,Sant Gervasi - Galvany,382.21,0.76
-sobre_todo_precio,la Vila de Gràcia,Sant Gervasi - la Bonanova,66.91,1.62
-sobre_todo_precio,la Vila de Gràcia,el Coll,35.13,1.71
-sobre_todo_precio,la Vila de Gràcia,el Parc i la Llacuna del Poblenou,24.8,2.73
-sobre_todo_precio,la Vila de Gràcia,el Poble Sec,22.0,2.94
-sobre_todo_precio,la Vila de Gràcia,el Putxet i el Farró,106.98,0.96
-sobre_todo_precio,la Vila de Gràcia,l'Antiga Esquerra de l'Eixample,166.88,0.75
-sobre_todo_precio,la Vila de Gràcia,la Dreta de l'Eixample,607.78,0.6
-sobre_todo_precio,la Vila de Gràcia,la Maternitat i Sant Ramon,34.0,3.26
-sobre_todo_precio,la Vila de Gràcia,les Corts,186.67,1.94
-sobre_todo_precio,les Corts,Pedralbes,22.95,2.05
-sobre_todo_precio,les Corts,Sants,93.01,0.77
-sobre_todo_precio,les Corts,la Barceloneta,21.47,4.68
-sobre_todo_precio,les Corts,la Maternitat i Sant Ramon,87.09,1.47
-sobre_todo_precio,les Tres Torres,Sarrià,27.73,0.58
-equilibrio,Diagonal Mar i el Front Marítim del Poblenou,el Poblenou,45.0,0.86
-equilibrio,Hostafrancs,Sants,34.89,0.47
-equilibrio,Hostafrancs,la Font de la Guatlla,31.99,0.22
-equilibrio,Hostafrancs,la Maternitat i Sant Ramon,42.0,2.8
-equilibrio,Provençals del Poblenou,el Poblenou,26.0,0.36
-equilibrio,Sant Andreu,Porta,21.89,0.56
-equilibrio,Sant Antoni,Diagonal Mar i el Front Marítim del Poblenou,41.0,5.92
-equilibrio,Sant Antoni,Hostafrancs,127.0,0.77
-equilibrio,Sant Antoni,"Sant Pere, Santa Caterina i la Ribera",22.99,1.51
-equilibrio,Sant Antoni,el Barri Gòtic,48.08,1.3
-equilibrio,Sant Antoni,el Poble Sec,90.88,0.31
-equilibrio,Sant Antoni,el Raval,725.52,0.67
-equilibrio,Sant Antoni,l'Antiga Esquerra de l'Eixample,110.85,0.19
-equilibrio,Sant Antoni,la Barceloneta,66.0,2.82
-equilibrio,Sant Antoni,la Dreta de l'Eixample,40.9,1.02
-equilibrio,Sant Antoni,la Maternitat i Sant Ramon,32.0,2.85
-equilibrio,Sant Antoni,la Nova Esquerra de l'Eixample,150.34,0.36
-equilibrio,Sant Gervasi - Galvany,Sant Gervasi - la Bonanova,20.3,0.46
-equilibrio,Sant Gervasi - Galvany,l'Antiga Esquerra de l'Eixample,21.4,0.26
-equilibrio,Sant Gervasi - Galvany,la Dreta de l'Eixample,20.0,0.79
-equilibrio,Sant Gervasi - Galvany,la Maternitat i Sant Ramon,45.0,2.26
-equilibrio,Sant Gervasi - Galvany,les Corts,152.54,0.96
-equilibrio,Sant Gervasi - la Bonanova,Sarrià,28.48,1.15
-equilibrio,Sant Gervasi - la Bonanova,les Corts,21.3,1.9
-equilibrio,Sant Martí de Provençals,Provençals del Poblenou,26.5,1.1
-equilibrio,"Sant Pere, Santa Caterina i la Ribera",Diagonal Mar i el Front Marítim del Poblenou,35.18,3.49
-equilibrio,"Sant Pere, Santa Caterina i la Ribera",el Barri Gòtic,417.45,0.31
-equilibrio,"Sant Pere, Santa Caterina i la Ribera",la Barceloneta,74.37,1.35
-equilibrio,"Sant Pere, Santa Caterina i la Ribera",la Dreta de l'Eixample,28.14,0.23
-equilibrio,Sants,Hostafrancs,54.03,0.57
-equilibrio,Sants,la Marina de Port,29.1,1.84
-equilibrio,Sants,la Maternitat i Sant Ramon,72.87,2.04
-equilibrio,Sants,les Corts,65.68,1.25
-equilibrio,Sants - Badal,Sants,26.24,1.2
-equilibrio,Sants - Badal,la Maternitat i Sant Ramon,81.76,1.14
-equilibrio,el Baix Guinardó,el Guinardó,37.38,1.07
-equilibrio,el Baix Guinardó,la Dreta de l'Eixample,21.0,2.2
-equilibrio,el Barri Gòtic,"Sant Pere, Santa Caterina i la Ribera",72.46,0.36
-equilibrio,el Barri Gòtic,el Raval,94.44,0.22
-equilibrio,el Barri Gòtic,la Barceloneta,36.24,1.76
-equilibrio,el Besòs i el Maresme,Diagonal Mar i el Front Marítim del Poblenou,122.77,0.46
-equilibrio,el Camp d'en Grassot i Gràcia Nova,Diagonal Mar i el Front Marítim del Poblenou,23.0,4.38
-equilibrio,el Camp d'en Grassot i Gràcia Nova,el Besòs i el Maresme,20.0,4.64
-equilibrio,el Camp d'en Grassot i Gràcia Nova,l'Antiga Esquerra de l'Eixample,25.26,1.62
-equilibrio,el Camp d'en Grassot i Gràcia Nova,la Dreta de l'Eixample,265.69,1.26
-equilibrio,el Camp de l'Arpa del Clot,Diagonal Mar i el Front Marítim del Poblenou,46.0,2.85
-equilibrio,el Camp de l'Arpa del Clot,Navas,21.21,0.8
-equilibrio,el Camp de l'Arpa del Clot,Provençals del Poblenou,85.12,1.61
-equilibrio,el Camp de l'Arpa del Clot,el Besòs i el Maresme,36.0,3.23
-equilibrio,el Camp de l'Arpa del Clot,el Parc i la Llacuna del Poblenou,94.24,1.33
-equilibrio,el Camp de l'Arpa del Clot,el Poblenou,110.11,1.59
-equilibrio,el Carmel,el Coll,20.94,1.26
-equilibrio,el Clot,el Poblenou,21.0,0.96
-equilibrio,el Fort Pienc,"Sant Pere, Santa Caterina i la Ribera",107.98,1.15
-equilibrio,el Fort Pienc,el Barri Gòtic,202.28,1.72
-equilibrio,el Fort Pienc,el Parc i la Llacuna del Poblenou,308.72,0.76
-equilibrio,el Fort Pienc,el Poblenou,72.04,1.52
-equilibrio,el Fort Pienc,la Barceloneta,64.0,1.51
-equilibrio,el Fort Pienc,la Dreta de l'Eixample,101.01,0.35
-equilibrio,el Guinardó,Diagonal Mar i el Front Marítim del Poblenou,28.73,3.94
-equilibrio,el Guinardó,Porta,33.43,2.21
-equilibrio,el Guinardó,el Parc i la Llacuna del Poblenou,23.0,1.8
-equilibrio,el Parc i la Llacuna del Poblenou,"Sant Pere, Santa Caterina i la Ribera",54.73,0.59
-equilibrio,el Parc i la Llacuna del Poblenou,el Poblenou,50.53,0.73
-equilibrio,el Parc i la Llacuna del Poblenou,la Barceloneta,32.47,1.1
-equilibrio,el Parc i la Llacuna del Poblenou,la Vila Olímpica del Poblenou,45.0,0.31
-equilibrio,el Poble Sec,Diagonal Mar i el Front Marítim del Poblenou,72.0,5.85
-equilibrio,el Poble Sec,Hostafrancs,100.0,0.71
-equilibrio,el Poble Sec,Sant Antoni,27.35,0.16
-equilibrio,el Poble Sec,el Barri Gòtic,97.62,1.41
-equilibrio,el Poble Sec,el Raval,410.61,0.78
-equilibrio,el Poble Sec,la Barceloneta,89.0,2.01
-equilibrio,el Poble Sec,la Font de la Guatlla,32.0,0.72
-equilibrio,el Poble Sec,la Nova Esquerra de l'Eixample,25.8,0.62
-equilibrio,el Poblenou,Diagonal Mar i el Front Marítim del Poblenou,200.51,0.57
-equilibrio,el Putxet i el Farró,Sant Gervasi - la Bonanova,64.84,1.01
-equilibrio,el Putxet i el Farró,les Corts,67.93,1.76
-equilibrio,el Raval,el Barri Gòtic,158.27,0.56
-equilibrio,el Raval,la Barceloneta,68.01,1.92
-equilibrio,l'Antiga Esquerra de l'Eixample,Diagonal Mar i el Front Marítim del Poblenou,60.0,5.63
-equilibrio,l'Antiga Esquerra de l'Eixample,Sant Antoni,63.86,0.27
-equilibrio,l'Antiga Esquerra de l'Eixample,Sant Gervasi - Galvany,31.36,0.34
-equilibrio,l'Antiga Esquerra de l'Eixample,el Barri Gòtic,41.05,1.54
-equilibrio,l'Antiga Esquerra de l'Eixample,el Poble Sec,34.0,1.74
-equilibrio,l'Antiga Esquerra de l'Eixample,el Raval,209.22,0.87
-equilibrio,l'Antiga Esquerra de l'Eixample,la Dreta de l'Eixample,249.31,0.56
-equilibrio,l'Antiga Esquerra de l'Eixample,la Maternitat i Sant Ramon,62.0,3.06
-equilibrio,l'Antiga Esquerra de l'Eixample,la Nova Esquerra de l'Eixample,135.99,0.46
-equilibrio,l'Antiga Esquerra de l'Eixample,les Corts,106.57,1.14
-equilibrio,la Barceloneta,"Sant Pere, Santa Caterina i la Ribera",125.66,0.62
-equilibrio,la Barceloneta,el Barri Gòtic,72.06,0.89
-equilibrio,la Bordeta,Hostafrancs,24.47,0.93
-equilibrio,la Bordeta,la Font de la Guatlla,24.53,0.36
-equilibrio,la Bordeta,la Marina de Port,20.0,1.46
-equilibrio,la Dreta de l'Eixample,Diagonal Mar i el Front Marítim del Poblenou,71.0,4.25
-equilibrio,la Dreta de l'Eixample,"Sant Pere, Santa Caterina i la Ribera",128.42,0.57
-equilibrio,la Dreta de l'Eixample,el Barri Gòtic,631.0,0.78
-equilibrio,la Dreta de l'Eixample,el Fort Pienc,65.39,0.43
-equilibrio,la Dreta de l'Eixample,el Parc i la Llacuna del Poblenou,20.29,0.62
-equilibrio,la Dreta de l'Eixample,el Poble Sec,35.44,2.41
-equilibrio,la Dreta de l'Eixample,el Raval,461.26,0.48
-equilibrio,la Dreta de l'Eixample,l'Antiga Esquerra de l'Eixample,225.0,0.26
-equilibrio,la Dreta de l'Eixample,la Barceloneta,198.76,2.31
-equilibrio,la Font de la Guatlla,Hostafrancs,22.95,0.69
-equilibrio,la Font de la Guatlla,la Marina de Port,34.0,1.76
-equilibrio,la Font de la Guatlla,la Maternitat i Sant Ramon,22.0,3.2
-equilibrio,la Nova Esquerra de l'Eixample,Diagonal Mar i el Front Marítim del Poblenou,28.94,6.08
-equilibrio,la Nova Esquerra de l'Eixample,Hostafrancs,302.67,0.62
-equilibrio,la Nova Esquerra de l'Eixample,Sants,161.06,0.63
-equilibrio,la Nova Esquerra de l'Eixample,el Raval,74.89,1.52
-equilibrio,la Nova Esquerra de l'Eixample,l'Antiga Esquerra de l'Eixample,38.16,0.36
-equilibrio,la Nova Esquerra de l'Eixample,la Dreta de l'Eixample,31.0,1.94
-equilibrio,la Nova Esquerra de l'Eixample,la Maternitat i Sant Ramon,118.0,2.63
-equilibrio,la Nova Esquerra de l'Eixample,les Corts,85.78,1.31
-equilibrio,la Sagrada Família,Diagonal Mar i el Front Marítim del Poblenou,88.04,3.3
-equilibrio,la Sagrada Família,Navas,46.62,1.49
-equilibrio,la Sagrada Família,Provençals del Poblenou,83.0,2.07
-equilibrio,la Sagrada Família,el Baix Guinardó,83.71,0.48
-equilibrio,la Sagrada Família,el Barri Gòtic,105.65,1.95
-equilibrio,la Sagrada Família,el Besòs i el Maresme,38.14,3.63
-equilibrio,la Sagrada Família,el Camp d'en Grassot i Gràcia Nova,70.99,0.3
-equilibrio,la Sagrada Família,el Camp de l'Arpa del Clot,205.97,0.87
-equilibrio,la Sagrada Família,el Fort Pienc,166.02,0.47
-equilibrio,la Sagrada Família,el Guinardó,29.14,0.65
-equilibrio,la Sagrada Família,el Parc i la Llacuna del Poblenou,603.43,1.42
-equilibrio,la Sagrada Família,el Poblenou,157.66,2.04
-equilibrio,la Sagrada Família,el Raval,48.09,2.2
-equilibrio,la Sagrada Família,la Barceloneta,44.76,2.47
-equilibrio,la Sagrada Família,la Dreta de l'Eixample,271.56,1.5
-equilibrio,la Vila Olímpica del Poblenou,el Parc i la Llacuna del Poblenou,82.88,0.35
-equilibrio,la Vila Olímpica del Poblenou,el Poblenou,20.48,0.81
-equilibrio,la Vila Olímpica del Poblenou,la Barceloneta,35.0,0.61
-equilibrio,la Vila de Gràcia,Diagonal Mar i el Front Marítim del Poblenou,25.0,4.87
-equilibrio,la Vila de Gràcia,Sant Gervasi - Galvany,382.38,0.65
-equilibrio,la Vila de Gràcia,Sant Gervasi - la Bonanova,38.39,1.61
-equilibrio,la Vila de Gràcia,el Coll,25.11,1.21
-equilibrio,la Vila de Gràcia,el Putxet i el Farró,88.14,1.17
-equilibrio,la Vila de Gràcia,l'Antiga Esquerra de l'Eixample,97.72,0.79
-equilibrio,la Vila de Gràcia,la Dreta de l'Eixample,680.64,0.69
-equilibrio,la Vila de Gràcia,la Maternitat i Sant Ramon,58.0,3.53
-equilibrio,la Vila de Gràcia,la Vall d'Hebron,23.64,3.0
-equilibrio,la Vila de Gràcia,les Corts,162.45,1.93
-equilibrio,les Corts,Pedralbes,23.0,0.59
-equilibrio,les Corts,la Maternitat i Sant Ramon,85.95,1.06
-equilibrio,les Tres Torres,Sarrià,39.0,0.52
-sobre_todo_barrio,Diagonal Mar i el Front Marítim del Poblenou,el Poblenou,30.28,0.53
-sobre_todo_barrio,Hostafrancs,Sants,27.86,0.56
-sobre_todo_barrio,Hostafrancs,la Font de la Guatlla,43.51,0.22
-sobre_todo_barrio,Hostafrancs,la Maternitat i Sant Ramon,28.0,1.88
-sobre_todo_barrio,Provençals del Poblenou,el Poblenou,37.0,0.32
-sobre_todo_barrio,Sant Andreu,Porta,34.89,0.67
-sobre_todo_barrio,Sant Antoni,Diagonal Mar i el Front Marítim del Poblenou,22.0,5.76
-sobre_todo_barrio,Sant Antoni,Hostafrancs,125.5,0.78
-sobre_todo_barrio,Sant Antoni,el Barri Gòtic,60.41,1.27
-sobre_todo_barrio,Sant Antoni,el Poble Sec,108.32,0.41
-sobre_todo_barrio,Sant Antoni,el Raval,759.62,0.6
-sobre_todo_barrio,Sant Antoni,l'Antiga Esquerra de l'Eixample,107.0,0.2
-sobre_todo_barrio,Sant Antoni,la Barceloneta,55.74,2.86
-sobre_todo_barrio,Sant Antoni,la Dreta de l'Eixample,35.53,0.62
-sobre_todo_barrio,Sant Antoni,la Marina del Prat Vermell,25.0,6.56
-sobre_todo_barrio,Sant Antoni,la Nova Esquerra de l'Eixample,154.14,0.34
-sobre_todo_barrio,Sant Gervasi - Galvany,Sant Gervasi - la Bonanova,20.0,0.32
-sobre_todo_barrio,Sant Gervasi - Galvany,la Maternitat i Sant Ramon,44.0,2.25
-sobre_todo_barrio,Sant Gervasi - Galvany,les Corts,138.71,0.89
-sobre_todo_barrio,Sant Gervasi - Galvany,les Tres Torres,22.89,1.14
-sobre_todo_barrio,Sant Martí de Provençals,Provençals del Poblenou,31.24,1.06
-sobre_todo_barrio,"Sant Pere, Santa Caterina i la Ribera",Diagonal Mar i el Front Marítim del Poblenou,36.0,3.6
-sobre_todo_barrio,"Sant Pere, Santa Caterina i la Ribera",el Barri Gòtic,371.42,0.25
-sobre_todo_barrio,"Sant Pere, Santa Caterina i la Ribera",la Barceloneta,68.0,1.48
-sobre_todo_barrio,"Sant Pere, Santa Caterina i la Ribera",la Dreta de l'Eixample,22.53,0.1
-sobre_todo_barrio,Sants,Hostafrancs,25.85,0.73
-sobre_todo_barrio,Sants,la Marina de Port,27.0,1.96
-sobre_todo_barrio,Sants,la Maternitat i Sant Ramon,57.92,1.43
-sobre_todo_barrio,Sants,les Corts,46.0,1.19
-sobre_todo_barrio,Sants - Badal,Sants,48.0,1.14
-sobre_todo_barrio,Sants - Badal,la Maternitat i Sant Ramon,74.0,1.09
-sobre_todo_barrio,el Baix Guinardó,el Guinardó,38.23,1.16
-sobre_todo_barrio,el Baix Guinardó,la Dreta de l'Eixample,27.72,1.74
-sobre_todo_barrio,el Barri Gòtic,"Sant Pere, Santa Caterina i la Ribera",22.41,0.26
-sobre_todo_barrio,el Barri Gòtic,el Raval,40.99,0.07
-sobre_todo_barrio,el Barri Gòtic,la Barceloneta,47.0,1.69
-sobre_todo_barrio,el Besòs i el Maresme,Diagonal Mar i el Front Marítim del Poblenou,119.0,0.43
-sobre_todo_barrio,el Camp d'en Grassot i Gràcia Nova,el Barri Gòtic,63.0,2.42
-sobre_todo_barrio,el Camp d'en Grassot i Gràcia Nova,el Putxet i el Farró,27.53,1.76
-sobre_todo_barrio,el Camp d'en Grassot i Gràcia Nova,l'Antiga Esquerra de l'Eixample,21.42,1.46
-sobre_todo_barrio,el Camp d'en Grassot i Gràcia Nova,la Barceloneta,30.0,3.53
-sobre_todo_barrio,el Camp d'en Grassot i Gràcia Nova,la Dreta de l'Eixample,233.96,1.19
-sobre_todo_barrio,el Camp de l'Arpa del Clot,Diagonal Mar i el Front Marítim del Poblenou,67.13,2.99
-sobre_todo_barrio,el Camp de l'Arpa del Clot,Navas,32.23,0.7
-sobre_todo_barrio,el Camp de l'Arpa del Clot,Provençals del Poblenou,116.0,1.62
-sobre_todo_barrio,el Camp de l'Arpa del Clot,el Besòs i el Maresme,37.87,3.08
-sobre_todo_barrio,el Camp de l'Arpa del Clot,el Parc i la Llacuna del Poblenou,79.85,1.41
-sobre_todo_barrio,el Camp de l'Arpa del Clot,el Poblenou,80.15,1.63
-sobre_todo_barrio,el Carmel,la Vall d'Hebron,29.75,1.66
-sobre_todo_barrio,el Clot,el Parc i la Llacuna del Poblenou,21.0,0.47
-sobre_todo_barrio,el Coll,la Vall d'Hebron,24.5,1.75
-sobre_todo_barrio,el Fort Pienc,"Sant Pere, Santa Caterina i la Ribera",88.04,1.0
-sobre_todo_barrio,el Fort Pienc,el Barri Gòtic,111.32,1.56
-sobre_todo_barrio,el Fort Pienc,el Parc i la Llacuna del Poblenou,347.15,0.84
-sobre_todo_barrio,el Fort Pienc,el Poblenou,80.05,1.47
-sobre_todo_barrio,el Fort Pienc,la Barceloneta,59.47,2.02
-sobre_todo_barrio,el Fort Pienc,la Dreta de l'Eixample,153.7,0.33
-sobre_todo_barrio,el Guinardó,Diagonal Mar i el Front Marítim del Poblenou,47.0,3.42
-sobre_todo_barrio,el Parc i la Llacuna del Poblenou,"Sant Pere, Santa Caterina i la Ribera",27.0,0.65
-sobre_todo_barrio,el Parc i la Llacuna del Poblenou,el Barri Gòtic,32.0,1.09
-sobre_todo_barrio,el Parc i la Llacuna del Poblenou,el Poblenou,53.0,0.72
-sobre_todo_barrio,el Parc i la Llacuna del Poblenou,la Barceloneta,33.0,1.1
-sobre_todo_barrio,el Parc i la Llacuna del Poblenou,la Vila Olímpica del Poblenou,56.0,0.12
-sobre_todo_barrio,el Poble Sec,Diagonal Mar i el Front Marítim del Poblenou,71.94,5.67
-sobre_todo_barrio,el Poble Sec,Hostafrancs,111.71,0.71
-sobre_todo_barrio,el Poble Sec,Sant Antoni,32.44,0.13
-sobre_todo_barrio,el Poble Sec,el Barri Gòtic,49.21,1.09
-sobre_todo_barrio,el Poble Sec,el Raval,441.2,0.69
-sobre_todo_barrio,el Poble Sec,la Barceloneta,62.21,1.97
-sobre_todo_barrio,el Poble Sec,la Maternitat i Sant Ramon,36.19,4.34
-sobre_todo_barrio,el Poble Sec,la Nova Esquerra de l'Eixample,22.0,0.66
-sobre_todo_barrio,el Poblenou,Diagonal Mar i el Front Marítim del Poblenou,119.47,0.26
-sobre_todo_barrio,el Poblenou,la Barceloneta,25.0,1.15
-sobre_todo_barrio,el Putxet i el Farró,Sant Gervasi - la Bonanova,69.47,0.62
-sobre_todo_barrio,el Putxet i el Farró,la Maternitat i Sant Ramon,25.44,2.82
-sobre_todo_barrio,el Putxet i el Farró,les Corts,51.0,1.76
-sobre_todo_barrio,el Raval,el Barri Gòtic,108.96,0.43
-sobre_todo_barrio,el Raval,la Barceloneta,57.0,1.86
-sobre_todo_barrio,l'Antiga Esquerra de l'Eixample,Diagonal Mar i el Front Marítim del Poblenou,60.0,5.52
-sobre_todo_barrio,l'Antiga Esquerra de l'Eixample,Sant Antoni,38.32,0.15
-sobre_todo_barrio,l'Antiga Esquerra de l'Eixample,Sant Gervasi - Galvany,34.81,0.3
-sobre_todo_barrio,l'Antiga Esquerra de l'Eixample,el Barri Gòtic,32.82,1.44
-sobre_todo_barrio,l'Antiga Esquerra de l'Eixample,el Raval,266.36,0.96
-sobre_todo_barrio,l'Antiga Esquerra de l'Eixample,la Barceloneta,22.0,3.05
-sobre_todo_barrio,l'Antiga Esquerra de l'Eixample,la Dreta de l'Eixample,195.77,0.58
-sobre_todo_barrio,l'Antiga Esquerra de l'Eixample,la Maternitat i Sant Ramon,76.0,3.13
-sobre_todo_barrio,l'Antiga Esquerra de l'Eixample,la Nova Esquerra de l'Eixample,71.42,0.42
-sobre_todo_barrio,l'Antiga Esquerra de l'Eixample,les Corts,144.93,1.04
-sobre_todo_barrio,la Barceloneta,"Sant Pere, Santa Caterina i la Ribera",171.35,0.59
-sobre_todo_barrio,la Barceloneta,el Barri Gòtic,39.98,0.85
-sobre_todo_barrio,la Bordeta,Sants,28.0,0.81
-sobre_todo_barrio,la Bordeta,la Font de la Guatlla,25.0,0.35
-sobre_todo_barrio,la Bordeta,la Marina de Port,32.0,1.46
-sobre_todo_barrio,la Dreta de l'Eixample,Diagonal Mar i el Front Marítim del Poblenou,90.0,4.28
-sobre_todo_barrio,la Dreta de l'Eixample,"Sant Pere, Santa Caterina i la Ribera",152.14,0.78
-sobre_todo_barrio,la Dreta de l'Eixample,el Barri Gòtic,637.81,0.92
-sobre_todo_barrio,la Dreta de l'Eixample,el Fort Pienc,63.26,0.33
-sobre_todo_barrio,la Dreta de l'Eixample,el Raval,365.11,0.36
-sobre_todo_barrio,la Dreta de l'Eixample,l'Antiga Esquerra de l'Eixample,140.94,0.17
-sobre_todo_barrio,la Dreta de l'Eixample,la Barceloneta,137.0,2.5
-sobre_todo_barrio,la Dreta de l'Eixample,la Maternitat i Sant Ramon,29.0,4.94
-sobre_todo_barrio,la Font de la Guatlla,Hostafrancs,49.39,0.88
-sobre_todo_barrio,la Nova Esquerra de l'Eixample,Diagonal Mar i el Front Marítim del Poblenou,35.55,6.06
-sobre_todo_barrio,la Nova Esquerra de l'Eixample,Hostafrancs,315.86,0.59
-sobre_todo_barrio,la Nova Esquerra de l'Eixample,Sants,65.0,0.66
-sobre_todo_barrio,la Nova Esquerra de l'Eixample,el Barri Gòtic,30.38,1.8
-sobre_todo_barrio,la Nova Esquerra de l'Eixample,el Poble Sec,75.12,0.93
-sobre_todo_barrio,la Nova Esquerra de l'Eixample,el Raval,51.72,1.72
-sobre_todo_barrio,la Nova Esquerra de l'Eixample,l'Antiga Esquerra de l'Eixample,49.94,0.21
-sobre_todo_barrio,la Nova Esquerra de l'Eixample,la Marina de Port,25.58,2.51
-sobre_todo_barrio,la Nova Esquerra de l'Eixample,la Maternitat i Sant Ramon,74.0,2.54
-sobre_todo_barrio,la Nova Esquerra de l'Eixample,les Corts,73.2,1.14
-sobre_todo_barrio,la Sagrada Família,Diagonal Mar i el Front Marítim del Poblenou,97.23,3.29
-sobre_todo_barrio,la Sagrada Família,Navas,36.52,1.48
-sobre_todo_barrio,la Sagrada Família,Provençals del Poblenou,72.84,2.35
-sobre_todo_barrio,la Sagrada Família,"Sant Pere, Santa Caterina i la Ribera",20.0,1.97
-sobre_todo_barrio,la Sagrada Família,el Baix Guinardó,78.41,0.4
-sobre_todo_barrio,la Sagrada Família,el Barri Gòtic,132.64,2.01
-sobre_todo_barrio,la Sagrada Família,el Besòs i el Maresme,46.0,3.58
-sobre_todo_barrio,la Sagrada Família,el Camp d'en Grassot i Gràcia Nova,68.0,0.32
-sobre_todo_barrio,la Sagrada Família,el Camp de l'Arpa del Clot,231.75,0.87
-sobre_todo_barrio,la Sagrada Família,el Fort Pienc,140.92,0.38
-sobre_todo_barrio,la Sagrada Família,el Guinardó,20.7,0.74
-sobre_todo_barrio,la Sagrada Família,el Parc i la Llacuna del Poblenou,603.82,1.37
-sobre_todo_barrio,la Sagrada Família,el Poblenou,125.81,1.84
-sobre_todo_barrio,la Sagrada Família,la Barceloneta,95.77,2.7
-sobre_todo_barrio,la Sagrada Família,la Dreta de l'Eixample,267.23,1.38
-sobre_todo_barrio,la Sagrera,Diagonal Mar i el Front Marítim del Poblenou,20.0,2.95
-sobre_todo_barrio,la Vila Olímpica del Poblenou,el Parc i la Llacuna del Poblenou,90.88,0.33
-sobre_todo_barrio,la Vila Olímpica del Poblenou,la Barceloneta,47.0,0.6
-sobre_todo_barrio,la Vila de Gràcia,Diagonal Mar i el Front Marítim del Poblenou,31.0,5.14
-sobre_todo_barrio,la Vila de Gràcia,Sant Gervasi - Galvany,354.19,0.65
-sobre_todo_barrio,la Vila de Gràcia,"Sant Pere, Santa Caterina i la Ribera",32.0,2.5
-sobre_todo_barrio,la Vila de Gràcia,el Barri Gòtic,61.0,2.25
-sobre_todo_barrio,la Vila de Gràcia,el Coll,21.5,1.29
-sobre_todo_barrio,la Vila de Gràcia,el Putxet i el Farró,79.56,1.05
-sobre_todo_barrio,la Vila de Gràcia,el Raval,53.52,2.07
-sobre_todo_barrio,la Vila de Gràcia,l'Antiga Esquerra de l'Eixample,114.54,0.8
-sobre_todo_barrio,la Vila de Gràcia,la Dreta de l'Eixample,575.8,0.57
-sobre_todo_barrio,la Vila de Gràcia,la Maternitat i Sant Ramon,84.0,3.55
-sobre_todo_barrio,la Vila de Gràcia,les Corts,196.56,1.91
-sobre_todo_barrio,les Corts,la Maternitat i Sant Ramon,93.31,0.94
-sobre_todo_barrio,les Tres Torres,Sarrià,23.04,0.45
-solo_barrio,Can Baró,la Vall d'Hebron,22.06,2.32
-solo_barrio,Hostafrancs,la Font de la Guatlla,42.3,0.2
-solo_barrio,Hostafrancs,la Marina de Port,25.0,1.79
-solo_barrio,Hostafrancs,la Maternitat i Sant Ramon,28.0,1.88
-solo_barrio,Navas,Provençals del Poblenou,22.0,1.68
-solo_barrio,Provençals del Poblenou,el Poblenou,22.0,0.17
-solo_barrio,Sant Andreu,Porta,34.89,0.62
-solo_barrio,Sant Antoni,Diagonal Mar i el Front Marítim del Poblenou,34.0,6.01
-solo_barrio,Sant Antoni,Hostafrancs,146.54,0.84
-solo_barrio,Sant Antoni,el Barri Gòtic,49.95,1.13
-solo_barrio,Sant Antoni,el Poble Sec,110.5,0.35
-solo_barrio,Sant Antoni,el Raval,766.35,0.58
-solo_barrio,Sant Antoni,l'Antiga Esquerra de l'Eixample,93.53,0.22
-solo_barrio,Sant Antoni,la Barceloneta,39.62,2.84
-solo_barrio,Sant Antoni,la Dreta de l'Eixample,25.48,0.45
-solo_barrio,Sant Antoni,la Nova Esquerra de l'Eixample,144.94,0.3
-solo_barrio,Sant Gervasi - Galvany,Sant Gervasi - la Bonanova,27.0,0.36
-solo_barrio,Sant Gervasi - Galvany,la Maternitat i Sant Ramon,33.0,2.15
-solo_barrio,Sant Gervasi - Galvany,les Corts,122.72,1.3
-solo_barrio,Sant Gervasi - la Bonanova,Sarrià,27.81,1.51
-solo_barrio,Sant Martí de Provençals,Provençals del Poblenou,39.0,0.98
-solo_barrio,"Sant Pere, Santa Caterina i la Ribera",Diagonal Mar i el Front Marítim del Poblenou,42.0,4.12
-solo_barrio,"Sant Pere, Santa Caterina i la Ribera",el Barri Gòtic,263.37,0.16
-solo_barrio,"Sant Pere, Santa Caterina i la Ribera",la Barceloneta,66.0,1.7
-solo_barrio,Sants,Hostafrancs,28.0,0.45
-solo_barrio,Sants,la Maternitat i Sant Ramon,66.0,1.61
-solo_barrio,Sants,les Corts,44.0,1.34
-solo_barrio,Sants - Badal,Sants,35.0,1.11
-solo_barrio,Sants - Badal,la Maternitat i Sant Ramon,94.57,1.08
-solo_barrio,Vallcarca i els Penitents,Sarrià,27.8,2.26
-solo_barrio,Vallcarca i els Penitents,"Vallvidrera, el Tibidabo i les Planes",20.04,2.58
-solo_barrio,el Baix Guinardó,el Guinardó,30.67,1.07
-solo_barrio,el Baix Guinardó,la Dreta de l'Eixample,34.94,1.75
-solo_barrio,el Barri Gòtic,Diagonal Mar i el Front Marítim del Poblenou,29.0,4.61
-solo_barrio,el Barri Gòtic,el Raval,30.0,0.05
-solo_barrio,el Barri Gòtic,la Barceloneta,23.0,1.76
-solo_barrio,el Besòs i el Maresme,Diagonal Mar i el Front Marítim del Poblenou,42.0,0.48
-solo_barrio,el Camp d'en Grassot i Gràcia Nova,Diagonal Mar i el Front Marítim del Poblenou,30.0,4.44
-solo_barrio,el Camp d'en Grassot i Gràcia Nova,el Barri Gòtic,99.9,2.22
-solo_barrio,el Camp d'en Grassot i Gràcia Nova,la Dreta de l'Eixample,234.57,1.24
-solo_barrio,el Camp de l'Arpa del Clot,Diagonal Mar i el Front Marítim del Poblenou,100.0,2.77
-solo_barrio,el Camp de l'Arpa del Clot,Navas,40.19,0.89
-solo_barrio,el Camp de l'Arpa del Clot,Provençals del Poblenou,107.08,1.66
-solo_barrio,el Camp de l'Arpa del Clot,el Guinardó,23.13,0.3
-solo_barrio,el Camp de l'Arpa del Clot,el Parc i la Llacuna del Poblenou,50.4,1.36
-solo_barrio,el Camp de l'Arpa del Clot,el Poblenou,98.74,1.74
-solo_barrio,el Carmel,la Vall d'Hebron,35.04,1.66
-solo_barrio,el Clot,el Poblenou,22.0,0.92
-solo_barrio,el Fort Pienc,Diagonal Mar i el Front Marítim del Poblenou,35.0,3.14
-solo_barrio,el Fort Pienc,"Sant Pere, Santa Caterina i la Ribera",120.98,1.12
-solo_barrio,el Fort Pienc,el Parc i la Llacuna del Poblenou,379.43,0.88
-solo_barrio,el Fort Pienc,el Poblenou,27.0,1.52
-solo_barrio,el Fort Pienc,la Barceloneta,38.0,2.04
-solo_barrio,el Fort Pienc,la Dreta de l'Eixample,226.46,0.59
-solo_barrio,el Guinardó,Diagonal Mar i el Front Marítim del Poblenou,32.0,4.07
-solo_barrio,el Guinardó,Provençals del Poblenou,23.0,2.52
-solo_barrio,el Parc i la Llacuna del Poblenou,"Sant Pere, Santa Caterina i la Ribera",39.0,0.55
-solo_barrio,el Parc i la Llacuna del Poblenou,el Poblenou,35.0,0.64
-solo_barrio,el Parc i la Llacuna del Poblenou,la Barceloneta,23.0,1.03
-solo_barrio,el Parc i la Llacuna del Poblenou,la Vila Olímpica del Poblenou,53.0,0.12
-solo_barrio,el Poble Sec,Diagonal Mar i el Front Marítim del Poblenou,51.0,6.01
-solo_barrio,el Poble Sec,Hostafrancs,61.85,0.69
-solo_barrio,el Poble Sec,Sant Antoni,24.74,0.12
-solo_barrio,el Poble Sec,el Raval,475.04,0.77
-solo_barrio,el Poble Sec,la Barceloneta,48.0,1.93
-solo_barrio,el Poble Sec,la Maternitat i Sant Ramon,43.0,4.34
-solo_barrio,el Poblenou,Diagonal Mar i el Front Marítim del Poblenou,167.98,0.33
-solo_barrio,el Putxet i el Farró,Sant Gervasi - Galvany,30.06,0.37
-solo_barrio,el Putxet i el Farró,Sant Gervasi - la Bonanova,30.13,0.62
-solo_barrio,el Putxet i el Farró,la Maternitat i Sant Ramon,22.69,3.55
-solo_barrio,el Putxet i el Farró,les Corts,51.0,1.96
-solo_barrio,el Raval,Diagonal Mar i el Front Marítim del Poblenou,24.0,5.32
-solo_barrio,el Raval,el Barri Gòtic,22.0,0.45
-solo_barrio,el Raval,la Barceloneta,43.0,1.92
-solo_barrio,l'Antiga Esquerra de l'Eixample,Diagonal Mar i el Front Marítim del Poblenou,42.33,5.7
-solo_barrio,l'Antiga Esquerra de l'Eixample,Sant Antoni,32.68,0.11
-solo_barrio,l'Antiga Esquerra de l'Eixample,Sant Gervasi - Galvany,41.56,0.2
-solo_barrio,l'Antiga Esquerra de l'Eixample,el Barri Gòtic,105.51,1.99
-solo_barrio,l'Antiga Esquerra de l'Eixample,el Raval,237.96,1.03
-solo_barrio,l'Antiga Esquerra de l'Eixample,la Barceloneta,25.0,3.23
-solo_barrio,l'Antiga Esquerra de l'Eixample,la Dreta de l'Eixample,107.48,0.35
-solo_barrio,l'Antiga Esquerra de l'Eixample,la Maternitat i Sant Ramon,75.67,3.5
-solo_barrio,l'Antiga Esquerra de l'Eixample,la Nova Esquerra de l'Eixample,87.72,0.46
-solo_barrio,l'Antiga Esquerra de l'Eixample,les Corts,135.89,0.95
-solo_barrio,la Barceloneta,"Sant Pere, Santa Caterina i la Ribera",168.14,0.59
-solo_barrio,la Bordeta,Sants,28.47,0.46
-solo_barrio,la Bordeta,la Font de la Guatlla,30.0,0.5
-solo_barrio,la Bordeta,la Marina de Port,25.0,1.19
-solo_barrio,la Dreta de l'Eixample,Diagonal Mar i el Front Marítim del Poblenou,108.92,4.5
-solo_barrio,la Dreta de l'Eixample,"Sant Pere, Santa Caterina i la Ribera",73.66,0.59
-solo_barrio,la Dreta de l'Eixample,el Barri Gòtic,770.59,1.01
-solo_barrio,la Dreta de l'Eixample,el Fort Pienc,35.26,0.25
-solo_barrio,la Dreta de l'Eixample,el Raval,262.8,0.82
-solo_barrio,la Dreta de l'Eixample,l'Antiga Esquerra de l'Eixample,98.36,0.11
-solo_barrio,la Dreta de l'Eixample,la Barceloneta,150.63,2.76
-solo_barrio,la Font de la Guatlla,Hostafrancs,40.0,0.89
-solo_barrio,la Font de la Guatlla,la Marina de Port,23.1,1.48
-solo_barrio,la Nova Esquerra de l'Eixample,Hostafrancs,334.85,0.57
-solo_barrio,la Nova Esquerra de l'Eixample,Sants,55.96,0.51
-solo_barrio,la Nova Esquerra de l'Eixample,el Barri Gòtic,53.91,1.85
-solo_barrio,la Nova Esquerra de l'Eixample,el Raval,58.09,1.53
-solo_barrio,la Nova Esquerra de l'Eixample,l'Antiga Esquerra de l'Eixample,73.48,0.2
-solo_barrio,la Nova Esquerra de l'Eixample,la Maternitat i Sant Ramon,88.79,2.12
-solo_barrio,la Nova Esquerra de l'Eixample,les Corts,71.02,0.56
-solo_barrio,la Sagrada Família,Diagonal Mar i el Front Marítim del Poblenou,112.16,3.41
-solo_barrio,la Sagrada Família,Navas,24.0,1.27
-solo_barrio,la Sagrada Família,Provençals del Poblenou,33.38,1.86
-solo_barrio,la Sagrada Família,el Baix Guinardó,81.43,0.43
-solo_barrio,la Sagrada Família,el Barri Gòtic,118.2,2.02
-solo_barrio,la Sagrada Família,el Camp d'en Grassot i Gràcia Nova,68.07,0.37
-solo_barrio,la Sagrada Família,el Camp de l'Arpa del Clot,211.12,0.82
-solo_barrio,la Sagrada Família,el Fort Pienc,152.96,0.37
-solo_barrio,la Sagrada Família,el Parc i la Llacuna del Poblenou,587.66,1.32
-solo_barrio,la Sagrada Família,el Poblenou,250.14,2.06
-solo_barrio,la Sagrada Família,la Barceloneta,115.02,2.7
-solo_barrio,la Sagrada Família,la Dreta de l'Eixample,253.35,1.35
-solo_barrio,la Vila Olímpica del Poblenou,el Parc i la Llacuna del Poblenou,50.62,0.28
-solo_barrio,la Vila Olímpica del Poblenou,la Barceloneta,106.0,0.37
-solo_barrio,la Vila de Gràcia,Diagonal Mar i el Front Marítim del Poblenou,25.0,5.17
-solo_barrio,la Vila de Gràcia,Pedralbes,22.9,3.52
-solo_barrio,la Vila de Gràcia,Sant Gervasi - Galvany,300.46,0.55
-solo_barrio,la Vila de Gràcia,Sant Gervasi - la Bonanova,24.34,1.79
-solo_barrio,la Vila de Gràcia,el Barri Gòtic,145.84,2.48
-solo_barrio,la Vila de Gràcia,el Putxet i el Farró,73.45,0.85
-solo_barrio,la Vila de Gràcia,el Raval,79.88,2.02
-solo_barrio,la Vila de Gràcia,l'Antiga Esquerra de l'Eixample,102.23,0.92
-solo_barrio,la Vila de Gràcia,la Barceloneta,24.0,3.63
-solo_barrio,la Vila de Gràcia,la Dreta de l'Eixample,502.39,0.51
-solo_barrio,la Vila de Gràcia,la Maternitat i Sant Ramon,60.0,3.84
-solo_barrio,la Vila de Gràcia,les Corts,253.94,2.03
-solo_barrio,les Corts,la Maternitat i Sant Ramon,101.05,1.19
+momento,escenario,origen,destino,turistas,km_mediano
+anio_medio,solo_precio,Diagonal Mar i el Front Marítim del Poblenou,la Dreta de l'Eixample,28.68,4.02
+anio_medio,solo_precio,Hostafrancs,el Raval,22.85,2.4
+anio_medio,solo_precio,Sant Antoni,Hostafrancs,35.34,1.37
+anio_medio,solo_precio,Sant Antoni,Sant Gervasi - Galvany,21.46,2.15
+anio_medio,solo_precio,Sant Antoni,"Sant Pere, Santa Caterina i la Ribera",25.82,1.93
+anio_medio,solo_precio,Sant Antoni,Sants,20.49,1.78
+anio_medio,solo_precio,Sant Antoni,el Barri Gòtic,66.55,1.37
+anio_medio,solo_precio,Sant Antoni,el Fort Pienc,21.29,2.8
+anio_medio,solo_precio,Sant Antoni,el Parc i la Llacuna del Poblenou,35.58,3.23
+anio_medio,solo_precio,Sant Antoni,el Poble Sec,22.27,1.09
+anio_medio,solo_precio,Sant Antoni,el Poblenou,41.53,4.22
+anio_medio,solo_precio,Sant Antoni,el Raval,95.72,1.08
+anio_medio,solo_precio,Sant Antoni,l'Antiga Esquerra de l'Eixample,45.53,1.02
+anio_medio,solo_precio,Sant Antoni,la Dreta de l'Eixample,101.33,1.63
+anio_medio,solo_precio,Sant Antoni,la Nova Esquerra de l'Eixample,31.41,1.04
+anio_medio,solo_precio,Sant Antoni,les Corts,24.29,2.22
+anio_medio,solo_precio,Sant Gervasi - Galvany,el Barri Gòtic,24.52,3.01
+anio_medio,solo_precio,Sant Gervasi - Galvany,el Raval,32.7,2.48
+anio_medio,solo_precio,Sant Gervasi - Galvany,la Dreta de l'Eixample,36.82,2.06
+anio_medio,solo_precio,"Sant Pere, Santa Caterina i la Ribera",el Barri Gòtic,73.53,0.74
+anio_medio,solo_precio,"Sant Pere, Santa Caterina i la Ribera",el Poblenou,26.89,2.38
+anio_medio,solo_precio,"Sant Pere, Santa Caterina i la Ribera",el Raval,42.23,1.12
+anio_medio,solo_precio,"Sant Pere, Santa Caterina i la Ribera",l'Antiga Esquerra de l'Eixample,24.53,1.82
+anio_medio,solo_precio,"Sant Pere, Santa Caterina i la Ribera",la Dreta de l'Eixample,85.93,1.28
+anio_medio,solo_precio,Sants,el Raval,37.43,2.87
+anio_medio,solo_precio,Sants,la Dreta de l'Eixample,27.67,3.08
+anio_medio,solo_precio,el Barri Gòtic,Hostafrancs,20.32,2.74
+anio_medio,solo_precio,el Barri Gòtic,el Parc i la Llacuna del Poblenou,24.98,2.1
+anio_medio,solo_precio,el Barri Gòtic,el Poblenou,28.72,3.03
+anio_medio,solo_precio,el Barri Gòtic,el Raval,74.38,0.69
+anio_medio,solo_precio,el Barri Gòtic,l'Antiga Esquerra de l'Eixample,32.82,1.9
+anio_medio,solo_precio,el Barri Gòtic,la Dreta de l'Eixample,77.54,1.26
+anio_medio,solo_precio,el Camp d'en Grassot i Gràcia Nova,el Barri Gòtic,27.09,2.63
+anio_medio,solo_precio,el Camp d'en Grassot i Gràcia Nova,el Raval,30.6,2.95
+anio_medio,solo_precio,el Camp d'en Grassot i Gràcia Nova,la Dreta de l'Eixample,31.67,1.63
+anio_medio,solo_precio,el Camp de l'Arpa del Clot,el Barri Gòtic,23.48,3.09
+anio_medio,solo_precio,el Camp de l'Arpa del Clot,la Dreta de l'Eixample,34.57,2.46
+anio_medio,solo_precio,el Fort Pienc,Hostafrancs,24.51,3.68
+anio_medio,solo_precio,el Fort Pienc,el Barri Gòtic,32.67,1.93
+anio_medio,solo_precio,el Fort Pienc,el Parc i la Llacuna del Poblenou,20.5,1.16
+anio_medio,solo_precio,el Fort Pienc,el Poblenou,36.77,1.85
+anio_medio,solo_precio,el Fort Pienc,el Raval,63.36,2.23
+anio_medio,solo_precio,el Fort Pienc,l'Antiga Esquerra de l'Eixample,23.59,2.23
+anio_medio,solo_precio,el Fort Pienc,la Dreta de l'Eixample,71.03,1.18
+anio_medio,solo_precio,el Parc i la Llacuna del Poblenou,Hostafrancs,21.51,3.9
+anio_medio,solo_precio,el Parc i la Llacuna del Poblenou,el Raval,24.14,2.58
+anio_medio,solo_precio,el Poble Sec,Hostafrancs,32.58,1.29
+anio_medio,solo_precio,el Poble Sec,Sant Gervasi - Galvany,24.03,2.82
+anio_medio,solo_precio,el Poble Sec,Sants,22.89,1.86
+anio_medio,solo_precio,el Poble Sec,el Barri Gòtic,70.16,1.36
+anio_medio,solo_precio,el Poble Sec,el Fort Pienc,20.89,2.98
+anio_medio,solo_precio,el Poble Sec,el Parc i la Llacuna del Poblenou,46.49,3.41
+anio_medio,solo_precio,el Poble Sec,el Raval,82.41,1.06
+anio_medio,solo_precio,el Poble Sec,l'Antiga Esquerra de l'Eixample,31.82,1.62
+anio_medio,solo_precio,el Poble Sec,la Dreta de l'Eixample,93.9,2.18
+anio_medio,solo_precio,el Poble Sec,la Nova Esquerra de l'Eixample,22.62,1.82
+anio_medio,solo_precio,el Poble Sec,les Corts,25.95,2.73
+anio_medio,solo_precio,el Poblenou,el Barri Gòtic,39.12,3.21
+anio_medio,solo_precio,el Poblenou,el Raval,38.08,3.61
+anio_medio,solo_precio,el Poblenou,l'Antiga Esquerra de l'Eixample,36.83,4.01
+anio_medio,solo_precio,el Poblenou,la Dreta de l'Eixample,50.57,3.12
+anio_medio,solo_precio,el Poblenou,les Corts,22.6,5.66
+anio_medio,solo_precio,el Putxet i el Farró,la Dreta de l'Eixample,24.18,2.45
+anio_medio,solo_precio,el Raval,Hostafrancs,20.99,2.29
+anio_medio,solo_precio,el Raval,Sants,21.83,2.5
+anio_medio,solo_precio,el Raval,el Barri Gòtic,51.23,0.68
+anio_medio,solo_precio,el Raval,el Poblenou,31.38,3.51
+anio_medio,solo_precio,el Raval,l'Antiga Esquerra de l'Eixample,45.34,1.56
+anio_medio,solo_precio,el Raval,la Dreta de l'Eixample,61.68,1.25
+anio_medio,solo_precio,l'Antiga Esquerra de l'Eixample,Hostafrancs,28.5,1.59
+anio_medio,solo_precio,l'Antiga Esquerra de l'Eixample,Sant Gervasi - Galvany,23.1,1.2
+anio_medio,solo_precio,l'Antiga Esquerra de l'Eixample,"Sant Pere, Santa Caterina i la Ribera",26.72,2.32
+anio_medio,solo_precio,l'Antiga Esquerra de l'Eixample,Sants,23.53,1.61
+anio_medio,solo_precio,l'Antiga Esquerra de l'Eixample,el Barri Gòtic,79.24,1.6
+anio_medio,solo_precio,l'Antiga Esquerra de l'Eixample,el Fort Pienc,22.42,2.25
+anio_medio,solo_precio,l'Antiga Esquerra de l'Eixample,el Parc i la Llacuna del Poblenou,32.94,3.23
+anio_medio,solo_precio,l'Antiga Esquerra de l'Eixample,el Poble Sec,25.68,1.98
+anio_medio,solo_precio,l'Antiga Esquerra de l'Eixample,el Poblenou,37.15,3.92
+anio_medio,solo_precio,l'Antiga Esquerra de l'Eixample,el Raval,97.71,1.48
+anio_medio,solo_precio,l'Antiga Esquerra de l'Eixample,la Dreta de l'Eixample,90.67,1.09
+anio_medio,solo_precio,l'Antiga Esquerra de l'Eixample,la Nova Esquerra de l'Eixample,28.33,1.17
+anio_medio,solo_precio,l'Antiga Esquerra de l'Eixample,les Corts,35.39,1.65
+anio_medio,solo_precio,la Barceloneta,la Dreta de l'Eixample,34.88,2.26
+anio_medio,solo_precio,la Dreta de l'Eixample,Hostafrancs,52.08,2.43
+anio_medio,solo_precio,la Dreta de l'Eixample,Sant Antoni,47.77,1.68
+anio_medio,solo_precio,la Dreta de l'Eixample,Sant Gervasi - Galvany,73.54,1.57
+anio_medio,solo_precio,la Dreta de l'Eixample,Sant Gervasi - la Bonanova,20.87,3.36
+anio_medio,solo_precio,la Dreta de l'Eixample,"Sant Pere, Santa Caterina i la Ribera",68.43,1.38
+anio_medio,solo_precio,la Dreta de l'Eixample,Sants,69.15,2.84
+anio_medio,solo_precio,la Dreta de l'Eixample,el Barri Gòtic,269.85,1.34
+anio_medio,solo_precio,la Dreta de l'Eixample,el Camp de l'Arpa del Clot,50.56,2.36
+anio_medio,solo_precio,la Dreta de l'Eixample,el Fort Pienc,53.26,1.15
+anio_medio,solo_precio,la Dreta de l'Eixample,el Parc i la Llacuna del Poblenou,94.73,1.91
+anio_medio,solo_precio,la Dreta de l'Eixample,el Poble Sec,77.61,2.22
+anio_medio,solo_precio,la Dreta de l'Eixample,el Poblenou,96.54,2.82
+anio_medio,solo_precio,la Dreta de l'Eixample,el Putxet i el Farró,42.37,2.3
+anio_medio,solo_precio,la Dreta de l'Eixample,el Raval,267.49,1.45
+anio_medio,solo_precio,la Dreta de l'Eixample,l'Antiga Esquerra de l'Eixample,118.23,1.32
+anio_medio,solo_precio,la Dreta de l'Eixample,la Nova Esquerra de l'Eixample,90.57,2.26
+anio_medio,solo_precio,la Dreta de l'Eixample,la Sagrada Família,26.57,1.66
+anio_medio,solo_precio,la Dreta de l'Eixample,la Vila de Gràcia,21.03,1.32
+anio_medio,solo_precio,la Dreta de l'Eixample,les Corts,74.39,2.65
+anio_medio,solo_precio,la Maternitat i Sant Ramon,la Dreta de l'Eixample,21.07,3.74
+anio_medio,solo_precio,la Nova Esquerra de l'Eixample,"Sant Pere, Santa Caterina i la Ribera",20.4,2.76
+anio_medio,solo_precio,la Nova Esquerra de l'Eixample,el Barri Gòtic,84.36,2.09
+anio_medio,solo_precio,la Nova Esquerra de l'Eixample,el Parc i la Llacuna del Poblenou,35.92,3.61
+anio_medio,solo_precio,la Nova Esquerra de l'Eixample,el Poble Sec,29.89,1.71
+anio_medio,solo_precio,la Nova Esquerra de l'Eixample,el Poblenou,20.23,4.8
+anio_medio,solo_precio,la Nova Esquerra de l'Eixample,el Raval,66.03,1.74
+anio_medio,solo_precio,la Nova Esquerra de l'Eixample,l'Antiga Esquerra de l'Eixample,33.85,1.18
+anio_medio,solo_precio,la Nova Esquerra de l'Eixample,la Dreta de l'Eixample,83.33,1.89
+anio_medio,solo_precio,la Sagrada Família,Hostafrancs,33.67,4.04
+anio_medio,solo_precio,la Sagrada Família,Sant Gervasi - Galvany,25.52,2.5
+anio_medio,solo_precio,la Sagrada Família,"Sant Pere, Santa Caterina i la Ribera",23.9,2.14
+anio_medio,solo_precio,la Sagrada Família,Sants,34.55,4.16
+anio_medio,solo_precio,la Sagrada Família,el Barri Gòtic,94.38,2.53
+anio_medio,solo_precio,la Sagrada Família,el Camp de l'Arpa del Clot,28.78,1.07
+anio_medio,solo_precio,la Sagrada Família,el Fort Pienc,23.45,0.96
+anio_medio,solo_precio,la Sagrada Família,el Parc i la Llacuna del Poblenou,35.54,1.65
+anio_medio,solo_precio,la Sagrada Família,el Poble Sec,46.48,3.42
+anio_medio,solo_precio,la Sagrada Família,el Poblenou,24.37,2.34
+anio_medio,solo_precio,la Sagrada Família,el Raval,126.68,2.81
+anio_medio,solo_precio,la Sagrada Família,l'Antiga Esquerra de l'Eixample,57.21,2.42
+anio_medio,solo_precio,la Sagrada Família,la Dreta de l'Eixample,131.08,1.65
+anio_medio,solo_precio,la Sagrada Família,la Nova Esquerra de l'Eixample,20.36,3.42
+anio_medio,solo_precio,la Sagrada Família,la Vila Olímpica del Poblenou,30.67,2.29
+anio_medio,solo_precio,la Vila Olímpica del Poblenou,el Raval,26.04,2.46
+anio_medio,solo_precio,la Vila de Gràcia,Hostafrancs,22.88,3.14
+anio_medio,solo_precio,la Vila de Gràcia,Sant Gervasi - Galvany,28.47,0.94
+anio_medio,solo_precio,la Vila de Gràcia,"Sant Pere, Santa Caterina i la Ribera",32.47,2.83
+anio_medio,solo_precio,la Vila de Gràcia,el Barri Gòtic,86.46,2.58
+anio_medio,solo_precio,la Vila de Gràcia,el Fort Pienc,26.86,2.0
+anio_medio,solo_precio,la Vila de Gràcia,el Parc i la Llacuna del Poblenou,36.05,2.95
+anio_medio,solo_precio,la Vila de Gràcia,el Poble Sec,39.51,3.13
+anio_medio,solo_precio,la Vila de Gràcia,el Poblenou,32.37,3.6
+anio_medio,solo_precio,la Vila de Gràcia,el Raval,87.18,2.54
+anio_medio,solo_precio,la Vila de Gràcia,l'Antiga Esquerra de l'Eixample,57.88,1.48
+anio_medio,solo_precio,la Vila de Gràcia,la Dreta de l'Eixample,100.15,1.47
+anio_medio,solo_precio,la Vila de Gràcia,la Nova Esquerra de l'Eixample,32.01,2.43
+anio_medio,solo_precio,la Vila de Gràcia,les Corts,28.34,2.4
+anio_medio,solo_precio,les Corts,el Barri Gòtic,20.15,3.26
+anio_medio,solo_precio,les Corts,el Raval,35.46,2.92
+anio_medio,sobre_todo_precio,Diagonal Mar i el Front Marítim del Poblenou,el Poblenou,96.13,0.94
+anio_medio,sobre_todo_precio,Provençals del Poblenou,el Poblenou,25.28,0.98
+anio_medio,sobre_todo_precio,Sant Antoni,Hostafrancs,60.39,0.65
+anio_medio,sobre_todo_precio,Sant Antoni,el Poble Sec,88.74,0.45
+anio_medio,sobre_todo_precio,Sant Antoni,el Raval,362.71,0.69
+anio_medio,sobre_todo_precio,Sant Antoni,l'Antiga Esquerra de l'Eixample,40.86,0.17
+anio_medio,sobre_todo_precio,Sant Antoni,la Nova Esquerra de l'Eixample,80.7,0.4
+anio_medio,sobre_todo_precio,Sant Gervasi - Galvany,les Corts,56.68,1.01
+anio_medio,sobre_todo_precio,"Sant Pere, Santa Caterina i la Ribera",el Barri Gòtic,260.93,0.46
+anio_medio,sobre_todo_precio,"Sant Pere, Santa Caterina i la Ribera",la Dreta de l'Eixample,21.23,0.24
+anio_medio,sobre_todo_precio,Sants,Hostafrancs,22.78,0.7
+anio_medio,sobre_todo_precio,Sants,les Corts,26.43,0.88
+anio_medio,sobre_todo_precio,Sants - Badal,la Marina de Port,21.45,2.14
+anio_medio,sobre_todo_precio,Sants - Badal,la Maternitat i Sant Ramon,31.61,1.03
+anio_medio,sobre_todo_precio,Vallcarca i els Penitents,les Corts,28.75,2.5
+anio_medio,sobre_todo_precio,el Barri Gòtic,el Raval,61.44,0.33
+anio_medio,sobre_todo_precio,el Besòs i el Maresme,Diagonal Mar i el Front Marítim del Poblenou,42.83,0.5
+anio_medio,sobre_todo_precio,el Camp d'en Grassot i Gràcia Nova,la Dreta de l'Eixample,63.15,1.15
+anio_medio,sobre_todo_precio,el Camp de l'Arpa del Clot,el Parc i la Llacuna del Poblenou,82.09,1.32
+anio_medio,sobre_todo_precio,el Camp de l'Arpa del Clot,el Poblenou,22.12,1.97
+anio_medio,sobre_todo_precio,el Fort Pienc,"Sant Pere, Santa Caterina i la Ribera",61.71,1.41
+anio_medio,sobre_todo_precio,el Fort Pienc,el Barri Gòtic,54.6,1.7
+anio_medio,sobre_todo_precio,el Fort Pienc,el Parc i la Llacuna del Poblenou,146.34,0.9
+anio_medio,sobre_todo_precio,el Fort Pienc,el Poblenou,20.07,1.57
+anio_medio,sobre_todo_precio,el Fort Pienc,la Dreta de l'Eixample,44.45,0.66
+anio_medio,sobre_todo_precio,el Parc i la Llacuna del Poblenou,"Sant Pere, Santa Caterina i la Ribera",27.87,0.75
+anio_medio,sobre_todo_precio,el Poble Sec,Hostafrancs,46.69,0.76
+anio_medio,sobre_todo_precio,el Poble Sec,Sant Antoni,24.33,0.23
+anio_medio,sobre_todo_precio,el Poble Sec,el Raval,229.6,0.71
+anio_medio,sobre_todo_precio,el Poble Sec,la Font de la Guatlla,25.66,0.77
+anio_medio,sobre_todo_precio,el Poblenou,el Parc i la Llacuna del Poblenou,23.75,0.56
+anio_medio,sobre_todo_precio,el Putxet i el Farró,Sant Gervasi - Galvany,20.77,0.98
+anio_medio,sobre_todo_precio,el Putxet i el Farró,Sant Gervasi - la Bonanova,30.2,0.74
+anio_medio,sobre_todo_precio,el Putxet i el Farró,les Corts,26.56,2.1
+anio_medio,sobre_todo_precio,el Raval,el Barri Gòtic,63.19,0.26
+anio_medio,sobre_todo_precio,l'Antiga Esquerra de l'Eixample,Sant Antoni,29.05,0.43
+anio_medio,sobre_todo_precio,l'Antiga Esquerra de l'Eixample,Sant Gervasi - Galvany,22.82,0.4
+anio_medio,sobre_todo_precio,l'Antiga Esquerra de l'Eixample,el Raval,56.41,0.55
+anio_medio,sobre_todo_precio,l'Antiga Esquerra de l'Eixample,la Dreta de l'Eixample,67.01,0.34
+anio_medio,sobre_todo_precio,l'Antiga Esquerra de l'Eixample,la Nova Esquerra de l'Eixample,72.26,0.5
+anio_medio,sobre_todo_precio,l'Antiga Esquerra de l'Eixample,les Corts,22.21,0.99
+anio_medio,sobre_todo_precio,la Barceloneta,"Sant Pere, Santa Caterina i la Ribera",54.43,0.63
+anio_medio,sobre_todo_precio,la Barceloneta,el Barri Gòtic,59.63,0.98
+anio_medio,sobre_todo_precio,la Dreta de l'Eixample,"Sant Pere, Santa Caterina i la Ribera",83.78,0.74
+anio_medio,sobre_todo_precio,la Dreta de l'Eixample,el Barri Gòtic,352.29,0.78
+anio_medio,sobre_todo_precio,la Dreta de l'Eixample,el Fort Pienc,34.05,0.41
+anio_medio,sobre_todo_precio,la Dreta de l'Eixample,el Raval,264.4,0.57
+anio_medio,sobre_todo_precio,la Dreta de l'Eixample,l'Antiga Esquerra de l'Eixample,93.97,0.23
+anio_medio,sobre_todo_precio,la Font de la Guatlla,Hostafrancs,20.05,0.38
+anio_medio,sobre_todo_precio,la Nova Esquerra de l'Eixample,Hostafrancs,169.49,0.47
+anio_medio,sobre_todo_precio,la Nova Esquerra de l'Eixample,Sants,82.45,0.7
+anio_medio,sobre_todo_precio,la Nova Esquerra de l'Eixample,el Raval,20.63,0.63
+anio_medio,sobre_todo_precio,la Nova Esquerra de l'Eixample,l'Antiga Esquerra de l'Eixample,42.56,0.4
+anio_medio,sobre_todo_precio,la Nova Esquerra de l'Eixample,les Corts,21.07,0.74
+anio_medio,sobre_todo_precio,la Sagrada Família,Navas,25.48,1.58
+anio_medio,sobre_todo_precio,la Sagrada Família,"Sant Pere, Santa Caterina i la Ribera",27.5,1.82
+anio_medio,sobre_todo_precio,la Sagrada Família,el Baix Guinardó,41.62,0.44
+anio_medio,sobre_todo_precio,la Sagrada Família,el Barri Gòtic,37.41,2.18
+anio_medio,sobre_todo_precio,la Sagrada Família,el Camp d'en Grassot i Gràcia Nova,46.34,0.55
+anio_medio,sobre_todo_precio,la Sagrada Família,el Camp de l'Arpa del Clot,143.27,0.9
+anio_medio,sobre_todo_precio,la Sagrada Família,el Fort Pienc,110.67,0.58
+anio_medio,sobre_todo_precio,la Sagrada Família,el Guinardó,25.94,0.97
+anio_medio,sobre_todo_precio,la Sagrada Família,el Parc i la Llacuna del Poblenou,243.39,1.52
+anio_medio,sobre_todo_precio,la Sagrada Família,la Dreta de l'Eixample,68.39,1.33
+anio_medio,sobre_todo_precio,la Vila Olímpica del Poblenou,el Parc i la Llacuna del Poblenou,37.61,0.5
+anio_medio,sobre_todo_precio,la Vila de Gràcia,Sant Gervasi - Galvany,206.23,0.71
+anio_medio,sobre_todo_precio,la Vila de Gràcia,el Coll,24.9,1.34
+anio_medio,sobre_todo_precio,la Vila de Gràcia,el Putxet i el Farró,73.78,1.18
+anio_medio,sobre_todo_precio,la Vila de Gràcia,l'Antiga Esquerra de l'Eixample,98.27,0.87
+anio_medio,sobre_todo_precio,la Vila de Gràcia,la Dreta de l'Eixample,155.05,0.45
+anio_medio,sobre_todo_precio,la Vila de Gràcia,les Corts,27.19,2.11
+anio_medio,sobre_todo_precio,les Corts,Sants,61.9,0.58
+anio_medio,equilibrio,Diagonal Mar i el Front Marítim del Poblenou,el Poblenou,35.24,0.83
+anio_medio,equilibrio,Hostafrancs,Sants,23.68,0.5
+anio_medio,equilibrio,Provençals del Poblenou,el Poblenou,25.66,0.36
+anio_medio,equilibrio,Sant Antoni,Hostafrancs,69.32,0.65
+anio_medio,equilibrio,Sant Antoni,el Poble Sec,48.59,0.25
+anio_medio,equilibrio,Sant Antoni,el Raval,310.59,0.5
+anio_medio,equilibrio,Sant Antoni,l'Antiga Esquerra de l'Eixample,72.32,0.19
+anio_medio,equilibrio,Sant Antoni,la Nova Esquerra de l'Eixample,76.32,0.31
+anio_medio,equilibrio,Sant Gervasi - Galvany,les Corts,32.94,0.7
+anio_medio,equilibrio,"Sant Pere, Santa Caterina i la Ribera",el Barri Gòtic,212.86,0.27
+anio_medio,equilibrio,"Sant Pere, Santa Caterina i la Ribera",la Dreta de l'Eixample,20.77,0.23
+anio_medio,equilibrio,Sants - Badal,Sants,23.85,1.11
+anio_medio,equilibrio,Sants - Badal,la Maternitat i Sant Ramon,24.94,0.79
+anio_medio,equilibrio,el Barri Gòtic,el Raval,34.28,0.16
+anio_medio,equilibrio,el Besòs i el Maresme,Diagonal Mar i el Front Marítim del Poblenou,57.83,0.48
+anio_medio,equilibrio,el Camp d'en Grassot i Gràcia Nova,la Dreta de l'Eixample,110.25,0.96
+anio_medio,equilibrio,el Camp de l'Arpa del Clot,Navas,23.67,0.9
+anio_medio,equilibrio,el Camp de l'Arpa del Clot,Provençals del Poblenou,29.6,1.46
+anio_medio,equilibrio,el Camp de l'Arpa del Clot,el Parc i la Llacuna del Poblenou,49.47,1.22
+anio_medio,equilibrio,el Camp de l'Arpa del Clot,el Poblenou,38.89,1.89
+anio_medio,equilibrio,el Fort Pienc,"Sant Pere, Santa Caterina i la Ribera",45.64,0.88
+anio_medio,equilibrio,el Fort Pienc,el Parc i la Llacuna del Poblenou,182.34,0.88
+anio_medio,equilibrio,el Fort Pienc,la Dreta de l'Eixample,67.7,0.51
+anio_medio,equilibrio,el Parc i la Llacuna del Poblenou,"Sant Pere, Santa Caterina i la Ribera",25.28,0.58
+anio_medio,equilibrio,el Poble Sec,Hostafrancs,62.83,0.76
+anio_medio,equilibrio,el Poble Sec,el Raval,194.23,0.53
+anio_medio,equilibrio,el Poble Sec,la Font de la Guatlla,21.52,0.76
+anio_medio,equilibrio,el Putxet i el Farró,Sant Gervasi - la Bonanova,27.79,0.62
+anio_medio,equilibrio,el Raval,el Barri Gòtic,21.44,0.16
+anio_medio,equilibrio,l'Antiga Esquerra de l'Eixample,Sant Antoni,37.7,0.28
+anio_medio,equilibrio,l'Antiga Esquerra de l'Eixample,Sant Gervasi - Galvany,28.0,0.31
+anio_medio,equilibrio,l'Antiga Esquerra de l'Eixample,el Raval,70.17,0.45
+anio_medio,equilibrio,l'Antiga Esquerra de l'Eixample,la Dreta de l'Eixample,50.97,0.29
+anio_medio,equilibrio,l'Antiga Esquerra de l'Eixample,la Nova Esquerra de l'Eixample,59.4,0.44
+anio_medio,equilibrio,la Barceloneta,"Sant Pere, Santa Caterina i la Ribera",88.82,0.61
+anio_medio,equilibrio,la Barceloneta,el Barri Gòtic,26.13,0.93
+anio_medio,equilibrio,la Bordeta,Sants,20.3,0.81
+anio_medio,equilibrio,la Dreta de l'Eixample,"Sant Pere, Santa Caterina i la Ribera",64.86,0.31
+anio_medio,equilibrio,la Dreta de l'Eixample,el Barri Gòtic,152.12,0.45
+anio_medio,equilibrio,la Dreta de l'Eixample,el Fort Pienc,34.35,0.39
+anio_medio,equilibrio,la Dreta de l'Eixample,el Raval,143.18,0.18
+anio_medio,equilibrio,la Dreta de l'Eixample,l'Antiga Esquerra de l'Eixample,92.54,0.21
+anio_medio,equilibrio,la Nova Esquerra de l'Eixample,Hostafrancs,166.78,0.51
+anio_medio,equilibrio,la Nova Esquerra de l'Eixample,Sant Antoni,25.84,0.41
+anio_medio,equilibrio,la Nova Esquerra de l'Eixample,Sants,65.31,0.53
+anio_medio,equilibrio,la Nova Esquerra de l'Eixample,l'Antiga Esquerra de l'Eixample,35.66,0.35
+anio_medio,equilibrio,la Sagrada Família,el Baix Guinardó,38.6,0.41
+anio_medio,equilibrio,la Sagrada Família,el Camp d'en Grassot i Gràcia Nova,32.78,0.3
+anio_medio,equilibrio,la Sagrada Família,el Camp de l'Arpa del Clot,141.09,0.86
+anio_medio,equilibrio,la Sagrada Família,el Fort Pienc,113.91,0.52
+anio_medio,equilibrio,la Sagrada Família,el Guinardó,26.61,0.83
+anio_medio,equilibrio,la Sagrada Família,el Parc i la Llacuna del Poblenou,259.95,1.54
+anio_medio,equilibrio,la Sagrada Família,el Poblenou,35.24,2.15
+anio_medio,equilibrio,la Sagrada Família,la Dreta de l'Eixample,114.17,1.34
+anio_medio,equilibrio,la Vila Olímpica del Poblenou,el Parc i la Llacuna del Poblenou,22.6,0.54
+anio_medio,equilibrio,la Vila de Gràcia,Sant Gervasi - Galvany,234.47,0.69
+anio_medio,equilibrio,la Vila de Gràcia,Sant Gervasi - la Bonanova,22.29,1.59
+anio_medio,equilibrio,la Vila de Gràcia,el Putxet i el Farró,57.94,1.07
+anio_medio,equilibrio,la Vila de Gràcia,l'Antiga Esquerra de l'Eixample,94.85,0.84
+anio_medio,equilibrio,la Vila de Gràcia,la Dreta de l'Eixample,178.91,0.43
+anio_medio,equilibrio,les Corts,Sants,27.48,0.29
+anio_medio,sobre_todo_barrio,Hostafrancs,la Font de la Guatlla,28.85,0.3
+anio_medio,sobre_todo_barrio,Provençals del Poblenou,el Poblenou,20.3,0.32
+anio_medio,sobre_todo_barrio,Sant Antoni,Hostafrancs,80.91,0.74
+anio_medio,sobre_todo_barrio,Sant Antoni,el Poble Sec,34.85,0.23
+anio_medio,sobre_todo_barrio,Sant Antoni,el Raval,293.16,0.47
+anio_medio,sobre_todo_barrio,Sant Antoni,l'Antiga Esquerra de l'Eixample,52.5,0.19
+anio_medio,sobre_todo_barrio,Sant Antoni,la Nova Esquerra de l'Eixample,87.83,0.32
+anio_medio,sobre_todo_barrio,Sant Gervasi - Galvany,les Corts,21.06,1.0
+anio_medio,sobre_todo_barrio,"Sant Pere, Santa Caterina i la Ribera",el Barri Gòtic,159.93,0.17
+anio_medio,sobre_todo_barrio,Sants - Badal,Sants,37.33,1.21
+anio_medio,sobre_todo_barrio,Sants - Badal,la Maternitat i Sant Ramon,30.85,0.88
+anio_medio,sobre_todo_barrio,Vallcarca i els Penitents,Sant Gervasi - la Bonanova,25.01,1.13
+anio_medio,sobre_todo_barrio,el Besòs i el Maresme,Diagonal Mar i el Front Marítim del Poblenou,49.02,0.43
+anio_medio,sobre_todo_barrio,el Camp d'en Grassot i Gràcia Nova,la Dreta de l'Eixample,125.09,1.15
+anio_medio,sobre_todo_barrio,el Camp de l'Arpa del Clot,Provençals del Poblenou,38.68,1.48
+anio_medio,sobre_todo_barrio,el Camp de l'Arpa del Clot,el Parc i la Llacuna del Poblenou,43.96,1.21
+anio_medio,sobre_todo_barrio,el Camp de l'Arpa del Clot,el Poblenou,43.66,1.38
+anio_medio,sobre_todo_barrio,el Fort Pienc,el Parc i la Llacuna del Poblenou,204.08,0.86
+anio_medio,sobre_todo_barrio,el Fort Pienc,la Dreta de l'Eixample,80.68,0.58
+anio_medio,sobre_todo_barrio,el Guinardó,Porta,21.29,1.81
+anio_medio,sobre_todo_barrio,el Parc i la Llacuna del Poblenou,la Vila Olímpica del Poblenou,29.11,0.14
+anio_medio,sobre_todo_barrio,el Poble Sec,Hostafrancs,58.22,0.81
+anio_medio,sobre_todo_barrio,el Poble Sec,Sant Antoni,20.76,0.16
+anio_medio,sobre_todo_barrio,el Poble Sec,el Raval,175.6,0.54
+anio_medio,sobre_todo_barrio,el Poblenou,Diagonal Mar i el Front Marítim del Poblenou,45.95,0.22
+anio_medio,sobre_todo_barrio,el Putxet i el Farró,Sant Gervasi - Galvany,24.9,0.37
+anio_medio,sobre_todo_barrio,el Putxet i el Farró,Sant Gervasi - la Bonanova,22.6,0.9
+anio_medio,sobre_todo_barrio,l'Antiga Esquerra de l'Eixample,Sant Antoni,29.71,0.21
+anio_medio,sobre_todo_barrio,l'Antiga Esquerra de l'Eixample,el Raval,25.3,0.51
+anio_medio,sobre_todo_barrio,l'Antiga Esquerra de l'Eixample,la Dreta de l'Eixample,72.66,0.29
+anio_medio,sobre_todo_barrio,l'Antiga Esquerra de l'Eixample,la Nova Esquerra de l'Eixample,47.82,0.37
+anio_medio,sobre_todo_barrio,la Barceloneta,"Sant Pere, Santa Caterina i la Ribera",111.45,0.62
+anio_medio,sobre_todo_barrio,la Dreta de l'Eixample,"Sant Pere, Santa Caterina i la Ribera",44.33,0.16
+anio_medio,sobre_todo_barrio,la Dreta de l'Eixample,el Barri Gòtic,65.79,0.22
+anio_medio,sobre_todo_barrio,la Dreta de l'Eixample,el Fort Pienc,26.54,0.38
+anio_medio,sobre_todo_barrio,la Dreta de l'Eixample,el Raval,66.24,0.07
+anio_medio,sobre_todo_barrio,la Dreta de l'Eixample,l'Antiga Esquerra de l'Eixample,71.7,0.19
+anio_medio,sobre_todo_barrio,la Nova Esquerra de l'Eixample,Hostafrancs,170.15,0.43
+anio_medio,sobre_todo_barrio,la Nova Esquerra de l'Eixample,Sants,25.07,0.34
+anio_medio,sobre_todo_barrio,la Nova Esquerra de l'Eixample,l'Antiga Esquerra de l'Eixample,36.77,0.34
+anio_medio,sobre_todo_barrio,la Nova Esquerra de l'Eixample,les Corts,21.28,0.32
+anio_medio,sobre_todo_barrio,la Sagrada Família,Navas,26.97,1.34
+anio_medio,sobre_todo_barrio,la Sagrada Família,el Baix Guinardó,37.45,0.36
+anio_medio,sobre_todo_barrio,la Sagrada Família,el Camp d'en Grassot i Gràcia Nova,34.89,0.36
+anio_medio,sobre_todo_barrio,la Sagrada Família,el Camp de l'Arpa del Clot,125.5,0.83
+anio_medio,sobre_todo_barrio,la Sagrada Família,el Fort Pienc,98.88,0.38
+anio_medio,sobre_todo_barrio,la Sagrada Família,el Parc i la Llacuna del Poblenou,316.85,1.39
+anio_medio,sobre_todo_barrio,la Sagrada Família,la Dreta de l'Eixample,141.95,1.24
+anio_medio,sobre_todo_barrio,la Vila Olímpica del Poblenou,el Parc i la Llacuna del Poblenou,26.81,0.29
+anio_medio,sobre_todo_barrio,la Vila de Gràcia,Sant Gervasi - Galvany,205.67,0.62
+anio_medio,sobre_todo_barrio,la Vila de Gràcia,el Putxet i el Farró,51.1,1.13
+anio_medio,sobre_todo_barrio,la Vila de Gràcia,l'Antiga Esquerra de l'Eixample,106.11,0.92
+anio_medio,sobre_todo_barrio,la Vila de Gràcia,la Dreta de l'Eixample,206.87,0.48
+anio_medio,solo_barrio,Hostafrancs,la Font de la Guatlla,29.87,0.23
+anio_medio,solo_barrio,Sant Antoni,Hostafrancs,70.86,0.65
+anio_medio,solo_barrio,Sant Antoni,el Poble Sec,69.52,0.3
+anio_medio,solo_barrio,Sant Antoni,el Raval,269.13,0.45
+anio_medio,solo_barrio,Sant Antoni,l'Antiga Esquerra de l'Eixample,52.32,0.23
+anio_medio,solo_barrio,Sant Antoni,la Nova Esquerra de l'Eixample,79.71,0.28
+anio_medio,solo_barrio,"Sant Pere, Santa Caterina i la Ribera",el Barri Gòtic,98.44,0.09
+anio_medio,solo_barrio,Sants - Badal,la Maternitat i Sant Ramon,54.39,0.92
+anio_medio,solo_barrio,el Camp d'en Grassot i Gràcia Nova,la Dreta de l'Eixample,151.12,1.22
+anio_medio,solo_barrio,el Camp de l'Arpa del Clot,Navas,26.16,0.86
+anio_medio,solo_barrio,el Camp de l'Arpa del Clot,Provençals del Poblenou,31.81,1.13
+anio_medio,solo_barrio,el Camp de l'Arpa del Clot,el Parc i la Llacuna del Poblenou,61.12,1.28
+anio_medio,solo_barrio,el Camp de l'Arpa del Clot,el Poblenou,20.27,1.42
+anio_medio,solo_barrio,el Fort Pienc,"Sant Pere, Santa Caterina i la Ribera",20.6,0.61
+anio_medio,solo_barrio,el Fort Pienc,el Parc i la Llacuna del Poblenou,162.73,0.74
+anio_medio,solo_barrio,el Fort Pienc,la Dreta de l'Eixample,120.31,0.7
+anio_medio,solo_barrio,el Parc i la Llacuna del Poblenou,la Vila Olímpica del Poblenou,35.24,0.15
+anio_medio,solo_barrio,el Poble Sec,Hostafrancs,43.94,0.8
+anio_medio,solo_barrio,el Poble Sec,el Raval,125.58,0.47
+anio_medio,solo_barrio,el Poblenou,Diagonal Mar i el Front Marítim del Poblenou,93.9,0.31
+anio_medio,solo_barrio,el Putxet i el Farró,Sant Gervasi - Galvany,30.26,0.6
+anio_medio,solo_barrio,l'Antiga Esquerra de l'Eixample,el Raval,27.54,0.53
+anio_medio,solo_barrio,l'Antiga Esquerra de l'Eixample,la Dreta de l'Eixample,61.66,0.29
+anio_medio,solo_barrio,l'Antiga Esquerra de l'Eixample,la Nova Esquerra de l'Eixample,27.77,0.27
+anio_medio,solo_barrio,la Barceloneta,"Sant Pere, Santa Caterina i la Ribera",107.23,0.59
+anio_medio,solo_barrio,la Dreta de l'Eixample,"Sant Pere, Santa Caterina i la Ribera",32.47,0.16
+anio_medio,solo_barrio,la Dreta de l'Eixample,el Raval,22.6,0.03
+anio_medio,solo_barrio,la Dreta de l'Eixample,l'Antiga Esquerra de l'Eixample,38.28,0.09
+anio_medio,solo_barrio,la Nova Esquerra de l'Eixample,Hostafrancs,138.63,0.44
+anio_medio,solo_barrio,la Nova Esquerra de l'Eixample,Sants,22.34,0.29
+anio_medio,solo_barrio,la Nova Esquerra de l'Eixample,el Raval,20.49,0.82
+anio_medio,solo_barrio,la Nova Esquerra de l'Eixample,l'Antiga Esquerra de l'Eixample,44.0,0.22
+anio_medio,solo_barrio,la Sagrada Família,el Baix Guinardó,34.73,0.36
+anio_medio,solo_barrio,la Sagrada Família,el Camp d'en Grassot i Gràcia Nova,40.14,0.37
+anio_medio,solo_barrio,la Sagrada Família,el Camp de l'Arpa del Clot,138.19,0.83
+anio_medio,solo_barrio,la Sagrada Família,el Fort Pienc,91.56,0.37
+anio_medio,solo_barrio,la Sagrada Família,el Parc i la Llacuna del Poblenou,260.04,1.26
+anio_medio,solo_barrio,la Sagrada Família,el Poblenou,32.7,1.5
+anio_medio,solo_barrio,la Sagrada Família,la Dreta de l'Eixample,177.58,1.23
+anio_medio,solo_barrio,la Vila Olímpica del Poblenou,la Barceloneta,32.17,0.31
+anio_medio,solo_barrio,la Vila de Gràcia,Sant Gervasi - Galvany,187.96,0.66
+anio_medio,solo_barrio,la Vila de Gràcia,el Putxet i el Farró,43.62,0.95
+anio_medio,solo_barrio,la Vila de Gràcia,l'Antiga Esquerra de l'Eixample,44.95,0.86
+anio_medio,solo_barrio,la Vila de Gràcia,la Dreta de l'Eixample,317.86,0.59
+anio_medio,solo_barrio,les Corts,la Maternitat i Sant Ramon,21.45,0.39
+julio,solo_precio,Diagonal Mar i el Front Marítim del Poblenou,la Dreta de l'Eixample,49.64,3.95
+julio,solo_precio,Hostafrancs,el Poblenou,20.08,5.42
+julio,solo_precio,Hostafrancs,la Dreta de l'Eixample,31.91,2.85
+julio,solo_precio,Sant Antoni,Diagonal Mar i el Front Marítim del Poblenou,38.28,5.64
+julio,solo_precio,Sant Antoni,Hostafrancs,25.04,1.21
+julio,solo_precio,Sant Antoni,"Sant Pere, Santa Caterina i la Ribera",27.21,1.88
+julio,solo_precio,Sant Antoni,Sants,20.82,1.66
+julio,solo_precio,Sant Antoni,el Barri Gòtic,82.52,1.35
+julio,solo_precio,Sant Antoni,el Parc i la Llacuna del Poblenou,30.84,3.42
+julio,solo_precio,Sant Antoni,el Poble Sec,27.46,0.77
+julio,solo_precio,Sant Antoni,el Raval,80.77,0.97
+julio,solo_precio,Sant Antoni,l'Antiga Esquerra de l'Eixample,48.07,1.1
+julio,solo_precio,Sant Antoni,la Barceloneta,26.33,2.92
+julio,solo_precio,Sant Antoni,la Dreta de l'Eixample,163.8,1.53
+julio,solo_precio,Sant Antoni,la Maternitat i Sant Ramon,23.65,3.4
+julio,solo_precio,Sant Antoni,les Corts,38.46,2.07
+julio,solo_precio,Sant Gervasi - Galvany,la Dreta de l'Eixample,60.34,2.01
+julio,solo_precio,"Sant Pere, Santa Caterina i la Ribera",Diagonal Mar i el Front Marítim del Poblenou,24.99,3.7
+julio,solo_precio,"Sant Pere, Santa Caterina i la Ribera",el Barri Gòtic,35.01,0.73
+julio,solo_precio,"Sant Pere, Santa Caterina i la Ribera",el Parc i la Llacuna del Poblenou,22.28,1.89
+julio,solo_precio,"Sant Pere, Santa Caterina i la Ribera",el Raval,38.06,1.08
+julio,solo_precio,"Sant Pere, Santa Caterina i la Ribera",l'Antiga Esquerra de l'Eixample,20.43,1.93
+julio,solo_precio,"Sant Pere, Santa Caterina i la Ribera",la Dreta de l'Eixample,101.22,1.32
+julio,solo_precio,"Sant Pere, Santa Caterina i la Ribera",les Corts,26.01,3.4
+julio,solo_precio,Sants,el Raval,39.7,2.9
+julio,solo_precio,Sants,la Dreta de l'Eixample,28.25,3.18
+julio,solo_precio,el Barri Gòtic,Diagonal Mar i el Front Marítim del Poblenou,27.71,4.33
+julio,solo_precio,el Barri Gòtic,el Parc i la Llacuna del Poblenou,23.65,2.66
+julio,solo_precio,el Barri Gòtic,el Poblenou,20.08,2.87
+julio,solo_precio,el Barri Gòtic,el Raval,71.58,0.75
+julio,solo_precio,el Barri Gòtic,la Dreta de l'Eixample,51.42,1.23
+julio,solo_precio,el Barri Gòtic,les Corts,21.67,3.12
+julio,solo_precio,el Camp d'en Grassot i Gràcia Nova,el Raval,22.42,2.91
+julio,solo_precio,el Camp d'en Grassot i Gràcia Nova,la Dreta de l'Eixample,44.71,1.63
+julio,solo_precio,el Camp de l'Arpa del Clot,el Raval,28.33,3.29
+julio,solo_precio,el Camp de l'Arpa del Clot,la Dreta de l'Eixample,50.24,2.3
+julio,solo_precio,el Fort Pienc,Provençals del Poblenou,20.17,1.99
+julio,solo_precio,el Fort Pienc,el Barri Gòtic,45.95,1.78
+julio,solo_precio,el Fort Pienc,el Parc i la Llacuna del Poblenou,34.89,1.01
+julio,solo_precio,el Fort Pienc,el Raval,48.58,2.26
+julio,solo_precio,el Fort Pienc,l'Antiga Esquerra de l'Eixample,23.54,2.23
+julio,solo_precio,el Fort Pienc,la Dreta de l'Eixample,109.3,1.4
+julio,solo_precio,el Parc i la Llacuna del Poblenou,la Dreta de l'Eixample,34.14,2.17
+julio,solo_precio,el Poble Sec,Diagonal Mar i el Front Marítim del Poblenou,66.04,6.0
+julio,solo_precio,el Poble Sec,Hostafrancs,24.57,1.76
+julio,solo_precio,el Poble Sec,"Sant Pere, Santa Caterina i la Ribera",28.55,1.92
+julio,solo_precio,el Poble Sec,el Barri Gòtic,58.16,1.37
+julio,solo_precio,el Poble Sec,el Poblenou,23.07,4.2
+julio,solo_precio,el Poble Sec,el Raval,55.6,1.22
+julio,solo_precio,el Poble Sec,la Barceloneta,30.95,2.58
+julio,solo_precio,el Poble Sec,la Dreta de l'Eixample,107.36,2.12
+julio,solo_precio,el Poble Sec,la Maternitat i Sant Ramon,22.66,4.66
+julio,solo_precio,el Poble Sec,les Corts,38.09,2.69
+julio,solo_precio,el Poblenou,el Barri Gòtic,33.03,3.15
+julio,solo_precio,el Poblenou,el Raval,41.84,3.71
+julio,solo_precio,el Poblenou,l'Antiga Esquerra de l'Eixample,26.07,4.13
+julio,solo_precio,el Poblenou,la Dreta de l'Eixample,59.39,3.13
+julio,solo_precio,el Putxet i el Farró,la Dreta de l'Eixample,34.36,2.46
+julio,solo_precio,el Raval,el Barri Gòtic,40.55,0.58
+julio,solo_precio,el Raval,el Poblenou,35.82,3.53
+julio,solo_precio,el Raval,l'Antiga Esquerra de l'Eixample,39.95,1.54
+julio,solo_precio,el Raval,la Barceloneta,22.31,2.04
+julio,solo_precio,el Raval,la Dreta de l'Eixample,85.46,1.48
+julio,solo_precio,l'Antiga Esquerra de l'Eixample,Diagonal Mar i el Front Marítim del Poblenou,36.05,5.13
+julio,solo_precio,l'Antiga Esquerra de l'Eixample,Hostafrancs,33.55,1.61
+julio,solo_precio,l'Antiga Esquerra de l'Eixample,Sant Gervasi - Galvany,22.34,1.05
+julio,solo_precio,l'Antiga Esquerra de l'Eixample,"Sant Pere, Santa Caterina i la Ribera",30.71,1.94
+julio,solo_precio,l'Antiga Esquerra de l'Eixample,el Barri Gòtic,81.98,1.65
+julio,solo_precio,l'Antiga Esquerra de l'Eixample,el Parc i la Llacuna del Poblenou,39.82,3.15
+julio,solo_precio,l'Antiga Esquerra de l'Eixample,el Poblenou,44.06,3.73
+julio,solo_precio,l'Antiga Esquerra de l'Eixample,el Raval,83.58,1.46
+julio,solo_precio,l'Antiga Esquerra de l'Eixample,la Dreta de l'Eixample,150.2,1.13
+julio,solo_precio,l'Antiga Esquerra de l'Eixample,la Maternitat i Sant Ramon,45.07,2.9
+julio,solo_precio,l'Antiga Esquerra de l'Eixample,la Nova Esquerra de l'Eixample,22.32,1.03
+julio,solo_precio,l'Antiga Esquerra de l'Eixample,les Corts,47.23,1.95
+julio,solo_precio,la Barceloneta,la Dreta de l'Eixample,27.22,2.54
+julio,solo_precio,la Dreta de l'Eixample,Diagonal Mar i el Front Marítim del Poblenou,105.8,4.17
+julio,solo_precio,la Dreta de l'Eixample,Hostafrancs,70.98,2.83
+julio,solo_precio,la Dreta de l'Eixample,Sant Antoni,41.03,1.26
+julio,solo_precio,la Dreta de l'Eixample,Sant Gervasi - Galvany,61.2,1.76
+julio,solo_precio,la Dreta de l'Eixample,"Sant Pere, Santa Caterina i la Ribera",100.06,1.42
+julio,solo_precio,la Dreta de l'Eixample,Sants,34.96,2.89
+julio,solo_precio,la Dreta de l'Eixample,el Barri Gòtic,312.09,1.26
+julio,solo_precio,la Dreta de l'Eixample,el Camp de l'Arpa del Clot,31.68,2.41
+julio,solo_precio,la Dreta de l'Eixample,el Fort Pienc,32.26,1.09
+julio,solo_precio,la Dreta de l'Eixample,el Parc i la Llacuna del Poblenou,94.01,1.99
+julio,solo_precio,la Dreta de l'Eixample,el Poble Sec,69.33,2.48
+julio,solo_precio,la Dreta de l'Eixample,el Poblenou,98.93,2.64
+julio,solo_precio,la Dreta de l'Eixample,el Putxet i el Farró,22.95,2.42
+julio,solo_precio,la Dreta de l'Eixample,el Raval,225.34,1.43
+julio,solo_precio,la Dreta de l'Eixample,l'Antiga Esquerra de l'Eixample,117.52,1.14
+julio,solo_precio,la Dreta de l'Eixample,la Barceloneta,63.51,2.46
+julio,solo_precio,la Dreta de l'Eixample,la Maternitat i Sant Ramon,64.53,4.63
+julio,solo_precio,la Dreta de l'Eixample,la Nova Esquerra de l'Eixample,77.71,2.14
+julio,solo_precio,la Dreta de l'Eixample,la Vila Olímpica del Poblenou,22.75,2.15
+julio,solo_precio,la Dreta de l'Eixample,la Vila de Gràcia,28.49,1.27
+julio,solo_precio,la Dreta de l'Eixample,les Corts,56.5,2.52
+julio,solo_precio,la Nova Esquerra de l'Eixample,Diagonal Mar i el Front Marítim del Poblenou,34.56,5.83
+julio,solo_precio,la Nova Esquerra de l'Eixample,Hostafrancs,22.02,0.72
+julio,solo_precio,la Nova Esquerra de l'Eixample,el Barri Gòtic,58.19,2.06
+julio,solo_precio,la Nova Esquerra de l'Eixample,el Poble Sec,21.95,1.36
+julio,solo_precio,la Nova Esquerra de l'Eixample,el Raval,78.53,1.76
+julio,solo_precio,la Nova Esquerra de l'Eixample,l'Antiga Esquerra de l'Eixample,23.74,1.29
+julio,solo_precio,la Nova Esquerra de l'Eixample,la Barceloneta,20.52,4.08
+julio,solo_precio,la Nova Esquerra de l'Eixample,la Dreta de l'Eixample,120.44,1.83
+julio,solo_precio,la Nova Esquerra de l'Eixample,les Corts,29.45,1.39
+julio,solo_precio,la Sagrada Família,Diagonal Mar i el Front Marítim del Poblenou,43.18,3.32
+julio,solo_precio,la Sagrada Família,Hostafrancs,42.21,4.0
+julio,solo_precio,la Sagrada Família,Sant Gervasi - Galvany,33.59,2.29
+julio,solo_precio,la Sagrada Família,"Sant Pere, Santa Caterina i la Ribera",44.28,1.96
+julio,solo_precio,la Sagrada Família,Sants,21.42,4.18
+julio,solo_precio,la Sagrada Família,el Barri Gòtic,98.92,2.42
+julio,solo_precio,la Sagrada Família,el Parc i la Llacuna del Poblenou,74.34,1.58
+julio,solo_precio,la Sagrada Família,el Poble Sec,30.61,3.43
+julio,solo_precio,la Sagrada Família,el Poblenou,32.08,2.24
+julio,solo_precio,la Sagrada Família,el Raval,124.03,2.83
+julio,solo_precio,la Sagrada Família,l'Antiga Esquerra de l'Eixample,44.45,2.3
+julio,solo_precio,la Sagrada Família,la Dreta de l'Eixample,150.28,1.62
+julio,solo_precio,la Sagrada Família,la Maternitat i Sant Ramon,23.88,5.22
+julio,solo_precio,la Sagrada Família,la Nova Esquerra de l'Eixample,29.95,3.58
+julio,solo_precio,la Sagrada Família,les Corts,31.13,3.6
+julio,solo_precio,la Vila Olímpica del Poblenou,el Raval,28.07,2.41
+julio,solo_precio,la Vila de Gràcia,Diagonal Mar i el Front Marítim del Poblenou,49.53,5.01
+julio,solo_precio,la Vila de Gràcia,Hostafrancs,29.02,2.74
+julio,solo_precio,la Vila de Gràcia,Sant Gervasi - Galvany,21.68,0.94
+julio,solo_precio,la Vila de Gràcia,"Sant Pere, Santa Caterina i la Ribera",32.25,2.7
+julio,solo_precio,la Vila de Gràcia,el Barri Gòtic,87.35,2.51
+julio,solo_precio,la Vila de Gràcia,el Parc i la Llacuna del Poblenou,43.36,2.77
+julio,solo_precio,la Vila de Gràcia,el Poble Sec,31.88,2.99
+julio,solo_precio,la Vila de Gràcia,el Poblenou,33.64,3.68
+julio,solo_precio,la Vila de Gràcia,el Raval,92.57,2.67
+julio,solo_precio,la Vila de Gràcia,l'Antiga Esquerra de l'Eixample,46.09,1.43
+julio,solo_precio,la Vila de Gràcia,la Dreta de l'Eixample,143.12,1.45
+julio,solo_precio,la Vila de Gràcia,la Maternitat i Sant Ramon,25.43,4.09
+julio,solo_precio,la Vila de Gràcia,la Nova Esquerra de l'Eixample,27.75,2.35
+julio,solo_precio,la Vila de Gràcia,les Corts,27.15,2.02
+julio,solo_precio,les Corts,el Raval,26.04,2.99
+julio,solo_precio,les Corts,la Dreta de l'Eixample,24.48,2.75
+julio,sobre_todo_precio,Diagonal Mar i el Front Marítim del Poblenou,el Poblenou,53.54,0.94
+julio,sobre_todo_precio,Hostafrancs,la Maternitat i Sant Ramon,31.8,2.27
+julio,sobre_todo_precio,Sant Antoni,Hostafrancs,69.95,0.92
+julio,sobre_todo_precio,Sant Antoni,el Poble Sec,86.82,0.6
+julio,sobre_todo_precio,Sant Antoni,el Raval,333.12,0.69
+julio,sobre_todo_precio,Sant Antoni,l'Antiga Esquerra de l'Eixample,25.85,0.2
+julio,sobre_todo_precio,Sant Antoni,la Dreta de l'Eixample,40.54,1.03
+julio,sobre_todo_precio,Sant Antoni,la Maternitat i Sant Ramon,20.38,3.31
+julio,sobre_todo_precio,Sant Antoni,la Nova Esquerra de l'Eixample,65.13,0.38
+julio,sobre_todo_precio,Sant Gervasi - Galvany,la Dreta de l'Eixample,26.77,1.3
+julio,sobre_todo_precio,Sant Gervasi - Galvany,les Corts,60.87,1.13
+julio,sobre_todo_precio,Sant Gervasi - la Bonanova,les Corts,21.86,1.73
+julio,sobre_todo_precio,"Sant Pere, Santa Caterina i la Ribera",Diagonal Mar i el Front Marítim del Poblenou,24.54,3.92
+julio,sobre_todo_precio,"Sant Pere, Santa Caterina i la Ribera",el Barri Gòtic,199.8,0.37
+julio,sobre_todo_precio,"Sant Pere, Santa Caterina i la Ribera",la Barceloneta,28.56,1.29
+julio,sobre_todo_precio,Sants,la Maternitat i Sant Ramon,66.31,1.92
+julio,sobre_todo_precio,Sants,les Corts,37.03,1.21
+julio,sobre_todo_precio,Sants - Badal,la Maternitat i Sant Ramon,42.03,1.13
+julio,sobre_todo_precio,el Barri Gòtic,el Raval,77.38,0.39
+julio,sobre_todo_precio,el Barri Gòtic,la Barceloneta,28.61,1.61
+julio,sobre_todo_precio,el Besòs i el Maresme,Diagonal Mar i el Front Marítim del Poblenou,41.05,0.43
+julio,sobre_todo_precio,el Camp d'en Grassot i Gràcia Nova,la Dreta de l'Eixample,82.41,1.61
+julio,sobre_todo_precio,el Camp de l'Arpa del Clot,Diagonal Mar i el Front Marítim del Poblenou,35.25,3.03
+julio,sobre_todo_precio,el Camp de l'Arpa del Clot,Provençals del Poblenou,47.79,2.07
+julio,sobre_todo_precio,el Camp de l'Arpa del Clot,el Parc i la Llacuna del Poblenou,57.39,1.43
+julio,sobre_todo_precio,el Fort Pienc,"Sant Pere, Santa Caterina i la Ribera",49.4,1.23
+julio,sobre_todo_precio,el Fort Pienc,el Barri Gòtic,85.87,1.68
+julio,sobre_todo_precio,el Fort Pienc,el Parc i la Llacuna del Poblenou,122.33,0.87
+julio,sobre_todo_precio,el Fort Pienc,el Poblenou,29.74,1.53
+julio,sobre_todo_precio,el Fort Pienc,la Dreta de l'Eixample,78.29,0.9
+julio,sobre_todo_precio,el Parc i la Llacuna del Poblenou,la Vila Olímpica del Poblenou,25.72,0.58
+julio,sobre_todo_precio,el Poble Sec,Diagonal Mar i el Front Marítim del Poblenou,39.27,5.75
+julio,sobre_todo_precio,el Poble Sec,Hostafrancs,46.8,0.77
+julio,sobre_todo_precio,el Poble Sec,el Barri Gòtic,46.1,1.22
+julio,sobre_todo_precio,el Poble Sec,el Raval,225.55,0.92
+julio,sobre_todo_precio,el Poble Sec,la Barceloneta,37.2,2.15
+julio,sobre_todo_precio,el Poblenou,Diagonal Mar i el Front Marítim del Poblenou,89.73,0.63
+julio,sobre_todo_precio,el Putxet i el Farró,les Corts,30.79,1.79
+julio,sobre_todo_precio,el Raval,el Barri Gòtic,89.69,0.51
+julio,sobre_todo_precio,el Raval,la Barceloneta,32.13,1.98
+julio,sobre_todo_precio,el Raval,la Dreta de l'Eixample,26.87,0.42
+julio,sobre_todo_precio,l'Antiga Esquerra de l'Eixample,Diagonal Mar i el Front Marítim del Poblenou,25.88,5.4
+julio,sobre_todo_precio,l'Antiga Esquerra de l'Eixample,Sant Antoni,35.12,0.44
+julio,sobre_todo_precio,l'Antiga Esquerra de l'Eixample,Sants,23.17,1.57
+julio,sobre_todo_precio,l'Antiga Esquerra de l'Eixample,el Raval,61.86,0.8
+julio,sobre_todo_precio,l'Antiga Esquerra de l'Eixample,la Barceloneta,23.65,3.23
+julio,sobre_todo_precio,l'Antiga Esquerra de l'Eixample,la Dreta de l'Eixample,176.76,0.68
+julio,sobre_todo_precio,l'Antiga Esquerra de l'Eixample,la Nova Esquerra de l'Eixample,62.88,0.63
+julio,sobre_todo_precio,l'Antiga Esquerra de l'Eixample,les Corts,42.67,1.23
+julio,sobre_todo_precio,la Barceloneta,"Sant Pere, Santa Caterina i la Ribera",45.07,0.65
+julio,sobre_todo_precio,la Barceloneta,el Barri Gòtic,41.15,0.91
+julio,sobre_todo_precio,la Dreta de l'Eixample,Diagonal Mar i el Front Marítim del Poblenou,28.11,4.45
+julio,sobre_todo_precio,la Dreta de l'Eixample,"Sant Pere, Santa Caterina i la Ribera",67.79,1.01
+julio,sobre_todo_precio,la Dreta de l'Eixample,el Barri Gòtic,362.53,0.84
+julio,sobre_todo_precio,la Dreta de l'Eixample,el Fort Pienc,24.52,0.39
+julio,sobre_todo_precio,la Dreta de l'Eixample,el Parc i la Llacuna del Poblenou,21.88,1.39
+julio,sobre_todo_precio,la Dreta de l'Eixample,el Raval,299.38,0.66
+julio,sobre_todo_precio,la Dreta de l'Eixample,l'Antiga Esquerra de l'Eixample,110.58,0.41
+julio,sobre_todo_precio,la Dreta de l'Eixample,la Barceloneta,38.82,2.37
+julio,sobre_todo_precio,la Nova Esquerra de l'Eixample,Hostafrancs,133.62,0.58
+julio,sobre_todo_precio,la Nova Esquerra de l'Eixample,Sant Antoni,29.98,0.82
+julio,sobre_todo_precio,la Nova Esquerra de l'Eixample,Sants,47.99,0.65
+julio,sobre_todo_precio,la Nova Esquerra de l'Eixample,la Maternitat i Sant Ramon,66.57,3.18
+julio,sobre_todo_precio,la Nova Esquerra de l'Eixample,les Corts,43.46,1.34
+julio,sobre_todo_precio,la Sagrada Família,Diagonal Mar i el Front Marítim del Poblenou,54.46,3.28
+julio,sobre_todo_precio,la Sagrada Família,Navas,20.85,1.5
+julio,sobre_todo_precio,la Sagrada Família,Provençals del Poblenou,37.73,2.38
+julio,sobre_todo_precio,la Sagrada Família,"Sant Pere, Santa Caterina i la Ribera",40.35,1.86
+julio,sobre_todo_precio,la Sagrada Família,el Baix Guinardó,28.11,0.42
+julio,sobre_todo_precio,la Sagrada Família,el Barri Gòtic,56.8,2.32
+julio,sobre_todo_precio,la Sagrada Família,el Camp d'en Grassot i Gràcia Nova,31.13,0.46
+julio,sobre_todo_precio,la Sagrada Família,el Camp de l'Arpa del Clot,103.05,0.85
+julio,sobre_todo_precio,la Sagrada Família,el Fort Pienc,64.73,0.62
+julio,sobre_todo_precio,la Sagrada Família,el Parc i la Llacuna del Poblenou,166.59,1.38
+julio,sobre_todo_precio,la Sagrada Família,el Poblenou,66.1,1.83
+julio,sobre_todo_precio,la Sagrada Família,el Raval,24.01,2.25
+julio,sobre_todo_precio,la Sagrada Família,la Barceloneta,20.52,2.85
+julio,sobre_todo_precio,la Sagrada Família,la Dreta de l'Eixample,163.88,1.41
+julio,sobre_todo_precio,la Vila Olímpica del Poblenou,el Parc i la Llacuna del Poblenou,32.85,0.5
+julio,sobre_todo_precio,la Vila de Gràcia,Sant Gervasi - Galvany,170.57,0.73
+julio,sobre_todo_precio,la Vila de Gràcia,Sant Gervasi - la Bonanova,34.29,1.62
+julio,sobre_todo_precio,la Vila de Gràcia,el Putxet i el Farró,41.97,0.89
+julio,sobre_todo_precio,la Vila de Gràcia,l'Antiga Esquerra de l'Eixample,79.12,0.78
+julio,sobre_todo_precio,la Vila de Gràcia,la Dreta de l'Eixample,285.48,0.69
+julio,sobre_todo_precio,la Vila de Gràcia,les Corts,74.34,1.73
+julio,sobre_todo_precio,les Corts,Sants,37.81,0.77
+julio,sobre_todo_precio,les Corts,la Maternitat i Sant Ramon,35.91,1.47
+julio,equilibrio,Diagonal Mar i el Front Marítim del Poblenou,el Poblenou,20.08,0.86
+julio,equilibrio,Hostafrancs,la Maternitat i Sant Ramon,21.86,2.8
+julio,equilibrio,Sant Antoni,Hostafrancs,53.75,0.75
+julio,equilibrio,Sant Antoni,el Barri Gòtic,32.63,1.51
+julio,equilibrio,Sant Antoni,el Poble Sec,53.24,0.42
+julio,equilibrio,Sant Antoni,el Raval,360.23,0.66
+julio,equilibrio,Sant Antoni,l'Antiga Esquerra de l'Eixample,44.32,0.18
+julio,equilibrio,Sant Antoni,la Barceloneta,23.2,2.82
+julio,equilibrio,Sant Antoni,la Nova Esquerra de l'Eixample,64.43,0.37
+julio,equilibrio,Sant Gervasi - Galvany,la Maternitat i Sant Ramon,20.08,2.25
+julio,equilibrio,Sant Gervasi - Galvany,les Corts,68.53,0.97
+julio,equilibrio,"Sant Pere, Santa Caterina i la Ribera",Diagonal Mar i el Front Marítim del Poblenou,24.54,4.12
+julio,equilibrio,"Sant Pere, Santa Caterina i la Ribera",el Barri Gòtic,193.96,0.3
+julio,equilibrio,"Sant Pere, Santa Caterina i la Ribera",la Barceloneta,37.93,1.35
+julio,equilibrio,Sants,Hostafrancs,32.29,0.66
+julio,equilibrio,Sants,la Maternitat i Sant Ramon,42.16,2.06
+julio,equilibrio,Sants - Badal,la Maternitat i Sant Ramon,43.98,1.18
+julio,equilibrio,el Barri Gòtic,"Sant Pere, Santa Caterina i la Ribera",27.86,0.36
+julio,equilibrio,el Barri Gòtic,el Raval,34.43,0.2
+julio,equilibrio,el Besòs i el Maresme,Diagonal Mar i el Front Marítim del Poblenou,53.1,0.45
+julio,equilibrio,el Camp d'en Grassot i Gràcia Nova,la Dreta de l'Eixample,122.73,1.27
+julio,equilibrio,el Camp de l'Arpa del Clot,Diagonal Mar i el Front Marítim del Poblenou,25.92,2.93
+julio,equilibrio,el Camp de l'Arpa del Clot,Provençals del Poblenou,40.71,1.78
+julio,equilibrio,el Camp de l'Arpa del Clot,el Parc i la Llacuna del Poblenou,44.47,1.33
+julio,equilibrio,el Camp de l'Arpa del Clot,el Poblenou,51.76,1.59
+julio,equilibrio,el Fort Pienc,"Sant Pere, Santa Caterina i la Ribera",59.62,1.15
+julio,equilibrio,el Fort Pienc,el Barri Gòtic,93.05,1.72
+julio,equilibrio,el Fort Pienc,el Parc i la Llacuna del Poblenou,128.52,0.78
+julio,equilibrio,el Fort Pienc,el Poblenou,30.55,1.45
+julio,equilibrio,el Fort Pienc,la Barceloneta,31.68,1.55
+julio,equilibrio,el Fort Pienc,la Dreta de l'Eixample,46.57,0.48
+julio,equilibrio,el Parc i la Llacuna del Poblenou,"Sant Pere, Santa Caterina i la Ribera",25.58,0.58
+julio,equilibrio,el Parc i la Llacuna del Poblenou,el Poblenou,21.86,0.75
+julio,equilibrio,el Parc i la Llacuna del Poblenou,la Vila Olímpica del Poblenou,26.33,0.35
+julio,equilibrio,el Poble Sec,Diagonal Mar i el Front Marítim del Poblenou,39.27,5.7
+julio,equilibrio,el Poble Sec,Hostafrancs,39.74,0.73
+julio,equilibrio,el Poble Sec,el Barri Gòtic,47.91,1.15
+julio,equilibrio,el Poble Sec,el Raval,214.6,0.76
+julio,equilibrio,el Poble Sec,la Barceloneta,33.02,1.99
+julio,equilibrio,el Poblenou,Diagonal Mar i el Front Marítim del Poblenou,95.19,0.61
+julio,equilibrio,el Putxet i el Farró,Sant Gervasi - la Bonanova,37.48,0.89
+julio,equilibrio,el Putxet i el Farró,les Corts,27.66,1.78
+julio,equilibrio,el Raval,el Barri Gòtic,61.92,0.49
+julio,equilibrio,el Raval,la Barceloneta,29.74,1.86
+julio,equilibrio,l'Antiga Esquerra de l'Eixample,Diagonal Mar i el Front Marítim del Poblenou,25.88,5.46
+julio,equilibrio,l'Antiga Esquerra de l'Eixample,Sant Antoni,22.02,0.31
+julio,equilibrio,l'Antiga Esquerra de l'Eixample,el Raval,99.31,0.78
+julio,equilibrio,l'Antiga Esquerra de l'Eixample,la Dreta de l'Eixample,138.27,0.64
+julio,equilibrio,l'Antiga Esquerra de l'Eixample,la Maternitat i Sant Ramon,27.96,2.92
+julio,equilibrio,l'Antiga Esquerra de l'Eixample,la Nova Esquerra de l'Eixample,49.77,0.46
+julio,equilibrio,l'Antiga Esquerra de l'Eixample,les Corts,43.06,1.06
+julio,equilibrio,la Barceloneta,"Sant Pere, Santa Caterina i la Ribera",60.62,0.61
+julio,equilibrio,la Barceloneta,el Barri Gòtic,27.98,0.89
+julio,equilibrio,la Dreta de l'Eixample,Diagonal Mar i el Front Marítim del Poblenou,28.56,4.15
+julio,equilibrio,la Dreta de l'Eixample,"Sant Pere, Santa Caterina i la Ribera",81.64,0.77
+julio,equilibrio,la Dreta de l'Eixample,el Barri Gòtic,324.52,0.86
+julio,equilibrio,la Dreta de l'Eixample,el Fort Pienc,27.48,0.42
+julio,equilibrio,la Dreta de l'Eixample,el Raval,194.54,0.44
+julio,equilibrio,la Dreta de l'Eixample,l'Antiga Esquerra de l'Eixample,100.38,0.27
+julio,equilibrio,la Dreta de l'Eixample,la Barceloneta,78.72,2.26
+julio,equilibrio,la Nova Esquerra de l'Eixample,Hostafrancs,131.3,0.6
+julio,equilibrio,la Nova Esquerra de l'Eixample,Sants,66.04,0.6
+julio,equilibrio,la Nova Esquerra de l'Eixample,el Raval,56.09,1.6
+julio,equilibrio,la Nova Esquerra de l'Eixample,la Maternitat i Sant Ramon,42.89,2.25
+julio,equilibrio,la Nova Esquerra de l'Eixample,les Corts,33.27,0.96
+julio,equilibrio,la Sagrada Família,Diagonal Mar i el Front Marítim del Poblenou,34.36,3.27
+julio,equilibrio,la Sagrada Família,Navas,22.0,1.55
+julio,equilibrio,la Sagrada Família,Provençals del Poblenou,40.6,2.18
+julio,equilibrio,la Sagrada Família,el Baix Guinardó,33.85,0.44
+julio,equilibrio,la Sagrada Família,el Barri Gòtic,76.3,2.11
+julio,equilibrio,la Sagrada Família,el Camp d'en Grassot i Gràcia Nova,28.84,0.31
+julio,equilibrio,la Sagrada Família,el Camp de l'Arpa del Clot,89.73,0.82
+julio,equilibrio,la Sagrada Família,el Fort Pienc,70.68,0.46
+julio,equilibrio,la Sagrada Família,el Parc i la Llacuna del Poblenou,259.77,1.37
+julio,equilibrio,la Sagrada Família,el Poblenou,76.26,1.93
+julio,equilibrio,la Sagrada Família,la Barceloneta,21.57,2.67
+julio,equilibrio,la Sagrada Família,la Dreta de l'Eixample,121.47,1.52
+julio,equilibrio,la Vila Olímpica del Poblenou,el Parc i la Llacuna del Poblenou,34.71,0.4
+julio,equilibrio,la Vila de Gràcia,Sant Gervasi - Galvany,163.03,0.64
+julio,equilibrio,la Vila de Gràcia,el Putxet i el Farró,36.94,1.15
+julio,equilibrio,la Vila de Gràcia,l'Antiga Esquerra de l'Eixample,53.17,0.73
+julio,equilibrio,la Vila de Gràcia,la Dreta de l'Eixample,320.57,0.77
+julio,equilibrio,la Vila de Gràcia,la Maternitat i Sant Ramon,24.99,3.45
+julio,equilibrio,la Vila de Gràcia,les Corts,74.89,1.93
+julio,equilibrio,les Corts,la Maternitat i Sant Ramon,43.28,1.44
+julio,sobre_todo_barrio,Sant Antoni,Hostafrancs,64.6,0.8
+julio,sobre_todo_barrio,Sant Antoni,el Barri Gòtic,42.95,1.19
+julio,sobre_todo_barrio,Sant Antoni,el Poble Sec,49.09,0.32
+julio,sobre_todo_barrio,Sant Antoni,el Raval,345.92,0.61
+julio,sobre_todo_barrio,Sant Antoni,l'Antiga Esquerra de l'Eixample,44.08,0.18
+julio,sobre_todo_barrio,Sant Antoni,la Dreta de l'Eixample,23.11,0.62
+julio,sobre_todo_barrio,Sant Antoni,la Nova Esquerra de l'Eixample,65.23,0.31
+julio,sobre_todo_barrio,Sant Gervasi - Galvany,la Maternitat i Sant Ramon,21.86,2.25
+julio,sobre_todo_barrio,Sant Gervasi - Galvany,les Corts,62.21,0.89
+julio,sobre_todo_barrio,"Sant Pere, Santa Caterina i la Ribera",Diagonal Mar i el Front Marítim del Poblenou,24.54,4.13
+julio,sobre_todo_barrio,"Sant Pere, Santa Caterina i la Ribera",el Barri Gòtic,169.23,0.28
+julio,sobre_todo_barrio,"Sant Pere, Santa Caterina i la Ribera",la Barceloneta,29.45,1.67
+julio,sobre_todo_barrio,Sants,la Maternitat i Sant Ramon,35.73,1.56
+julio,sobre_todo_barrio,Sants,les Corts,25.84,1.18
+julio,sobre_todo_barrio,Sants - Badal,Sants,20.08,1.15
+julio,sobre_todo_barrio,Sants - Badal,la Maternitat i Sant Ramon,40.2,1.07
+julio,sobre_todo_barrio,el Barri Gòtic,el Raval,24.09,0.07
+julio,sobre_todo_barrio,el Besòs i el Maresme,Diagonal Mar i el Front Marítim del Poblenou,53.1,0.43
+julio,sobre_todo_barrio,el Camp d'en Grassot i Gràcia Nova,el Barri Gòtic,25.54,2.27
+julio,sobre_todo_barrio,el Camp d'en Grassot i Gràcia Nova,la Dreta de l'Eixample,102.24,1.32
+julio,sobre_todo_barrio,el Camp de l'Arpa del Clot,Diagonal Mar i el Front Marítim del Poblenou,36.41,2.9
+julio,sobre_todo_barrio,el Camp de l'Arpa del Clot,Provençals del Poblenou,52.7,1.72
+julio,sobre_todo_barrio,el Camp de l'Arpa del Clot,el Besòs i el Maresme,20.97,3.15
+julio,sobre_todo_barrio,el Camp de l'Arpa del Clot,el Parc i la Llacuna del Poblenou,22.32,1.24
+julio,sobre_todo_barrio,el Camp de l'Arpa del Clot,el Poblenou,53.23,1.65
+julio,sobre_todo_barrio,el Fort Pienc,"Sant Pere, Santa Caterina i la Ribera",56.1,0.94
+julio,sobre_todo_barrio,el Fort Pienc,el Barri Gòtic,60.3,1.63
+julio,sobre_todo_barrio,el Fort Pienc,el Parc i la Llacuna del Poblenou,149.16,0.79
+julio,sobre_todo_barrio,el Fort Pienc,el Poblenou,29.0,1.49
+julio,sobre_todo_barrio,el Fort Pienc,la Barceloneta,29.72,1.92
+julio,sobre_todo_barrio,el Fort Pienc,la Dreta de l'Eixample,66.62,0.55
+julio,sobre_todo_barrio,el Guinardó,Diagonal Mar i el Front Marítim del Poblenou,23.68,3.41
+julio,sobre_todo_barrio,el Parc i la Llacuna del Poblenou,el Poblenou,25.54,0.7
+julio,sobre_todo_barrio,el Parc i la Llacuna del Poblenou,la Vila Olímpica del Poblenou,24.99,0.12
+julio,sobre_todo_barrio,el Poble Sec,Diagonal Mar i el Front Marítim del Poblenou,36.78,5.73
+julio,sobre_todo_barrio,el Poble Sec,Hostafrancs,40.01,0.73
+julio,sobre_todo_barrio,el Poble Sec,el Barri Gòtic,27.38,1.21
+julio,sobre_todo_barrio,el Poble Sec,el Raval,225.54,0.76
+julio,sobre_todo_barrio,el Poble Sec,la Barceloneta,28.0,2.15
+julio,sobre_todo_barrio,el Poblenou,Diagonal Mar i el Front Marítim del Poblenou,64.33,0.32
+julio,sobre_todo_barrio,el Putxet i el Farró,Sant Gervasi - la Bonanova,30.01,0.73
+julio,sobre_todo_barrio,el Putxet i el Farró,les Corts,21.63,1.64
+julio,sobre_todo_barrio,el Raval,el Barri Gòtic,49.11,0.47
+julio,sobre_todo_barrio,el Raval,la Barceloneta,23.65,1.87
+julio,sobre_todo_barrio,l'Antiga Esquerra de l'Eixample,Diagonal Mar i el Front Marítim del Poblenou,25.88,5.57
+julio,sobre_todo_barrio,l'Antiga Esquerra de l'Eixample,el Barri Gòtic,39.51,1.89
+julio,sobre_todo_barrio,l'Antiga Esquerra de l'Eixample,el Raval,117.39,0.92
+julio,sobre_todo_barrio,l'Antiga Esquerra de l'Eixample,la Dreta de l'Eixample,85.83,0.58
+julio,sobre_todo_barrio,l'Antiga Esquerra de l'Eixample,la Maternitat i Sant Ramon,24.09,3.16
+julio,sobre_todo_barrio,l'Antiga Esquerra de l'Eixample,la Nova Esquerra de l'Eixample,31.82,0.42
+julio,sobre_todo_barrio,l'Antiga Esquerra de l'Eixample,les Corts,60.98,1.0
+julio,sobre_todo_barrio,la Barceloneta,"Sant Pere, Santa Caterina i la Ribera",78.57,0.6
+julio,sobre_todo_barrio,la Dreta de l'Eixample,Diagonal Mar i el Front Marítim del Poblenou,38.82,4.25
+julio,sobre_todo_barrio,la Dreta de l'Eixample,"Sant Pere, Santa Caterina i la Ribera",69.15,0.85
+julio,sobre_todo_barrio,la Dreta de l'Eixample,el Barri Gòtic,313.32,1.02
+julio,sobre_todo_barrio,la Dreta de l'Eixample,el Fort Pienc,22.0,0.33
+julio,sobre_todo_barrio,la Dreta de l'Eixample,el Raval,158.7,0.36
+julio,sobre_todo_barrio,la Dreta de l'Eixample,l'Antiga Esquerra de l'Eixample,61.12,0.16
+julio,sobre_todo_barrio,la Dreta de l'Eixample,la Barceloneta,70.42,2.56
+julio,sobre_todo_barrio,la Font de la Guatlla,Hostafrancs,20.7,0.91
+julio,sobre_todo_barrio,la Nova Esquerra de l'Eixample,Hostafrancs,131.39,0.54
+julio,sobre_todo_barrio,la Nova Esquerra de l'Eixample,Sants,37.87,0.71
+julio,sobre_todo_barrio,la Nova Esquerra de l'Eixample,el Poble Sec,33.91,0.93
+julio,sobre_todo_barrio,la Nova Esquerra de l'Eixample,el Raval,50.17,1.58
+julio,sobre_todo_barrio,la Nova Esquerra de l'Eixample,l'Antiga Esquerra de l'Eixample,22.14,0.21
+julio,sobre_todo_barrio,la Nova Esquerra de l'Eixample,la Maternitat i Sant Ramon,34.36,2.78
+julio,sobre_todo_barrio,la Nova Esquerra de l'Eixample,les Corts,30.79,0.9
+julio,sobre_todo_barrio,la Sagrada Família,Diagonal Mar i el Front Marítim del Poblenou,39.27,3.29
+julio,sobre_todo_barrio,la Sagrada Família,Provençals del Poblenou,30.34,2.38
+julio,sobre_todo_barrio,la Sagrada Família,el Baix Guinardó,29.28,0.39
+julio,sobre_todo_barrio,la Sagrada Família,el Barri Gòtic,68.65,2.05
+julio,sobre_todo_barrio,la Sagrada Família,el Besòs i el Maresme,24.99,3.58
+julio,sobre_todo_barrio,la Sagrada Família,el Camp d'en Grassot i Gràcia Nova,24.54,0.41
+julio,sobre_todo_barrio,la Sagrada Família,el Camp de l'Arpa del Clot,93.83,0.83
+julio,sobre_todo_barrio,la Sagrada Família,el Fort Pienc,64.37,0.35
+julio,sobre_todo_barrio,la Sagrada Família,el Parc i la Llacuna del Poblenou,270.66,1.38
+julio,sobre_todo_barrio,la Sagrada Família,el Poblenou,52.46,1.88
+julio,sobre_todo_barrio,la Sagrada Família,la Barceloneta,49.97,2.69
+julio,sobre_todo_barrio,la Sagrada Família,la Dreta de l'Eixample,131.52,1.39
+julio,sobre_todo_barrio,la Vila Olímpica del Poblenou,el Parc i la Llacuna del Poblenou,32.87,0.3
+julio,sobre_todo_barrio,la Vila Olímpica del Poblenou,la Barceloneta,20.97,0.6
+julio,sobre_todo_barrio,la Vila de Gràcia,Sant Gervasi - Galvany,138.8,0.59
+julio,sobre_todo_barrio,la Vila de Gràcia,el Barri Gòtic,34.36,2.22
+julio,sobre_todo_barrio,la Vila de Gràcia,el Putxet i el Farró,33.03,1.0
+julio,sobre_todo_barrio,la Vila de Gràcia,el Raval,26.65,2.22
+julio,sobre_todo_barrio,la Vila de Gràcia,l'Antiga Esquerra de l'Eixample,57.37,0.76
+julio,sobre_todo_barrio,la Vila de Gràcia,la Dreta de l'Eixample,270.68,0.59
+julio,sobre_todo_barrio,la Vila de Gràcia,la Maternitat i Sant Ramon,38.67,3.55
+julio,sobre_todo_barrio,la Vila de Gràcia,les Corts,87.25,1.93
+julio,sobre_todo_barrio,les Corts,la Maternitat i Sant Ramon,43.25,1.03
+julio,solo_barrio,Sant Antoni,Hostafrancs,56.08,0.84
+julio,solo_barrio,Sant Antoni,el Barri Gòtic,30.79,1.35
+julio,solo_barrio,Sant Antoni,el Poble Sec,57.21,0.36
+julio,solo_barrio,Sant Antoni,el Raval,371.64,0.58
+julio,solo_barrio,Sant Antoni,l'Antiga Esquerra de l'Eixample,41.39,0.23
+julio,solo_barrio,Sant Antoni,la Nova Esquerra de l'Eixample,54.36,0.27
+julio,solo_barrio,Sant Gervasi - Galvany,les Corts,56.44,1.15
+julio,solo_barrio,"Sant Pere, Santa Caterina i la Ribera",Diagonal Mar i el Front Marítim del Poblenou,24.19,4.16
+julio,solo_barrio,"Sant Pere, Santa Caterina i la Ribera",el Barri Gòtic,114.96,0.16
+julio,solo_barrio,"Sant Pere, Santa Caterina i la Ribera",la Barceloneta,33.47,1.48
+julio,solo_barrio,Sants,la Maternitat i Sant Ramon,49.97,1.6
+julio,solo_barrio,Sants - Badal,la Maternitat i Sant Ramon,45.07,1.08
+julio,solo_barrio,el Baix Guinardó,la Dreta de l'Eixample,20.52,1.73
+julio,solo_barrio,el Camp d'en Grassot i Gràcia Nova,el Barri Gòtic,46.24,2.27
+julio,solo_barrio,el Camp d'en Grassot i Gràcia Nova,la Dreta de l'Eixample,102.18,1.35
+julio,solo_barrio,el Camp de l'Arpa del Clot,Diagonal Mar i el Front Marítim del Poblenou,53.1,2.8
+julio,solo_barrio,el Camp de l'Arpa del Clot,Provençals del Poblenou,59.34,1.75
+julio,solo_barrio,el Camp de l'Arpa del Clot,el Parc i la Llacuna del Poblenou,27.62,1.41
+julio,solo_barrio,el Camp de l'Arpa del Clot,el Poblenou,40.16,1.69
+julio,solo_barrio,el Fort Pienc,"Sant Pere, Santa Caterina i la Ribera",71.52,1.21
+julio,solo_barrio,el Fort Pienc,el Parc i la Llacuna del Poblenou,146.59,0.88
+julio,solo_barrio,el Fort Pienc,el Poblenou,25.97,1.49
+julio,solo_barrio,el Fort Pienc,la Barceloneta,20.97,2.01
+julio,solo_barrio,el Fort Pienc,la Dreta de l'Eixample,95.72,0.64
+julio,solo_barrio,el Parc i la Llacuna del Poblenou,"Sant Pere, Santa Caterina i la Ribera",20.52,0.6
+julio,solo_barrio,el Parc i la Llacuna del Poblenou,la Vila Olímpica del Poblenou,27.26,0.13
+julio,solo_barrio,el Poble Sec,Diagonal Mar i el Front Marítim del Poblenou,29.9,5.83
+julio,solo_barrio,el Poble Sec,Hostafrancs,38.27,0.71
+julio,solo_barrio,el Poble Sec,el Raval,258.36,0.79
+julio,solo_barrio,el Poble Sec,la Barceloneta,26.77,2.28
+julio,solo_barrio,el Poblenou,Diagonal Mar i el Front Marítim del Poblenou,89.58,0.34
+julio,solo_barrio,el Putxet i el Farró,Sant Gervasi - la Bonanova,20.86,0.63
+julio,solo_barrio,l'Antiga Esquerra de l'Eixample,Diagonal Mar i el Front Marítim del Poblenou,21.86,5.68
+julio,solo_barrio,l'Antiga Esquerra de l'Eixample,el Barri Gòtic,55.16,1.75
+julio,solo_barrio,l'Antiga Esquerra de l'Eixample,el Raval,111.77,1.04
+julio,solo_barrio,l'Antiga Esquerra de l'Eixample,la Barceloneta,20.97,3.09
+julio,solo_barrio,l'Antiga Esquerra de l'Eixample,la Dreta de l'Eixample,54.18,0.38
+julio,solo_barrio,l'Antiga Esquerra de l'Eixample,la Maternitat i Sant Ramon,21.45,3.45
+julio,solo_barrio,l'Antiga Esquerra de l'Eixample,la Nova Esquerra de l'Eixample,40.37,0.47
+julio,solo_barrio,l'Antiga Esquerra de l'Eixample,les Corts,62.95,1.08
+julio,solo_barrio,la Barceloneta,"Sant Pere, Santa Caterina i la Ribera",78.08,0.59
+julio,solo_barrio,la Dreta de l'Eixample,Diagonal Mar i el Front Marítim del Poblenou,30.79,4.54
+julio,solo_barrio,la Dreta de l'Eixample,"Sant Pere, Santa Caterina i la Ribera",23.1,0.35
+julio,solo_barrio,la Dreta de l'Eixample,el Barri Gòtic,384.47,1.1
+julio,solo_barrio,la Dreta de l'Eixample,el Raval,111.23,0.8
+julio,solo_barrio,la Dreta de l'Eixample,l'Antiga Esquerra de l'Eixample,43.4,0.11
+julio,solo_barrio,la Dreta de l'Eixample,la Barceloneta,74.72,2.75
+julio,solo_barrio,la Nova Esquerra de l'Eixample,Hostafrancs,134.77,0.58
+julio,solo_barrio,la Nova Esquerra de l'Eixample,Sants,32.57,0.65
+julio,solo_barrio,la Nova Esquerra de l'Eixample,el Barri Gòtic,25.1,2.0
+julio,solo_barrio,la Nova Esquerra de l'Eixample,el Raval,46.84,1.68
+julio,solo_barrio,la Nova Esquerra de l'Eixample,l'Antiga Esquerra de l'Eixample,34.43,0.21
+julio,solo_barrio,la Nova Esquerra de l'Eixample,la Maternitat i Sant Ramon,48.64,2.12
+julio,solo_barrio,la Nova Esquerra de l'Eixample,les Corts,30.51,0.71
+julio,solo_barrio,la Sagrada Família,Diagonal Mar i el Front Marítim del Poblenou,52.39,3.34
+julio,solo_barrio,la Sagrada Família,el Baix Guinardó,30.2,0.39
+julio,solo_barrio,la Sagrada Família,el Barri Gòtic,81.2,2.17
+julio,solo_barrio,la Sagrada Família,el Camp d'en Grassot i Gràcia Nova,26.34,0.36
+julio,solo_barrio,la Sagrada Família,el Camp de l'Arpa del Clot,98.88,0.86
+julio,solo_barrio,la Sagrada Família,el Fort Pienc,59.75,0.39
+julio,solo_barrio,la Sagrada Família,el Parc i la Llacuna del Poblenou,242.99,1.34
+julio,solo_barrio,la Sagrada Família,el Poblenou,113.77,2.01
+julio,solo_barrio,la Sagrada Família,la Barceloneta,46.85,2.64
+julio,solo_barrio,la Sagrada Família,la Dreta de l'Eixample,127.79,1.35
+julio,solo_barrio,la Vila Olímpica del Poblenou,el Parc i la Llacuna del Poblenou,21.77,0.28
+julio,solo_barrio,la Vila Olímpica del Poblenou,la Barceloneta,46.4,0.37
+julio,solo_barrio,la Vila de Gràcia,Sant Gervasi - Galvany,132.63,0.56
+julio,solo_barrio,la Vila de Gràcia,el Barri Gòtic,83.57,2.52
+julio,solo_barrio,la Vila de Gràcia,el Putxet i el Farró,27.86,0.95
+julio,solo_barrio,la Vila de Gràcia,el Raval,34.67,2.02
+julio,solo_barrio,la Vila de Gràcia,l'Antiga Esquerra de l'Eixample,46.75,0.88
+julio,solo_barrio,la Vila de Gràcia,la Dreta de l'Eixample,226.12,0.51
+julio,solo_barrio,la Vila de Gràcia,la Maternitat i Sant Ramon,23.2,4.17
+julio,solo_barrio,la Vila de Gràcia,les Corts,118.06,2.04
+julio,solo_barrio,les Corts,la Maternitat i Sant Ramon,48.65,1.03

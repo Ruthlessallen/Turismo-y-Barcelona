@@ -269,46 +269,52 @@ def exportar_airbnb() -> dict:
 
 
 def exportar_sustitucion() -> dict:
-    """El escenario de 2028, por barrio y por escenario. Solo agregados.
+    """El escenario de 2028, por momento, escenario y barrio. Solo agregados.
 
-    Lo produce `gold/modelar_sustitucion.py`. Se publican los cinco valores del peso porque el
-    navegador no puede resolver los 5,2 millones de pares VUT-hotel: la barra de la web se mueve
-    entre estos pasos, no de forma continua.
+    **Dos momentos, no uno.** En un ano medio sobran habitaciones de hotel y no se queda nadie
+    fuera; en julio faltan. Publicar solo la media anual escondia justo el problema, y publicar
+    solo julio lo exageraria a doce meses.
 
-    **El peso no esta medido.** Se intento estimarlo con la demanda actual de Airbnb y no funciona
-    --la distancia al centro no la predice y el coeficiente del precio sale con el signo cambiado--
-    asi que la eleccion es de quien mira el mapa. Debe decirse al lado del control.
+    **La unidad es la habitacion, aunque se publiquen turistas.** Una plaza libre de hotel suele
+    ser la segunda cama de una habitacion ya vendida: no se puede vender aparte, y un grupo de
+    cuatro no cabe en ella. La habitacion es lo que limita; la persona es lo que se entiende.
     """
     ruta = GOLD / "sustitucion_2028.csv"
     if not ruta.exists():
-        return {"escenarios": 0}
+        return {"momentos": 0}
     d = pd.read_csv(ruta)
     resumen_gold = pd.read_csv(GOLD / "calidad" / "sustitucion_resumen.csv")
 
-    escenarios = {}
-    for etiqueta, g in d.groupby("escenario"):
-        escenarios[etiqueta] = [{
-            "barrio": r["barrio"],
-            "salen": int(r["plazas_que_salen"]),
-            "llegan": int(r["plazas_que_llegan"]),
-            "se_quedan": int(r["plazas_que_se_quedan"]),
-            "sin_sitio": int(r["plazas_sin_sitio"]),
-            "saldo": int(r["saldo"]),
-            "km": None if pd.isna(r["km_mediano"]) else round(float(r["km_mediano"]), 2),
-            "sobrecoste": None if pd.isna(r["sobrecoste_mediano"]) else round(
-                float(r["sobrecoste_mediano"]), 1),
-        } for _, r in g.iterrows()]
+    momentos = {}
+    for clave, bloque in d.groupby("momento"):
+        escenarios = {}
+        for etiqueta, g in bloque.groupby("escenario"):
+            escenarios[etiqueta] = [{
+                "barrio": r["barrio"],
+                "salen": int(round(r["turistas_que_salen"])),
+                "llegan": int(round(r["turistas_que_llegan"])),
+                "se_quedan": int(round(r["turistas_que_se_quedan"])),
+                "sin_sitio": int(round(r["turistas_sin_sitio"])),
+                "habitaciones": int(round(r["habitaciones_ocupadas"])),
+                "saldo": int(round(r["saldo"])),
+                "km": None if pd.isna(r["km_mediano"]) else round(float(r["km_mediano"]), 2),
+                "sobrecoste": None if pd.isna(r["sobrecoste_mediano"]) else round(
+                    float(r["sobrecoste_mediano"]), 1),
+            } for _, r in g.iterrows()]
+        momentos[clave] = {
+            "escenarios": escenarios,
+            "totales": resumen_gold[resumen_gold["momento"] == clave].to_dict(orient="records"),
+        }
 
-    volcar(DESTINO / "sustitucion_2028.json", {
-        "escenarios": escenarios,
-        "totales": resumen_gold.to_dict(orient="records"),
-    })
+    volcar(DESTINO / "sustitucion_2028.json", {"momentos": momentos})
     fila = resumen_gold.iloc[0]
-    return {"escenarios": len(escenarios), "barrios": int(d["barrio"].nunique()),
-            "ocupacion_partida": float(fila["ocupacion_partida"]),
-            "plazas_vut": int(fila["plazas_vut"]),
-            "plazas_regladas": int(fila["plazas_regladas"]),
-            "sin_sitio": int(fila["plazas_sin_sitio"])}
+    return {"momentos": len(momentos), "escenarios": int(resumen_gold["escenario"].nunique()),
+            "barrios": int(d["barrio"].nunique()),
+            "sin_sitio_anio_medio": int(resumen_gold.loc[
+                resumen_gold["momento"] == "anio_medio", "turistas_sin_sitio"].max()),
+            "sin_sitio_julio": int(resumen_gold.loc[
+                resumen_gold["momento"] == "julio", "turistas_sin_sitio"].max()),
+            "turistas_a_realojar": int(fila["turistas_a_realojar"])}
 
 
 def exportar_restauracion_2028() -> dict:
@@ -322,20 +328,23 @@ def exportar_restauracion_2028() -> dict:
     if not ruta.exists():
         return {"barrios": 0}
     d = pd.read_csv(ruta)
-    filas = [{
-        "barrio": r["barrio"],
-        "locales": int(r["locales"]),
-        "hoy": int(round(r["hoy"])),
-        "en_2028": int(round(r["en_2028"])),
-        "cambio": int(round(r["cambio"])),
-        "por_local_hoy": round(float(r["por_local_hoy"]), 2),
-        "por_local_2028": round(float(r["por_local_2028"]), 2),
-    } for _, r in d.iterrows()]
-    volcar(DESTINO / "restauracion_2028.json", filas)
-    return {"barrios": len(filas),
-            "ganan": int((d["cambio"] > 0).sum()),
-            "pierden": int((d["cambio"] < 0).sum()),
-            "locales": int(d["locales"].sum())}
+    momentos = {}
+    for clave, g in d.groupby("momento"):
+        momentos[clave] = [{
+            "barrio": r["barrio"],
+            "locales": int(r["locales"]),
+            "hoy": int(round(r["hoy"])),
+            "en_2028": int(round(r["en_2028"])),
+            "cambio": int(round(r["cambio"])),
+            "por_local_hoy": round(float(r["por_local_hoy"]), 2),
+            "por_local_2028": round(float(r["por_local_2028"]), 2),
+        } for _, r in g.iterrows()]
+    volcar(DESTINO / "restauracion_2028.json", {"momentos": momentos})
+    medio = d[d["momento"] == "anio_medio"]
+    return {"momentos": len(momentos), "barrios": int(d["barrio"].nunique()),
+            "ganan": int((medio["cambio"] > 0).sum()),
+            "pierden": int((medio["cambio"] < 0).sum()),
+            "locales": int(medio["locales"].sum())}
 
 
 # La criba, en el orden en que se aplica. La clave es el `motivo_exclusion` del CSV; el resto es
@@ -439,17 +448,20 @@ def exportar_flujos() -> dict:
     # para que la diferencia no desaparezca en silencio.
     sin_geometria = sorted({b for b in set(d["origen"]) | set(d["destino"]) if b not in centros})
 
-    escenarios = {}
-    for etiqueta, g in d.groupby("escenario"):
-        dibujables = g[g["origen"].isin(centros) & g["destino"].isin(centros)]
-        escenarios[etiqueta] = [{
-            "origen": r["origen"],
-            "destino": r["destino"],
-            "turistas": int(round(r["turistas"])),
-            "km": round(float(r["km_mediano"]), 2),
-        } for _, r in dibujables.iterrows()]
+    momentos = {}
+    for clave, bloque in d.groupby("momento"):
+        escenarios = {}
+        for etiqueta, g in bloque.groupby("escenario"):
+            dibujables = g[g["origen"].isin(centros) & g["destino"].isin(centros)]
+            escenarios[etiqueta] = [{
+                "origen": r["origen"],
+                "destino": r["destino"],
+                "turistas": int(round(r["turistas"])),
+                "km": round(float(r["km_mediano"]), 2),
+            } for _, r in dibujables.iterrows()]
+        momentos[clave] = escenarios
 
-    volcar(DESTINO / "flujos_2028.json", {"centroides": centros, "escenarios": escenarios})
+    volcar(DESTINO / "flujos_2028.json", {"centroides": centros, "momentos": momentos})
     return {"flujos": int(len(d)), "barrios_sin_geometria": sin_geometria,
             "maximo_turistas": int(d["turistas"].max())}
 

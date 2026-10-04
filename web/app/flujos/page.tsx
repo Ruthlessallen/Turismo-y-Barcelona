@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
-import { ESCENARIOS, type IdEscenario } from "@/app/lib/tipos";
+import { ESCENARIOS, MOMENTOS, type IdEscenario, type IdMomento } from "@/app/lib/tipos";
 import type { Centroides, Flujo } from "@/app/components/MapaFlujos";
 
 const MapaFlujos = dynamic(() => import("@/app/components/MapaFlujos"), {
@@ -12,12 +12,13 @@ const MapaFlujos = dynamic(() => import("@/app/components/MapaFlujos"), {
   loading: () => <div className="h-full w-full bg-[#f5f4f1]" />,
 });
 
-type Datos = { centroides: Centroides; escenarios: Record<string, Flujo[]> };
+type Datos = { centroides: Centroides; momentos: Record<string, Record<string, Flujo[]>> };
 
 export default function PaginaFlujos() {
   const [geojson, setGeojson] = useState<GeoJSON.FeatureCollection | null>(null);
   const [datos, setDatos] = useState<Datos | null>(null);
   const [escenario, setEscenario] = useState<IdEscenario>("equilibrio");
+  const [momento, setMomento] = useState<IdMomento>("anio_medio");
   const [barrio, setBarrio] = useState<string | null>(null);
   const [minimo, setMinimo] = useState(100);
 
@@ -26,7 +27,10 @@ export default function PaginaFlujos() {
     fetch("/data/mapa/flujos_2028.json").then((r) => r.json()).then(setDatos);
   }, []);
 
-  const flujos = useMemo(() => datos?.escenarios[escenario] ?? [], [datos, escenario]);
+  const flujos = useMemo(
+    () => datos?.momentos[momento]?.[escenario] ?? [],
+    [datos, momento, escenario],
+  );
   const indice = ESCENARIOS.findIndex((e) => e.id === escenario);
 
   const delBarrio = useMemo(() => {
@@ -56,12 +60,30 @@ export default function PaginaFlujos() {
           su piso y acaban durmiendo donde queda sitio.
         </p>
         <p className="mt-2 rounded border-l-2 border-[#d8d5cf] bg-[#faf9f7] px-3 py-2 text-[11px] leading-relaxed text-[#52514e]">
-          Solo se mueven los <strong>30.067 turistas de las 6.834 viviendas anunciadas hoy en
-          Airbnb</strong>. El registro oficial tiene 24.075 licencias con 61.899 plazas: las que no
-          se anuncian en Airbnb no están en este mapa.
+          Solo se mueven los turistas de las <strong>6.834 viviendas anunciadas hoy en
+          Airbnb</strong>, y solo los que de verdad están dentro una noche cualquiera: esos pisos no
+          se llenan los 365 días. El registro oficial tiene 24.075 licencias; las que no se anuncian
+          en Airbnb no están aquí.
         </p>
 
         <h2 className="mt-6 mb-2 text-[11px] font-semibold uppercase tracking-wider text-[#52514e]">
+          ¿Cuándo?
+        </h2>
+        <div className="flex gap-1 rounded border border-[#e3e0da] p-0.5">
+          {MOMENTOS.map((m) => (
+            <button
+              key={m.id}
+              onClick={() => setMomento(m.id)}
+              className={`flex-1 rounded px-2 py-1.5 text-[12px] transition ${
+                momento === m.id ? "bg-[#24231f] text-white" : "text-[#52514e] hover:bg-[#f5f4f1]"
+              }`}
+            >
+              {m.etiqueta}
+            </button>
+          ))}
+        </div>
+
+        <h2 className="mt-5 mb-2 text-[11px] font-semibold uppercase tracking-wider text-[#52514e]">
           ¿Qué busca el turista?
         </h2>
         <input

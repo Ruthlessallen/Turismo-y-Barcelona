@@ -1,46 +1,77 @@
 /** Formas de lo que publica `pipeline/export/export_mapa.py`. */
 
-/** Una fila de `sustitucion_2028.json`: un barrio dentro de un escenario. */
+/**
+ * Una fila de `sustitucion_2028.json`: un barrio, dentro de un escenario, dentro de un momento.
+ *
+ * **Son turistas, no plazas.** El reparto se hace en habitaciones —que es lo que limita a un
+ * hotel: una plaza suelta es la segunda cama de una habitación ya vendida— pero se publica la
+ * persona, que es lo que se entiende.
+ */
 export type BarrioSustitucion = {
   barrio: string;
-  /** Plazas VUT que desaparecen de este barrio. */
+  /** Turistas que se quedan sin piso en este barrio. */
   salen: number;
-  /** Plazas que este barrio absorbe en sus hoteles. */
+  /** Turistas que este barrio absorbe en sus hoteles. */
   llegan: number;
-  /** De las que salen, las que encuentran hotel en el mismo barrio. */
+  /** De los que salen, los que encuentran hotel en el mismo barrio. */
   se_quedan: number;
-  /** Plazas de este barrio que no encuentran sitio en toda la ciudad. */
+  /** Turistas de este barrio que no encuentran sitio en toda la ciudad. */
   sin_sitio: number;
-  /** llegan − salen. Negativo: el barrio pierde alojamiento turístico. */
+  /** Habitaciones de hotel que ocupan los que llegan. */
+  habitaciones: number;
+  /** llegan − salen. Negativo: el barrio pierde turistas alojados. */
   saldo: number;
   km: number | null;
   sobrecoste: number | null;
 };
 
 export type TotalesEscenario = {
+  momento: string;
+  etiqueta: string;
   escenario: string;
   w: number;
-  plazas_colocadas: number;
-  plazas_sin_sitio: number;
+  turistas_colocados: number;
+  turistas_sin_sitio: number;
+  habitaciones_sin_sitio: number;
   km_mediano: number;
   sobrecoste_mediano: number;
   hoteles_usados: number;
-  ocupacion_partida: number;
-  plazas_regladas: number;
-  plazas_vut: number;
+  /** Ocupación hotelera **por habitaciones** del INE, no por plazas. */
+  ocupacion_hotel: number;
+  /** Ocupación estimada de los anuncios de Airbnb. No es un dato oficial: no existe. */
+  ocupacion_airbnb: number;
+  habitaciones_hotel: number;
+  habitaciones_libres: number;
+  turistas_a_realojar: number;
 };
 
-export type Sustitucion = {
+export type MomentoSustitucion = {
   escenarios: Record<string, BarrioSustitucion[]>;
   totales: TotalesEscenario[];
 };
 
+export type Sustitucion = { momentos: Record<string, MomentoSustitucion> };
+
+/**
+ * Los dos momentos que se publican.
+ *
+ * No es un capricho: en un año medio sobran habitaciones de hotel y no se queda nadie fuera, y en
+ * julio faltan. Publicar solo la media anual escondía el problema; publicar solo julio lo
+ * extendería a doce meses.
+ */
+export const MOMENTOS = [
+  { id: "anio_medio", etiqueta: "Un año medio" },
+  { id: "julio", etiqueta: "Julio, la punta" },
+] as const;
+
+export type IdMomento = (typeof MOMENTOS)[number]["id"];
+
 /**
  * Una fila de `restauracion_2028.json`.
  *
- * **No hay una versión por escenario, y es a propósito.** La demanda supera a la capacidad
- * hotelera libre, así que todos los hoteles se llenan elija lo que elija el turista: la barra
- * mueve quién va a qué hotel, no cuántos hoteles se llenan.
+ * **No hay una versión por escenario, y es a propósito.** El reparto sobre los bares lo decide
+ * dónde está el hotel, no qué prefiere el turista, así que basta con el escenario de equilibrio.
+ * Sí hay una versión por momento: en julio se mueve más gente que en un mes corriente.
  */
 export type BarrioRestauracion = {
   barrio: string;
