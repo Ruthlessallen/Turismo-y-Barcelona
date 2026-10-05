@@ -78,6 +78,16 @@ export default function PaginaFuentes() {
                   "Las cifras de cada barrio y las de la portada",
                   "export_mapa_limpio.py",
                 ],
+                [
+                  "turistas.json y flujo.json",
+                  "Turistas frente al INE; distancia recorrida, bandas y barrios que suben y bajan",
+                  "export_mapa_limpio.py",
+                ],
+                [
+                  "hoteles_pagina.json",
+                  "Categorías, ocupación mensual y por banda, hoteles anunciados",
+                  "export_mapa_limpio.py",
+                ],
               ]}
             />
           </Seccion>
@@ -180,6 +190,21 @@ export default function PaginaFuentes() {
                 No se republican y no se citan como fuente: sirven para calibrar el análisis en
                 local. Lo que se publica es la <strong>banda económica</strong>, nunca el euro
                 exacto, y la referencia oficial citable es el ADR del INE.
+              </P>
+            </Fuente>
+
+            <Fuente
+              nombre="Hoteles anunciados"
+              quien="Prensa del sector: Hosteltur, ON Economia, EjePrime"
+              fecha="Recopilado a mano el 5 de octubre de 2026"
+            >
+              <P>
+                No es un registro oficial: no existe un dataset de hoteles previstos. Son cuatro
+                entradas, cada una con su enlace en la página de hoteles. <strong>Casi todo es
+                reforma o cambio de gestión de hoteles que ya existen</strong>: de obra nueva hay 189
+                habitaciones (el ibis budget del 22@), el 3,3% de las 5.706 que piden los pisos. La
+                modificación del PEUAT de 2023 que permite hoteles «singulares» no se ha verificado
+                que siga en vigor.
               </P>
             </Fuente>
 
@@ -302,13 +327,11 @@ export default function PaginaFuentes() {
               precio, que es la única escala común.
             </Decision>
 
-            <Decision titulo="Cuántos pisos tiene cerca un hotel y cuántos puede absorber">
-              Se cuentan los pisos a menos de 0–500 metros del hotel. Un piso pide tantas
-              habitaciones como dormitorios tiene (una, si es un estudio) y solo las ocupa el 38–48%
-              de las noches. El hotel ofrece el 19,8% de las suyas, las que no tiene vendidas (80,2%
-              de ocupación por habitaciones, INE). Absorbe lo menor de las dos cifras. Se cuenta
-              cada hotel por separado: los hoteles vecinos compiten por los mismos pisos, así que no
-              se pueden sumar.
+            <Decision titulo="Qué hay cerca de un hotel y qué recibe en 2028">
+              El radio de 0 a 500 metros cuenta los pisos que tiene cerca, con sus plazas y sus
+              habitaciones (un piso, tantas como dormitorios; una si es un estudio). Aparte, para
+              cada hotel: sus habitaciones, las ocupadas hoy (80,2% por habitaciones, INE) y las
+              ocupadas en 2028, que son esas más las que recibe de los pisos según el reparto.
             </Decision>
             <Tabla
               cabeceras={["Toda la ciudad, un año medio", "Habitaciones"]}
@@ -316,8 +339,21 @@ export default function PaginaFuentes() {
                 ["Libres en los hoteles", "8.841"],
                 ["Que piden los pisos", "5.706"],
                 ["Sin sitio", "nadie"],
+                ["Ocupación hotelera", "del 80,2% al 93,0%"],
               ]}
             />
+
+            <Decision titulo="Cada turista elige hotel por su banda">
+              No se mira si prefiere precio o ubicación: se mira la banda. Cada turista va a un
+              hotel de su banda, el más cercano con habitaciones libres; si no queda sitio, va a la
+              siguiente más cara. La distancia no limita: si el único hotel libre de su banda está
+              al otro lado de la ciudad, va. Los hoteles baratos son el cuello de botella: tienen 57
+              habitaciones libres frente a 1.629 que piden los pisos baratos, así que solo el 34% de
+              los turistas encuentra hotel de su banda, el 46% sube una banda y el 20% sube dos o
+              más. El volumen acaba en los €€€; la presión de precio es de los €. La mediana de
+              distancia es de 0,37 km, y el 90% llega a menos de 1,6 km. Supone la misma ocupación
+              en todas las bandas, y los hostales probablemente estén más llenos.
+            </Decision>
 
             <Decision titulo="En restauración solo se mira a quien hoy cocina">
               Los locales ya tienen clientes y eso no se estima. Se mira un solo grupo: el turista que
@@ -325,25 +361,15 @@ export default function PaginaFuentes() {
               a comer. Cada turista reparte su demanda entre los locales a menos de 200 metros de
               donde duerme. Hoy el de piso cuenta la mitad —tiene cocina— y en 2028, ya en un hotel,
               cuenta entero. <strong>La mitad es un supuesto, no un dato</strong>, y de él sale por sí
-              solo el aumento total (+9,2%). Lo que sí aporta el modelo es dónde: 4.147 locales ganan
-              y 4.444 pierden. El % es sobre estos clientes, no sobre todos los del local.
+              solo el aumento total (+9,2%). Lo que sí aporta el modelo es dónde: 4.245 locales ganan
+              y 4.326 pierden. El % es sobre estos clientes, no sobre todos los del local.
             </Decision>
 
-            <Decision titulo="En qué hotel acaba cada turista">
-              Se mezcla cercanía y banda de precio al 50%, de la vivienda más cara a la más barata:
-              quien paga menos es quien se queda sin sitio si no cabe. Ese peso no se estima, y es
-              deliberado: se intentó deducirlo de la demanda actual de Airbnb y no funciona (la
-              distancia al centro no predice la demanda, y el coeficiente del precio sale positivo,
-              que es causalidad inversa). La capacidad es un límite duro: un hotel de 200 plazas no
-              absorbe 500.
-            </Decision>
-
-            <Decision titulo="Prototipo, sin publicar: elegir hotel por banda">
-              Si el turista va a un hotel de su banda y, si no hay hueco, a la siguiente más cara, los
-              hoteles baratos son el cuello de botella: tienen 57 habitaciones libres frente a 1.629
-              que piden los pisos baratos. Solo el 34% encuentra hotel de su banda; el volumen acaba
-              en los €€€, y la presión de precio es de los €. La distancia no se dispara (mediana de
-              0,37 km).
+            <Decision titulo="Los turistas se comparan con el INE">
+              Los hoteles de este conjunto alojan a 56.715 turistas por noche; el INE cuenta 60.133
+              pernoctaciones por noche (ago 2025 – jul 2026), un 6% más. Los pisos, entre 11.516 y
+              14.432 por noche y, a 3 noches de estancia —un supuesto—, entre 1,4 y 1,8 millones de
+              turistas al año. El INE no mide pisos.
             </Decision>
           </Seccion>
 

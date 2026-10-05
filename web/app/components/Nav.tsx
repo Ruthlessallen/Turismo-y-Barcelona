@@ -12,6 +12,8 @@ const SECCIONES = [
   { href: "/", etiqueta: "Resumen" },
   { href: "/mapa", etiqueta: "El mapa" },
   { href: "/airbnb", etiqueta: "Airbnb" },
+  { href: "/hoteles", etiqueta: "Hoteles" },
+  { href: "/turistas", etiqueta: "Turistas" },
   { href: "/fuentes", etiqueta: "Fuentes" },
 ];
 

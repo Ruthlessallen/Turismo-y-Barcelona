@@ -15,6 +15,15 @@ export type Hotel = {
   plazas: number | null; hab: number | null;
   /** Solo bandas, nunca el euro: por habitación (100/175/300) y por plaza (40/70/120). */
   banda_hab: string | null; banda: string | null; origen: string | null;
+  /** Lo que recibe de los pisos que desaparecen, en un año medio: habitaciones y pisos de origen. */
+  hab_abs: number | null; pisos_abs: number | null;
+};
+
+/** Un hotel anunciado, de `hoteles_pagina.json`. Sin coordenada si no se conoce la dirección. */
+export type HotelNuevo = {
+  nombre: string; marca: string; direccion: string; habitaciones: number | null;
+  categoria: string; apertura: string; tipo: string;
+  lat: number | null; lon: number | null; fuente: string; url: string;
 };
 
 export type Restaurante = {
@@ -62,6 +71,7 @@ export type DatosMapa = {
   pisos: Piso[];
   hoteles: Hotel[];
   restaurantes: Restaurante[];
+  nuevos: HotelNuevo[];
 };
 
 export type ModoAlojamiento = "puntos" | "barrios";
@@ -93,12 +103,11 @@ export function distanciaM(lat1: number, lon1: number, lat2: number, lon2: numbe
 }
 
 /**
- * Qué pasa alrededor de un hotel: cuántos pisos hay a menos de `radio` metros, cuántas habitaciones
- * pedirían y cuántas puede absorber el hotel.
+ * Qué hay alrededor de un hotel y qué le pasa en 2028.
  *
- * **Este hotel solo.** Otros hoteles del mismo radio compiten por los mismos pisos, así que la suma
- * de lo que absorbe cada uno puede contar dos veces a un mismo turista. Lo que sí responde es
- * cuánto de lo que tiene alrededor cabría en este hotel.
+ * Alrededor: los pisos a menos de `radio` metros, con sus plazas y sus habitaciones (los
+ * dormitorios). El hotel: sus habitaciones, las ocupadas hoy (80,2 %) y las ocupadas en 2028, que
+ * son esas más las que recibe de los pisos según el reparto por banda.
  */
 export function analisisHotel(h: Hotel, pisos: Piso[], radio: number) {
   let cerca = 0, plazas = 0, habitaciones = 0;
@@ -110,12 +119,11 @@ export function analisisHotel(h: Hotel, pisos: Piso[], radio: number) {
     }
   }
   const total = h.hab ?? 0;
-  const libres = { anio: total * (1 - OCUPACION.hotelAnio), julio: total * (1 - OCUPACION.hotelJulio) };
-  const piden: [number, number] = [habitaciones * OCUPACION.pisoBaja, habitaciones * OCUPACION.pisoAlta];
-  const absorbe = (libre: number): [number, number] => [Math.min(libre, piden[0]), Math.min(libre, piden[1])];
+  const hoy = total * OCUPACION.hotelAnio;
+  const absorbe = h.hab_abs ?? 0;
   return {
-    cerca, plazas, piden, libres,
-    turistas: [plazas * OCUPACION.pisoBaja, plazas * OCUPACION.pisoAlta] as [number, number],
-    absorbe: { anio: absorbe(libres.anio), julio: absorbe(libres.julio) },
+    cerca, plazas, habitaciones, total,
+    ocupadasHoy: hoy, ocupadas2028: Math.min(hoy + absorbe, total),
+    absorbe, pisosAbsorbidos: h.pisos_abs ?? 0,
   };
 }

@@ -1,6 +1,8 @@
-"""Prototipo: adonde van los turistas si eligen hotel por su banda economica.
+"""Adonde van los turistas cuando desaparecen los pisos: cada uno elige hotel por su banda.
 
-**No alimenta la web.** Es para ver como se comportaria el flujo antes de dibujarlo en el mapa.
+Es el reparto que usa la web desde el 2026-10-05 (`export/export_mapa_limpio.py` llama a `asignar`).
+Sustituye al reparto por cercania y parecido de precio de `modelar_sustitucion.py`, que sigue
+alimentando solo a `/mapa-anterior`. Ejecutado a mano, imprime la comparacion de variantes.
 
 La regla, tal como se plantea:
   1. El turista va a un hotel de **su banda**, el mas cercano con habitaciones libres.
@@ -24,7 +26,7 @@ import pandas as pd
 
 import modelar_sustitucion as m
 
-SALIDA = m.GOLD / "calidad" / "flujos_banda_prototipo.csv"
+SALIDA = m.GOLD / "calidad" / "flujos_banda_resumen.csv"
 BANDAS = ["€", "€€", "€€€", "€€€€"]
 TOPE_KM = 1.0
 SEMILLAS = [0, 1, 2]
@@ -58,6 +60,22 @@ def repartir(vut, hot, dist, delta, tope, semilla) -> pd.DataFrame:
         if pendiente > 0:
             filas.append((i, -1, pendiente))
     return pd.DataFrame(filas, columns=["vut_idx", "hotel_idx", "habitaciones"])
+
+
+def asignar(semilla: int = 0, tope: float | None = None):
+    """El reparto de un ano medio. Devuelve (asignacion, vut, hotel, km, banda_vut, banda_hotel).
+
+    `asignacion` tiene una fila por pareja piso-hotel: `vut_idx`, `hotel_idx` (-1 si no cabe) y las
+    `habitaciones` por noche que ese piso coloca en ese hotel.
+    """
+    vut, hot = m.cargar()
+    vut = vut[vut["banda_plaza"].notna()].reset_index(drop=True)
+    dist, _, _ = m.matrices(vut, hot)
+    idx = {b: i for i, b in enumerate(BANDAS)}
+    bv = vut["banda_plaza"].map(idx).to_numpy()
+    bh = hot["banda_plaza"].map(idx).to_numpy()
+    delta = bh[None, :] - bv[:, None]
+    return repartir(vut, hot, dist, delta, tope, semilla), vut, hot, dist, bv, bh
 
 
 def resumen(nombre, a, vut, hot, dist, bv, bh) -> dict:

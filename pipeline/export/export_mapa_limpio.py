@@ -9,6 +9,10 @@ lleva solo lo que el mapa pinta: coordenada, plazas, dormitorios, precio por pla
 ni nombre del anuncio, ni anfitrion, ni numero de licencia. La coordenada ya viene desplazada
 hasta 150 m por Inside Airbnb, y aqui se redondea a 5 decimales (~1 m), no se afina.
 
+**Donde acaba cada turista en 2028.** Lo decide `gold/modelar_flujos_banda.py`: cada turista va a un
+hotel de su banda y, si no hay hueco, a la siguiente mas cara. Un solo reparto alimenta al hotel
+(cuantos pisos absorbe), a los restaurantes y a los graficos de flujo.
+
 **Demanda de los restaurantes hoy.** Cada turista alojado reparte un punto, a partes iguales,
 entre los locales que tiene a menos de 200 m (el mismo criterio que `modelar_sustitucion.py`).
 Turistas por noche = plazas x ocupacion: 38,3% en pisos (estimada, no hay dato oficial) y 67,9%
@@ -39,6 +43,9 @@ OCUPACION_AIRBNB_ALTA = 0.48  # extremo alto del rango 38-48% que se maneja para
 # Un turista de piso tiene cocina; uno de hotel, no. Es un supuesto del proyecto (2026-10-04), no un
 # dato: no sabemos cuanto cocina nadie. Con 0 solo contarian los hoteles; con 1, los dos igual.
 PESO_PISO_EN_RESTAURACION = 0.5
+BANDAS = ["€", "€€", "€€€", "€€€€"]
+INE = RAIZ / "data" / "raw" / "ine"
+NUEVOS = RAIZ / "data" / "bronze" / "hoteles_nuevos_bcn.csv"
 BLOQUE = 400  # filas de alojamiento por bloque: la matriz entera, 7.584 x 9.479, no cabe holgada
 
 
@@ -120,6 +127,7 @@ def hoteles() -> pd.DataFrame:
     h = h.assign(k=h["licencia_id"].str.upper()).merge(
         reg[["k", "ra_social_del_titular"]].drop_duplicates("k"), on="k", how="left")
     return pd.DataFrame({
+        "id": h["licencia_id"],
         "titular": h["ra_social_del_titular"].map(razon_social),
         "nom": h["nombre_comercial"], "cat": h["categoria"], "barrio": h["barrio"],
         "lat": h["lat"], "lon": h["lon"], "plazas": h["plazas"], "hab": h["habitaciones"],
@@ -146,28 +154,95 @@ def a_locales(lat, lon, valor, r: pd.DataFrame) -> np.ndarray:
     return tur
 
 
-def absorbido_2028() -> pd.DataFrame:
-    """Turistas por noche que cada hotel recibe de los pisos que desaparecen (un año medio).
+def reparto_2028() -> dict:
+    """El reparto por banda de un ano medio, ya agregado: por hotel, por barrio y en conjunto.
 
-    Es el reparto del modelo de sustitucion con el peso 0,5 entre precio y barrio, sin tocar nada
-    de el: se llama, no se reimplementa. En un año medio caben todos, asi que el total es el de los
-    turistas de los pisos (la misma cifra que en la portada).
+    Se llama a `modelar_flujos_banda.asignar`, no se reimplementa. En un ano medio caben todos, asi
+    que el total de turistas es el de los pisos (11.516 por noche).
     """
-    import modelar_sustitucion as m
+    import modelar_flujos_banda as f
 
-    vut, hot = m.cargar()
-    distancia, cercania, parecido = m.matrices(vut, hot)
-    vut["por_habitacion"] = vut["accommodates"] / vut["dormitorios"]
-    momento = m.MOMENTOS["anio_medio"]
-    vut["ocupacion"] = m.OCUPACION_AIRBNB
-    vut["demanda"] = vut["dormitorios"] * m.OCUPACION_AIRBNB
-    capacidad = (hot["habitaciones"] * (1 - momento["ocupacion_hotel"])).to_numpy()
-    asignacion = m.repartir(vut, hot, distancia, cercania, parecido, 0.5, capacidad)
-    col = asignacion[asignacion["hotel_idx"] >= 0]
-    tur = col["habitaciones"].to_numpy() * vut["por_habitacion"].to_numpy()[col["vut_idx"].to_numpy()]
-    por_hotel = np.zeros(len(hot))
-    np.add.at(por_hotel, col["hotel_idx"].to_numpy(), tur)
-    return pd.DataFrame({"lat": hot["lat"], "lon": hot["lon"], "tur": por_hotel})
+    a, vut, hot, dist, bv, bh = f.asignar()
+    por_hab = (vut["accommodates"] / vut["dormitorios"]).to_numpy()
+    col = a[a["hotel_idx"] >= 0].copy()
+    vi, hi = col["vut_idx"].to_numpy(), col["hotel_idx"].to_numpy()
+    col["tur"] = col["habitaciones"].to_numpy() * por_hab[vi]
+    col["km"] = dist[vi, hi]
+    col["b_orig"], col["b_dest"] = bv[vi], bh[hi]
+
+    por_hotel = col.groupby("hotel_idx").agg(
+        hab_abs=("habitaciones", "sum"), tur_abs=("tur", "sum"), pisos_abs=("vut_idx", "nunique"))
+    hotel = pd.DataFrame({"id": hot["licencia_id"], "lat": hot["lat"], "lon": hot["lon"],
+                          "barrio": hot["barrio"], "hab": hot["habitaciones"],
+                          "banda": hot["banda_plaza"]}).join(por_hotel).fillna(
+        {"hab_abs": 0.0, "tur_abs": 0.0, "pisos_abs": 0})
+
+    w, km = col["tur"].to_numpy(), col["km"].to_numpy()
+    orden = np.argsort(km)
+    acumulado = np.cumsum(w[orden]) / w.sum()
+
+    def cuantil(q):  # ponderado por turistas, no por parejas piso-hotel
+        return float(km[orden][np.searchsorted(acumulado, q)])
+
+    bordes = [0, 0.25, 0.5, 1, 2, 5, np.inf]
+    cubos = [{"desde": lo, "hasta": None if hi == np.inf else hi,
+              "pct": round(float(w[(km >= lo) & (km < hi)].sum() / w.sum() * 100), 1)}
+             for lo, hi in zip(bordes[:-1], bordes[1:])]
+    matriz = (col.groupby(["b_orig", "b_dest"])["tur"].sum().unstack(fill_value=0)
+              .reindex(index=range(4), columns=range(4), fill_value=0))
+    salto = col["b_dest"].to_numpy() - col["b_orig"].to_numpy()
+    origen = vut["neighbourhood"].to_numpy()[vi]
+    destino = hot["barrio"].to_numpy()[hi]
+    return {
+        "hotel": hotel,
+        "tur_total": float(w.sum()),
+        "salen": pd.Series(w).groupby(origen).sum(),
+        "llegan": pd.Series(w).groupby(destino).sum(),
+        "flujo": {
+            "turistas": round(float(w.sum())),
+            "km": {"mediana": round(cuantil(0.5), 2), "media": round(float((km * w).sum() / w.sum()), 2),
+                   "p90": round(cuantil(0.9), 2), "maximo": round(float(km.max()), 1),
+                   "mas_de_2km_pct": round(float(w[km > 2].sum() / w.sum() * 100), 1)},
+            "distancia": cubos,
+            "bandas": {
+                "etiquetas": BANDAS,
+                "matriz": [[round(float(v)) for v in fila] for fila in matriz.to_numpy()],
+                "su_banda_pct": round(float(w[salto == 0].sum() / w.sum() * 100), 1),
+                "una_mas_pct": round(float(w[salto == 1].sum() / w.sum() * 100), 1),
+                "dos_o_mas_pct": round(float(w[salto >= 2].sum() / w.sum() * 100), 1),
+            },
+        },
+    }
+
+
+def ine() -> dict:
+    """INE, Encuesta de Ocupacion Hotelera, punto turistico Barcelona: los ultimos 12 meses.
+
+    Cubre hoteles, hostales y pensiones; no apartamentos turisticos ni pisos.
+    """
+    def serie(fichero, cod):
+        d = json.load(open(INE / fichero, encoding="utf-8"))
+        s_ = next(x for x in d if x["COD"] == cod)
+        return pd.Series({r["Fecha"][:7]: r["Valor"] for r in s_["Data"]}).sort_index()
+
+    via = serie("viajeros_pernoctaciones.json", "EOT2659") + serie("viajeros_pernoctaciones.json", "EOT2660")
+    ext = serie("viajeros_pernoctaciones.json", "EOT2660")
+    per = serie("viajeros_pernoctaciones.json", "EOT2661") + serie("viajeros_pernoctaciones.json", "EOT2662")
+    ocu = serie("plazas_ocupacion.json", "EOT3199")
+    meses = via.index[-12:]
+    return {
+        "periodo": f"{meses[0]} a {meses[-1]}",
+        "viajeros": int(via[meses].sum()), "pernoctaciones": int(per[meses].sum()),
+        "estancia_media": round(float(per[meses].sum() / via[meses].sum()), 2),
+        "extranjeros_pct": round(float(ext[meses].sum() / via[meses].sum() * 100), 1),
+        "pernoctaciones_por_noche": round(float(per[meses].sum() / 365)),
+        "ocupacion_habitaciones": [{"mes": m_, "ocupacion": round(float(ocu[m_]), 1)} for m_ in ocu.index[-12:]],
+    }
+
+
+def nuevos() -> list[dict]:
+    d = pd.read_csv(NUEVOS)
+    return [{k: (None if pd.isna(v) else v) for k, v in fila.items()} for fila in d.to_dict("records")]
 
 
 def operador(serie: pd.Series, minimo: int):
@@ -201,7 +276,7 @@ def marca_principal(g: pd.DataFrame):
     return {"nom": str(c.index[0]), "locales": int(c.iloc[0])}
 
 
-def dashboard(p: pd.DataFrame, h: pd.DataFrame, ab: pd.DataFrame) -> dict:
+def dashboard(p: pd.DataFrame, h: pd.DataFrame, tur_nuevos: float) -> dict:
     """Las cifras de la portada: solo numeros, un ano medio, sin escenarios.
 
     Los turistas nuevos son los que los pisos aportan a los hoteles al desaparecer (reparto del
@@ -209,7 +284,7 @@ def dashboard(p: pd.DataFrame, h: pd.DataFrame, ab: pd.DataFrame) -> dict:
     """
     todos = pd.read_csv(GOLD / "airbnb_excluidos_web.csv", low_memory=False, usecols=["id"])
     turistas_hotel_hoy = float((h["plazas"].fillna(0) * OCUPACION_HOTEL_PLAZAS).sum())
-    nuevos = float(ab["tur"].sum())
+    nuevos = tur_nuevos
     titulares = h["titular"].dropna().value_counts().head(5)
     bandas = h["banda_hab"].value_counts()
     return {
@@ -226,6 +301,8 @@ def dashboard(p: pd.DataFrame, h: pd.DataFrame, ab: pd.DataFrame) -> dict:
         "pisos": {
             "anuncios_barridos": len(p) + len(todos),
             "total": len(p), "habitaciones": int(p["hab_piso"].sum()),
+            # La banda de un piso es por plaza (la unica que tiene); la del hotel, por habitacion.
+            "bandas": {b: int((p["banda"] == b).sum()) for b in BANDAS},
             "plazas": int(p["plazas"].sum()),
             # Orden de magnitud: ocupacion 38,3-48 % x 365 noches x precio de la noche del piso.
             "facturacion": [round(float(p["precio_piso"].fillna(0).sum() * 365 * OCUPACION_AIRBNB)),
@@ -245,8 +322,9 @@ def main() -> None:
     # Hoy: el de piso cuenta la mitad (cocina). En 2028 esos turistas duermen en hoteles, que no
     # tienen cocina, y cuentan enteros. De ahi sale cuantos clientes mas (o menos) puede haber.
     r["turistas"] = hotel_hoy + PESO_PISO_EN_RESTAURACION * piso_hoy
-    ab = absorbido_2028()
-    r["turistas_2028"] = hotel_hoy + a_locales(ab["lat"], ab["lon"], ab["tur"], r)
+    rep = reparto_2028()
+    ab = rep["hotel"]
+    r["turistas_2028"] = hotel_hoy + a_locales(ab["lat"], ab["lon"], ab["tur_abs"], r)
     r["mas_pct"] = np.where(r["turistas"] > 0,
                             (r["turistas_2028"] / r["turistas"].where(r["turistas"] > 0) - 1) * 100,
                             np.nan)
@@ -254,7 +332,11 @@ def main() -> None:
     volcar("puntos_pisos.json", [
         [round(x.lat, 5), round(x.lon, 5), num(x.plazas), num(x.dorm), num(x.precio_piso),
          num(x.precio, 1), texto(x.banda), texto(x.origen), x.barrio, num(x.hab_piso)] for x in p.itertuples()])
+    absorbido = ab.set_index("id")
     volcar("puntos_hoteles.json", [{
+        # Lo que este hotel recibe de los pisos que desaparecen (un ano medio, reparto por banda).
+        "hab_abs": num(absorbido["hab_abs"].get(x.id, 0), 1),
+        "pisos_abs": num(absorbido["pisos_abs"].get(x.id, 0)),
         "nom": texto(x.nom), "titular": texto(x.titular), "cat": texto(x.cat),
         "barrio": texto(x.barrio), "lat": round(x.lat, 5), "lon": round(x.lon, 5), "plazas": num(x.plazas),
         "hab": num(x.hab), "banda_hab": texto(x.banda_hab),
@@ -312,7 +394,56 @@ def main() -> None:
             "operador_pisos": operador(gp["anfitrion"], 5),
         })
     volcar("barrios_hoy.json", filas)
-    volcar("dashboard.json", dashboard(p, h, ab))
+    volcar("dashboard.json", dashboard(p, h, rep["tur_total"]))
+
+    # --- Turistas: lo que hay en este conjunto de datos frente a lo que dice el INE.
+    datos_ine = ine()
+    hoteles_noche = float((h["plazas"].fillna(0) * OCUPACION_HOTEL_PLAZAS).sum())
+    pisos_noche = [float(p["plazas"].sum() * OCUPACION_AIRBNB), float(p["plazas"].sum() * OCUPACION_AIRBNB_ALTA)]
+    ESTANCIA_PISOS = 3  # noches por estancia: el supuesto del metodo de reseñas (supuestos.md, F3)
+    volcar("turistas.json", {
+        "ine": datos_ine,
+        "dataset": {
+            "hoteles_noche": round(hoteles_noche),
+            "hoteles_pernoctaciones_ano": round(hoteles_noche * 365),
+            "pisos_noche": [round(v) for v in pisos_noche],
+            "pisos_pernoctaciones_ano": [round(v * 365) for v in pisos_noche],
+            "estancia_pisos": ESTANCIA_PISOS,
+            "pisos_turistas_ano": [round(v * 365 / ESTANCIA_PISOS) for v in pisos_noche],
+            "nuevos_noche": round(rep["tur_total"]),
+            "hoteles_frente_a_ine_pct": round((hoteles_noche / datos_ine["pernoctaciones_por_noche"] - 1) * 100, 1),
+        },
+    })
+
+    # --- Flujo: cuanto se alejan y que barrios suben o bajan en 2028.
+    barrios_flujo = []
+    for fila in filas:
+        hoy_b = fila["turistas_hoteles"] + fila["turistas_pisos"][0]
+        llegan = float(rep["llegan"].get(fila["barrio"], 0))
+        salen = float(rep["salen"].get(fila["barrio"], 0))
+        dosmil28 = fila["turistas_hoteles"] + llegan
+        barrios_flujo.append({
+            "barrio": fila["barrio"], "hoy": round(hoy_b), "en_2028": round(dosmil28),
+            "salen": round(salen), "llegan": round(llegan), "saldo": round(llegan - salen),
+            "cambio_pct": None if hoy_b <= 0 else round((dosmil28 / hoy_b - 1) * 100, 1)})
+    volcar("flujo.json", {**rep["flujo"], "barrios": barrios_flujo})
+
+    # --- Pagina de hoteles: categorias, estacionalidad, ocupacion hoy y en 2028, hoteles nuevos.
+    cat = h.groupby(h["cat"].fillna("Sin categoria")).agg(hoteles=("id", "size"), habitaciones=("hab", "sum"))
+    por_banda = ab.groupby("banda").agg(hab=("hab", "sum"), abs_=("hab_abs", "sum")).reindex(BANDAS).fillna(0)
+    volcar("hoteles_pagina.json", {
+        "categorias": [{"cat": k, "hoteles": int(v.hoteles), "habitaciones": int(v.habitaciones)}
+                       for k, v in cat.sort_values("habitaciones", ascending=False).iterrows()],
+        "ocupacion_mensual": datos_ine["ocupacion_habitaciones"],
+        "ocupacion_bandas": [{"banda": b, "habitaciones": round(float(v.hab)),
+                              "hoy": round(float(v.hab) * 0.802), "en_2028": round(float(v.hab) * 0.802 + float(v.abs_))}
+                             for b, v in por_banda.iterrows()],
+        "ocupacion": {"hoy": 80.2, "en_2028": round((float(ab["hab"].sum()) * 0.802 + float(ab["hab_abs"].sum()))
+                                                    / float(ab["hab"].sum()) * 100, 1),
+                      "habitaciones": round(float(ab["hab"].sum())),
+                      "habitaciones_absorbidas": round(float(ab["hab_abs"].sum()))},
+        "nuevos": nuevos(),
+    })
 
     resumen = {
         "pisos": len(p), "hoteles": len(h), "restaurantes": len(r),

@@ -7,7 +7,7 @@ import "leaflet/dist/leaflet.css";
 import { fondoDelMapa } from "@/app/lib/fondo";
 import {
   COLOR, OCUPACION, distanciaM, n,
-  type BarrioHoy, type Capas, type ColorRestaurante, type DatosMapa, type Hotel,
+  type BarrioHoy, type Capas, type HotelNuevo, type ColorRestaurante, type DatosMapa, type Hotel,
   type ModoAlojamiento, type Piso, type Restaurante, type TipoBarrio,
 } from "@/app/lib/tiposMapa";
 
@@ -92,6 +92,14 @@ function popupHotel(h: Hotel): string {
     ${fila("Banda (por habitación)", h.banda_hab ?? "—")}
     ${fila("Habitaciones", n(h.hab))}${fila("Plazas", n(h.plazas))}
     ${h.origen === "estimado" ? nota("Precio estimado, no observado.") : ""}</div>`;
+}
+
+function popupNuevo(h: HotelNuevo): string {
+  return `<div style="min-width:230px"><b style="color:${COLOR.hotel}">! ${escapar(h.nombre)}</b>
+    <div style="color:#52514e;margin-bottom:4px">${escapar(h.marca)} · ${escapar(h.categoria)}</div>
+    ${fila("Habitaciones", n(h.habitaciones))}${fila("Apertura", escapar(h.apertura))}
+    ${nota(escapar(h.tipo))}
+    ${nota(`<a href="${escapar(h.url)}" target="_blank" rel="noopener">${escapar(h.fuente)}</a>`)}</div>`;
 }
 
 function popupRestaurante(r: Restaurante): string {
@@ -195,6 +203,17 @@ export default function MapaLimpio({
         { direction: "top" })
         .on("click", (e) => { abrir(e, popupHotel(h)); alClicHotel.current(h); }));
 
+    // Hoteles anunciados: el mismo azul, con una exclamación para distinguirlos de los abiertos.
+    const nuevos = datos.nuevos.filter((h) => h.lat != null && h.lon != null).map((h) =>
+      L.marker([h.lat as number, h.lon as number], {
+        icon: L.divIcon({
+          className: "",
+          iconSize: [22, 22],
+          html: `<div class="hotel-nuevo">!</div>`,
+        }),
+      }).bindTooltip(`${h.nombre} · ${n(h.habitaciones)} hab. · ${h.apertura}`, { direction: "top" })
+        .on("click", (e) => abrir(e, popupNuevo(h))));
+
     const anillo = L.circle([0, 0], {
       radius: 0, color: COLOR.hotel, weight: 2, dashArray: "6 4", fillColor: COLOR.hotel,
       fillOpacity: 0.07, interactive: false,
@@ -203,7 +222,7 @@ export default function MapaLimpio({
     dentro.current = {
       barrios, pisos, restaurantes, anillo, alta,
       gPisos: L.layerGroup(pisos.map((x) => x.m)),
-      gHoteles: L.layerGroup(hoteles),
+      gHoteles: L.layerGroup([...hoteles, ...nuevos]),
       gRestaurantes: L.layerGroup(restaurantes.map((x) => x.m)),
     };
 

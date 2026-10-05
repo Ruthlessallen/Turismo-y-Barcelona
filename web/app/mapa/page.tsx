@@ -42,8 +42,9 @@ export default function Pagina() {
       cargar<DatosMapa["pisos"]>(`${base}/puntos_pisos.json`),
       cargar<DatosMapa["hoteles"]>(`${base}/puntos_hoteles.json`),
       cargar<DatosMapa["restaurantes"]>(`${base}/puntos_restaurantes.json`),
-    ]).then(([geo, barrios, pisos, hoteles, restaurantes]) =>
-      setDatos({ geo, barrios, pisos, hoteles, restaurantes }));
+      cargar<{ nuevos: DatosMapa["nuevos"] }>(`${base}/hoteles_pagina.json`),
+    ]).then(([geo, barrios, pisos, hoteles, restaurantes, pagina]) =>
+      setDatos({ geo, barrios, pisos, hoteles, restaurantes, nuevos: pagina.nuevos }));
   }, []);
 
   const alternar = (capa: keyof Capas) => {
@@ -193,16 +194,12 @@ function dinero(v: number): string {
   return `${n(Math.round(v / 1e3))} mil €`;
 }
 
-/** Qué pasa alrededor de un hotel: cuántos pisos tiene cerca y cuántos puede absorber. Año medio. */
+/** Qué hay alrededor de un hotel y qué le pasa en 2028. Un año medio. */
 function PanelHotel({ hotel, datos, radio, onCerrar }: {
   hotel: Hotel; datos: DatosMapa; radio: number; onCerrar: () => void;
 }) {
   const a = useMemo(() => analisisHotel(hotel, datos.pisos, radio), [hotel, datos.pisos, radio]);
-  const [pideBajo, pideAlto] = a.piden;
-  const [cabeBajo, cabeAlto] = a.absorbe.anio;
-  const pct = (cabe: number, pide: number) => (pide > 0 ? Math.round((cabe / pide) * 100) : 0);
-  const cubreBajo = pct(cabeBajo, pideBajo);
-  const cubreAlto = pct(cabeAlto, pideAlto);
+  const pct = (v: number) => (a.total > 0 ? Math.round((v / a.total) * 100) : 0);
 
   return (
     <aside className="absolute top-3 right-3 bottom-3 z-[1000] w-[290px] max-w-[85vw] overflow-y-auto rounded border border-[#e3e0da] bg-white p-4 text-[13px] shadow-sm">
@@ -216,16 +213,22 @@ function PanelHotel({ hotel, datos, radio, onCerrar }: {
       </div>
 
       <Bloque color={COLOR.piso} titulo={`Pisos a ${radio} m`} cifra={n(a.cerca)} unidad="pisos">
-        {n(a.plazas)} plazas · piden {rango(pideBajo, pideAlto)} habitaciones por noche
+        {n(a.plazas)} plazas · {n(a.habitaciones)} habitaciones
       </Bloque>
-      <Bloque color={COLOR.hotel} titulo="El hotel" cifra={n(hotel.hab)} unidad="habitaciones">
-        {n(hotel.plazas)} plazas · libres {n(Math.round(a.libres.anio))} por noche
+      <Bloque color={COLOR.hotel} titulo="El hotel" cifra={n(a.total)} unidad="habitaciones">
+        {n(hotel.plazas)} plazas
       </Bloque>
-      <Bloque color="#24231f" titulo="Puede absorber" cifra={rango(cabeBajo, cabeAlto)}
+      <Bloque color={COLOR.hotel} titulo="Ocupadas hoy" cifra={n(Math.round(a.ocupadasHoy))}
         unidad="habitaciones">
-        {cubreBajo === cubreAlto ? `${cubreBajo} %` : `${Math.min(cubreBajo, cubreAlto)}–${Math.max(cubreBajo, cubreAlto)} %`} de lo que piden
+        {pct(a.ocupadasHoy)} % del hotel
       </Bloque>
-      <p className="mt-4 text-[11px] text-[#52514e]">Solo este hotel, sin contar a los vecinos.</p>
+      <Bloque color="#24231f" titulo="Ocupadas en 2028" cifra={n(Math.round(a.ocupadas2028))}
+        unidad="habitaciones">
+        {pct(a.ocupadas2028)} % del hotel
+      </Bloque>
+      <Bloque color={COLOR.piso} titulo="Absorbe de Airbnb" cifra={n(a.pisosAbsorbidos)} unidad="pisos">
+        {n(Math.round(a.absorbe))} habitaciones
+      </Bloque>
     </aside>
   );
 }

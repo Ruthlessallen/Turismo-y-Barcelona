@@ -48,3 +48,19 @@ body {
 .etq-barrio .p { background: #e8710a; }
 .etq-barrio .h { background: #1f5fa8; }
 .etq-barrio .r { background: #7b3fa0; }
+
+/* Hotel anunciado: el azul de los hoteles con una exclamación. */
+.hotel-nuevo {
+  width: 22px;
+  height: 22px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #1f5fa8;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 18px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}

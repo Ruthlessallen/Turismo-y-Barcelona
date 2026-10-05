@@ -4,9 +4,9 @@
 cada script y anotando que ficheros lee y cuales escribe, asi que describe el pipeline tal como
 esta, no como se documento. Volver a ejecutarlo despues de cualquier cambio.
 
-23 scripts, 44 ficheros.
+23 scripts, 45 ficheros.
 
-**Llamadas no resueltas:** `bronze/cruzar_precios_hoteles.py` (1), `bronze/unificar_registros.py` (3), `export/export_mapa.py` (2), `export/export_mapa_limpio.py` (1), `export/preparar_geometria_web.py` (2), `gold/prototipo_flujos_banda.py` (1), `sources/descargar_fuentes.py` (2), `sources/descargar_ine_barcelona.py` (1), `sources/descargar_serie_vut.py` (2), `sources/geocodificar_registros.py` (1). Son rutas que se componen en tiempo de ejecucion o que llegan como argumento; el grafo no las incluye y por eso se listan aqui en vez de pasar desapercibidas.
+**Llamadas no resueltas:** `bronze/cruzar_precios_hoteles.py` (1), `bronze/unificar_registros.py` (3), `export/export_mapa.py` (2), `export/export_mapa_limpio.py` (1), `export/preparar_geometria_web.py` (2), `gold/modelar_flujos_banda.py` (1), `sources/descargar_fuentes.py` (2), `sources/descargar_ine_barcelona.py` (1), `sources/descargar_serie_vut.py` (2), `sources/geocodificar_registros.py` (1). Son rutas que se componen en tiempo de ejecucion o que llegan como argumento; el grafo no las incluye y por eso se listan aqui en vez de pasar desapercibidas.
 
 ```mermaid
 flowchart TD
@@ -31,6 +31,7 @@ flowchart TD
     n_RAIZ_data_bronze_geocodificacion_icgc_csv[("geocodificacion_icgc.csv")]
     n_RAIZ_data_bronze_geocodificacion_verificada_csv[("geocodificacion_verificada.csv")]
     n_RAIZ_data_bronze_hoteles_geocodificados_csv[("hoteles_geocodificados.csv")]
+    n_RAIZ_data_bronze_hoteles_nuevos_bcn_csv[("hoteles_nuevos_bcn.csv")]
     n_RAIZ_data_bronze_hoteles_y_apartaments_unificados_csv[("hoteles_y_apartaments_unificados.csv")]
     n_RAIZ_data_bronze_municipios_provincia_barcelona_geojson[("municipios_provincia_barcelona.geojson")]
     n_RAIZ_data_bronze_precios_emparejamientos_csv[("precios_emparejamientos.csv")]
@@ -77,12 +78,12 @@ flowchart TD
     n_export_export_mapa_limpio_py["export/export_mapa_limpio.py"]
     n_export_preparar_geometria_web_py["export/preparar_geometria_web.py"]
     n_generar_criba_py["generar_criba.py"]
+    n_gold_modelar_flujos_banda_py["gold/modelar_flujos_banda.py"]
     n_gold_modelar_precios_hoteles_bcn_py["gold/modelar_precios_hoteles_bcn.py"]
     n_gold_modelar_sustitucion_py["gold/modelar_sustitucion.py"]
     n_gold_preparar_alojamientos_provincia_py["gold/preparar_alojamientos_provincia.py"]
     n_gold_preparar_hoteles_bcn_py["gold/preparar_hoteles_bcn.py"]
     n_gold_preparar_restauracion_bcn_py["gold/preparar_restauracion_bcn.py"]
-    n_gold_prototipo_flujos_banda_py["gold/prototipo_flujos_banda.py"]
     n_sources_descargar_fuentes_py["sources/descargar_fuentes.py"]
     n_sources_descargar_ine_barcelona_py["sources/descargar_ine_barcelona.py"]
     n_sources_descargar_serie_vut_py["sources/descargar_serie_vut.py"]
@@ -130,6 +131,7 @@ flowchart TD
   n_RAIZ_data_gold_sustitucion_flujos_2028_csv --> n_export_export_mapa_py
   n_export_export_mapa_py --> n_RAIZ_data_exports_mapa_resumen_json
   n_export_export_mapa_py --> n_RAIZ_data_exports_mapa_vut_por_barrio_json
+  n_RAIZ_data_bronze_hoteles_nuevos_bcn_csv --> n_export_export_mapa_limpio_py
   n_RAIZ_data_gold_airbnb_excluidos_web_csv --> n_export_export_mapa_limpio_py
   n_RAIZ_data_gold_airbnb_para_web_csv --> n_export_export_mapa_limpio_py
   n_RAIZ_data_gold_alojamientos_reglados_csv --> n_export_export_mapa_limpio_py
@@ -188,15 +190,15 @@ flowchart TD
 | `bronze/unificar_airbnb.py` | bronze | insideairbnb_barcelona_2026-06-24_listings.csv<br>insideairbnb_barcelona_2026-06-24_listings_detalle.csv.gz | airbnb_anuncios.csv |
 | `bronze/unificar_registros.py` | bronze | titulares.csv | titulares.csv |
 | `export/export_mapa.py` | export | geocodificacion_icgc.csv<br>vut_unificados.csv<br>airbnb_capacidad_latente.csv<br>airbnb_excluidos_web.csv<br>airbnb_para_web.csv<br>alojamientos_reglados.csv<br>sustitucion_resumen.csv<br>restauracion_bcn.csv<br>restauracion_presion_2028.csv<br>sustitucion_2028.csv<br>sustitucion_flujos_2028.csv | resumen.json<br>vut_por_barrio.json |
-| `export/export_mapa_limpio.py` | export | airbnb_excluidos_web.csv<br>airbnb_para_web.csv<br>alojamientos_reglados.csv<br>restauracion_bcn.csv<br>hoteles_y_apartaments_turistics_provincia_barcelona.csv | — |
+| `export/export_mapa_limpio.py` | export | hoteles_nuevos_bcn.csv<br>airbnb_excluidos_web.csv<br>airbnb_para_web.csv<br>alojamientos_reglados.csv<br>restauracion_bcn.csv<br>hoteles_y_apartaments_turistics_provincia_barcelona.csv | — |
 | `export/preparar_geometria_web.py` | export | — | — |
 | `generar_criba.py` | generar_criba.py | airbnb_excluidos_web.csv<br>airbnb_para_web.csv | criba.md |
+| `gold/modelar_flujos_banda.py` | gold | — | — |
 | `gold/modelar_precios_hoteles_bcn.py` | gold | hoteles_bcn.csv | modelos_precio_comparativa.csv<br>precio_cobertura_entrenamiento.csv<br>precio_error_por_segmento.csv<br>hoteles_bcn_precio_estimado.csv |
 | `gold/modelar_sustitucion.py` | gold | airbnb_para_web.csv<br>alojamientos_reglados.csv<br>restauracion_bcn.csv | sustitucion_resumen.csv<br>restauracion_presion_2028.csv<br>sustitucion_2028.csv<br>sustitucion_flujos_2028.csv |
 | `gold/preparar_alojamientos_provincia.py` | gold | geocodificacion_verificada.csv<br>hoteles_y_apartaments_unificados.csv<br>hoteles_bcn_precio_estimado.csv | alojamientos_reglados.csv |
 | `gold/preparar_hoteles_bcn.py` | gold | adr_estacionalidad.csv<br>geocodificacion_verificada.csv<br>hoteles_geocodificados.csv<br>hoteles_y_apartaments_unificados.csv<br>precios_emparejamientos.csv<br>precios_hoteles_cruzados.csv<br>insideairbnb_barrios_barcelona.geojson<br>opendata_bcn_hotels_snapshot.csv | hoteles_bcn.csv |
 | `gold/preparar_restauracion_bcn.py` | gold | bcn_cens_comercial_restauracion_2024.csv | restauracion_bcn.csv |
-| `gold/prototipo_flujos_banda.py` | gold | — | — |
 | `sources/descargar_fuentes.py` | sources | icgc_municipis_catalunya_completa.geojson | icgc_municipis_provincia_barcelona.geojson |
 | `sources/descargar_ine_barcelona.py` | sources | — | serie_ine_barcelona.csv |
 | `sources/descargar_serie_vut.py` | sources | — | serie_vut_trimestral.csv |

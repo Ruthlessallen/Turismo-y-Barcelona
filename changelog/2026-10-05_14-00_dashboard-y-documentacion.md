@@ -19,7 +19,8 @@ portada que seguía contando el modelo antiguo, con texto y con dos fechas.
   lleva precios. Los pisos conservan el precio anunciado.
 - **Texto del mapa recortado.** Los paneles dicen cifras; lo que explica está en `/fuentes`.
 - **Prototipo de flujos por banda** (`pipeline/gold/prototipo_flujos_banda.py`), sin publicar: el
-  turista va a un hotel de su banda y, si no hay hueco, a la siguiente más cara.
+  turista va a un hotel de su banda y, si no hay hueco, a la siguiente más cara. (Pasa a oficial en
+  la entrada de las 18:00.)
 
 ## Documentación
 

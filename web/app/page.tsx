@@ -14,6 +14,7 @@ type Dashboard = {
   };
   pisos: {
     anuncios_barridos: number; total: number; habitaciones: number; plazas: number;
+    bandas: Record<string, number>;
     facturacion: [number, number];
   };
 };
@@ -31,6 +32,7 @@ export default function Portada() {
   if (!d) return <main className="min-h-full bg-[#faf9f7]" />;
   const { hoteles: h, pisos: p } = d;
   const totalBandas = Object.values(h.bandas).reduce((a, b) => a + b, 0);
+  const totalBandasPisos = Object.values(p.bandas).reduce((a, b) => a + b, 0);
 
   return (
     <main className="min-h-full bg-[#faf9f7] text-[#24231f]">
@@ -46,7 +48,7 @@ export default function Portada() {
           </div>
 
           <div className="mt-3 grid gap-3 lg:grid-cols-2">
-            <Tarjeta titulo="Bandas económicas">
+            <Tarjeta titulo="Bandas económicas · por habitación">
               <div className="flex h-7 overflow-hidden rounded text-[12px] font-semibold text-white">
                 {Object.entries(h.bandas).map(([banda, cuantos], i) => (
                   <div key={banda} className="flex items-center justify-center"
@@ -83,6 +85,25 @@ export default function Portada() {
             <Cifra valor={n(p.plazas)} etiqueta="plazas" />
             <Cifra valor={`${millones(p.facturacion[0])}–${millones(p.facturacion[1])} M€`}
               etiqueta="al año" pie="aproximado" destacada color={COLOR.piso} />
+          </div>
+
+          <div className="mt-3">
+            <Tarjeta titulo="Bandas económicas · por plaza">
+              <div className="flex h-7 overflow-hidden rounded text-[12px] font-semibold text-white">
+                {Object.entries(p.bandas).map(([banda, cuantos], i) => (
+                  <div key={banda} className="flex items-center justify-center"
+                    style={{ width: `${(cuantos / totalBandasPisos) * 100}%`,
+                      background: ["#f3ad62", "#e8710a", "#a84a00", "#6b2f00"][i] }}>
+                    {cuantos / totalBandasPisos > 0.08 && banda}
+                  </div>
+                ))}
+              </div>
+              <ul className="mt-2 flex justify-between text-[13px] tabular-nums">
+                {Object.entries(p.bandas).map(([banda, cuantos]) => (
+                  <li key={banda}><b>{n(cuantos)}</b> <span className="text-[#52514e]">{banda}</span></li>
+                ))}
+              </ul>
+            </Tarjeta>
           </div>
         </Seccion>
       </div>

@@ -149,7 +149,7 @@ Llegan a la web agregadas por barrio en `airbnb_por_barrio.json`, en un objeto `
 203 que dejaron de anunciarse en 2024 o después de las licencias dormidas desde hace una década:
 ante la pregunta de si esa vivienda puede volver al mercado, no son lo mismo.
 
-**Revisión del 2026-10-05 (pendiente de decidir si se mantiene el descarte).** Qué hay dentro de
+**Revisión del 2026-10-05. Decisión: se mantiene el descarte.** Qué hay dentro de
 los 876:
 
 | | Anuncios | Plazas |
@@ -361,7 +361,7 @@ cocina) tiene que salir a comer.
 
 - **El turista de piso cuenta la mitad hoy y entero en 2028.** La mitad (`PESO_PISO_EN_RESTAURACION`)
   **es un supuesto, no un dato**, y de él sale por sí solo el aumento total (+9,2 %). Lo que sí
-  informa el modelo es dónde sube y dónde baja: 4.147 locales ganan y 4.444 pierden.
+  informa el modelo es dónde sube y dónde baja: 4.245 locales ganan y 4.326 pierden.
 - **El % es sobre estos clientes, no sobre los del local.** Los vecinos y el turista de hotel de
   siempre no están.
 - **Radio de 200 m**, repartido a partes iguales entre los locales del radio. Probar 100, 300 y 500
@@ -381,21 +381,36 @@ Ocupación (38,3–48 %) × 365 noches × precio de la noche del piso entero. El
 anualizado con el factor de estacionalidad (A4/A5). No hay dato de facturación, y 365 supone que el
 anuncio está abierto todo el año. Total de los 6.834 pisos: **222–278 millones de euros al año.**
 
-### F10. Elegir hotel por banda (prototipo, no publicado)
+### F10. Cada turista elige hotel por su banda
 
-`gold/prototipo_flujos_banda.py`: el turista va a un hotel de su banda, el más cercano con hueco; si
-no hay, a la siguiente banda más cara. La banda es la **por plaza**, la única comparable. Supone la
-misma ocupación (80,2 %) en todas las bandas y los pisos eligen en orden aleatorio. Hallazgo: los
-hoteles de banda € tienen 57 habitaciones libres frente a 1.629 que piden los pisos baratos, así
-que solo el 34 % encuentra hotel de su banda. Resultados completos en `fuentes.md` → 3.2.
+Desde el 2026-10-05 es el reparto de la web (`gold/modelar_flujos_banda.py`); el reparto por
+cercanía y precio de `modelar_sustitucion.py` solo alimenta a `/mapa-anterior`. El turista va a un
+hotel de su banda, el más cercano con hueco; si no hay, a la siguiente banda más cara, y baja solo
+como último recurso. La distancia no limita. La banda es la **por plaza**, la única comparable.
 
-### F11. Lo que no cubre la web sobre el precio
+Supone la misma ocupación (80,2 %) en todas las bandas, y los pisos eligen en orden aleatorio con
+semilla fija (con tres órdenes, la mediana va de 0,37 a 0,38 km). Hallazgo: los hoteles de banda €
+tienen 57 habitaciones libres frente a 1.629 que piden los pisos baratos, así que solo el 34 %
+encuentra hotel de su banda. Resultados completos en `fuentes.md` → 3.2.
+
+### F11. Lo que no cubre la web sobre el precio, y la oferta nueva
 
 La web no estima cuánto subirá el precio de los hoteles. Hay cuatro cosas que lo harían impreciso:
 la estacionalidad existiría aunque Airbnb no se fuera; parte de los turistas se irá a otros
 municipios; hay pisos que no entran en la ley; y los que más presión recibirían son los hoteles
-baratos y los hostales, no el conjunto. Queda sin hacer, junto con la oferta nueva que permite el
-PEUAT (no hay un dataset de hoteles previstos).
+baratos y los hostales, no el conjunto.
+
+**Oferta nueva.** No hay un dataset de hoteles previstos. Lo recopilado de prensa
+(`fuentes.md` → 2.9) son 315 habitaciones anunciadas, de las que **solo 189 son de obra nueva**; el
+resto son reformas o cambios de gestión de hoteles que ya existen. Aun siendo todas nuevas y vacías,
+cubrirían como mucho el 5,5 % de las 5.706 habitaciones que piden los pisos en un año medio. La
+vigencia de la modificación del PEUAT que permite hoteles «singulares» no está verificada.
+
+### F12. La estancia en pisos es de 3 noches
+
+Para pasar de noches a turistas al año en los pisos (1,4–1,8 millones) se supone una estancia de 3
+noches, la misma que usa el método de reseñas (F3). Con 4 noches serían 1,05–1,3 millones. El INE da
+2,38 noches para los hoteles; para los pisos no hay dato.
 
 ---
 
@@ -412,4 +427,5 @@ Medido qué sobrevive:
 | Asignación de barrio a un anuncio concreto | **Falla el 12%** |
 | Distancia entre dos anuncios | **Inservible** |
 
-Por eso el mapa publica agregados por barrio y nunca puntos individuales.
+Por eso el punto de un piso en el mapa es una posición aproximada, no una dirección, y toda
+cifra por barrio arrastra ese error.

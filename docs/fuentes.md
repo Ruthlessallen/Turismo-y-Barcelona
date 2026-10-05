@@ -30,6 +30,9 @@ antes, en el pipeline, y queda en el repositorio.
 | `/data/mapa/puntos_restaurantes.json` | 9.479 locales: demanda hoy y en 2028 | `export/export_mapa_limpio.py` |
 | `/data/mapa/barrios_hoy.json` | Las cifras de cada uno de los 73 barrios | `export/export_mapa_limpio.py` |
 | `/data/mapa/dashboard.json` | Las cifras de la portada | `export/export_mapa_limpio.py` |
+| `/data/mapa/turistas.json` | Turistas en el conjunto de datos y lo que dice el INE | `export/export_mapa_limpio.py` |
+| `/data/mapa/flujo.json` | Distancia recorrida, bandas de origen y destino, barrios que suben y bajan | `export/export_mapa_limpio.py` |
+| `/data/mapa/hoteles_pagina.json` | Categorías, ocupación mensual, ocupación por banda y hoteles anunciados | `export/export_mapa_limpio.py` |
 | `/data/mapa/sustitucion_2028.json`, `flujos_2028.json` | El reparto por barrio y escenario | `gold/modelar_sustitucion.py` — solo los lee `/mapa-anterior` |
 
 Hay más capas exportadas (`hoteles.json`, `restauracion.json`, `vut_por_barrio.json`,
@@ -165,7 +168,28 @@ el script falla: la tolerancia era demasiado agresiva.
 Informes de perfil del turista 2025. **Son infografías, no tablas**: se transcribieron a mano
 verificando visualmente sobre la página renderizada. No alimentan el modelo; sirven de contexto.
 
-### 2.9 Descartadas
+### 2.9 Hoteles anunciados — prensa
+
+`data/bronze/hoteles_nuevos_bcn.csv`, **recopilado a mano el 2026-10-05** de Hosteltur, ON Economia
+y EjePrime. **No es un registro oficial**: no existe un dataset de hoteles previstos. Cuatro
+entradas, cada una con su enlace:
+
+| Hotel | Habitaciones | Qué es |
+|---|---:|---|
+| ibis budget Barcelona Center (Carrer d'Àvila 66, 22@) | 189 | **Obra nueva**, abierto en julio de 2026 |
+| UMA House Granados (Carrer del Rosselló 205) | 56 | Reforma del Allegro Barcelona, un hotel que ya existe |
+| NH Barcelona Paral·lel | 70 | Cambio de gestión y reforma de un hotel que ya existe |
+| Bestprice Maragall | sin dato (62 camas) | Abierto en junio de 2026; por confirmar |
+
+Solo las dos con dirección conocida llevan coordenada (ICGC) y salen en el mapa con una
+exclamación. **Casi todo lo anunciado es reforma o cambio de gestión**: de obra nueva hay 189
+habitaciones, el 3,3 % de las 5.706 que piden los pisos en un año medio. Sobre el PEUAT, las
+fuentes dicen que en 2022 el 22@ pasó a la zona 2 (no abre un hotel nuevo salvo que cierre otro) y
+que en noviembre de 2023 se aprobó una modificación que permite proyectos «singulares»; **no se ha
+verificado su vigencia**. Quedan fuera pistas sin ubicación ni habitaciones (Círculo Condal, Akeah)
+y el Meininger de la Fira, que está en L'Hospitalet.
+
+### 2.10 Descartadas
 
 AENA y Port de Barcelona: ninguna respondió al verificarlas (timeout / 503). El volumen y el origen
 de los turistas los cubre el OTB.
@@ -278,21 +302,23 @@ reparte su demanda a partes iguales entre los locales a menos de 200 m de donde 
   cuenta **entero**.
 - **La mitad es un supuesto, no un dato** (`PESO_PISO_EN_RESTAURACION`). De él sale por sí solo el
   aumento total (62.462 → 68.240 clientes potenciales por noche, +9,2 %). **Lo que sí aporta el
-  modelo es dónde**: 4.147 locales ganan y 4.444 pierden.
+  modelo es dónde**: 4.245 locales ganan y 4.326 pierden.
 - El % de cada local es sobre estos clientes, **no sobre todos los suyos**: los vecinos y el
   turista de hotel de siempre no están.
 - No hay plazas de los locales: el censo no las trae. Las sillas de terraza (127.482) se
   descartaron el 10 de septiembre.
 
-**c) En qué hotel acaba cada turista.** Para la parte (b), el reparto mezcla cercanía y banda de
-precio al 50 %, de la vivienda más cara a la más barata (quien paga menos es quien se queda sin
-sitio si no cabe). `w` no se estima, y es deliberado: se intentó deducirlo de la demanda actual de
-Airbnb y no funciona (la distancia al centro no predice la demanda, p = 0,48, R² = 0,001, y el
-coeficiente del precio sale positivo, que es causalidad inversa). La capacidad es un límite duro.
+**c) En qué hotel acaba cada turista: por banda.** No se mira si prefiere precio o ubicación:
+se mira la banda directamente (`gold/modelar_flujos_banda.py`). Cada turista va a un hotel de **su
+banda**, el más cercano con habitaciones libres. Si en su banda no queda sitio, va a la **siguiente
+más cara**, y así hasta la más cara; solo después, y como último recurso, baja. La distancia no
+limita: si el único hotel libre de su banda está al otro lado de la ciudad, va. La banda es la
+**por plaza** en los dos lados, la única comparable. La capacidad es un límite duro.
 
-**d) Prototipo, no publicado: elegir hotel por banda.** `gold/prototipo_flujos_banda.py` prueba otra
-regla: el turista va a un hotel de su banda, el más cercano con hueco; si no hay, a la siguiente
-banda más cara. Lo que enseña, en un año medio:
+Los pisos eligen en orden aleatorio con semilla fija: el orden decide quién se queda con las
+habitaciones escasas de una banda, no cuántos caben. Con tres órdenes distintos la mediana de
+distancia se mueve entre 0,37 y 0,38 km. Supone la misma ocupación del 80,2 % en todas las bandas, y
+los hostales probablemente estén más llenos.
 
 | Banda (por plaza) | Habitaciones libres en hoteles | Que piden los pisos |
 |---|---|---|
@@ -301,11 +327,28 @@ banda más cara. Lo que enseña, en un año medio:
 | €€€ | 5.065 | 1.007 |
 | €€€€ | 2.327 | 103 |
 
-Los hoteles baratos están casi llenos: solo el **34 %** de los turistas encuentra hotel de su
-banda, el 46 % sube una banda y el 20 % sube dos o tres. El volumen acaba en los €€€ (72 %), pero
-la **presión de precio** es de los €: 28 habitaciones pedidas por cada una libre. La distancia no
-se dispara (mediana 0,37 km, el 6,5 % recorre más de 2 km, máximo unos 8–10 km). Supone la misma
-ocupación del 80,2 % en todas las bandas, y los hostales probablemente estén más llenos.
+- **Los hoteles baratos son el cuello de botella.** Solo el **34 %** de los turistas encuentra hotel
+  de su banda, el 46 % sube una banda y el 20 % sube dos o más. El volumen acaba en los €€€ (72 %),
+  pero la **presión de precio** es de los €: 28 habitaciones pedidas por cada una libre.
+- **Cuánto se alejan:** mediana de 0,37 km, media de 0,67, el 90 % a menos de 1,6 km, el 6,5 % a más
+  de 2 km, máximo 7,3 km.
+- **Qué barrios suben y bajan:** ganan turistas el Raval (+731 por noche), el Parc i la Llacuna del
+  Poblenou (+451) y Hostafrancs (+286); pierden la Sagrada Família (−805, −63 %), la Vila de Gràcia
+  (−604, −50 %) y Sant Antoni (−503, −29 %). Un barrio con muchos pisos y pocos hoteles pierde.
+- **Ocupación hotelera:** pasa del 80,2 % al **93,0 %** en un año medio. Por banda, los € y los €€
+  llegan al 100 %, los €€€ al 96,4 % y los €€€€ al 81,1 %.
+
+**d) Qué recibe cada hotel.** El mapa enseña, para cada hotel, las habitaciones que tiene, las
+ocupadas hoy (80,2 %), las ocupadas en 2028 (esas más las que recibe de los pisos según este
+reparto) y de cuántos pisos le llegan. El radio de 0 a 500 m es aparte: cuenta los pisos que tiene
+cerca (pisos, plazas y habitaciones), sin pasar por el reparto.
+
+**e) Turistas en el conjunto de datos y frente al INE.** Hoteles: plazas × 67,9 % de ocupación =
+**56.715 turistas por noche**, frente a **60.133 pernoctaciones por noche** del INE (ago 2025 –
+jul 2026): un 6 % menos, que es lo esperable de un conjunto sin todos los hostales y pensiones.
+Pisos: 11.516–14.432 por noche (38,3–48 %), 4,2–5,3 millones de pernoctaciones al año y, a **3
+noches de estancia (supuesto)**, 1,4–1,8 millones de turistas. El INE: 9,2 millones de viajeros,
+21,9 millones de pernoctaciones, 2,38 noches de estancia y 82 % de extranjeros. No mide pisos.
 
 ### 3.3 Lo que nunca sale del pipeline
 
