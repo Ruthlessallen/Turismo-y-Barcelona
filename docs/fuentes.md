@@ -101,8 +101,8 @@ recuento en `criba.md`: alojamiento ya reglado (901), habitaciones sueltas sin l
 habitaciones de hotel (14), alquiler de temporada de más de 31 noches (1.848), anuncios sin reseñas
 desde septiembre de 2025 (876) y repeticiones del mismo anuncio (1.850).
 
-**El salto que hay que decir en voz alta:** el registro oficial tiene 24.075 licencias y 61.899
-plazas. Nosotros movemos los turistas de 6.834 viviendas anunciadas hoy en Airbnb — y no sus 30.067
+**El salto que hay que decir en voz alta:** el registro oficial de la ciudad tiene 10.623 licencias
+únicas y 61.826 plazas. Nosotros movemos los turistas de 6.834 viviendas anunciadas hoy en Airbnb — y no sus 30.067
 plazas declaradas, sino las **11.516 personas** que hay dentro una noche cualquiera, porque esos
 pisos no se llenan los 365 días. Las que no se anuncian en Airbnb no están en el mapa.
 
@@ -349,6 +349,10 @@ jul 2026): un 6 % menos, que es lo esperable de un conjunto sin todos los hostal
 Pisos: 11.516–14.432 por noche (38,3–48 %), 4,2–5,3 millones de pernoctaciones al año y, a **3
 noches de estancia (supuesto)**, 1,4–1,8 millones de turistas. El INE: 9,2 millones de viajeros,
 21,9 millones de pernoctaciones, 2,38 noches de estancia y 82 % de extranjeros. No mide pisos.
+**En personas:** nuestros hoteles son 56.715 × 365 / 2,38 = **8,7 millones de viajeros** al año frente
+a los 9,2 del INE, y los pisos, entre el 13 y el 16 % de los viajeros de hoteles y pisos. Lo que el
+INE cuenta en personas, de dónde vienen y cuánto se quedan, nuestros datos no lo tienen: contamos
+camas y noches. La página `/turistas` lo dice en una tabla.
 
 ### 3.3 Lo que nunca sale del pipeline
 
@@ -371,8 +375,8 @@ que no tenemos.
 
 ## 4. Lo que este trabajo no puede decir
 
-1. **No cubre las 24.075 licencias, cubre 6.834 viviendas anunciadas en Airbnb.** Lo que no se
-   anuncia allí no está.
+1. **No cubre las 10.623 licencias de la ciudad, cubre 6.834 viviendas anunciadas en Airbnb.**
+   5.394 licencias, con 30.980 plazas, no tienen ningún anuncio y no están (`supuestos.md` → C5).
 2. **No sabe qué quiere un turista.** Por eso la barra de precio-ubicación la mueve quien mira, y
    no hay un escenario "correcto" marcado.
 3. **No predice qué harán los hoteles.** El modelo reparte a capacidad y precio de hoy. Si los

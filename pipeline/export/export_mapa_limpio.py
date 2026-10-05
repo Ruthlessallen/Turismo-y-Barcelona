@@ -240,6 +240,39 @@ def ine() -> dict:
     }
 
 
+def licencias() -> dict:
+    """Las licencias del registro de la ciudad frente a los anuncios de Airbnb.
+
+    Registro: Open Data BCN, una fila por licencia, con plazas y sin habitaciones. Se cruza por el
+    numero de licencia (HUTB). **Lo que no se ve en Airbnb no es lo mismo que lo que no se alquila**:
+    una licencia sin anuncio puede estar en otra plataforma, dormida o sin uso.
+    """
+    reg = pd.read_csv(RAIZ / "data" / "raw" / "vut" / "opendata_bcn_hut_2016-2026Q1.csv",
+                      low_memory=False)
+    reg = reg[reg["NUMERO_REGISTRE_GENERALITAT"].notna()].copy()
+    reg["h"] = reg["NUMERO_REGISTRE_GENERALITAT"].astype(str).str.upper().str.replace(r"\s", "", regex=True)
+    reg = reg.drop_duplicates("h")
+    reg["pl"] = pd.to_numeric(reg["NUMERO_PLACES"], errors="coerce")
+    a = pd.read_csv(GOLD / "airbnb_para_web.csv", low_memory=False, usecols=["licencia_norm", "accommodates"])
+    x = pd.read_csv(GOLD / "airbnb_excluidos_web.csv", low_memory=False, usecols=["licencia_norm"])
+    en_pisos = set(a["licencia_norm"].dropna().str.upper())
+    en_descartados = set(x["licencia_norm"].dropna().str.upper())
+    todas = set(reg["h"])
+    con, solo_x = todas & en_pisos, (todas & en_descartados) - en_pisos
+    sin = todas - en_pisos - en_descartados
+
+    def grupo(c):
+        return {"licencias": len(c), "plazas": int(reg.loc[reg["h"].isin(c), "pl"].sum())}
+
+    casadas = a.assign(h=a["licencia_norm"].str.upper()).merge(reg[["h", "pl"]], on="h")
+    return {
+        "registro": {"licencias": len(todas), "plazas": int(reg["pl"].sum())},
+        "con_anuncio": grupo(con), "solo_descartados": grupo(solo_x), "sin_anuncio": grupo(sin),
+        "casadas": {"anuncios": len(casadas), "plazas_airbnb": int(casadas["accommodates"].sum()),
+                    "plazas_registro": int(casadas["pl"].sum())},
+    }
+
+
 def nuevos() -> list[dict]:
     d = pd.read_csv(NUEVOS)
     return [{k: (None if pd.isna(v) else v) for k, v in fila.items()} for fila in d.to_dict("records")]
@@ -401,6 +434,7 @@ def main() -> None:
     hoteles_noche = float((h["plazas"].fillna(0) * OCUPACION_HOTEL_PLAZAS).sum())
     pisos_noche = [float(p["plazas"].sum() * OCUPACION_AIRBNB), float(p["plazas"].sum() * OCUPACION_AIRBNB_ALTA)]
     ESTANCIA_PISOS = 3  # noches por estancia: el supuesto del metodo de reseñas (supuestos.md, F3)
+    volcar("licencias.json", licencias())
     volcar("turistas.json", {
         "ine": datos_ine,
         "dataset": {
@@ -411,6 +445,9 @@ def main() -> None:
             "estancia_pisos": ESTANCIA_PISOS,
             "pisos_turistas_ano": [round(v * 365 / ESTANCIA_PISOS) for v in pisos_noche],
             "nuevos_noche": round(rep["tur_total"]),
+            # Lo que el INE cuenta en personas y nosotros en camas y noches: se convierte con la
+            # estancia media del propio INE.
+            "hoteles_viajeros_equivalentes": round(hoteles_noche * 365 / datos_ine["estancia_media"]),
             "hoteles_frente_a_ine_pct": round((hoteles_noche / datos_ine["pernoctaciones_por_noche"] - 1) * 100, 1),
         },
     })

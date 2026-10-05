@@ -15,6 +15,12 @@ type Paso = {
 
 type Criba = { inicio: { anuncios: number; plazas: number }; pasos: Paso[] };
 
+type Grupo = { licencias: number; plazas: number };
+type Licencias = {
+  registro: Grupo; con_anuncio: Grupo; solo_descartados: Grupo; sin_anuncio: Grupo;
+  casadas: { anuncios: number; plazas_airbnb: number; plazas_registro: number };
+};
+
 // `toLocaleString("es")` deja 2390 sin punto: el español no agrupa los números de cuatro cifras.
 // Aquí sí se agrupa siempre, porque estas cifras se leen unas junto a otras y «2390» al lado de
 // «9.098» se lee como un número más pequeño de lo que es.
@@ -22,16 +28,20 @@ const n = (v: number) => v.toLocaleString("es", { useGrouping: "always" });
 
 export default function PaginaAirbnb() {
   const [criba, setCriba] = useState<Criba | null>(null);
+  const [lic, setLic] = useState<Licencias | null>(null);
   const [paso, setPaso] = useState(0);
 
   useEffect(() => {
     fetch("/data/mapa/criba_airbnb.json").then((r) => r.json()).then(setCriba);
+    fetch("/data/mapa/licencias.json").then((r) => r.json()).then(setLic);
   }, []);
 
+  // Después del último descarte hay una tarjeta más: lo que el embudo no ve.
   const ultimo = criba?.pasos.length ?? 0;
+  const fin = ultimo + 1;
   const mover = useCallback(
-    (delta: number) => setPaso((p) => Math.min(Math.max(p + delta, 0), ultimo)),
-    [ultimo],
+    (delta: number) => setPaso((p) => Math.min(Math.max(p + delta, 0), fin)),
+    [fin],
   );
 
   // Las flechas del teclado mueven las tarjetas aunque el foco no esté en la barra: es el gesto
@@ -47,18 +57,20 @@ export default function PaginaAirbnb() {
 
   const estado = useMemo(() => {
     if (!criba) return null;
-    if (paso === 0) {
+    const k = Math.min(paso, criba.pasos.length);
+    if (k === 0) {
       return { quedan: criba.inicio.anuncios, plazas: criba.inicio.plazas, actual: null };
     }
-    const p = criba.pasos[paso - 1];
+    const p = criba.pasos[k - 1];
     return { quedan: p.quedan, plazas: p.plazas_restantes, actual: p };
   }, [criba, paso]);
 
-  if (!criba || !estado) return <main className="min-h-full bg-[#faf9f7]" />;
+  if (!criba || !estado || !lic) return <main className="min-h-full bg-[#faf9f7]" />;
 
   const total = criba.inicio.anuncios;
   const descartados = total - estado.quedan;
   const enElFinal = paso === ultimo;
+  const enLicencias = paso === fin;
 
   return (
     // Sin scroll de página a partir de tableta: la tarjeta se queda quieta y, si su texto no cabe,
@@ -111,7 +123,9 @@ export default function PaginaAirbnb() {
         {/* Una tarjeta cada vez. El texto de por qué no compite con los otros cinco. */}
         <section className="flex min-h-0 flex-1 flex-col rounded border border-[#e3e0da] bg-white">
           <div className="flex min-h-0 flex-1 flex-col justify-center overflow-y-auto px-6 py-6 sm:px-10">
-            {estado.actual ? (
+            {enLicencias ? (
+              <TarjetaLicencias lic={lic} />
+            ) : estado.actual ? (
               <>
                 <p className="text-[11px] font-semibold uppercase tracking-wider text-[#52514e]">
                   Descarte {paso} de {ultimo}
@@ -128,11 +142,8 @@ export default function PaginaAirbnb() {
                 </p>
                 {enElFinal && (
                   <p className="mt-4 max-w-xl rounded border-l-2 border-[#d8d5cf] bg-[#faf9f7] px-4 py-3 text-[13px] leading-relaxed text-[#52514e]">
-                    Lo que queda son las <strong>6.834 viviendas</strong> a las que la ley quita la
-                    licencia, y sus <strong>30.067 plazas</strong> son los turistas que hay que
-                    realojar. <strong>No son todas las de Barcelona:</strong> el registro oficial
-                    tiene 24.075 licencias con 61.899 plazas, y aquí solo está lo anunciado en
-                    Airbnb.
+                    Quedan <strong>6.834 viviendas</strong> y sus <strong>30.067 plazas</strong>.{" "}
+                    <strong>No son todas las licencias de Barcelona:</strong> mira la última tarjeta.
                   </p>
                 )}
               </>
@@ -165,11 +176,11 @@ export default function PaginaAirbnb() {
 
             {/* Los puntos hacen de índice: cuántas tarjetas hay y en cuál estás. */}
             <div className="flex items-center gap-1.5">
-              {Array.from({ length: ultimo + 1 }, (_, i) => (
+              {Array.from({ length: fin + 1 }, (_, i) => (
                 <button
                   key={i}
                   onClick={() => setPaso(i)}
-                  aria-label={i === 0 ? "El punto de partida" : `Descarte ${i}`}
+                  aria-label={i === 0 ? "El punto de partida" : i === fin ? "Lo que no vemos" : `Descarte ${i}`}
                   aria-current={paso === i}
                   className={`h-2.5 rounded-full transition-all ${
                     paso === i
@@ -182,7 +193,7 @@ export default function PaginaAirbnb() {
               ))}
             </div>
 
-            <Flecha alPulsar={() => mover(1)} desactivada={enElFinal} etiqueta="Siguiente">
+            <Flecha alPulsar={() => mover(1)} desactivada={paso === fin} etiqueta="Siguiente">
               ›
             </Flecha>
           </div>
@@ -196,6 +207,60 @@ export default function PaginaAirbnb() {
         </div>
       </div>
     </main>
+  );
+}
+
+/** Lo que el embudo no ve: licencias del registro sin ningún anuncio en Airbnb. */
+function TarjetaLicencias({ lic }: { lic: Licencias }) {
+  const total = lic.registro.plazas;
+  const trozos = [
+    { clave: "en los 6.834 pisos", plazas: lic.con_anuncio.plazas, estilo: { background: "#2f6fb5" } },
+    { clave: "solo con anuncios descartados", plazas: lic.solo_descartados.plazas, estilo: { background: "#9dbbdc" } },
+    {
+      clave: "sin ningún anuncio",
+      plazas: lic.sin_anuncio.plazas,
+      estilo: { background: "repeating-linear-gradient(45deg,#b9b5ae 0 6px,#e3e0da 6px 12px)" },
+    },
+  ];
+  return (
+    <>
+      <p className="text-[11px] font-semibold tracking-wider text-[#a0521a] uppercase">
+        Lo que no vemos · faltan datos
+      </p>
+      <h2 className="mt-2 text-[22px] leading-tight font-semibold tracking-tight">
+        {n(lic.sin_anuncio.licencias)} licencias sin ningún anuncio
+      </h2>
+      <p className="mt-1 text-[15px] font-semibold tabular-nums text-[#a0521a]">
+        {n(lic.sin_anuncio.plazas)} plazas · la mitad de las del registro
+      </p>
+
+      <div className="mt-4 flex h-5 max-w-xl overflow-hidden rounded-sm">
+        {trozos.map((t) => (
+          <div key={t.clave} style={{ width: `${(t.plazas / total) * 100}%`, ...t.estilo }} />
+        ))}
+      </div>
+      <ul className="mt-2 max-w-xl space-y-1 text-[13px]">
+        {trozos.map((t) => (
+          <li key={t.clave} className="flex items-center gap-2">
+            <span className="inline-block h-3 w-3 shrink-0 rounded-sm" style={t.estilo} />
+            <b className="tabular-nums">{n(t.plazas)}</b>
+            <span className="text-[#52514e]">plazas {t.clave}</span>
+          </li>
+        ))}
+      </ul>
+
+      <p className="mt-4 max-w-xl text-[14px] leading-relaxed text-[#3a3935]">
+        El registro oficial de la ciudad tiene <strong>{n(lic.registro.licencias)} licencias</strong> y{" "}
+        <strong>{n(lic.registro.plazas)} plazas</strong>. Airbnb enseña 30.067. De las licencias sin
+        anuncio no sabemos nada: pueden estar en otra plataforma, dormidas o sin uso. Aquí no
+        cuentan, pero si todas estuvieran activas serían hasta{" "}
+        <strong>{n(lic.sin_anuncio.plazas)} plazas más</strong>.
+      </p>
+      <p className="mt-2 max-w-xl text-[13px] leading-relaxed text-[#52514e]">
+        Y en los pisos que sí casan con una licencia, Airbnb declara{" "}
+        {n(lic.casadas.plazas_airbnb)} plazas y el registro {n(lic.casadas.plazas_registro)}.
+      </p>
+    </>
   );
 }
 

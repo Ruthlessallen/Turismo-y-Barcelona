@@ -62,7 +62,7 @@ export default function PaginaFlujos() {
         <p className="mt-2 rounded border-l-2 border-[#d8d5cf] bg-[#faf9f7] px-3 py-2 text-[11px] leading-relaxed text-[#52514e]">
           Solo se mueven los turistas de las <strong>6.834 viviendas anunciadas hoy en
           Airbnb</strong>, y solo los que de verdad están dentro una noche cualquiera: esos pisos no
-          se llenan los 365 días. El registro oficial tiene 24.075 licencias; las que no se anuncian
+          se llenan los 365 días. El registro oficial de la ciudad tiene 10.623 licencias; las que no se anuncian
           en Airbnb no están aquí.
         </p>
 

@@ -140,9 +140,10 @@ export default function PaginaFuentes() {
                 (1.850).
               </P>
               <Aviso>
-                El registro oficial tiene 24.075 licencias con 61.899 plazas. Este análisis mueve
-                30.067 turistas, los de las 6.834 viviendas anunciadas hoy en Airbnb. Lo que no se
-                anuncia allí no está en el mapa.
+                El registro oficial de la ciudad tiene 10.623 licencias con 61.826 plazas. Este análisis
+                mueve 30.067 plazas, las de las 6.834 viviendas anunciadas hoy en Airbnb. Otras 5.394
+                licencias, con 30.980 plazas, no tienen ningún anuncio: no sabemos nada de ellas.
+                Están contadas en la página de Airbnb.
               </Aviso>
             </Fuente>
 
@@ -367,7 +368,7 @@ export default function PaginaFuentes() {
 
             <Decision titulo="Los turistas se comparan con el INE">
               Los hoteles de este conjunto alojan a 56.715 turistas por noche; el INE cuenta 60.133
-              pernoctaciones por noche (ago 2025 – jul 2026), un 6% más. Los pisos, entre 11.516 y
+              pernoctaciones por noche (ago 2025 – jul 2026), un 6% más; en personas, 8,7 millones de viajeros al año frente a 9,2. Los pisos, entre 11.516 y
               14.432 por noche y, a 3 noches de estancia —un supuesto—, entre 1,4 y 1,8 millones de
               turistas al año. El INE no mide pisos.
             </Decision>
@@ -397,8 +398,8 @@ export default function PaginaFuentes() {
           <Seccion id="limites" numero={7} titulo="Lo que esto no puede decir">
             <ol className="ml-4 list-decimal space-y-2 text-[14px] leading-relaxed text-[#3a3935] marker:text-[#a3a09b]">
               <li>
-                <strong>No cubre las 24.075 licencias</strong>, cubre 6.834 viviendas anunciadas en
-                Airbnb. Lo que no se anuncia allí no está.
+                <strong>No cubre las 10.623 licencias de la ciudad</strong>, cubre 6.834 viviendas
+                anunciadas en Airbnb. 5.394 licencias no tienen ningún anuncio y no están.
               </li>
               <li>
                 <strong>No sabe qué quiere un turista.</strong> Qué hotel elige, o si prefiere precio

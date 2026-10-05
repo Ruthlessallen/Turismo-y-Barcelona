@@ -90,7 +90,7 @@ eliminar 10.000 licencias no elimina la oferta, porque una parte ya opera sin de
 la ciudad: 750 hoteles, 13 apartaments turístics y 9.479 locales de restauración. El resto de la
 provincia se queda en `data/gold`, sin publicar.
 
-**Cifras disponibles:** 15.406 anuncios de Airbnb · 24.075 licencias VUT · 84.058 plazas regladas
+**Cifras disponibles:** 15.406 anuncios de Airbnb · 10.623 licencias VUT (ciudad) · 84.058 plazas regladas
 en la ciudad.
 
 **Dos precisiones geográficas que no pueden pintarse igual:**

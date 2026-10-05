@@ -4,7 +4,7 @@
 cada script y anotando que ficheros lee y cuales escribe, asi que describe el pipeline tal como
 esta, no como se documento. Volver a ejecutarlo despues de cualquier cambio.
 
-23 scripts, 45 ficheros.
+23 scripts, 46 ficheros.
 
 **Llamadas no resueltas:** `bronze/cruzar_precios_hoteles.py` (1), `bronze/unificar_registros.py` (3), `export/export_mapa.py` (2), `export/export_mapa_limpio.py` (1), `export/preparar_geometria_web.py` (2), `gold/modelar_flujos_banda.py` (1), `sources/descargar_fuentes.py` (2), `sources/descargar_ine_barcelona.py` (1), `sources/descargar_serie_vut.py` (2), `sources/geocodificar_registros.py` (1). Son rutas que se componen en tiempo de ejecucion o que llegan como argumento; el grafo no las incluye y por eso se listan aqui en vez de pasar desapercibidas.
 
@@ -23,6 +23,7 @@ flowchart TD
     n_RAIZ_data_raw_registre_turisme_hoteles_y_apartaments_turistics_provincia_barcelona_csv[("hoteles_y_apartaments_turistics_provincia_barcelona.csv")]
     n_RAIZ_data_raw_restauracion_hoteles_provincia_bcn_cens_comercial_restauracion_2024_csv[("bcn_cens_comercial_restauracion_2024.csv")]
     n_RAIZ_data_raw_restauracion_hoteles_provincia_provincia_barcelona_restauracion_osm_2026_csv[("provincia_barcelona_restauracion_osm_2026.csv")]
+    n_RAIZ_data_raw_vut_opendata_bcn_hut_2016_2026Q1_csv[("opendata_bcn_hut_2016-2026Q1.csv")]
   end
   subgraph bronze ["bronze · limpio"]
     n_RAIZ_data_bronze_adr_estacionalidad_csv[("adr_estacionalidad.csv")]
@@ -137,6 +138,7 @@ flowchart TD
   n_RAIZ_data_gold_alojamientos_reglados_csv --> n_export_export_mapa_limpio_py
   n_RAIZ_data_gold_restauracion_bcn_csv --> n_export_export_mapa_limpio_py
   n_RAIZ_data_raw_registre_turisme_hoteles_y_apartaments_turistics_provincia_barcelona_csv --> n_export_export_mapa_limpio_py
+  n_RAIZ_data_raw_vut_opendata_bcn_hut_2016_2026Q1_csv --> n_export_export_mapa_limpio_py
   n_RAIZ_data_gold_airbnb_excluidos_web_csv --> n_generar_criba_py
   n_RAIZ_data_gold_airbnb_para_web_csv --> n_generar_criba_py
   n_generar_criba_py --> n_RAIZ_docs_criba_md
@@ -190,7 +192,7 @@ flowchart TD
 | `bronze/unificar_airbnb.py` | bronze | insideairbnb_barcelona_2026-06-24_listings.csv<br>insideairbnb_barcelona_2026-06-24_listings_detalle.csv.gz | airbnb_anuncios.csv |
 | `bronze/unificar_registros.py` | bronze | titulares.csv | titulares.csv |
 | `export/export_mapa.py` | export | geocodificacion_icgc.csv<br>vut_unificados.csv<br>airbnb_capacidad_latente.csv<br>airbnb_excluidos_web.csv<br>airbnb_para_web.csv<br>alojamientos_reglados.csv<br>sustitucion_resumen.csv<br>restauracion_bcn.csv<br>restauracion_presion_2028.csv<br>sustitucion_2028.csv<br>sustitucion_flujos_2028.csv | resumen.json<br>vut_por_barrio.json |
-| `export/export_mapa_limpio.py` | export | hoteles_nuevos_bcn.csv<br>airbnb_excluidos_web.csv<br>airbnb_para_web.csv<br>alojamientos_reglados.csv<br>restauracion_bcn.csv<br>hoteles_y_apartaments_turistics_provincia_barcelona.csv | — |
+| `export/export_mapa_limpio.py` | export | hoteles_nuevos_bcn.csv<br>airbnb_excluidos_web.csv<br>airbnb_para_web.csv<br>alojamientos_reglados.csv<br>restauracion_bcn.csv<br>hoteles_y_apartaments_turistics_provincia_barcelona.csv<br>opendata_bcn_hut_2016-2026Q1.csv | — |
 | `export/preparar_geometria_web.py` | export | — | — |
 | `generar_criba.py` | generar_criba.py | airbnb_excluidos_web.csv<br>airbnb_para_web.csv | criba.md |
 | `gold/modelar_flujos_banda.py` | gold | — | — |

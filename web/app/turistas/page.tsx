@@ -17,6 +17,7 @@ type Turistas = {
     hoteles_noche: number; hoteles_pernoctaciones_ano: number; pisos_noche: [number, number];
     pisos_pernoctaciones_ano: [number, number]; estancia_pisos: number;
     pisos_turistas_ano: [number, number]; nuevos_noche: number; hoteles_frente_a_ine_pct: number;
+    hoteles_viajeros_equivalentes: number;
   };
 };
 
@@ -35,6 +36,16 @@ const MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "o
 /** «2025-08 a 2026-07» → «ago 2025 – jul 2026». */
 const periodo = (p: string) =>
   p.split(" a ").map((m) => `${MESES[Number(m.slice(5, 7)) - 1]} ${m.slice(0, 4)}`).join(" – ");
+
+/** Lo que cuenta cada fuente. «Sin dato» es lo que de verdad no tenemos. */
+const FALTA = (ine: Turistas["ine"], d: Turistas["dataset"]): [string, string, string][] => [
+  ["Viajeros, en personas", `${millones(ine.viajeros)} M al año en hoteles`,
+    `Contamos camas y noches; con la estancia del INE salen ${millones(d.hoteles_viajeros_equivalentes)} M`],
+  ["De dónde vienen", `${n(Math.round(ine.extranjeros_pct))} % del extranjero`, "Sin dato"],
+  ["Cuántas noches se quedan", `${dec(ine.estancia_media)} de media`, `Pisos: sin dato, se supone ${d.estancia_pisos}`],
+  ["Apartamentos turísticos legales, cámpings, turismo rural", "No entran en la encuesta", "Sin dato de ocupación"],
+  ["Visitantes de un día y cruceristas", "No entran en la encuesta", "Sin dato"],
+];
 
 const TRAMO = (desde: number, hasta: number | null) =>
   hasta == null ? `más de ${desde} km`
@@ -55,6 +66,11 @@ export default function PaginaTuristas() {
   const sube = [...f.barrios].filter((b) => b.saldo > 0).sort((a, b) => b.saldo - a.saldo).slice(0, 8);
   const baja = [...f.barrios].filter((b) => b.saldo < 0).sort((a, b) => a.saldo - b.saldo).slice(0, 8);
   const tope = Math.max(...sube.map((b) => b.saldo), ...baja.map((b) => -b.saldo));
+  const V = ine.viajeros;
+  const pctPisos = [
+    (d.pisos_turistas_ano[0] / (V + d.pisos_turistas_ano[0])) * 100,
+    (d.pisos_turistas_ano[1] / (V + d.pisos_turistas_ano[1])) * 100,
+  ];
   const pct = (b: { cambio_pct: number | null }) => (b.cambio_pct == null ? "" : `${b.cambio_pct > 0 ? "+" : ""}${n(Math.round(b.cambio_pct))} %`);
 
   return (
@@ -98,6 +114,45 @@ export default function PaginaTuristas() {
             INE, Encuesta de Ocupación Hotelera (hoteles, hostales y pensiones), {periodo(ine.periodo)}. El INE
             no mide pisos turísticos. <Link href="/fuentes" className="underline underline-offset-2">Fuentes →</Link>
           </p>
+        </Seccion>
+
+        <Seccion color="#a0521a" titulo="Lo que el INE cuenta y nuestros datos no">
+          <div className="grid gap-3 lg:grid-cols-[2fr_1fr]">
+            <Tarjeta titulo="Viajeros al año">
+              <BarrasH max={ine.viajeros} formato={(v) => `${millones(v)} M`} filas={[
+                { etiqueta: "Hoteles · INE", valor: ine.viajeros, color: COLOR.hotel },
+                { etiqueta: "Hoteles · nuestros", valor: d.hoteles_viajeros_equivalentes, color: COLOR.hotel,
+                  pie: `a ${dec(ine.estancia_media)} noches` },
+                { etiqueta: "Pisos · nuestros", valor: (d.pisos_turistas_ano[0] + d.pisos_turistas_ano[1]) / 2, color: COLOR.piso,
+                  pie: `(${millones(d.pisos_turistas_ano[0])}–${millones(d.pisos_turistas_ano[1])} M a ${d.estancia_pisos} noches)` },
+              ]} />
+            </Tarjeta>
+            <Cifra
+              valor={`${n(Math.round(pctPisos[0]))}–${n(Math.round(pctPisos[1]))} %`}
+              etiqueta="de los viajeros de hoteles y pisos se alojan en pisos"
+              color={COLOR.piso} />
+          </div>
+
+          <div className="mt-3 overflow-x-auto rounded border border-[#e3e0da] bg-white">
+            <table className="w-full text-left text-[12px]">
+              <thead className="border-b border-[#e3e0da] text-[#52514e]">
+                <tr>
+                  <th className="px-3 py-2 font-medium">Dato</th>
+                  <th className="px-3 py-2 font-medium">El INE</th>
+                  <th className="px-3 py-2 font-medium">Nuestros datos</th>
+                </tr>
+              </thead>
+              <tbody>
+                {FALTA(ine, d).map(([dato, inee, nosotros]) => (
+                  <tr key={dato} className="border-b border-[#eeece7] last:border-0">
+                    <td className="px-3 py-2 font-medium">{dato}</td>
+                    <td className="px-3 py-2">{inee}</td>
+                    <td className="px-3 py-2">{nosotros}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </Seccion>
 
         <Seccion color={COLOR.piso} titulo="Adónde van los turistas de los pisos">

@@ -212,7 +212,8 @@ expediente (2008–2026, concentrado en 2012–2014), que es el de la solicitud,
 | Solo con anuncios que se descartan | 473 | 2.583 |
 | **Sin ningún anuncio en Airbnb (junio 2026)** | **5.394** | **30.980** |
 
-De ahí la diferencia entre las 30.067 plazas de Airbnb y las 61.826 del registro. El modelo ya las
+De ahí la diferencia entre las 30.067 plazas de Airbnb y las 61.826 del registro. Se cuenta en
+la última tarjeta de la página `/airbnb`. El modelo ya las
 deja fuera: sin anuncio ni reseña no hay evidencia de actividad. Pueden estar en otras plataformas,
 dormidas o ser licencias fantasma. **Cota superior, no calculada en la web:** si todas estuvieran
 activas, serían hasta 30.980 plazas más. En las licencias que sí casan, Airbnb declara 23.888 plazas

@@ -29,6 +29,14 @@ INE y otra para los hoteles.
 - **Hoteles anunciados:** `data/bronze/hoteles_nuevos_bcn.csv`, de prensa, a mano. 189
   habitaciones de obra nueva; el resto son reformas o cambios de gestión.
 
+- **`/airbnb`: tarjeta nueva, «Lo que no vemos».** 5.394 licencias sin ningún anuncio, 30.980
+  plazas, la mitad de las 61.826 del registro de la ciudad. Faltan datos y se cuenta.
+- **`/turistas`: bloque «Lo que el INE cuenta y nuestros datos no».** Viajeros al año (INE 9,2 M,
+  nuestros hoteles 8,7 M, pisos 1,4–1,8 M) y una tabla de lo que falta: personas, nacionalidad,
+  estancia, apartamentos legales y visitantes de un día.
+- **Corregido:** se decía «24.075 licencias» (la provincia) donde hablábamos de la ciudad; son
+  10.623 licencias únicas.
+
 ## Decisiones
 
 - Se mantiene el descarte de los pisos sin reseña desde septiembre de 2025.
