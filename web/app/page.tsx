@@ -1,153 +1,127 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
-/** Lo que publica `export_mapa.py` en `resumen.json`. Solo los campos que esta página usa. */
-type Resumen = {
-  hoteles: { total: number };
-  restauracion: { total: number; por_tipo: Record<string, number> };
-  restauracion_2028: { ganan: number; pierden: number };
-  vut: { total: number };
-  airbnb: { sujetos_a_la_ley: number; precio_plaza_mediano: number };
-  criba_airbnb: { inicio: number; final: number };
-  sustitucion_2028: {
-    sin_sitio_anio_medio: number;
-    sin_sitio_julio: number;
-    turistas_a_realojar: number;
+import { COLOR, n } from "@/app/lib/tiposMapa";
+
+/** Lo que publica `export_mapa_limpio.py` en `dashboard.json`. */
+type Dashboard = {
+  hoteles: {
+    total: number; habitaciones: number; plazas: number;
+    bandas: Record<string, number>;
+    titulares: { nom: string; n: number }[];
+    turistas_nuevos: number; turistas_nuevos_pct: number;
+  };
+  pisos: {
+    anuncios_barridos: number; total: number; habitaciones: number; plazas: number;
+    facturacion: [number, number];
   };
 };
 
-// Tolera un campo que aún no exista: la portada se queda sin ese número, no en blanco entera.
-const n = (v: number | undefined) =>
-  v === undefined ? "—" : v.toLocaleString("es", { useGrouping: "always" });
+/** 222 millones: lo que se lee de un vistazo. */
+const millones = (v: number) => (v / 1e6).toLocaleString("es", { maximumFractionDigits: 0 });
 
 export default function Portada() {
-  const [r, setResumen] = useState<Resumen | null>(null);
+  const [d, setD] = useState<Dashboard | null>(null);
 
   useEffect(() => {
-    fetch("/data/mapa/resumen.json").then((x) => x.json()).then(setResumen);
+    fetch("/data/mapa/dashboard.json").then((r) => r.json()).then(setD);
   }, []);
 
-  if (!r) return <main className="min-h-full bg-[#faf9f7]" />;
+  if (!d) return <main className="min-h-full bg-[#faf9f7]" />;
+  const { hoteles: h, pisos: p } = d;
+  const totalBandas = Object.values(h.bandas).reduce((a, b) => a + b, 0);
 
   return (
     <main className="min-h-full bg-[#faf9f7] text-[#24231f]">
       <div className="mx-auto max-w-6xl px-5 py-8 sm:px-8">
-        <h1 className="max-w-2xl text-2xl leading-tight font-semibold tracking-tight">
-          Barcelona elimina las licencias de piso turístico en noviembre de 2028
-        </h1>
-        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[#52514e]">
-          Qué hay hoy, qué desaparece y dónde acabarían durmiendo esos turistas. Todas las cifras
-          salen de fuentes públicas y cada una dice de dónde viene.
-        </p>
+        <Seccion color={COLOR.hotel} titulo="Hoteles">
+          <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+            <Cifra valor={n(h.total)} etiqueta="hoteles" />
+            <Cifra valor={n(h.habitaciones)} etiqueta="habitaciones" />
+            <Cifra valor={n(h.plazas)} etiqueta="plazas" />
+            <Cifra valor={`+${h.turistas_nuevos_pct.toLocaleString("es")} %`}
+              etiqueta="turistas nuevos tras 2028" destacada color={COLOR.hotel}
+              pie={`${n(h.turistas_nuevos)} por noche`} />
+          </div>
 
-        <h2 className="mt-8 mb-3 text-[11px] font-semibold uppercase tracking-wider text-[#52514e]">
-          Lo que hay hoy
-        </h2>
-        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-          <Cifra
-            valor={n(r.vut.total)}
-            titulo="Licencias de piso turístico"
-            pie="En la provincia, del registro oficial"
-          />
-          <Cifra
-            valor={n(r.criba_airbnb.inicio)}
-            titulo="Anuncios en Airbnb"
-            pie="Volcado del 24 de junio de 2026"
-          />
-          <Cifra valor={n(r.hoteles.total)} titulo="Hoteles en la ciudad" pie="Del Registre de Turisme" />
-          <Cifra
-            valor={n(r.restauracion.total)}
-            titulo="Bares y restaurantes"
-            pie="Censo comercial municipal"
-          />
-        </div>
+          <div className="mt-3 grid gap-3 lg:grid-cols-2">
+            <Tarjeta titulo="Bandas económicas">
+              <div className="flex h-7 overflow-hidden rounded text-[12px] font-semibold text-white">
+                {Object.entries(h.bandas).map(([banda, cuantos], i) => (
+                  <div key={banda} className="flex items-center justify-center"
+                    style={{ width: `${(cuantos / totalBandas) * 100}%`,
+                      background: ["#9dbbdc", "#6f9fd0", "#1f5fa8", "#123a6b"][i] }}>
+                    {cuantos / totalBandas > 0.08 && banda}
+                  </div>
+                ))}
+              </div>
+              <ul className="mt-2 flex justify-between text-[13px] tabular-nums">
+                {Object.entries(h.bandas).map(([banda, cuantos]) => (
+                  <li key={banda}><b>{n(cuantos)}</b> <span className="text-[#52514e]">{banda}</span></li>
+                ))}
+              </ul>
+            </Tarjeta>
 
-        <h2 className="mt-8 mb-3 text-[11px] font-semibold uppercase tracking-wider text-[#52514e]">
-          Lo que desaparece
-        </h2>
-        <div className="grid gap-3 lg:grid-cols-3">
-          <Bloque
-            titulo="6.834 viviendas, no 15.406 anuncios"
-            enlace={{ href: "/airbnb", texto: "pasar las tarjetas del embudo →" }}
-          >
-            De los {n(r.criba_airbnb.inicio)} anuncios publicados, la mayoría no es lo que la ley
-            elimina: hay hoteles, habitaciones sueltas, alquiler de temporada, anuncios apagados y
-            repeticiones de una misma vivienda. Quedan{" "}
-            <strong>{n(r.criba_airbnb.final)}</strong>, que una noche cualquiera alojan a{" "}
-            {n(r.sustitucion_2028.turistas_a_realojar)} personas.
-          </Bloque>
-          <Bloque
-            titulo="Caben, salvo en julio"
-            enlace={{ href: "/mapa", texto: "ver el mapa barrio a barrio →" }}
-          >
-            En un año medio los hoteles tienen habitaciones libres de sobra y{" "}
-            <strong>no se queda nadie fuera</strong>. En la punta del verano no:{" "}
-            <strong>{n(r.sustitucion_2028.sin_sitio_julio)} turistas</strong> no encontrarían
-            habitación en la ciudad. Lo que falla es la habitación, no la cama suelta.
-          </Bloque>
-          <Bloque
-            titulo="40 barrios pierden clientela"
-            enlace={{ href: "/mapa", texto: "ver la capa de restauración →" }}
-          >
-            Al mudarse el turista, se muda con quién cena. De los 73 barrios con locales,{" "}
-            <strong>{r.restauracion_2028.pierden} pierden</strong> comensales y{" "}
-            {r.restauracion_2028.ganan} ganan. La Sagrada Família pierde 2.137; el Raval gana 1.255.
-          </Bloque>
-        </div>
+            <Tarjeta titulo="Titulares con más hoteles">
+              <ol className="space-y-1 text-[13px]">
+                {h.titulares.map((t) => (
+                  <li key={t.nom} className="flex justify-between gap-3">
+                    <span className="truncate">{t.nom}</span>
+                    <b className="tabular-nums">{t.n}</b>
+                  </li>
+                ))}
+              </ol>
+            </Tarjeta>
+          </div>
+        </Seccion>
 
-        <section className="mt-8 rounded border border-[#e3e0da] bg-white p-5">
-          <h2 className="text-[15px] font-semibold tracking-tight">Antes de leer ninguna cifra</h2>
-          <p className="mt-2 max-w-3xl text-[14px] leading-relaxed text-[#3a3935]">
-            Esto <strong>no cubre las {n(r.vut.total)} licencias</strong> del registro oficial:
-            cubre las {n(r.criba_airbnb.final)} viviendas que hoy se anuncian en Airbnb. Lo que se
-            alquila por otras plataformas, o por ninguna, no aparece. Y el reparto de 2028 es un
-            modelo con supuestos, no una predicción: el peso entre precio y ubicación lo elige quien
-            mira el mapa, y la ocupación de los pisos turísticos es una estimación —no existe un
-            dato oficial— aunque dos métodos independientes coincidan en ella.
-          </p>
-          <Link
-            href="/fuentes"
-            className="mt-3 inline-block text-[12px] text-[#52514e] underline underline-offset-2"
-          >
-            fuentes, decisiones y límites →
-          </Link>
-        </section>
+        <Seccion color={COLOR.piso} titulo="Airbnb">
+          <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+            <Cifra valor={n(p.total)} etiqueta="pisos" pie={`de ${n(p.anuncios_barridos)} anuncios`} />
+            <Cifra valor={n(p.habitaciones)} etiqueta="habitaciones" />
+            <Cifra valor={n(p.plazas)} etiqueta="plazas" />
+            <Cifra valor={`${millones(p.facturacion[0])}–${millones(p.facturacion[1])} M€`}
+              etiqueta="al año" pie="aproximado" destacada color={COLOR.piso} />
+          </div>
+        </Seccion>
       </div>
     </main>
   );
 }
 
-function Cifra({ valor, titulo, pie }: { valor: string; titulo: string; pie: string }) {
+function Seccion({ color, titulo, children }: {
+  color: string; titulo: string; children: React.ReactNode;
+}) {
   return (
-    <div className="rounded border border-[#e3e0da] bg-white p-4">
-      <p className="text-[28px] leading-none font-semibold tabular-nums">{valor}</p>
-      <p className="mt-1.5 text-[13px] font-medium">{titulo}</p>
-      <p className="mt-0.5 text-[11px] leading-snug text-[#52514e]">{pie}</p>
+    <section className="mb-8">
+      <h2 className="mb-3 flex items-center gap-2 text-[11px] font-semibold tracking-wider text-[#52514e] uppercase">
+        <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: color }} />
+        {titulo}
+      </h2>
+      {children}
+    </section>
+  );
+}
+
+function Cifra({ valor, etiqueta, pie, destacada, color }: {
+  valor: string; etiqueta: string; pie?: string; destacada?: boolean; color?: string;
+}) {
+  return (
+    <div className="rounded border border-[#e3e0da] bg-white p-4"
+      style={destacada ? { borderColor: color, borderWidth: 2 } : undefined}>
+      <p className="text-[30px] leading-none font-semibold tabular-nums">{valor}</p>
+      <p className="mt-1.5 text-[13px] font-medium">{etiqueta}</p>
+      {pie && <p className="mt-0.5 text-[11px] text-[#52514e]">{pie}</p>}
     </div>
   );
 }
 
-function Bloque({
-  titulo,
-  enlace,
-  children,
-}: {
-  titulo: string;
-  enlace: { href: string; texto: string };
-  children: React.ReactNode;
-}) {
+function Tarjeta({ titulo, children }: { titulo: string; children: React.ReactNode }) {
   return (
-    <article className="flex flex-col rounded border border-[#e3e0da] bg-white p-5">
-      <h3 className="text-[15px] font-semibold tracking-tight">{titulo}</h3>
-      <p className="mt-2 flex-1 text-[14px] leading-relaxed text-[#3a3935]">{children}</p>
-      <Link
-        href={enlace.href}
-        className="mt-3 text-[12px] text-[#52514e] underline underline-offset-2"
-      >
-        {enlace.texto}
-      </Link>
-    </article>
+    <div className="rounded border border-[#e3e0da] bg-white p-4">
+      <p className="mb-2 text-[12px] font-medium">{titulo}</p>
+      {children}
+    </div>
   );
 }

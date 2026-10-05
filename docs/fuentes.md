@@ -19,11 +19,24 @@ Tres documentos lo complementan y no se repiten aquí:
 
 ## 1. Qué lee la web, exactamente
 
-La web es estática: el navegador solo descarga tres ficheros. Todo lo demás ocurre antes, en el
-pipeline, y queda en el repositorio.
+La web es estática: el navegador solo descarga ficheros ya calculados. Todo lo demás ocurre
+antes, en el pipeline, y queda en el repositorio.
 
 | Fichero que pide el navegador | Qué contiene | Sale de |
 |---|---|---|
+| `/data/geo/barrios.geojson` | Los 73 barrios de la ciudad | ICGC / Inside Airbnb, vía `export/preparar_geometria_web.py` |
+| `/data/mapa/puntos_pisos.json` | 6.834 pisos: posición, plazas, dormitorios, precio de la noche, banda | `export/export_mapa_limpio.py` |
+| `/data/mapa/puntos_hoteles.json` | 750 hoteles: habitaciones, plazas, banda, titular | `export/export_mapa_limpio.py` |
+| `/data/mapa/puntos_restaurantes.json` | 9.479 locales: demanda hoy y en 2028 | `export/export_mapa_limpio.py` |
+| `/data/mapa/barrios_hoy.json` | Las cifras de cada uno de los 73 barrios | `export/export_mapa_limpio.py` |
+| `/data/mapa/dashboard.json` | Las cifras de la portada | `export/export_mapa_limpio.py` |
+| `/data/mapa/sustitucion_2028.json`, `flujos_2028.json` | El reparto por barrio y escenario | `gold/modelar_sustitucion.py` — solo los lee `/mapa-anterior` |
+
+Hay más capas exportadas (`hoteles.json`, `restauracion.json`, `vut_por_barrio.json`,
+`airbnb_por_barrio.json`, `resumen.json`) que el pipeline genera y **ninguna página consume**.
+Están listas para la página de hoteles, no publicadas.
+
+---|---|---|
 | `/data/geo/barrios.geojson` | Los 75 barrios de la ciudad | ICGC / Inside Airbnb, vía `export/preparar_geometria_web.py` |
 | `/data/mapa/sustitucion_2028.json` | 64 barrios × 5 escenarios: quién sale, quién llega, quién no cabe | `gold/modelar_sustitucion.py` |
 | `/data/mapa/flujos_2028.json` | 887 movimientos barrio → barrio, y el centroide de cada barrio | `gold/modelar_sustitucion.py` |
@@ -76,8 +89,8 @@ Cualquier ambigüedad se deja sin cruzar y se marca.
 - **URL:** `https://data.insideairbnb.com/spain/catalonia/barcelona/2026-06-24/`
 - **Es un anuncio, no una vivienda, y no es el registro oficial.** Cubre lo que se comercializa en
   una plataforma concreta en un día concreto.
-- **Coordenadas desplazadas a propósito** hasta 150 m por la propia fuente. Por eso ningún anuncio
-  se publica como punto: se agrega por barrio.
+- **Coordenadas desplazadas a propósito** hasta 150 m por la propia fuente. El punto del mapa es
+  esa posición desplazada, no la dirección real de la vivienda.
 - **El símbolo `$` del CSV crudo es un artefacto de su exportador.** El precio es en euros.
 
 De esos 15.406 se llega a **6.834 viviendas** aplicando seis filtros encadenados, cada uno con su
@@ -88,7 +101,7 @@ desde septiembre de 2025 (876) y repeticiones del mismo anuncio (1.850).
 **El salto que hay que decir en voz alta:** el registro oficial tiene 24.075 licencias y 61.899
 plazas. Nosotros movemos los turistas de 6.834 viviendas anunciadas hoy en Airbnb — y no sus 30.067
 plazas declaradas, sino las **11.516 personas** que hay dentro una noche cualquiera, porque esos
-pisos no se llenan los 365 días. Las que no se anuncian en Airbnb no están en el mapa. La web lo advierte en el mapa de flechas.
+pisos no se llenan los 365 días. Las que no se anuncian en Airbnb no están en el mapa.
 
 ### 2.4 INE — Encuesta de Ocupación Hotelera
 
@@ -97,7 +110,7 @@ pisos no se llenan los 365 días. Las que no se anuncian en Airbnb no están en 
   Barcelona, últimos 60 meses.
 - **Dos usos distintos:**
   1. **Ocupación de partida** — `Grado de ocupación por habitaciones`, media de los doce últimos
-     meses: **80,2%**, y **86,5% en julio**. Es lo que descuenta las habitaciones ya vendidas antes
+     meses: **80,2%**. Es lo que descuenta las habitaciones ya vendidas antes
      de repartir a nadie.
 
      Se usa la ocupación por habitaciones y no la de plazas, que es más baja (67,9%), porque **la
@@ -233,51 +246,76 @@ equivalente anual con el factor 1,188 de la serie del INE, **porque no existe se
 alquiler turístico**. Es el supuesto más frágil de todos: si el alquiler turístico fuera más plano
 que el hotelero, estaríamos abaratando Airbnb de más.
 
-### 3.2 El modelo de 2028
+### 3.2 Lo que calcula la web, y cómo
 
-Cada VUT que cierra busca alojamiento reglado. Cada hotel recibe una nota:
+Todo es **un año medio**. Se descartó enseñar también julio: dos fechas a la vez confundían más
+que aclaraban. (`/mapa-anterior` y el modelo aún guardan las dos.)
 
-```
-utilidad = w × cercanía + (1 − w) × parecido_de_precio
-```
+**Cada uno alquila una cosa distinta.** Un hotel alquila habitaciones; un piso de Airbnb se
+alquila entero, tenga 1 o 3 dormitorios. Por eso la web no compara plazas con plazas: compara
+habitaciones de hotel con pisos enteros, y la noche de una con la noche del otro. La plaza solo se
+usa para la banda de precio, que es la única escala común (ver 3.1).
 
-- **`w` no se estima, y es deliberado.** Se intentó estimarlo con la demanda actual de Airbnb y no
-  funciona: la distancia al centro no predice la demanda (p = 0,48, R² = 0,001) y el coeficiente
-  del precio sale **positivo**, que es causalidad inversa y no sensibilidad al precio. Además un
-  turista alemán y uno andaluz no tienen la misma sensibilidad y ningún dato disponible los
-  distingue. Se precalculan cinco valores de `w` y la web deja elegir: la barra del mapa es eso.
-- **Se descuenta la ocupación en los dos lados, y en habitaciones.** Ni los hoteles están vacíos ni
-  los pisos turísticos están llenos. Lo que se reparte son habitaciones ocupadas una noche
-  cualquiera:
+**a) Cuántos pisos tiene cerca un hotel y cuántos puede absorber** (el radio de 0 a 500 m).
+Un piso pide tantas habitaciones como dormitorios declara (una, si declara cero: es un estudio) y
+solo las ocupa el 38,3–48 % de las noches. El hotel ofrece las que tiene sin vender: el 19,8 % de
+sus habitaciones (ocupación del 80,2 % por habitaciones, INE). Absorbe lo menor de las dos cifras.
+**Cada hotel por separado**: otros hoteles del mismo radio compiten por los mismos pisos, así que
+no se pueden sumar.
 
-  | | Habitaciones libres | Habitaciones que piden | Sin sitio |
-  |---|---|---|---|
-  | Un año medio | 8.841 | 5.706 | **nadie** |
-  | Julio, la punta | 6.028 | 6.647 | **1.273 turistas** |
+| Un año medio, toda la ciudad | Habitaciones |
+|---|---|
+| Libres en los hoteles | 8.841 |
+| Que piden los pisos | 5.706 |
+| Sin sitio | nadie |
 
-  **La ciudad absorbe a todos salvo en la punta del verano.** Publicar solo la media anual
-  escondería el problema de julio; publicar solo julio lo extendería a doce meses, y por eso se
-  publican los dos.
-- **Se usa la ocupación media anual, no la mensual**, porque los precios del proyecto son
-  equivalentes anuales. Cruzar precio anual con ocupación de julio mezclaría dos escalas de tiempo.
-- **El reparto va de la VUT más cara a la más barata.** Hace falta un orden para que el resultado
-  sea determinista, y **no es neutral**: quien paga menos se queda sin sitio. Está dicho aquí
-  porque cambia quién aparece en el mapa como "sin sitio".
-- **La capacidad es un límite duro.** Un hotel de 80 habitaciones no absorbe 200.
-- **La distancia se mide en kilómetros, no en grados.** A 41,39° N un grado de longitud mide 83 km
-  y uno de latitud 111: mezclarlos deformaría el mapa a favor del este-oeste.
-- **Los flujos por debajo de 20 turistas no se publican.** Dos o tres personas entre dos barrios no
-  dicen nada y llenan el mapa de rayas.
+**b) Los restaurantes: solo se mira a quien hoy cocina.** Los locales ya tienen clientes y eso no
+se estima. Se mira un solo grupo: el turista que hoy se aloja en un piso porque así ahorra,
+cocinando, y que al pasar a un hotel —sin cocina— tiene que salir a comer. Cada turista alojado
+reparte su demanda a partes iguales entre los locales a menos de 200 m de donde duerme.
 
-La segmentación por precio **no está impuesta, emerge**: las viviendas de banda `€€€€` acaban en
-hoteles de 4 y 5 estrellas, y ninguna de las dos bandas baratas llega a un 5 estrellas.
+- **Hoy**, el turista de piso cuenta la **mitad** (tiene cocina). **En 2028**, ya en un hotel,
+  cuenta **entero**.
+- **La mitad es un supuesto, no un dato** (`PESO_PISO_EN_RESTAURACION`). De él sale por sí solo el
+  aumento total (62.462 → 68.240 clientes potenciales por noche, +9,2 %). **Lo que sí aporta el
+  modelo es dónde**: 4.147 locales ganan y 4.444 pierden.
+- El % de cada local es sobre estos clientes, **no sobre todos los suyos**: los vecinos y el
+  turista de hotel de siempre no están.
+- No hay plazas de los locales: el censo no las trae. Las sillas de terraza (127.482) se
+  descartaron el 10 de septiembre.
+
+**c) En qué hotel acaba cada turista.** Para la parte (b), el reparto mezcla cercanía y banda de
+precio al 50 %, de la vivienda más cara a la más barata (quien paga menos es quien se queda sin
+sitio si no cabe). `w` no se estima, y es deliberado: se intentó deducirlo de la demanda actual de
+Airbnb y no funciona (la distancia al centro no predice la demanda, p = 0,48, R² = 0,001, y el
+coeficiente del precio sale positivo, que es causalidad inversa). La capacidad es un límite duro.
+
+**d) Prototipo, no publicado: elegir hotel por banda.** `gold/prototipo_flujos_banda.py` prueba otra
+regla: el turista va a un hotel de su banda, el más cercano con hueco; si no hay, a la siguiente
+banda más cara. Lo que enseña, en un año medio:
+
+| Banda (por plaza) | Habitaciones libres en hoteles | Que piden los pisos |
+|---|---|---|
+| € | 57 | 1.629 |
+| €€ | 1.392 | 2.967 |
+| €€€ | 5.065 | 1.007 |
+| €€€€ | 2.327 | 103 |
+
+Los hoteles baratos están casi llenos: solo el **34 %** de los turistas encuentra hotel de su
+banda, el 46 % sube una banda y el 20 % sube dos o tres. El volumen acaba en los €€€ (72 %), pero
+la **presión de precio** es de los €: 28 habitaciones pedidas por cada una libre. La distancia no
+se dispara (mediana 0,37 km, el 6,5 % recorre más de 2 km, máximo unos 8–10 km). Supone la misma
+ocupación del 80,2 % en todas las bandas, y los hostales probablemente estén más llenos.
 
 ### 3.3 Lo que nunca sale del pipeline
 
-- **Ningún dato a nivel de vivienda o dirección individual.** Un hotel o un restaurante es un
-  establecimiento abierto al público y se publica como punto; una VUT es una vivienda y un anuncio
-  de Airbnb también, y esos se agregan siempre por barrio o municipio. No es una precaución de
-  estilo: es la línea que separa analizar un mercado de señalar domicilios.
+- **Del piso, solo lo que pinta el mapa.** Es una decisión del proyecto (2026-10-04): cada piso
+  sale como punto con su posición —ya desplazada hasta 150 m por la fuente y redondeada a 5
+  decimales—, plazas, dormitorios, precio y banda. **Sin id, sin nombre del anuncio, sin anfitrión
+  y sin número de licencia.** El anfitrión solo aparece agregado por barrio, y solo si tiene 5 pisos
+  o más en él (un operador, no un particular).
+- **Del hotel, la sociedad titular** (razón social del Registre de Turisme), nunca una persona
+  física: el marcador `No aplica` del registro se respeta y no se publica.
 - **Nombres, DNI y datos de titulares particulares.**
 - **Los precios raspados en crudo.**
 
@@ -296,9 +334,15 @@ que no tenemos.
    no hay un escenario "correcto" marcado.
 3. **No predice qué harán los hoteles.** El modelo reparte a capacidad y precio de hoy. Si los
    precios suben al desaparecer la oferta alternativa —que es lo esperable— el reparto cambia.
-4. **No mide meses.** Todo es equivalente anual, con la salvedad de las cifras de julio y noviembre
-   que se dan aparte como contexto.
-5. **Un hotel no tiene un precio, tiene un rango.** Se publica una banda precisamente por eso.
+4. **No mide meses.** Todo es un año medio. En los picos del verano habrá menos hueco en los hoteles.
+5. **Un hotel no tiene un precio, tiene un rango.** Se publica una banda, nunca el euro. Un piso sí
+   lleva el precio que anuncia.
+6. **Lo que factura un piso es un orden de magnitud**: ocupación del 38,3–48 % × 365 noches × precio
+   de la noche. No hay dato de facturación.
+7. **No dice cuánto subirá el precio.** Depende de la estacionalidad (que existiría aunque Airbnb no
+   se fuera), de los turistas que se vayan a otros municipios, de los pisos que no entran en la ley
+   y de la oferta nueva que permita el PEUAT. Los hoteles baratos y los hostales son los que más
+   presión de precio recibirían; no se cuantifica.
 
 ---
 

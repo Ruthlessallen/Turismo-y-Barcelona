@@ -92,7 +92,7 @@ exigiendo además que la habitación estuviera **en el mismo barrio** que un HUT
 de **7 anfitriones**. Pero esos anfitriones tienen carteras de 13 a 17 licencias repartidas en 6 a
 8 barrios, así que para ellos coincidir de barrio **es casi seguro por azar**: el criterio no
 discrimina. Y se apoyaría en la variable menos fiable que tenemos, porque la asignación individual
-de barrio falla el 12% (ver F1).
+de barrio falla el 12% (ver G1).
 
 Se mantiene el criterio. El techo de lo que se ganaría es un 5,6% de ese grupo —20 anuncios sobre
 6.834, el 0,3%—, para tres cuartas partes iría en contra de lo que el propio anuncio declara, y una
@@ -149,6 +149,22 @@ Llegan a la web agregadas por barrio en `airbnb_por_barrio.json`, en un objeto `
 203 que dejaron de anunciarse en 2024 o después de las licencias dormidas desde hace una década:
 ante la pregunta de si esa vivienda puede volver al mercado, no son lo mismo.
 
+**Revisión del 2026-10-05 (pendiente de decidir si se mantiene el descarte).** Qué hay dentro de
+los 876:
+
+| | Anuncios | Plazas |
+|---|---:|---:|
+| Descartados por inactividad | 876 | 3.980 |
+| De ellos, con licencia en el registro (la capacidad latente) | 293 | 1.534 |
+| Sin licencia o sin acreditar | 583 | — |
+| Con el calendario abierto (`availability_365` > 0) | 759 | — |
+| Con alguna reseña en los últimos 12 meses | 172 | — |
+
+Ninguno es un anuncio nuevo: todos tienen al menos una reseña, y la mediana de la última es
+octubre de 2024. Lo que está en juego es poco: solo los **293 con licencia** son lo que la ley de
+2028 elimina (+4,3 % sobre los 6.834 pisos). Los otros 583 no tienen licencia que eliminar. Esos 293
+ya se publican aparte como capacidad latente, sin sumarlos a la oferta anunciada.
+
 ### B6. Los duplicados se deciden por licencia, no por nombre y coordenadas
 
 Comprobado que la regla textual destruía 43 viviendas reales: mismo anfitrión, mismo nombre, mismo
@@ -182,6 +198,25 @@ anfitrión, y no declarar no es carecer. Este supuesto es el que sostiene que el
 *sin licencia acreditada* y nunca de infracción.
 
 ---
+
+### C5. Hay licencias sin ningún anuncio, y son la mitad de las plazas
+
+El registro oficial (Open Data BCN, 2016–2026 T1) tiene 10.718 filas y **10.623 licencias únicas**,
+con barrio, dirección, coordenadas y plazas (61.826 en total, mediana de 5 por licencia). **No trae
+habitaciones.** La fecha de inicio solo se conoce de forma indirecta: el año del número de
+expediente (2008–2026, concentrado en 2012–2014), que es el de la solicitud, no el del alta.
+
+| Licencias únicas | Cuántas | Plazas del registro |
+|---|---:|---:|
+| Con anuncio entre los 6.834 pisos | 4.756 | 28.263 |
+| Solo con anuncios que se descartan | 473 | 2.583 |
+| **Sin ningún anuncio en Airbnb (junio 2026)** | **5.394** | **30.980** |
+
+De ahí la diferencia entre las 30.067 plazas de Airbnb y las 61.826 del registro. El modelo ya las
+deja fuera: sin anuncio ni reseña no hay evidencia de actividad. Pueden estar en otras plataformas,
+dormidas o ser licencias fantasma. **Cota superior, no calculada en la web:** si todas estuvieran
+activas, serían hasta 30.980 plazas más. En las licencias que sí casan, Airbnb declara 23.888 plazas
+frente a las 29.937 del registro (un 25 % menos).
 
 ## D. Precio de Airbnb
 
@@ -241,22 +276,6 @@ apartaments turístics (5 con 8).
 
 ---
 
-## F. Geolocalización
-
-### F1. Las coordenadas de Airbnb vienen desplazadas hasta 150 m
-
-Inside Airbnb las ofusca **de forma independiente por anuncio**, incluso dentro del mismo edificio.
-Medido qué sobrevive:
-
-| Uso | Veredicto |
-|---|---|
-| Recuento de anuncios por barrio | **Sirve** — Spearman 0,998, error del 1-2% en barrios grandes |
-| Asignación de barrio a un anuncio concreto | **Falla el 12%** |
-| Distancia entre dos anuncios | **Inservible** |
-
-Por eso el mapa publica agregados por barrio y nunca puntos individuales.
-
-
 ---
 
 ## F. El reparto de 2028
@@ -264,7 +283,19 @@ Por eso el mapa publica agregados por barrio y nunca puntos individuales.
 Añadidos el 2026-10-04, al corregir el modelo. Antes de esa fecha el reparto se hacía en plazas y
 solo descontaba la ocupación del lado hotelero, lo que producía una escasez que el dato no sostiene.
 
-### F1. La habitación es la unidad de la capacidad
+### F1. Cada uno alquila una cosa distinta
+
+Un hotel alquila **habitaciones**, sea de 1, 2 o 3 plazas. Un piso de Airbnb se alquila **entero**,
+sea de 1, 2 o 3 dormitorios. La web no compara plazas con plazas ni habitaciones con dormitorios
+como si fueran lo mismo: compara habitaciones de hotel con pisos enteros, y la noche de una con la
+noche del otro. La plaza solo se usa para la banda de precio (A1), la única escala común.
+
+**Supuesto abierto:** para saber cuántas habitaciones de hotel pide un piso se usan sus
+dormitorios, pero lo correcto sería `ceil(grupo / 2)` y el tamaño real del grupo no está en el
+dato (Airbnb publica la capacidad, no quién viene). Con otras reglas, las habitaciones pedidas en
+un año medio van de 2.617 (parejas) a 6.175 (capacidad llena), frente a las 8.841 libres.
+
+#### La habitación es la unidad de la capacidad
 
 Una plaza libre de hotel suele ser la segunda cama de una habitación ya vendida: no se puede vender
 aparte, y un grupo de cuatro no cabe en ella. Lo que limita a un hotel es la habitación.
@@ -280,8 +311,8 @@ desplazaría entera.
 
 | Lado | Ocupación | Procedencia |
 |---|---|---|
-| Hotel | 80,2% anual · 86,5% en julio | INE, **por habitaciones** |
-| Airbnb | 38,3% anual · 44,6% en julio | Estimada, ver F3 |
+| Hotel | 80,2% anual | INE, **por habitaciones** |
+| Airbnb | 38,3% anual, y 48% como extremo alto | Estimada, ver F3 |
 
 Descontarla solo en el lado hotelero comparaba una capacidad declarada con una ocupación real.
 
@@ -304,14 +335,81 @@ quedaría corto para unos 3.000 turistas en vez de 1.273.
 No existe una serie estacional del alquiler turístico, así que la ocupación de julio se escala con
 el factor de la serie hotelera (×1,165). Mismo supuesto, y misma fragilidad, que A4.
 
-### F5. Dos momentos y no doce
+### F5. Un año medio, no dos fechas
 
-Se publican el año medio y julio. El año medio solo escondería el problema de la punta; julio solo
-lo extendería a doce meses. Los meses intermedios no se publican porque no cambian la conclusión:
-por habitaciones, los únicos meses que no cuadran son julio, junio y abril.
+Hasta el 2026-10-04 se publicaban el año medio y julio. Se dejó solo el **año medio**: dos fechas a
+la vez confundían más que aclaraban. Julio, la punta, sigue en `/mapa-anterior` y en el modelo
+(`modelar_sustitucion.py`), pero la web nueva no lo enseña. Consecuencia asumida: en los picos del
+verano habrá menos hueco en los hoteles de lo que dice el año medio (en julio, el modelo
+anterior daba 1.273 turistas sin sitio).
 
 ### F6. El turista desplazado sigue viniendo
 
 El modelo realoja a todos los que hoy duermen en esos pisos. **Nadie se queda en su casa ni se va a
 otra ciudad.** Es el supuesto que hace que la pregunta tenga sentido, pero si parte de la demanda
 simplemente no viniera, la escasez de julio se reduciría o desaparecería.
+
+Y hay más fugas que ese realojo no recoge: los turistas que se irán a otros municipios, los pisos
+que la ley no toca (apartamentos turísticos legales, estancias de 32 noches o más, viviendas sin
+licencia que siguen operando) y la capacidad latente.
+
+### F7. En restauración solo se mira a quien hoy cocina
+
+Los bares y restaurantes ya tienen clientes y eso no se estima ni se va a estimar. El grupo que se
+estudia es otro: el turista que hoy elige un piso para ahorrar cocinando, y que en un hotel (sin
+cocina) tiene que salir a comer.
+
+- **El turista de piso cuenta la mitad hoy y entero en 2028.** La mitad (`PESO_PISO_EN_RESTAURACION`)
+  **es un supuesto, no un dato**, y de él sale por sí solo el aumento total (+9,2 %). Lo que sí
+  informa el modelo es dónde sube y dónde baja: 4.147 locales ganan y 4.444 pierden.
+- **El % es sobre estos clientes, no sobre los del local.** Los vecinos y el turista de hotel de
+  siempre no están.
+- **Radio de 200 m**, repartido a partes iguales entre los locales del radio. Probar 100, 300 y 500
+  m costaría poco y no está hecho.
+- **Sin plazas de los locales**: el censo no las trae.
+
+### F8. Lo que absorbe un hotel se cuenta hotel a hotel
+
+Para cada hotel y un radio de 0 a 500 m: pisos dentro, las habitaciones que piden (dormitorios ×
+38,3–48 %) y las que le quedan libres (19,8 % de las suyas). Absorbe la menor de las dos cifras.
+**Otros hoteles del mismo radio compiten por los mismos pisos**, así que los resultados de dos
+hoteles vecinos no se pueden sumar.
+
+### F9. Lo que factura un piso es un orden de magnitud
+
+Ocupación (38,3–48 %) × 365 noches × precio de la noche del piso entero. El precio es el anunciado,
+anualizado con el factor de estacionalidad (A4/A5). No hay dato de facturación, y 365 supone que el
+anuncio está abierto todo el año. Total de los 6.834 pisos: **222–278 millones de euros al año.**
+
+### F10. Elegir hotel por banda (prototipo, no publicado)
+
+`gold/prototipo_flujos_banda.py`: el turista va a un hotel de su banda, el más cercano con hueco; si
+no hay, a la siguiente banda más cara. La banda es la **por plaza**, la única comparable. Supone la
+misma ocupación (80,2 %) en todas las bandas y los pisos eligen en orden aleatorio. Hallazgo: los
+hoteles de banda € tienen 57 habitaciones libres frente a 1.629 que piden los pisos baratos, así
+que solo el 34 % encuentra hotel de su banda. Resultados completos en `fuentes.md` → 3.2.
+
+### F11. Lo que no cubre la web sobre el precio
+
+La web no estima cuánto subirá el precio de los hoteles. Hay cuatro cosas que lo harían impreciso:
+la estacionalidad existiría aunque Airbnb no se fuera; parte de los turistas se irá a otros
+municipios; hay pisos que no entran en la ley; y los que más presión recibirían son los hoteles
+baratos y los hostales, no el conjunto. Queda sin hacer, junto con la oferta nueva que permite el
+PEUAT (no hay un dataset de hoteles previstos).
+
+---
+
+## G. Geolocalización
+
+### G1. Las coordenadas de Airbnb vienen desplazadas hasta 150 m
+
+Inside Airbnb las ofusca **de forma independiente por anuncio**, incluso dentro del mismo edificio.
+Medido qué sobrevive:
+
+| Uso | Veredicto |
+|---|---|
+| Recuento de anuncios por barrio | **Sirve** — Spearman 0,998, error del 1-2% en barrios grandes |
+| Asignación de barrio a un anuncio concreto | **Falla el 12%** |
+| Distancia entre dos anuncios | **Inservible** |
+
+Por eso el mapa publica agregados por barrio y nunca puntos individuales.

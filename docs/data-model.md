@@ -415,8 +415,8 @@ salen los datos que ese cálculo necesita.
 
 No aplica en el sentido de RLS: no hay base de datos en producción (ver `architecture.md`), así
 que no hay usuarios ni filas restringidas por usuario. Todo lo que llega a `data/exports` es
-público por diseño — la única "política" real es la de granularidad de la sección anterior (nunca
-exportar a nivel de vivienda individual).
+público por diseño — la única "política" real es la de granularidad de la sección anterior. Del piso
+solo sale lo que pinta el mapa (ver `fuentes.md` → 3.3); nunca su id, nombre, anfitrión ni licencia.
 
 ---
 

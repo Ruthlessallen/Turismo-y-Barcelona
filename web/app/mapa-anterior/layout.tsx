@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 
 // El mapa es un componente de cliente y no puede exportar `metadata`: va en el layout del segmento.
 export const metadata: Metadata = {
-  title: "El mapa",
+  title: "Mapa anterior",
   description:
-    "Dónde están los pisos turísticos, los hoteles y los restaurantes de Barcelona, y cuánto " +
-    "turista alojan hoy.",
+    "Dónde dormirían en 2028 los turistas de las 6.834 viviendas de uso turístico anunciadas hoy " +
+    "en Airbnb, barrio a barrio.",
 };
 
 export default function LayoutMapa({ children }: { children: React.ReactNode }) {

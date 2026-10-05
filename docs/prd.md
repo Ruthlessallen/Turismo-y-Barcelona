@@ -139,8 +139,10 @@ sirve por igual a varios perfiles:
   como contexto para la proyección (M-06).
 
 ### WON'T (esta versión)
-- **Publicar en la web pública** predicciones o señalamientos a nivel de vivienda o dirección
-  individual — la web pública siempre agrega por municipio/barrio. Esto es un límite de
+- **Publicar en la web pública** predicciones o señalamientos de una vivienda concreta —
+  "sin licencia", "ilegal" o similares atribuidos a una dirección. Desde el 2026-10-04 el piso
+  sí sale como punto, pero solo con posición desplazada por la fuente, plazas, dormitorios,
+  precio y banda: sin id, nombre, anfitrión ni licencia. Esto es un límite de
   *publicación*, no de *análisis*: el pipeline interno puede trabajar a más detalle si hace falta
   (ver `data-model.md` → Granularidad), pero eso no sale publicado tal cual sin verificación legal
   previa — nombrar una dirección concreta como "sin licencia" sin esa verificación es una

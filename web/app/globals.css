@@ -24,3 +24,27 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Cifras del mapa por barrio: tres chips de color, texto blanco, legibles sobre cualquier fondo. */
+.etq-barrio {
+  display: flex;
+  width: max-content;
+  gap: 2px;
+  cursor: pointer;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45));
+}
+.etq-barrio span {
+  flex: none;
+  min-width: 26px;
+  padding: 2px 6px;
+  border: 1.5px solid #fff;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  color: #fff;
+}
+.etq-barrio .p { background: #e8710a; }
+.etq-barrio .h { background: #1f5fa8; }
+.etq-barrio .r { background: #7b3fa0; }

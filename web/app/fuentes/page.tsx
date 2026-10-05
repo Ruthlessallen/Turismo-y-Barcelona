@@ -13,7 +13,7 @@ const SECCIONES = [
   { id: "fuentes", titulo: "Las fuentes originales" },
   { id: "precio", titulo: "De dónde sale un precio" },
   { id: "decisiones", titulo: "Las decisiones que mueven el resultado" },
-  { id: "modelo", titulo: "El modelo de 2028" },
+  { id: "modelo", titulo: "Lo que calcula la web" },
   { id: "privacidad", titulo: "Lo que nunca se publica" },
   { id: "limites", titulo: "Lo que esto no puede decir" },
 ];
@@ -51,22 +51,32 @@ export default function PaginaFuentes() {
         <div className="min-w-0 flex-1 space-y-10">
           <Seccion id="que-lee" numero={1} titulo="Qué lee la web">
             <P>
-              La web es estática: el navegador solo descarga tres ficheros. Todo lo demás ocurre
-              antes, en el pipeline.
+              La web es estática: el navegador solo descarga ficheros ya calculados. Todo lo demás
+              ocurre antes, en el pipeline.
             </P>
             <Tabla
               cabeceras={["Fichero", "Qué contiene", "Lo produce"]}
               filas={[
-                ["barrios.geojson", "Los 75 barrios de la ciudad", "ICGC, simplificado para el navegador"],
+                ["barrios.geojson", "Los 73 barrios de la ciudad", "ICGC, simplificado para el navegador"],
                 [
-                  "sustitucion_2028.json",
-                  "64 barrios × 5 escenarios × 2 momentos: quién sale, quién llega, quién no cabe",
-                  "modelar_sustitucion.py",
+                  "puntos_pisos.json",
+                  "6.834 pisos: posición, plazas, dormitorios, precio de la noche y banda",
+                  "export_mapa_limpio.py",
                 ],
                 [
-                  "flujos_2028.json",
-                  "848 movimientos entre barrios, por momento y escenario",
-                  "modelar_sustitucion.py",
+                  "puntos_hoteles.json",
+                  "750 hoteles: habitaciones, plazas, banda y sociedad titular",
+                  "export_mapa_limpio.py",
+                ],
+                [
+                  "puntos_restaurantes.json",
+                  "9.479 locales: clientes potenciales hoy y en 2028",
+                  "export_mapa_limpio.py",
+                ],
+                [
+                  "barrios_hoy.json y dashboard.json",
+                  "Las cifras de cada barrio y las de la portada",
+                  "export_mapa_limpio.py",
                 ],
               ]}
             />
@@ -109,8 +119,8 @@ export default function PaginaFuentes() {
                 15.406 anuncios de la ciudad, con precio, capacidad declarada y reseñas. Es{" "}
                 <em>un anuncio</em>, no una vivienda, y no es el registro oficial: cubre lo que se
                 comercializa en una plataforma concreta un día concreto. La propia fuente desplaza
-                cada anuncio hasta 150 metros a propósito, y por eso ninguno se publica como punto en
-                el mapa: se agregan por barrio.
+                cada anuncio hasta 150 metros a propósito: el punto del mapa es esa posición
+                desplazada, no la dirección de la vivienda.
               </P>
               <P>
                 De esos 15.406 se llega a <strong>6.834 viviendas</strong> descartando, por este
@@ -133,7 +143,7 @@ export default function PaginaFuentes() {
             >
               <P>
                 Dos usos distintos. Uno: la <strong>ocupación de partida</strong> —el 80,2% de media
-                anual y el 86,5% de julio— que descuenta las habitaciones ya vendidas antes de
+                anual— que descuenta las habitaciones ya vendidas antes de
                 repartir a nadie. Dos: la <strong>estacionalidad</strong>, trece años de serie, que
                 permite llevar un precio de una fecha concreta a equivalente anual.
               </P>
@@ -260,7 +270,8 @@ export default function PaginaFuentes() {
               de habitación y la fecha. El modelo tiene un 27% de error: por debajo de la variación
               natural de aquello que mide. Una banda aguanta donde un euro exacto miente. Los cortes
               son 40, 70 y 120 € por plaza, elegidos para que hoteles y Airbnb ocupen varias bandas
-              cada uno — no son los cuartiles de ninguno de los dos.
+              cada uno — no son los cuartiles de ninguno de los dos. Los pisos sí llevan el precio que
+              anuncian; los hoteles, solo la banda.
             </Decision>
 
             <Decision titulo="El precio de Airbnb se publica tal y como se anuncia">
@@ -279,69 +290,81 @@ export default function PaginaFuentes() {
             </Decision>
           </Seccion>
 
-          <Seccion id="modelo" numero={5} titulo="El modelo de 2028">
+          <Seccion id="modelo" numero={5} titulo="Lo que calcula la web">
             <P>
-              Cada vivienda turística que cierra busca alojamiento reglado, y cada hotel recibe una
-              nota que mezcla dos cosas: lo cerca que está y lo parecido que es su precio. La barra
-              del mapa es el peso entre las dos.
+              Todo es <strong>un año medio</strong>. Se descartó enseñar también julio: dos fechas a
+              la vez confundían más que aclaraban.
             </P>
 
-            <Decision titulo="Ese peso no se estima, y es deliberado">
-              Se intentó deducirlo de la demanda actual de Airbnb y no funciona: la distancia al
-              centro no predice la demanda, y el coeficiente del precio sale positivo, que es
-              causalidad inversa y no sensibilidad al precio. Además, un turista alemán y uno andaluz
-              no tienen la misma sensibilidad y ningún dato disponible los distingue. Por eso se
-              publican cinco escenarios y decide quien mira.
+            <Decision titulo="Un hotel alquila habitaciones; un piso se alquila entero">
+              Por eso no se comparan plazas con plazas: se comparan habitaciones de hotel con pisos
+              enteros, y la noche de una con la noche del otro. La plaza solo se usa para la banda de
+              precio, que es la única escala común.
             </Decision>
 
-            <Decision titulo="Ni los hoteles están vacíos ni los pisos están llenos">
-              Se descuenta la ocupación real a los dos lados. Lo que se reparte son habitaciones
-              ocupadas una noche cualquiera:
+            <Decision titulo="Cuántos pisos tiene cerca un hotel y cuántos puede absorber">
+              Se cuentan los pisos a menos de 0–500 metros del hotel. Un piso pide tantas
+              habitaciones como dormitorios tiene (una, si es un estudio) y solo las ocupa el 38–48%
+              de las noches. El hotel ofrece el 19,8% de las suyas, las que no tiene vendidas (80,2%
+              de ocupación por habitaciones, INE). Absorbe lo menor de las dos cifras. Se cuenta
+              cada hotel por separado: los hoteles vecinos compiten por los mismos pisos, así que no
+              se pueden sumar.
             </Decision>
             <Tabla
-              cabeceras={["Momento", "Habitaciones libres", "Piden", "Sin sitio"]}
+              cabeceras={["Toda la ciudad, un año medio", "Habitaciones"]}
               filas={[
-                ["Un año medio", "8.841", "5.706", "nadie"],
-                ["Julio, la punta", "6.028", "6.647", "1.273 turistas"],
+                ["Libres en los hoteles", "8.841"],
+                ["Que piden los pisos", "5.706"],
+                ["Sin sitio", "nadie"],
               ]}
             />
-            <P>
-              <strong>La ciudad los absorbe a todos salvo en la punta del verano.</strong> Publicar
-              solo la media anual escondería el problema de julio; publicar solo julio lo extendería
-              a doce meses. Por eso están los dos, y el mapa deja elegir.
-            </P>
 
-            <Decision titulo="El reparto va de la vivienda más cara a la más barata">
-              Hace falta un orden para que el resultado sea el mismo cada vez que se ejecuta, y ese
-              orden <strong>no es neutral</strong>: quien paga menos es quien se queda sin sitio.
-              Queda dicho porque cambia quién aparece en el mapa como «sin sitio».
+            <Decision titulo="En restauración solo se mira a quien hoy cocina">
+              Los locales ya tienen clientes y eso no se estima. Se mira un solo grupo: el turista que
+              hoy elige un piso para ahorrar cocinando y que, en un hotel sin cocina, tiene que salir
+              a comer. Cada turista reparte su demanda entre los locales a menos de 200 metros de
+              donde duerme. Hoy el de piso cuenta la mitad —tiene cocina— y en 2028, ya en un hotel,
+              cuenta entero. <strong>La mitad es un supuesto, no un dato</strong>, y de él sale por sí
+              solo el aumento total (+9,2%). Lo que sí aporta el modelo es dónde: 4.147 locales ganan
+              y 4.444 pierden. El % es sobre estos clientes, no sobre todos los del local.
             </Decision>
 
-            <Decision titulo="La capacidad es un límite duro">
-              Un hotel de 200 plazas no absorbe 500. La segmentación por precio, en cambio, no se
-              impone: emerge sola. El 82% de las plazas de la banda más cara acaba en hoteles de 4 y
-              5 estrellas, y ninguna plaza de las dos bandas baratas llega a un 5 estrellas.
+            <Decision titulo="En qué hotel acaba cada turista">
+              Se mezcla cercanía y banda de precio al 50%, de la vivienda más cara a la más barata:
+              quien paga menos es quien se queda sin sitio si no cabe. Ese peso no se estima, y es
+              deliberado: se intentó deducirlo de la demanda actual de Airbnb y no funciona (la
+              distancia al centro no predice la demanda, y el coeficiente del precio sale positivo,
+              que es causalidad inversa). La capacidad es un límite duro: un hotel de 200 plazas no
+              absorbe 500.
+            </Decision>
+
+            <Decision titulo="Prototipo, sin publicar: elegir hotel por banda">
+              Si el turista va a un hotel de su banda y, si no hay hueco, a la siguiente más cara, los
+              hoteles baratos son el cuello de botella: tienen 57 habitaciones libres frente a 1.629
+              que piden los pisos baratos. Solo el 34% encuentra hotel de su banda; el volumen acaba
+              en los €€€, y la presión de precio es de los €. La distancia no se dispara (mediana de
+              0,37 km).
             </Decision>
           </Seccion>
 
           <Seccion id="privacidad" numero={6} titulo="Lo que nunca se publica">
             <P>
               Un hotel o un restaurante es un establecimiento abierto al público y se publica como
-              punto en el mapa. Una vivienda de uso turístico es una <em>vivienda</em>, y un anuncio
-              de Airbnb también: esos se agregan siempre por barrio o municipio y nunca salen
-              individualmente. No es una precaución de estilo, es la línea que separa analizar un
-              mercado de señalar domicilios.
+              punto. Un piso también sale como punto, pero solo con lo que pinta el mapa: la
+              posición que da la fuente (ya desplazada hasta 150 metros), las plazas, los
+              dormitorios, el precio y la banda. <strong>Nunca</strong> su identificador, el nombre
+              del anuncio, el anfitrión ni el número de licencia. El anfitrión solo aparece agregado
+              por barrio, y solo si tiene cinco pisos o más en él: un operador, no un particular.
             </P>
             <P>
-              Tampoco sale nada del titular. Entre los del Registre hay personas físicas con nombre y
-              dirección; el pipeline detecta y anula sus documentos de identidad antes de que salgan
-              de la primera capa, sin confiar en que la fuente los marque.
+              Del hotel se publica la sociedad titular, nunca una persona física. Entre los titulares
+              del Registre hay personas físicas con nombre y dirección; el pipeline respeta el
+              marcador de la fuente, detecta y anula además sus documentos de identidad, y no publica
+              el CIF.
             </P>
             <P>
-              Cada punto que sí se publica lleva dicho <strong>cómo de precisa</strong> es su
-              posición: tomada del registro oficial, deducida de la dirección y verificada contra su
-              municipio, o desplazada a propósito por la fuente. Pintarlas con el mismo símbolo daría
-              a entender una precisión que no tenemos.
+              Los puntos de los pisos están desplazados a propósito por la fuente. Pintarlos como si
+              fueran la dirección daría a entender una precisión que no tenemos.
             </P>
           </Seccion>
 
@@ -352,27 +375,37 @@ export default function PaginaFuentes() {
                 Airbnb. Lo que no se anuncia allí no está.
               </li>
               <li>
-                <strong>No sabe qué quiere un turista.</strong> Por eso la barra entre precio y
-                ubicación la mueve quien mira, y no hay un escenario marcado como el correcto.
+                <strong>No sabe qué quiere un turista.</strong> Qué hotel elige, o si prefiere precio
+                o ubicación, no está en ningún dato: el reparto es una simulación, no una
+                predicción.
               </li>
               <li>
-                <strong>No predice qué harán los hoteles.</strong> El reparto usa la capacidad y los
-                precios de hoy. Si los precios suben al desaparecer la oferta alternativa —que es lo
-                esperable— el reparto cambia.
+                <strong>No predice qué harán los hoteles ni cuánto subirá el precio.</strong> Depende
+                de la estacionalidad, que existiría aunque Airbnb no se fuera; de los turistas que se
+                irán a otros municipios; de los pisos que la ley no toca; y de la oferta nueva que
+                permita el PEUAT. Los hoteles baratos y los hostales serían los que más presión
+                reciben.
               </li>
               <li>
-                <strong>Solo mide dos momentos, no doce.</strong> Un año medio y julio. Los meses
-                intermedios no cambiarían la conclusión: por habitaciones, los únicos que no cuadran
-                son julio, junio y abril.
+                <strong>Mide un año medio, no doce.</strong> En los picos del verano habrá menos
+                hueco en los hoteles.
               </li>
               <li>
                 <strong>Da por hecho que el turista sigue viniendo.</strong> Realoja a todos los que
-                hoy duermen en esos pisos: nadie se queda en su casa ni se va a otra ciudad. Si
-                parte de esa demanda no viniera, la escasez de julio se reduciría o desaparecería.
+                hoy duermen en esos pisos: nadie se queda en su casa ni se va a otra ciudad.
               </li>
               <li>
                 <strong>Un hotel no tiene un precio, tiene un rango.</strong> Se publica una banda
                 precisamente por eso.
+              </li>
+              <li>
+                <strong>Lo que factura un piso es un orden de magnitud:</strong> ocupación del
+                38–48% × 365 noches × precio de la noche. No hay dato de facturación.
+              </li>
+              <li>
+                <strong>No hay plazas de los restaurantes</strong>: el censo no las trae. El nombre
+                comercial más repetido de un barrio no es la empresa: el censo de la ciudad no trae
+                CIF.
               </li>
             </ol>
           </Seccion>

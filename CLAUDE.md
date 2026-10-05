@@ -90,8 +90,8 @@ El procedimiento completo —comprobar lo ya configurado, elegir alcance (`user`
 **Descripción:** Dashboard público que cruza oferta turística (apartamentos, hoteles,
 bares/restaurantes) y flujos de entrada (aeropuerto, puerto) en la provincia de Barcelona, para
 analizar qué puede ocurrir cuando desaparezcan las licencias VUT de la ciudad.
-**Estado actual:** En desarrollo — fase de investigación y recolección de datos (ver
-`docs/roadmap.md` → Fase 1).
+**Estado actual:** En desarrollo — web en pie con portada (dashboard), mapa, página de Airbnb y
+fuentes; faltan la página de hoteles y el PEUAT (ver `docs/web-checklist.md`).
 
 ---
 
@@ -174,8 +174,11 @@ mejoras/              → ideas futuras no implementadas
 - No dar por hecho lo que no has ejecutado. Si no has visto pasar el build o los tests, no digas
   que pasan: di que no los has ejecutado.
 - No desactivar, saltar ni vaciar de aserciones un test para que deje de fallar.
-- No exportar datos a nivel de vivienda o dirección individual en `data/exports/` — el análisis
-  público es siempre agregado por municipio/barrio (ver `docs/prd.md`, "Fuera de alcance").
+- De cada piso turístico solo se exporta lo que pinta el mapa: posición (ya desplazada hasta 150 m
+  por la fuente), plazas, dormitorios, precio y banda. **Nunca** id, nombre del anuncio, anfitrión,
+  número de licencia ni datos de titulares particulares. El anfitrión solo sale agregado por barrio y
+  desde 5 pisos (ver `docs/fuentes.md` → 3.3). Decisión del 2026-10-04: antes el piso solo salía
+  agregado por barrio.
 - No mezclar datos observados y proyectados sin el marcado visual distinto que exige
   `docs/design-system.md` — es una regla de integridad, no solo de estilo.
 - No commitear un dataset real completo como fixture de test — usar muestras pequeñas (ver

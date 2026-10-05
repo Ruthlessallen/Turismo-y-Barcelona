@@ -20,9 +20,9 @@ completo en [`docs/prd.md`](docs/prd.md).
 
 ## Estado actual
 
-**En desarrollo — fase de investigación y recolección de datos.** Todavía no hay pipeline ni
-dashboard: el primer objetivo es confirmar que las fuentes de datos necesarias existen y son
-utilizables. Ver [`docs/roadmap.md`](docs/roadmap.md) → Fase 1.
+**En desarrollo.** La web tiene portada con cifras, un mapa de tres capas (Airbnb, hoteles,
+restauración), el embudo de Airbnb y la página de fuentes. Falta la página de hoteles. El pipeline
+va de `data/raw` a `data/exports` (ver `docs/README.md` para el mapa de la documentación).
 
 ## Requisitos previos
 

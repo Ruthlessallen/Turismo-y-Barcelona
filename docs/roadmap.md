@@ -124,3 +124,18 @@ va después de tener el histórico funcionando y publicado, no antes.
 | Streamlit como frontend | Sin despliegue nativo en Vercel/Netlify (necesita proceso persistente) y control visual limitado frente al design-system ya acordado — decisión registrada en `architecture.md` |
 | AENA y Port de Barcelona como fuentes dedicadas de entradas | Ninguno de los dos respondió al verificar (timeout / 503) y el OTB ya cubre volumen y origen de turistas para "Destinació Barcelona" sin necesitar sumarlos a mano |
 | Geocodificar la provincia fuera de la ciudad de Barcelona (API del Catastro) | La eliminación de licencias VUT ocurre en la ciudad, donde Open Data BCN ya da coordenadas reales. Fuera de ella basta municipio + código postal, que están al 100%. Se acepta trabajar a dos niveles (`nivel_geo`, ver `data-model.md`) en vez de invertir en geocodificación masiva de precisión que el análisis no necesita |
+
+---
+
+## Añadido el 2026-10-05
+
+- **Página `/hoteles`:** PEUAT, detalle hotelero, INE, estacionalidad y qué supondría para un hotel
+  que desaparezcan los pisos. Los datos exportados ya están (`hoteles.json`, `dashboard.json`).
+- **PEUAT en el mapa:** capa de zonas (`data/exports/geo/peuat.geojson`, 12 zonas) y, si se
+  consigue una fuente, puntos de hoteles nuevos con otro símbolo. No hay un dataset de hoteles
+  previstos: habría que armarlo desde prensa o licencias de obra.
+- **Precio de los hoteles tras 2028:** estacionalidad, fugas a otros municipios, pisos fuera de la
+  ley y presión sobre hoteles baratos. Método propuesto: relación precio–ocupación de la serie
+  mensual del INE, deflactada, aplicada al aumento de ocupación del modelo.
+- **Flujos por banda:** el prototipo existe (`pipeline/gold/prototipo_flujos_banda.py`); falta
+  decidir si se publica y cómo se dibuja.

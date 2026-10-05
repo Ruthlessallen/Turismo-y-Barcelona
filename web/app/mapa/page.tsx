@@ -5,427 +5,347 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 import {
-  ESCENARIOS,
-  MOMENTOS,
-  type IdMomento,
-  type BarrioRestauracion,
-  type BarrioSustitucion,
-  type IdEscenario,
-  type Sustitucion,
-} from "@/app/lib/tipos";
-import type { Centroides, Flujo } from "@/app/lib/flechas";
-import type { Medida } from "@/app/components/MapaBarrios";
-
-type DatosFlujos = { centroides: Centroides; momentos: Record<string, Record<string, Flujo[]>> };
+  COLOR, analisisHotel, n,
+  type BarrioHoy, type Capas, type ColorRestaurante, type DatosMapa, type Foco, type Hotel,
+  type ModoAlojamiento, type TipoBarrio,
+} from "@/app/lib/tiposMapa";
 
 // Leaflet toca `window` al cargarse: sin esto el render del servidor revienta.
-const MapaBarrios = dynamic(() => import("@/app/components/MapaBarrios"), {
+const MapaLimpio = dynamic(() => import("@/app/components/MapaLimpio"), {
   ssr: false,
   loading: () => <div className="h-full w-full bg-[#f5f4f1]" />,
 });
 
-const VISTAS: { id: Medida; etiqueta: string }[] = [
-  { id: "saldo", etiqueta: "Gana o pierde" },
-  { id: "sin_sitio", etiqueta: "Sin sitio" },
-];
+const base = "/data/mapa";
+const cargar = <T,>(ruta: string): Promise<T> => fetch(ruta).then((r) => r.json());
 
-/** Las dos preguntas de restauración. Viven aparte porque no dependen de la barra. */
-const VISTAS_RESTAURACION: { id: Medida; etiqueta: string }[] = [
-  { id: "locales", etiqueta: "Dónde están" },
-  { id: "cambio", etiqueta: "Comensales que ganan o pierden" },
+/** Verde gana clientes, morado los pierde: se distinguen en las tres formas de daltonismo. */
+const LEYENDA_CAMBIO: [string, string][] = [
+  ["#2f7a3e", "Gana 50 % o más"], ["#6fae6b", "Gana del 10 al 50 %"],
+  ["#cfcac0", "Casi igual (±10 %)"], ["#a77bc0", "Pierde del 10 al 50 %"],
+  ["#5b1f7a", "Pierde 50 % o más"], ["#e3e0da", "Sin turistas cerca hoy"],
 ];
 
 export default function Pagina() {
-  const [geojson, setGeojson] = useState<GeoJSON.FeatureCollection | null>(null);
-  const [sustitucion, setSustitucion] = useState<Sustitucion | null>(null);
-  const [escenario, setEscenario] = useState<IdEscenario>("equilibrio");
-  const [momento, setMomento] = useState<IdMomento>("anio_medio");
-  const [medida, setMedida] = useState<Medida>("saldo");
-  const [barrio, setBarrio] = useState<string | null>(null);
-  const [flechas, setFlechas] = useState(false);
-  const [minimoFlujo, setMinimoFlujo] = useState(200);
-  const [datosFlujos, setDatosFlujos] = useState<DatosFlujos | null>(null);
-  const [restauracion, setRestauracion] =
-    useState<Record<string, BarrioRestauracion[]> | null>(null);
+  const [datos, setDatos] = useState<DatosMapa | null>(null);
+  const [capas, setCapas] = useState<Capas>({ airbnb: true, hoteles: true, restauracion: false });
+  const [vista, setVista] = useState<ModoAlojamiento>("puntos");
+  const [tipo, setTipo] = useState<TipoBarrio>("pisos");
+  const [colorRest, setColorRest] = useState<ColorRestaurante>("hoy");
+  const [radio, setRadio] = useState(300);
+  const [foco, setFoco] = useState<Foco>(null);
 
   useEffect(() => {
-    fetch("/data/geo/barrios.geojson").then((r) => r.json()).then(setGeojson);
-    fetch("/data/mapa/sustitucion_2028.json").then((r) => r.json()).then(setSustitucion);
-    fetch("/data/mapa/restauracion_2028.json")
-      .then((r) => r.json())
-      .then((d) => setRestauracion(d.momentos));
+    Promise.all([
+      cargar<GeoJSON.FeatureCollection>("/data/geo/barrios.geojson"),
+      cargar<DatosMapa["barrios"]>(`${base}/barrios_hoy.json`),
+      cargar<DatosMapa["pisos"]>(`${base}/puntos_pisos.json`),
+      cargar<DatosMapa["hoteles"]>(`${base}/puntos_hoteles.json`),
+      cargar<DatosMapa["restaurantes"]>(`${base}/puntos_restaurantes.json`),
+    ]).then(([geo, barrios, pisos, hoteles, restaurantes]) =>
+      setDatos({ geo, barrios, pisos, hoteles, restaurantes }));
   }, []);
 
-  // Los flujos pesan 92 KB y la capa arranca apagada: se piden la primera vez que se encienden.
-  useEffect(() => {
-    if (!flechas || datosFlujos) return;
-    fetch("/data/mapa/flujos_2028.json").then((r) => r.json()).then(setDatosFlujos);
-  }, [flechas, datosFlujos]);
+  const alternar = (capa: keyof Capas) => {
+    setCapas((c) => ({ ...c, [capa]: !c[capa] }));
+    if (capa === "hoteles") setFoco((f) => (f?.tipo === "hotel" ? null : f));
+  };
 
-  const porBarrio = useMemo(() => {
-    const filas = sustitucion?.momentos[momento]?.escenarios[escenario] ?? [];
-    return Object.fromEntries(filas.map((f) => [f.barrio, f])) as Record<string, BarrioSustitucion>;
-  }, [sustitucion, momento, escenario]);
+  const hotelActivo = foco?.tipo === "hotel" && capas.hoteles ? foco.hotel : null;
+  const barrio = foco?.tipo === "barrio" ? foco.nombre : null;
+  const ficha = useMemo(
+    () => datos?.barrios.find((b) => b.barrio === barrio) ?? null, [datos, barrio]);
 
-  const flujosVisibles = useMemo(() => {
-    if (!flechas) return [];
-    const todos = datosFlujos?.momentos[momento]?.[escenario] ?? [];
-    return todos.filter(
-      (f) =>
-        f.turistas >= minimoFlujo && (!barrio || f.origen === barrio || f.destino === barrio),
-    );
-  }, [flechas, datosFlujos, momento, escenario, minimoFlujo, barrio]);
-
-  const porBarrioRest = useMemo(
-    () => Object.fromEntries((restauracion?.[momento] ?? []).map((f) => [f.barrio, f])),
-    [restauracion, momento],
-  );
-
-  const enRestauracion = medida === "locales" || medida === "cambio";
-  const totales = sustitucion?.momentos[momento]?.totales.find((t) => t.escenario === escenario);
-  const activo = barrio ? porBarrio[barrio] : null;
-  const activoRest = barrio ? porBarrioRest[barrio] : null;
-  const indice = ESCENARIOS.findIndex((e) => e.id === escenario);
+  if (!datos) return <main className="h-full bg-[#f5f4f1]" />;
 
   return (
-    <main className="flex h-full w-full flex-col bg-[#faf9f7] text-[#24231f] lg:flex-row">
-      <aside className="w-full shrink-0 overflow-y-auto border-b border-[#e3e0da] bg-white p-5 lg:w-[330px] lg:border-r lg:border-b-0">
-        <h1 className="text-[15px] font-semibold tracking-tight">Dónde dormirían en 2028</h1>
-        <p className="mt-1 text-xs leading-relaxed text-[#52514e]">
-          Los turistas de las 6.834 viviendas de uso turístico anunciadas hoy en Airbnb, repartidos
-          entre los hoteles que quedan.
-        </p>
+    <main className="relative h-full text-[#24231f]">
+      <MapaLimpio datos={datos} capas={capas} vista={vista} tipoBarrio={tipo}
+        colorRestaurante={colorRest} radio={radio} hotelActivo={hotelActivo}
+        onHotel={(hotel) => setFoco({ tipo: "hotel", hotel })}
+        seleccionado={barrio}
+        onBarrio={(nombre) => setFoco({ tipo: "barrio", nombre })} />
 
-        <h2 className="mt-6 mb-2 text-[11px] font-semibold uppercase tracking-wider text-[#52514e]">
-          ¿Cuándo?
-        </h2>
-        <div className="flex gap-1 rounded border border-[#e3e0da] p-0.5">
-          {MOMENTOS.map((m) => (
-            <button
-              key={m.id}
-              onClick={() => setMomento(m.id)}
-              className={`flex-1 rounded px-2 py-1.5 text-[12px] transition ${
-                momento === m.id ? "bg-[#24231f] text-white" : "text-[#52514e] hover:bg-[#f5f4f1]"
-              }`}
-            >
-              {m.etiqueta}
-            </button>
-          ))}
+      <div className="absolute top-3 left-3 z-[1000] max-h-[calc(100%-1.5rem)] w-[248px] overflow-y-auto rounded border border-[#e3e0da] bg-white/95 p-3 text-[12px] shadow-sm">
+        <Titulo>Capas</Titulo>
+        <div className="flex gap-1">
+          <Capa activa={capas.airbnb} color={COLOR.piso} onClick={() => alternar("airbnb")}>Airbnb</Capa>
+          <Capa activa={capas.hoteles} color={COLOR.hotel} onClick={() => alternar("hoteles")}>Hoteles</Capa>
+          <Capa activa={capas.restauracion} color={COLOR.restaurante}
+            onClick={() => alternar("restauracion")}>Restauración</Capa>
         </div>
 
-        <h2 className="mt-5 mb-2 text-[11px] font-semibold uppercase tracking-wider text-[#52514e]">
-          ¿Qué busca el turista?
-        </h2>
-        <input
-          type="range"
-          min={0}
-          max={ESCENARIOS.length - 1}
-          step={1}
-          value={indice}
-          onChange={(e) => setEscenario(ESCENARIOS[Number(e.target.value)].id)}
-          className="w-full accent-[#2f6fb5]"
-          aria-label="Peso entre precio y ubicación"
-        />
-        <div className="flex justify-between text-[11px] text-[#52514e]">
-          <span>Precio</span>
-          <span>Ubicación</span>
-        </div>
-
-        {enRestauracion && (
-          <p className="mt-2 rounded bg-[#f5f4f1] px-2 py-1.5 text-[11px] leading-relaxed text-[#52514e]">
-            La barra no cambia estas dos vistas. Hay más turistas que plazas libres, así que los 757
-            hoteles se llenan igual: la barra mueve <em>quién</em> va a cada hotel, no cuántos se
-            llenan.
-          </p>
-        )}
-
-        {totales && !enRestauracion && (
-          <dl className="mt-4 grid grid-cols-3 gap-2">
-            <Dato titulo="Se mueven" valor={`${totales.km_mediano} km`} />
-            <Dato titulo="Pagan de más" valor={`${totales.sobrecoste_mediano} €`} />
-            <Dato
-              titulo="Sin sitio"
-              valor={totales.turistas_sin_sitio.toLocaleString("es", { useGrouping: "always" })}
-              fijo
-            />
-          </dl>
-        )}
-
-        <h2 className="mt-6 mb-2 text-[11px] font-semibold uppercase tracking-wider text-[#52514e]">
-          El mapa
-        </h2>
-        <div className="flex gap-1 rounded border border-[#e3e0da] p-0.5">
-          {VISTAS.map((v) => (
-            <button
-              key={v.id}
-              onClick={() => setMedida(v.id)}
-              className={`flex-1 rounded px-2 py-1.5 text-[12px] transition ${
-                medida === v.id ? "bg-[#24231f] text-white" : "text-[#52514e] hover:bg-[#f5f4f1]"
-              }`}
-            >
-              {v.etiqueta}
-            </button>
-          ))}
-        </div>
-
-        <h2 className="mt-5 mb-2 text-[11px] font-semibold uppercase tracking-wider text-[#52514e]">
-          Restauración
-        </h2>
-        <div className="flex gap-1 rounded border border-[#e3e0da] p-0.5">
-          {VISTAS_RESTAURACION.map((v) => (
-            <button
-              key={v.id}
-              onClick={() => setMedida(v.id)}
-              className={`flex-1 rounded px-2 py-1.5 text-left text-[12px] leading-tight transition ${
-                medida === v.id ? "bg-[#2f7a3e] text-white" : "text-[#52514e] hover:bg-[#f5f4f1]"
-              }`}
-            >
-              {v.etiqueta}
-            </button>
-          ))}
-        </div>
-
-        <Leyenda medida={medida} />
-
-        {enRestauracion && (
-          <p className="mt-3 text-[11px] leading-relaxed text-[#52514e]">
-            Se cuenta dónde <strong>duerme</strong> el turista, a menos de 200 m de cada local: el
-            desayuno y la cena, no la salida del día. Cada turista reparte su visita a partes
-            iguales entre los bares que tiene a esa distancia.
-          </p>
-        )}
-
-        {barrio && enRestauracion ? (
-          <div className="mt-5 rounded border border-[#e3e0da] bg-[#faf9f7] p-3">
-            <h3 className="text-sm font-semibold">{barrio}</h3>
-            {activoRest ? (
-              <dl className="mt-2 space-y-1 text-[13px]">
-                <Linea titulo="Bares y restaurantes" valor={activoRest.locales} />
-                <Linea titulo="Turistas que duermen cerca hoy" valor={activoRest.hoy} />
-                <Linea titulo="Los que dormirían cerca en 2028" valor={activoRest.en_2028} />
-                <Linea titulo="Diferencia" valor={activoRest.cambio} signo />
-              </dl>
-            ) : (
-              <p className="mt-2 text-[12px] text-[#52514e]">Sin locales de restauración.</p>
+        {(capas.airbnb || capas.hoteles) && (
+          <>
+            <Titulo className="mt-3">Alojamiento</Titulo>
+            <Segmentos valor={vista} onCambio={setVista}
+              opciones={[["puntos", "Puntos"], ["barrios", "Por barrios"]]} />
+            {vista === "barrios" && (
+              <div className="mt-1.5">
+                <Segmentos valor={tipo} onCambio={setTipo}
+                  opciones={[["pisos", "Pisos (naranja)"], ["hoteles", "Hoteles (azul)"]]} />
+              </div>
             )}
-            <button
-              onClick={() => setBarrio(null)}
-              className="mt-3 text-[11px] text-[#52514e] underline underline-offset-2"
-            >
-              quitar selección
-            </button>
-          </div>
-        ) : activo ? (
-          <div className="mt-5 rounded border border-[#e3e0da] bg-[#faf9f7] p-3">
-            <h3 className="text-sm font-semibold">{activo.barrio}</h3>
-            <dl className="mt-2 space-y-1 text-[13px]">
-              <Linea titulo="Turistas que se quedan sin piso" valor={activo.salen} />
-              <Linea titulo="Encuentran hotel aquí mismo" valor={activo.se_quedan} />
-              {/* `llegan` incluye a los del propio barrio, así que la resta es lo que entra de fuera. */}
-              <Linea titulo="Llegan desde otros barrios" valor={activo.llegan - activo.se_quedan} />
-              <Linea titulo="Ocupan hoteles de aquí, en total" valor={activo.llegan} />
-              <Linea titulo="No encuentran sitio en la ciudad" valor={activo.sin_sitio} />
-            </dl>
-            <button
-              onClick={() => setBarrio(null)}
-              className="mt-3 text-[11px] text-[#52514e] underline underline-offset-2"
-            >
-              quitar selección
-            </button>
-          </div>
-        ) : (
-          <p className="mt-5 text-[12px] text-[#52514e]">Pincha un barrio para ver su detalle.</p>
+          </>
         )}
 
-        <div className="mt-6 border-t border-[#e3e0da] pt-4">
-          <label className="flex cursor-pointer items-center gap-2">
-            <input
-              type="checkbox"
-              checked={flechas}
-              onChange={(e) => setFlechas(e.target.checked)}
-              className="accent-[#2f6fb5]"
-            />
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-[#52514e]">
-              Adónde se van
-            </span>
-          </label>
-
-          {flechas && (
-            <>
-              <p className="mt-2 text-[11px] leading-relaxed text-[#52514e]">
-                Cada flecha es un movimiento entre dos barrios. El grosor es el número de turistas.
-              </p>
-              <div className="mt-2">
-                <input
-                  type="range"
-                  min={20}
-                  max={500}
-                  step={20}
-                  value={minimoFlujo}
-                  onChange={(e) => setMinimoFlujo(Number(e.target.value))}
-                  className="w-full accent-[#2f6fb5]"
-                  aria-label="Tamaño mínimo del flujo"
-                />
-                <p className="text-[11px] text-[#52514e]">
-                  {flujosVisibles.length} movimientos de más de {minimoFlujo} turistas
-                </p>
-              </div>
-              <div className="mt-2 space-y-1 text-[11px] text-[#52514e]">
-                {barrio ? (
-                  <>
-                    <p className="flex items-center gap-2">
-                      <span className="inline-block h-1.5 w-7 shrink-0 rounded-full bg-[#cf4a30]" />
-                      se van de {barrio}
-                    </p>
-                    <p className="flex items-center gap-2">
-                      <span className="inline-block h-1.5 w-7 shrink-0 rounded-full bg-[#2f6fb5]" />
-                      llegan a {barrio}
-                    </p>
-                  </>
-                ) : (
-                  <p className="flex items-center gap-2">
-                    <span className="inline-block h-1.5 w-7 shrink-0 rounded-full bg-[#8a8783]" />
-                    pincha un barrio para separar ida y vuelta
-                  </p>
-                )}
-              </div>
-              <Link
-                href="/flujos"
-                className="mt-2 inline-block text-[11px] text-[#52514e] underline underline-offset-2"
-              >
-                verlas en su propio mapa →
-              </Link>
-            </>
-          )}
-        </div>
-
-        {totales && (
-          <div className="mt-6 border-t border-[#e3e0da] pt-4 text-[11px] leading-relaxed text-[#52514e]">
-            <p>
-              Lo que se reparte son <strong>habitaciones</strong>, no camas sueltas: una plaza libre
-              de hotel suele ser la segunda cama de una habitación ya vendida, y un grupo de cuatro
-              no cabe en ella.
-            </p>
-            <dl className="mt-2 space-y-0.5">
-              <Linea titulo="Habitaciones de hotel" valor={totales.habitaciones_hotel} />
-              <Linea
-                titulo={`Libres, al ${(totales.ocupacion_hotel * 100).toFixed(1)}% de ocupación`}
-                valor={totales.habitaciones_libres}
-              />
-              <Linea titulo="Turistas que hay que realojar" valor={totales.turistas_a_realojar} />
-            </dl>
-            <p className="mt-2">
-              {totales.turistas_sin_sitio > 0 ? (
-                <>
-                  No caben <strong>{totales.turistas_sin_sitio.toLocaleString("es")}</strong>. En un
-                  año medio sí caben todos: la ciudad se queda corta en la punta del verano, no los
-                  doce meses.
-                </>
-              ) : (
-                <>
-                  <strong>Caben todos</strong>, y sobran habitaciones. La ciudad solo se queda corta
-                  en la punta del verano — cambia el momento, arriba, para verlo.
-                </>
-              )}
-            </p>
-            <p className="mt-2">
-              Los anuncios de Airbnb no están llenos todo el año: se les aplica una ocupación del{" "}
-              <strong>{(totales.ocupacion_airbnb * 100).toFixed(0)}%</strong>, estimada por dos vías
-              que coinciden. Descontar la ocupación a los hoteles y no a los pisos era lo que hacía
-              salir una escasez que el dato no sostiene.
-            </p>
-          </div>
+        {capas.hoteles && vista === "puntos" && (
+          <>
+            <Titulo className="mt-3">Radio de cada hotel</Titulo>
+            <label className="block">
+              <span className="flex justify-between">
+                <span>¿Cuántos pisos hay a…?</span><b className="tabular-nums">{radio} m</b>
+              </span>
+              <input type="range" min={0} max={500} step={50} value={radio}
+                onChange={(e) => setRadio(Number(e.target.value))}
+                className="mt-1 w-full accent-[#1f5fa8]" />
+            </label>
+            <p className="mt-1 text-[11px] text-[#52514e]">Pulsa un hotel.</p>
+          </>
         )}
 
-        <Link
-          href="/fuentes"
-          className="mt-3 inline-block text-[11px] text-[#52514e] underline underline-offset-2"
-        >
-          cómo se calcula esto →
-        </Link>
-      </aside>
+        {capas.restauracion && (
+          <>
+            <Titulo className="mt-3">Color de los bares</Titulo>
+            <Segmentos valor={colorRest} onCambio={setColorRest}
+              opciones={[["hoy", "Demanda hoy"], ["cambio", "Cambio en 2028"]]} />
+            <ul className="mt-2 space-y-1">
+              {colorRest === "hoy" ? (
+                <>
+                  <Leyenda color="#5b1f7a" texto="Demanda alta (20 % con más turistas cerca)" />
+                  <Leyenda color="#a77bc0" texto="Demanda media" />
+                  <Leyenda color="#d9c9e3" texto="Sin turistas a 200 m" />
+                </>
+              ) : LEYENDA_CAMBIO.map(([c, t]) => <Leyenda key={t} color={c} texto={t} />)}
+            </ul>
+          </>
+        )}
 
-      <div className="min-h-[55vh] flex-1">
-        <MapaBarrios
-          geojson={geojson}
-          datos={porBarrio}
-          restauracion={porBarrioRest}
-          medida={medida}
-          barrioActivo={barrio}
-          onBarrio={setBarrio}
-          flujos={enRestauracion ? [] : flujosVisibles}
-          centroides={datosFlujos?.centroides ?? {}}
-        />
+        <p className="mt-3 text-[11px] text-[#52514e]">
+          Cifras por barrio: <span style={{ color: "#c25a00" }}>pisos</span> ·{" "}
+          <span style={{ color: COLOR.hotel }}>hoteles</span> ·{" "}
+          <span style={{ color: COLOR.restaurante }}>locales</span>
+        </p>
       </div>
+
+      {hotelActivo ? (
+        <PanelHotel hotel={hotelActivo} datos={datos} radio={radio} onCerrar={() => setFoco(null)} />
+      ) : ficha ? (
+        <PanelBarrio b={ficha} onCerrar={() => setFoco(null)} />
+      ) : null}
     </main>
   );
 }
 
-/** El color no se explica solo: sin esto, el rojo y el azul son decoración. */
-function Leyenda({ medida }: { medida: Medida }) {
-  const escalas: Record<Medida, { colores: string[]; izquierda: string; derecha: string }> = {
-    saldo: {
-      colores: ["#cf4a30", "#ea7a63", "#f7b7a8", "#eeece7", "#a8c8e8", "#6fa2d4", "#2f6fb5"],
-      izquierda: "pierde turistas",
-      derecha: "gana turistas",
-    },
-    sin_sitio: {
-      colores: ["#eeece7", "#f4efe6", "#e5d5b8", "#d4b184", "#bd8850", "#9c5f27"],
-      izquierda: "ninguno",
-      derecha: "muchos sin sitio",
-    },
-    se_quedan: {
-      colores: ["#eeece7", "#f4efe6", "#e5d5b8", "#d4b184", "#bd8850", "#9c5f27"],
-      izquierda: "ninguno",
-      derecha: "casi todos",
-    },
-    locales: {
-      colores: ["#e8f0e4", "#c3ddb9", "#93c088", "#5d9e5a", "#2f7a3e"],
-      izquierda: "pocos bares",
-      derecha: "muchos bares",
-    },
-    // Verde y morado, no verde y rojo: la pareja verde-rojo es la que no distingue la mayoría
-    // de las personas daltónicas, y aquí el signo es toda la información.
-    cambio: {
-      colores: ["#6f3f8a", "#9a6fae", "#c3a7cf", "#eeece7", "#a8cf9c", "#6fae6b", "#2f7a3e"],
-      izquierda: "pierde comensales",
-      derecha: "gana comensales",
-    },
-  };
-  const escala = escalas[medida];
+function Titulo({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className="mt-3">
-      <div className="flex h-3 overflow-hidden rounded-sm">
-        {escala.colores.map((c) => (
-          <div key={c} className="flex-1" style={{ backgroundColor: c }} />
-        ))}
+    <p className={`mb-1.5 text-[10px] font-semibold tracking-wider text-[#52514e] uppercase ${className}`}>
+      {children}
+    </p>
+  );
+}
+
+function Capa({ activa, color, onClick, children }: {
+  activa: boolean; color: string; onClick: () => void; children: React.ReactNode;
+}) {
+  return (
+    <button type="button" aria-pressed={activa} onClick={onClick}
+      className="flex-1 rounded border px-1 py-1.5 font-medium"
+      style={activa
+        ? { background: color, borderColor: color, color: "#fff" }
+        : { background: "#fff", borderColor: "#d8d5cd", color: "#52514e" }}>
+      {children}
+    </button>
+  );
+}
+
+function Segmentos<T extends string>({ valor, onCambio, opciones }: {
+  valor: T; onCambio: (v: T) => void; opciones: [T, string][];
+}) {
+  return (
+    <div className="flex overflow-hidden rounded border border-[#d8d5cd]">
+      {opciones.map(([id, texto]) => (
+        <button key={id} type="button" aria-pressed={valor === id} onClick={() => onCambio(id)}
+          className={`flex-1 px-2 py-1 ${valor === id ? "bg-[#24231f] text-white" : "bg-white"}`}>
+          {texto}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function Leyenda({ color, texto }: { color: string; texto: string }) {
+  return (
+    <li className="flex items-center gap-2">
+      <span className="inline-block h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: color }} />
+      {texto}
+    </li>
+  );
+}
+
+/** «1–2», o «2» cuando los dos extremos redondean igual: «2–2» no dice nada más que «2». */
+const rango = (a: number, b: number) =>
+  Math.round(a) === Math.round(b) ? n(Math.round(a)) : `${n(Math.round(a))}–${n(Math.round(b))}`;
+
+/** 222 millones, o 433 mil: lo que se lee de un vistazo. */
+function dinero(v: number): string {
+  if (v >= 1e6) return `${(v / 1e6).toLocaleString("es", { maximumFractionDigits: 1 })} M€`;
+  return `${n(Math.round(v / 1e3))} mil €`;
+}
+
+/** Qué pasa alrededor de un hotel: cuántos pisos tiene cerca y cuántos puede absorber. Año medio. */
+function PanelHotel({ hotel, datos, radio, onCerrar }: {
+  hotel: Hotel; datos: DatosMapa; radio: number; onCerrar: () => void;
+}) {
+  const a = useMemo(() => analisisHotel(hotel, datos.pisos, radio), [hotel, datos.pisos, radio]);
+  const [pideBajo, pideAlto] = a.piden;
+  const [cabeBajo, cabeAlto] = a.absorbe.anio;
+  const pct = (cabe: number, pide: number) => (pide > 0 ? Math.round((cabe / pide) * 100) : 0);
+  const cubreBajo = pct(cabeBajo, pideBajo);
+  const cubreAlto = pct(cabeAlto, pideAlto);
+
+  return (
+    <aside className="absolute top-3 right-3 bottom-3 z-[1000] w-[290px] max-w-[85vw] overflow-y-auto rounded border border-[#e3e0da] bg-white p-4 text-[13px] shadow-sm">
+      <div className="flex items-start justify-between gap-2">
+        <div>
+          <h2 className="text-[16px] leading-tight font-semibold">{hotel.nom ?? "Hotel"}</h2>
+          <p className="text-[11px] text-[#52514e]">{hotel.cat} · {hotel.barrio}</p>
+        </div>
+        <button type="button" onClick={onCerrar} aria-label="Cerrar"
+          className="text-[18px] leading-none text-[#52514e]">×</button>
       </div>
-      <div className="mt-1 flex justify-between text-[10px] text-[#52514e]">
-        <span>{escala.izquierda}</span>
-        <span>{escala.derecha}</span>
+
+      <Bloque color={COLOR.piso} titulo={`Pisos a ${radio} m`} cifra={n(a.cerca)} unidad="pisos">
+        {n(a.plazas)} plazas · piden {rango(pideBajo, pideAlto)} habitaciones por noche
+      </Bloque>
+      <Bloque color={COLOR.hotel} titulo="El hotel" cifra={n(hotel.hab)} unidad="habitaciones">
+        {n(hotel.plazas)} plazas · libres {n(Math.round(a.libres.anio))} por noche
+      </Bloque>
+      <Bloque color="#24231f" titulo="Puede absorber" cifra={rango(cabeBajo, cabeAlto)}
+        unidad="habitaciones">
+        {cubreBajo === cubreAlto ? `${cubreBajo} %` : `${Math.min(cubreBajo, cubreAlto)}–${Math.max(cubreBajo, cubreAlto)} %`} de lo que piden
+      </Bloque>
+      <p className="mt-4 text-[11px] text-[#52514e]">Solo este hotel, sin contar a los vecinos.</p>
+    </aside>
+  );
+}
+
+function PanelBarrio({ b, onCerrar }: { b: BarrioHoy; onCerrar: () => void }) {
+  const [bajo, alto] = b.turistas_pisos;
+  // Quién gana, en la unidad que cada uno alquila: el hotel, habitaciones; Airbnb, el piso entero.
+  const unidades = b.pisos + b.habitaciones_hoteles;
+  const pisos = unidades ? (b.pisos / unidades) * 100 : 0;
+  const hoteles = unidades ? 100 - pisos : 0;
+  const mas = b.demanda_hoy > 0 ? (b.demanda_2028 / b.demanda_hoy - 1) * 100 : null;
+  return (
+    <aside className="absolute top-3 right-3 bottom-3 z-[1000] w-[290px] max-w-[85vw] overflow-y-auto rounded border border-[#e3e0da] bg-white p-4 text-[13px] shadow-sm">
+      <div className="flex items-start justify-between gap-2">
+        <h2 className="text-[16px] leading-tight font-semibold">{b.barrio}</h2>
+        <button type="button" onClick={onCerrar} aria-label="Cerrar"
+          className="text-[18px] leading-none text-[#52514e]">×</button>
+      </div>
+
+      <Titulo className="mt-3">Pisos frente a habitaciones de hotel</Titulo>
+      <div className="flex h-5 overflow-hidden rounded bg-[#eeece7] text-[11px] font-semibold text-white"
+        role="img" aria-label={`Pisos ${pisos.toFixed(0)} % y hoteles ${hoteles.toFixed(0)} %`}>
+        <div className="flex items-center justify-center" style={{ width: `${pisos}%`, background: COLOR.piso }}>
+          {pisos >= 12 && `${pisos.toFixed(0)} %`}
+        </div>
+        <div className="flex items-center justify-center" style={{ width: `${hoteles}%`, background: COLOR.hotel }}>
+          {hoteles >= 12 && `${hoteles.toFixed(0)} %`}
+        </div>
+      </div>
+      <p className="mt-1 text-[11px] text-[#52514e]">
+        {unidades ? `${n(b.pisos)} pisos · ${n(b.habitaciones_hoteles)} habitaciones` : "Sin alojamiento"}
+      </p>
+
+      <Titulo className="mt-4">Noche mediana</Titulo>
+      <Precio color={COLOR.piso} nombre="Piso entero" precio={b.precio_pisos} banda={b.banda_pisos} />
+      <Precio color={COLOR.hotel} nombre="Habitación de hotel" precio={null} banda={b.banda_hoteles} />
+
+      <Bloque color={COLOR.piso} titulo="Pisos" cifra={rango(bajo, alto)} unidad="turistas">
+        {n(b.plazas_pisos)} plazas · {dinero(b.facturacion_pisos[0])}–{dinero(b.facturacion_pisos[1])} al año
+      </Bloque>
+      <Operador color={COLOR.piso} etiqueta="Anfitrión con más pisos" op={b.operador_pisos}
+        unidad="pisos" vacio="Ningún anfitrión llega a 5 pisos" />
+
+      <Bloque color={COLOR.hotel} titulo="Hoteles" cifra={n(b.turistas_hoteles)} unidad="turistas">
+        {n(b.hoteles)} hoteles · {n(b.plazas_hoteles)} plazas
+      </Bloque>
+      <Operador color={COLOR.hotel} etiqueta="Titular con más hoteles" op={b.operador_hoteles}
+        unidad="hoteles" vacio="Ninguna sociedad reúne 2 hoteles" />
+
+      <Bloque color={COLOR.restaurante} titulo="Restauración" cifra={n(b.restaurantes)} unidad="locales">
+        {n(b.alta)} con demanda alta
+        {mas == null ? "" : <> · clientes en 2028: <b className="text-[#24231f]">{mas > 0 ? "+" : ""}{n(Math.round(mas))} %</b></>}
+      </Bloque>
+      <section className="mt-2 pl-3 text-[11px] leading-snug text-[#52514e]">
+        {b.marca
+          ? <>Nombre más repetido: <b className="text-[#24231f]">{b.marca.nom}</b> ({n(b.marca.locales)})</>
+          : "Ningún nombre se repite"}
+      </section>
+
+      <Link href="/fuentes" className="mt-4 block text-[11px] text-[#52514e] underline underline-offset-2">
+        Supuestos y fuentes →
+      </Link>
+    </aside>
+  );
+}
+
+function Operador({ color, etiqueta, op, unidad, vacio }: {
+  color: string; etiqueta: string; op: { nom: string; n: number } | null; unidad: string;
+  vacio: string;
+}) {
+  return (
+    <section className="mt-2 border-l-[3px] pl-3 text-[11px] leading-snug text-[#52514e]"
+      style={{ borderColor: color }}>
+      {op ? (
+        <>
+          {etiqueta}: <b className="text-[#24231f]">{op.nom}</b> ({n(op.n)} {unidad})
+        </>
+      ) : vacio}
+    </section>
+  );
+}
+
+/** Escala común a todos los barrios, para que dos barras de dos barrios distintos se comparen. */
+const PRECIO_TOPE = 400;
+
+const BANDAS = ["€", "€€", "€€€", "€€€€"];
+
+/** El piso con su euro y su banda; el hotel solo con la banda: un euro de hotel diría más de lo que sabemos. */
+function Precio({ color, nombre, precio, banda }: {
+  color: string; nombre: string; precio: number | null; banda: string | null;
+}) {
+  const ancho = precio != null
+    ? Math.min((precio / PRECIO_TOPE) * 100, 100)
+    : banda ? ((BANDAS.indexOf(banda) + 1) / BANDAS.length) * 100 : 0;
+  return (
+    <div className="mt-2">
+      <div className="flex justify-between text-[12px]">
+        <span>{nombre}</span>
+        <span className="tabular-nums">
+          {precio != null ? <><b>{n(Math.round(precio))} €</b> · {banda}</> : <b>{banda ?? "sin banda"}</b>}
+        </span>
+      </div>
+      <div className="mt-0.5 h-2.5 rounded bg-[#eeece7]">
+        <div className="h-full rounded" style={{ width: `${ancho}%`, background: color }} />
       </div>
     </div>
   );
 }
 
-function Dato({ titulo, valor, fijo }: { titulo: string; valor: string; fijo?: boolean }) {
+function Bloque({ color, titulo, cifra, unidad, children }: {
+  color: string; titulo: string; cifra: string; unidad: string; children: React.ReactNode;
+}) {
   return (
-    <div className={fijo ? "rounded bg-[#f5f4f1] px-2 py-1" : ""}>
-      <dt className="text-[10px] leading-tight text-[#52514e]">{titulo}</dt>
-      <dd className="text-[15px] font-semibold tabular-nums">{valor}</dd>
-    </div>
-  );
-}
-
-function Linea({ titulo, valor, signo }: { titulo: string; valor: number; signo?: boolean }) {
-  // El signo solo se fuerza donde la dirección es la información: «+120» y «120» dicen cosas
-  // distintas cuando la fila es una diferencia.
-  const texto = `${signo && valor > 0 ? "+" : ""}${valor.toLocaleString("es", { useGrouping: "always" })}`;
-  const color = signo ? (valor < 0 ? "text-[#6f3f8a]" : "text-[#2f7a3e]") : "";
-  return (
-    <div className="flex justify-between gap-3">
-      <dt className="text-[#52514e]">{titulo}</dt>
-      <dd className={`font-medium tabular-nums ${color}`}>{texto}</dd>
-    </div>
+    <section className="mt-3 border-l-[3px] pl-3" style={{ borderColor: color }}>
+      <p className="text-[12px] font-medium">{titulo}</p>
+      <p className="tabular-nums">
+        <span className="text-[22px] leading-none font-semibold">{cifra}</span>{" "}
+        <span className="text-[#52514e]">{unidad}</span>
+      </p>
+      <p className="mt-1 text-[11px] leading-snug text-[#52514e]">{children}</p>
+    </section>
   );
 }

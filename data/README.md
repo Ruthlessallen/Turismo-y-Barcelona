@@ -57,6 +57,9 @@ o municipio, no las clasifica ni les atribuye nada.
 
 ## exports — para el navegador
 
-JSON ya recortado y simplificado, generado desde `gold`. Nunca lleva datos a nivel de vivienda:
-hoteles y restaurantes salen como puntos porque son establecimientos abiertos al público; las VUT
-y los anuncios de Airbnb, solo agregados por barrio o municipio.
+JSON ya recortado y simplificado, generado desde `gold`. Hoteles y restaurantes salen como puntos
+porque son establecimientos abiertos al público. Los pisos también salen como punto (decisión del
+2026-10-04), pero solo con lo que pinta el mapa —posición desplazada por la fuente, plazas,
+dormitorios, precio y banda—: sin id, sin nombre del anuncio, sin anfitrión y sin licencia. El
+anfitrión solo sale agregado por barrio, desde 5 pisos. Del hotel sale la sociedad titular, nunca
+una persona física. Los ficheros de `mapa/` los produce `pipeline/export/export_mapa_limpio.py`.

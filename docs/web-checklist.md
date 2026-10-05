@@ -4,11 +4,35 @@ Guion de trabajo para la Fase 2 de `roadmap.md`. **No es un acuerdo cerrado ni u
 feature**: es la lista que se va marcando, y cada bloque pasará por `/feature` cuando toque
 construirlo.
 
-Estado (2026-09-15): **tres páginas en pie**, ninguna de las cuales estaba en esta lista — el
-recorrido de cinco pasos se planteó antes de que existiera el modelo de sustitución.
+Estado (2026-10-05): **cuatro páginas en pie y una por hacer.** El recorrido de cinco pasos de
+más abajo se planteó antes de que existiera el modelo de sustitución; la estructura real de la web
+es la de esta tabla.
 
-| Ruta | Qué es | Paso al que corresponde |
+| Ruta | Qué es | Estado |
 |---|---|---|
+| `/` | Dashboard: solo cifras. Hoteles (hoteles, habitaciones, plazas, bandas, titulares con más hoteles, % de turistas nuevos tras 2028) y Airbnb (pisos, habitaciones, plazas, lo que mueven al año) | hecho |
+| `/mapa` | Tres capas: Airbnb (puntos, facturación), Hoteles (radio de 0 a 500 m: pisos que absorbe), Restauración (demanda hoy y cambio en 2028). Panel por barrio | hecho |
+| `/airbnb` | El embudo de 15.406 anuncios a 6.834 pisos, tarjeta a tarjeta | hecho |
+| `/fuentes` | Fuentes, decisiones, límites del análisis | hecho |
+| `/hoteles` | PEUAT, detalle hotelero, INE, estacionalidad y qué supondría para un hotel que desaparezcan los pisos | **por hacer** |
+| `/mapa-anterior` y `/flujos` | El mapa de sustitución con barra de precio-ubicación y flechas. Se conservan para revisar | no enlazados |
+
+**Decisiones cerradas el 2026-10-04/05**
+
+- Un solo momento, el año medio. Julio queda fuera de la web nueva.
+- Hoteles: solo la banda, nunca el euro. Pisos: precio anunciado y banda.
+- Unidad de alquiler: el hotel, habitaciones; Airbnb, el piso entero.
+- El texto del mapa se recorta al mínimo; lo que explica va a `/fuentes`.
+
+**Pendiente de decidir**
+
+- Si el descarte de pisos sin reseña desde septiembre de 2025 se mantiene (`supuestos.md` → B5).
+- Si se publica la cota superior de las 5.394 licencias sin anuncio (`supuestos.md` → C5).
+- Si los precios de hotel siguen viniendo de varias fuentes, se raspa Booking, o se usa solo la banda.
+- PEUAT: capa de zonas y puntos de hoteles nuevos (no hay dataset de hoteles previstos).
+- Flujos por banda (prototipo hecho, `supuestos.md` → F10): decidir si pasan al mapa.
+
+---|---|---|
 | `/` | Mapa de sustitución 2028: coropleta de saldo y de «sin sitio», con flechas opcionales | 4, convertido en mapa |
 | `/flujos` | Mapa dedicado a los movimientos entre barrios | 4 |
 | `/fuentes` | Fuentes, decisiones, límites del análisis | cubre el «hay que decirlo en la página» del bloque de precios |
