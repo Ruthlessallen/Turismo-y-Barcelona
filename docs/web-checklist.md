@@ -14,7 +14,7 @@ es la de esta tabla.
 | `/mapa` | Tres capas: Airbnb (puntos, facturación), Hoteles (radio de 0 a 500 m: pisos que absorbe), Restauración (demanda hoy y cambio en 2028). Panel por barrio | hecho |
 | `/airbnb` | El embudo de 15.406 anuncios a 4.985 pisos, tarjeta a tarjeta, y debajo el registro oficial y los pisos sin registro | hecho |
 | `/fuentes` | Fuentes, decisiones, límites del análisis | hecho |
-| `/hoteles` | Cifras del INE, ocupación hoy y en 2028 (por banda y mes a mes) y categorías, con un mapa anclado a la derecha (barrios por hoteles y turistas de más, zonas del PEUAT) y debajo los hoteles anunciados | hecho |
+| `/hoteles` | Cifras del INE, ocupación hoy y en 2028 (por banda y mes a mes) y categorías, con un mapa en la columna derecha, sin scroll propio (barrios por hoteles y turistas de más, zonas del PEUAT) y debajo los hoteles anunciados | hecho |
 | `/restauracion` | Las 10 marcas con más locales, los 5 locales y los 5 barrios que más ganan y los 5 que menos | hecho |
 | `/turistas` | Adónde van los turistas de los pisos (distancia, bandas) y los viajeros frente al INE | hecho |
 | `/mapa-anterior` y `/flujos` | El mapa de sustitución con barra de precio-ubicación y flechas. Se conservan para revisar | no enlazados |

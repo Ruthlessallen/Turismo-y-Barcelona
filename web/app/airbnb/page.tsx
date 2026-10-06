@@ -97,8 +97,12 @@ export default function PaginaAirbnb() {
       <header className="shrink-0 px-5 pt-5 sm:px-8">
         <div className="mx-auto max-w-4xl">
           <h1 className="text-[17px] font-semibold tracking-tight">
-            De {n(total)} anuncios a {n(viviendas)} viviendas
+            De {n(total)} anuncios de Airbnb a {n(viviendas)} viviendas con registro
           </h1>
+          <p className="mt-0.5 text-[12px] text-[#52514e]">
+            Los {n(total)} anuncios son todos los que Airbnb publicaba en Barcelona el 24 de junio de
+            2026 (volcado de Inside Airbnb).
+          </p>
         </div>
       </header>
 
@@ -108,24 +112,24 @@ export default function PaginaAirbnb() {
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-wider text-[#52514e]">
-                Quedan
+                Siguen en el análisis
               </p>
               <p className="text-[44px] leading-none font-semibold tabular-nums">
                 {n(estado.quedan)}
               </p>
               <p className="mt-1 text-[13px] text-[#52514e]">
-                anuncios · {n(estado.plazas)} plazas
+                anuncios, con {n(estado.plazas)} plazas
               </p>
             </div>
             <div className="text-right">
               <p className="text-[11px] font-semibold uppercase tracking-wider text-[#52514e]">
-                Descartados
+                Descartados hasta aquí
               </p>
               <p className="text-[26px] leading-none font-semibold tabular-nums text-[#cf4a30]">
                 {n(descartados)}
               </p>
               <p className="mt-1 text-[13px] text-[#52514e]">
-                {((descartados / total) * 100).toFixed(0)}% del volcado
+                anuncios: el {((descartados / total) * 100).toFixed(0)} % de los {n(total)}
               </p>
             </div>
           </div>
@@ -136,6 +140,10 @@ export default function PaginaAirbnb() {
               style={{ width: `${(estado.quedan / total) * 100}%` }}
             />
           </div>
+          <p className="mt-1.5 flex flex-wrap gap-x-4 text-[11px] text-[#52514e]">
+            <span><i className="mr-1 inline-block h-2 w-2 rounded-sm bg-[#2f6fb5]" />siguen en el análisis</span>
+            <span><i className="mr-1 inline-block h-2 w-2 rounded-sm bg-[#f0d9d2]" />descartados</span>
+          </p>
         </section>
 
         {/* Una tarjeta cada vez. El texto de por qué no compite con los otros cinco. */}

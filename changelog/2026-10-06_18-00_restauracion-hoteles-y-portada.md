@@ -18,7 +18,7 @@ ganan y 3.830 pierden.
   2028 y los 5 barrios que más y los 5 que menos, en valor absoluto.
 - **`/hoteles`:** se quita la primera sección (su +80 → 90 % chocaba con el +16 % de la portada: no
   es lo mismo, ocupación frente a turistas). Entran las cifras del INE (de `/turistas`, sin las dos
-  barras de pernoctaciones). **Mapa anclado a la derecha:** barrios pintados por turistas de más en
+  barras de pernoctaciones). **Mapa en la columna derecha, sin scroll propio:** barrios pintados por turistas de más en
   2028, hoteles por barrio y las 12 zonas del PEUAT con interruptor; debajo, los hoteles anunciados.
 - **`/turistas`:** sube «adónde van los turistas de los pisos»; se quitan la primera sección, las
   barras de pernoctaciones y los barrios que ganan y pierden (están en la portada).

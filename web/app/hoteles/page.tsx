@@ -97,8 +97,8 @@ export default function PaginaHoteles() {
           </Seccion>
         </div>
 
-        {/* Anclada a la derecha: el mapa, y debajo los hoteles anunciados. */}
-        <aside className="lg:sticky lg:top-4 lg:max-h-[calc(100dvh-5rem)] lg:self-start lg:overflow-y-auto">
+        {/* Columna derecha: el mapa, y debajo los hoteles anunciados. Sin scroll propio: la página es la que se mueve. */}
+        <aside className="min-w-0">
           <div className="rounded border border-[#e3e0da] bg-white p-3">
             <div className="mb-2 flex items-start justify-between gap-2">
               <p className="text-[12px] leading-snug font-medium">
