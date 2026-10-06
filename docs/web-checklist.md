@@ -12,7 +12,7 @@ es la de esta tabla.
 |---|---|---|
 | `/` | Dashboard: solo cifras. Hoteles (hoteles, habitaciones, plazas, bandas, titulares con más hoteles, % de turistas nuevos tras 2028) y Airbnb (pisos, habitaciones, plazas, lo que mueven al año) | hecho |
 | `/mapa` | Tres capas: Airbnb (puntos, facturación), Hoteles (radio de 0 a 500 m: pisos que absorbe), Restauración (demanda hoy y cambio en 2028). Panel por barrio | hecho |
-| `/airbnb` | El embudo de 15.406 anuncios a 6.834 pisos, tarjeta a tarjeta | hecho |
+| `/airbnb` | El embudo de 15.406 anuncios a 4.985 pisos, tarjeta a tarjeta, y debajo el registro oficial y los pisos sin registro | hecho |
 | `/fuentes` | Fuentes, decisiones, límites del análisis | hecho |
 | `/hoteles` | Ocupación hoy y en 2028 (por banda y mes a mes, INE), categorías y hoteles anunciados | hecho |
 | `/turistas` | Turistas en el conjunto de datos frente al INE, cuánto se alejan y qué barrios suben y bajan | hecho |
@@ -27,6 +27,7 @@ es la de esta tabla.
 - Se mantiene el descarte de los pisos sin reseña desde septiembre de 2025.
 - El reparto de turistas a hoteles es por banda (`modelar_flujos_banda.py`).
 - Portada: top 5 de barrios que ganan y que pierden turistas, y anfitriones con más pisos.
+- Los pisos sin registro acreditado salen del modelo (1.849 de los 6.834; `supuestos.md` → B7).
 
 **Pendiente de decidir**
 
@@ -34,8 +35,6 @@ es la de esta tabla.
 - Si los precios de hotel siguen viniendo de varias fuentes, se raspa Booking, o se usa solo la banda.
 - PEUAT: la capa de zonas en el mapa y verificar si la modificación de 2023 está en vigor. Los hoteles nuevos ya están (cuatro, de prensa).
 - Cuánto subirá el precio de los hoteles (`supuestos.md` → F11).
-- Si los 1.849 pisos sin registro acreditado salen del modelo (`supuestos.md` → C6): con solo los 4.985
-  con registro, 9.102 turistas por noche y ocupación hotelera del 90,2 % en vez del 93,0 %.
 
 ---|---|---|
 | `/` | Mapa de sustitución 2028: coropleta de saldo y de «sin sitio», con flechas opcionales | 4, convertido en mapa |

@@ -60,7 +60,7 @@ export default function PaginaFuentes() {
                 ["barrios.geojson", "Los 73 barrios de la ciudad", "ICGC, simplificado para el navegador"],
                 [
                   "puntos_pisos.json",
-                  "6.834 pisos: posición, plazas, dormitorios, precio de la noche y banda",
+                  "4.985 pisos: posición, plazas, dormitorios, precio de la noche y banda",
                   "export_mapa_limpio.py",
                 ],
                 [
@@ -133,17 +133,18 @@ export default function PaginaFuentes() {
                 desplazada, no la dirección de la vivienda.
               </P>
               <P>
-                De esos 15.406 se llega a <strong>6.834 viviendas</strong> descartando, por este
+                De esos 15.406 se llega a <strong>4.985 viviendas</strong> descartando, por este
                 orden: alojamiento ya reglado (901), habitaciones sueltas sin licencia (3.083),
                 habitaciones de hotel (14), alquiler de temporada de más de 31 noches (1.848),
-                anuncios sin reseñas desde septiembre de 2025 (876) y repeticiones del mismo anuncio
-                (1.850).
+                anuncios sin reseñas desde septiembre de 2025 (876), repeticiones del mismo anuncio
+                (1.850) y, al final, los que no tienen registro acreditado (1.849).
               </P>
               <Aviso>
                 El registro oficial de la ciudad tiene 10.623 licencias con 61.826 plazas. Este análisis
-                mueve 30.067 plazas, las de las 6.834 viviendas anunciadas hoy en Airbnb. Otras 5.394
-                licencias, con 30.980 plazas, no tienen ningún anuncio: no sabemos nada de ellas.
-                Están contadas en la página de Airbnb.
+                mueve 23.766 plazas, las de las 4.985 viviendas con registro acreditado anunciadas
+                hoy en Airbnb. Otras 5.394 licencias, con 30.980 plazas, no tienen ningún anuncio, y
+                1.849 pisos anunciados no tienen registro acreditado: no sabemos nada de ellos. Están
+                contados en la página de Airbnb.
               </Aviso>
             </Fuente>
 
@@ -203,7 +204,7 @@ export default function PaginaFuentes() {
                 No es un registro oficial: no existe un dataset de hoteles previstos. Son cuatro
                 entradas, cada una con su enlace en la página de hoteles. <strong>Casi todo es
                 reforma o cambio de gestión de hoteles que ya existen</strong>: de obra nueva hay 189
-                habitaciones (el ibis budget del 22@), el 3,3% de las 5.706 que piden los pisos. La
+                habitaciones (el ibis budget del 22@), el 4,2% de las 4.486 que piden los pisos. La
                 modificación del PEUAT de 2023 que permite hoteles «singulares» no se ha verificado
                 que siga en vigor.
               </P>
@@ -287,8 +288,8 @@ export default function PaginaFuentes() {
               No existe ninguna estadística pública que diga cuántas noches se alquila un piso
               turístico. Se calcula por dos vías que no comparten supuestos —el calendario del
               anuncio y el recuento de reseñas— y dan <strong>38,3% y 38,8%</strong>. Que coincidan
-              es lo que la hace publicable. Consecuencia: los 6.834 pisos no alojan a 30.067
-              personas cada noche, sino a <strong>11.516</strong>.
+              es lo que la hace publicable. Consecuencia: los 4.985 pisos no alojan a 23.766
+              personas cada noche, sino a <strong>9.102</strong>.
             </Decision>
 
             <Decision titulo="Se publica la banda, no el euro">
@@ -338,9 +339,9 @@ export default function PaginaFuentes() {
               cabeceras={["Toda la ciudad, un año medio", "Habitaciones"]}
               filas={[
                 ["Libres en los hoteles", "8.841"],
-                ["Que piden los pisos", "5.706"],
+                ["Que piden los pisos", "4.486"],
                 ["Sin sitio", "nadie"],
-                ["Ocupación hotelera", "del 80,2% al 93,0%"],
+                ["Ocupación hotelera", "del 80,2% al 90,2%"],
               ]}
             />
 
@@ -349,10 +350,10 @@ export default function PaginaFuentes() {
               hotel de su banda, el más cercano con habitaciones libres; si no queda sitio, va a la
               siguiente más cara. La distancia no limita: si el único hotel libre de su banda está
               al otro lado de la ciudad, va. Los hoteles baratos son el cuello de botella: tienen 57
-              habitaciones libres frente a 1.629 que piden los pisos baratos, así que solo el 34% de
-              los turistas encuentra hotel de su banda, el 46% sube una banda y el 20% sube dos o
+              habitaciones libres frente a 931 que piden los pisos baratos, así que solo el 45% de
+              los turistas encuentra hotel de su banda, el 42% sube una banda y el 13% sube dos o
               más. El volumen acaba en los €€€; la presión de precio es de los €. La mediana de
-              distancia es de 0,37 km, y el 90% llega a menos de 1,6 km. Supone la misma ocupación
+              distancia es de 0,33 km, y el 90% llega a menos de 1,6 km. Supone la misma ocupación
               en todas las bandas, y los hostales probablemente estén más llenos.
             </Decision>
 
@@ -362,15 +363,15 @@ export default function PaginaFuentes() {
               a comer. Cada turista reparte su demanda entre los locales a menos de 200 metros de
               donde duerme. Hoy el de piso cuenta la mitad —tiene cocina— y en 2028, ya en un hotel,
               cuenta entero. <strong>La mitad es un supuesto, no un dato</strong>, y de él sale por sí
-              solo el aumento total (+9,2%). Lo que sí aporta el modelo es dónde: 4.245 locales ganan
-              y 4.326 pierden. El % es sobre estos clientes, no sobre todos los del local.
+              solo el aumento total (+7,5%). Lo que sí aporta el modelo es dónde: 4.409 locales ganan
+              y 3.718 pierden. El % es sobre estos clientes, no sobre todos los del local.
             </Decision>
 
             <Decision titulo="Los turistas se comparan con el INE">
               Los hoteles de este conjunto alojan a 56.715 turistas por noche; el INE cuenta 60.133
               pernoctaciones por noche (ago 2025 – jul 2026), un 6% más; en personas, 8,7 millones de viajeros al año frente a 9,2. Los pisos son entre el
-              17 y el 20% de los turistas de este conjunto de datos, entre 11.516 y
-              14.432 por noche y, a 3 noches de estancia —un supuesto—, entre 1,4 y 1,8 millones de
+              14 y el 17% de los turistas de este conjunto de datos, entre 9.102 y
+              11.408 por noche y, a 3 noches de estancia —un supuesto—, entre 1,1 y 1,4 millones de
               turistas al año. El INE no mide pisos.
             </Decision>
           </Seccion>
@@ -383,8 +384,9 @@ export default function PaginaFuentes() {
               dormitorios, el precio y la banda. <strong>Nunca</strong> su identificador, el nombre
               del anuncio, el anfitrión ni el número de licencia. El anfitrión solo aparece agregado:
               por barrio si tiene cinco pisos o más en él, y en la portada los cinco con más pisos de
-              la ciudad, siempre que tengan al menos veinte. Es el nombre público en Airbnb de un
-              operador; un particular con pocos pisos nunca sale.
+              la ciudad, siempre que tengan al menos veinte. Es el nombre público en Airbnb: con tantos
+              pisos es un operador, aunque el nombre pueda ser el de una persona. Quien tiene uno o
+              dos pisos no sale en ningún ranking.
             </P>
             <P>
               Del hotel se publica la sociedad titular, nunca una persona física. Entre los titulares
@@ -401,8 +403,9 @@ export default function PaginaFuentes() {
           <Seccion id="limites" numero={7} titulo="Lo que esto no puede decir">
             <ol className="ml-4 list-decimal space-y-2 text-[14px] leading-relaxed text-[#3a3935] marker:text-[#a3a09b]">
               <li>
-                <strong>No cubre las 10.623 licencias de la ciudad</strong>, cubre 6.834 viviendas
-                anunciadas en Airbnb. 5.394 licencias no tienen ningún anuncio y no están.
+                <strong>No cubre las 10.623 licencias de la ciudad</strong>, cubre 4.985 viviendas
+                con registro acreditado anunciadas en Airbnb. 5.394 licencias no tienen ningún
+                anuncio y 1.849 pisos anunciados no tienen registro acreditado: no están.
               </li>
               <li>
                 <strong>No sabe qué quiere un turista.</strong> Qué hotel elige, o si prefiere precio

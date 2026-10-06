@@ -255,7 +255,11 @@ def licencias() -> dict:
     reg["pl"] = pd.to_numeric(reg["NUMERO_PLACES"], errors="coerce")
     a = pd.read_csv(GOLD / "airbnb_para_web.csv", low_memory=False,
                     usecols=["licencia_norm", "accommodates", "estado_licencia", "motivo_estado"])
-    x = pd.read_csv(GOLD / "airbnb_excluidos_web.csv", low_memory=False, usecols=["licencia_norm"])
+    x = pd.read_csv(GOLD / "airbnb_excluidos_web.csv", low_memory=False,
+                    usecols=["licencia_norm", "accommodates", "motivo_estado", "motivo_exclusion"])
+    # Los pisos sin registro acreditado ya no estan en `airbnb_para_web.csv`
+    # (`gold/separar_sin_registro.py`): viven en los excluidos con su motivo.
+    sin_reg = x[x["motivo_exclusion"] == "sin_registro_acreditado"]
     en_pisos = set(a["licencia_norm"].dropna().str.upper())
     en_descartados = set(x["licencia_norm"].dropna().str.upper())
     todas = set(reg["h"])
@@ -274,7 +278,7 @@ def licencias() -> dict:
     reg["anio"] = pd.to_numeric(reg["N_EXPEDIENT"].astype(str).str.extract(r"-(\d{4})-")[0], errors="coerce")
     distrito = (reg.groupby("NOM_DISTRICTE").size().sort_values(ascending=False))
 
-    # Los 6.834 pisos, segun lo que su anuncio dice de la licencia y lo que el registro contesta.
+    # Los 6.834 pisos de antes de separar a los que no tienen registro, segun lo que su anuncio dice de la licencia y lo que el registro contesta.
     # `motivo_estado` es la razon que dejo el pipeline al contrastar el anuncio con el registro.
     GRUPOS = {
         "numero_imposible": ["número por encima del máximo emitido",
@@ -289,13 +293,15 @@ def licencias() -> dict:
     }
 
     def contar(motivos):
-        g = a[a["motivo_estado"].isin(motivos)]
+        g = sin_reg[sin_reg["motivo_estado"].isin(motivos)]
         return {"pisos": len(g), "plazas": int(g["accommodates"].sum())}
 
-    con_registro = a[a["estado_licencia"] == "con_licencia"]
+    con_registro = a
     return {
         "pisos_estado": {
-            "total": {"pisos": len(a), "plazas": int(a["accommodates"].sum())},
+            # `total` es lo que habia antes de separar a los que no tienen registro acreditado.
+            "total": {"pisos": len(a) + len(sin_reg),
+                      "plazas": int(a["accommodates"].sum() + sin_reg["accommodates"].sum())},
             "con_registro": {"pisos": len(con_registro), "plazas": int(con_registro["accommodates"].sum())},
             "no_acreditado": {
                 **contar(sum((GRUPOS[k] for k in ("numero_imposible", "numero_no_consta", "numero_de_otra_cosa")), [])),

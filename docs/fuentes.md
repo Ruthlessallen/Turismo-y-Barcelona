@@ -25,7 +25,7 @@ antes, en el pipeline, y queda en el repositorio.
 | Fichero que pide el navegador | Qué contiene | Sale de |
 |---|---|---|
 | `/data/geo/barrios.geojson` | Los 73 barrios de la ciudad | ICGC / Inside Airbnb, vía `export/preparar_geometria_web.py` |
-| `/data/mapa/puntos_pisos.json` | 6.834 pisos: posición, plazas, dormitorios, precio de la noche, banda | `export/export_mapa_limpio.py` |
+| `/data/mapa/puntos_pisos.json` | 4.985 pisos: posición, plazas, dormitorios, precio de la noche, banda | `export/export_mapa_limpio.py` |
 | `/data/mapa/puntos_hoteles.json` | 750 hoteles: habitaciones, plazas, banda, titular | `export/export_mapa_limpio.py` |
 | `/data/mapa/puntos_restaurantes.json` | 9.479 locales: demanda hoy y en 2028 | `export/export_mapa_limpio.py` |
 | `/data/mapa/barrios_hoy.json` | Las cifras de cada uno de los 73 barrios | `export/export_mapa_limpio.py` |
@@ -97,14 +97,16 @@ Cualquier ambigüedad se deja sin cruzar y se marca.
   esa posición desplazada, no la dirección real de la vivienda.
 - **El símbolo `$` del CSV crudo es un artefacto de su exportador.** El precio es en euros.
 
-De esos 15.406 se llega a **6.834 viviendas** aplicando seis filtros encadenados, cada uno con su
+De esos 15.406 se llega a **4.985 viviendas** aplicando siete filtros encadenados, cada uno con su
 recuento en `criba.md`: alojamiento ya reglado (901), habitaciones sueltas sin licencia (3.083),
 habitaciones de hotel (14), alquiler de temporada de más de 31 noches (1.848), anuncios sin reseñas
-desde septiembre de 2025 (876) y repeticiones del mismo anuncio (1.850).
+desde septiembre de 2025 (876), repeticiones del mismo anuncio (1.850) y, el último, **pisos sin
+registro acreditado (1.849)**: la ley quita licencias y estos no tienen ninguna acreditada que
+perder (`supuestos.md` → B7).
 
 **El salto que hay que decir en voz alta:** el registro oficial de la ciudad tiene 10.623 licencias
-únicas y 61.826 plazas. Nosotros movemos los turistas de 6.834 viviendas anunciadas hoy en Airbnb — y no sus 30.067
-plazas declaradas, sino las **11.516 personas** que hay dentro una noche cualquiera, porque esos
+únicas y 61.826 plazas. Nosotros movemos los turistas de 4.985 viviendas con registro anunciadas hoy en Airbnb — y no sus
+23.766 plazas declaradas, sino las **9.102 personas** que hay dentro una noche cualquiera, porque esos
 pisos no se llenan los 365 días. Las que no se anuncian en Airbnb no están en el mapa.
 
 ### 2.4 INE — Encuesta de Ocupación Hotelera
@@ -184,7 +186,7 @@ entradas, cada una con su enlace:
 
 Solo las dos con dirección conocida llevan coordenada (ICGC) y salen en el mapa con una
 exclamación. **Casi todo lo anunciado es reforma o cambio de gestión**: de obra nueva hay 189
-habitaciones, el 3,3 % de las 5.706 que piden los pisos en un año medio. Sobre el PEUAT, las
+habitaciones, el 4,2 % de las 4.486 que piden los pisos en un año medio. Sobre el PEUAT, las
 fuentes dicen que en 2022 el 22@ pasó a la zona 2 (no abre un hotel nuevo salvo que cierre otro) y
 que en noviembre de 2023 se aprobó una modificación que permite proyectos «singulares»; **no se ha
 verificado su vigencia**. Quedan fuera pistas sin ubicación ni habitaciones (Círculo Condal, Akeah)
@@ -264,7 +266,7 @@ cuántas noches se alquila un piso turístico. Se calcula por dos vías independ
 estancias de 4 noches la segunda sube al 48,6%, así que la horquilla honesta es 38-48% y se toma el
 extremo bajo: es el que coincide con el calendario, que no supone nada.
 
-Consecuencia: los 6.834 pisos no alojan a 30.067 personas cada noche, sino a **11.516**.
+Consecuencia: los 4.985 pisos no alojan a 23.766 personas cada noche, sino a **9.102**.
 
 **La estacionalidad hotelera se aplica a Airbnb.** El volcado es del 24 de junio y se lleva a
 equivalente anual con el factor 1,188 de la serie del INE, **porque no existe serie estacional del
@@ -291,7 +293,7 @@ no se pueden sumar.
 | Un año medio, toda la ciudad | Habitaciones |
 |---|---|
 | Libres en los hoteles | 8.841 |
-| Que piden los pisos | 5.706 |
+| Que piden los pisos | 4.486 |
 | Sin sitio | nadie |
 
 **b) Los restaurantes: solo se mira a quien hoy cocina.** Los locales ya tienen clientes y eso no
@@ -302,8 +304,8 @@ reparte su demanda a partes iguales entre los locales a menos de 200 m de donde 
 - **Hoy**, el turista de piso cuenta la **mitad** (tiene cocina). **En 2028**, ya en un hotel,
   cuenta **entero**.
 - **La mitad es un supuesto, no un dato** (`PESO_PISO_EN_RESTAURACION`). De él sale por sí solo el
-  aumento total (62.462 → 68.240 clientes potenciales por noche, +9,2 %). **Lo que sí aporta el
-  modelo es dónde**: 4.245 locales ganan y 4.326 pierden.
+  aumento total (61.252 → 65.816 clientes potenciales por noche, +7,5 %). **Lo que sí aporta el
+  modelo es dónde**: 4.409 locales ganan y 3.718 pierden.
 - El % de cada local es sobre estos clientes, **no sobre todos los suyos**: los vecinos y el
   turista de hotel de siempre no están.
 - No hay plazas de los locales: el censo no las trae. Las sillas de terraza (127.482) se
@@ -318,26 +320,26 @@ limita: si el único hotel libre de su banda está al otro lado de la ciudad, va
 
 Los pisos eligen en orden aleatorio con semilla fija: el orden decide quién se queda con las
 habitaciones escasas de una banda, no cuántos caben. Con tres órdenes distintos la mediana de
-distancia se mueve entre 0,37 y 0,38 km. Supone la misma ocupación del 80,2 % en todas las bandas, y
+distancia se mueve entre 0,33 y 0,34 km. Supone la misma ocupación del 80,2 % en todas las bandas, y
 los hostales probablemente estén más llenos.
 
 | Banda (por plaza) | Habitaciones libres en hoteles | Que piden los pisos |
 |---|---|---|
-| € | 57 | 1.629 |
-| €€ | 1.392 | 2.967 |
-| €€€ | 5.065 | 1.007 |
-| €€€€ | 2.327 | 103 |
+| € | 57 | 931 |
+| €€ | 1.392 | 2.575 |
+| €€€ | 5.065 | 895 |
+| €€€€ | 2.327 | 85 |
 
-- **Los hoteles baratos son el cuello de botella.** Solo el **34 %** de los turistas encuentra hotel
-  de su banda, el 46 % sube una banda y el 20 % sube dos o más. El volumen acaba en los €€€ (72 %),
-  pero la **presión de precio** es de los €: 28 habitaciones pedidas por cada una libre.
-- **Cuánto se alejan:** mediana de 0,37 km, media de 0,67, el 90 % a menos de 1,6 km, el 6,5 % a más
+- **Los hoteles baratos son el cuello de botella.** Solo el **45 %** de los turistas encuentra hotel
+  de su banda, el 42 % sube una banda y el 13 % sube dos o más. El volumen acaba en los €€€ (65 %),
+  pero la **presión de precio** es de los €: 16 habitaciones pedidas por cada una libre.
+- **Cuánto se alejan:** mediana de 0,33 km, media de 0,65, el 90 % a menos de 1,6 km, el 6,6 % a más
   de 2 km, máximo 7,3 km.
-- **Qué barrios suben y bajan:** ganan turistas el Raval (+731 por noche), el Parc i la Llacuna del
-  Poblenou (+451) y Hostafrancs (+286); pierden la Sagrada Família (−805, −63 %), la Vila de Gràcia
-  (−604, −50 %) y Sant Antoni (−503, −29 %). Un barrio con muchos pisos y pocos hoteles pierde.
-- **Ocupación hotelera:** pasa del 80,2 % al **93,0 %** en un año medio. Por banda, los € y los €€
-  llegan al 100 %, los €€€ al 96,4 % y los €€€€ al 81,1 %.
+- **Qué barrios suben y bajan:** ganan turistas el Raval (+525 por noche), el Parc i la Llacuna del
+  Poblenou (+232) y Sant Gervasi - Galvany (+220); pierden la Sagrada Família (−688, −59 %), la Vila
+  de Gràcia (−490, −45 %) y Sant Antoni (−363, −23 %). Un barrio con muchos pisos y pocos hoteles pierde.
+- **Ocupación hotelera:** pasa del 80,2 % al **90,2 %** en un año medio. Por banda, los € y los €€
+  llegan al 100 %, los €€€ al 91,7 % y los €€€€ al 80,9 %.
 
 **d) Qué recibe cada hotel.** El mapa enseña, para cada hotel, las habitaciones que tiene, las
 ocupadas hoy (80,2 %), las ocupadas en 2028 (esas más las que recibe de los pisos según este
@@ -347,21 +349,22 @@ cerca (pisos, plazas y habitaciones), sin pasar por el reparto.
 **e) Turistas en el conjunto de datos y frente al INE.** Hoteles: plazas × 67,9 % de ocupación =
 **56.715 turistas por noche**, frente a **60.133 pernoctaciones por noche** del INE (ago 2025 –
 jul 2026): un 6 % menos, que es lo esperable de un conjunto sin todos los hostales y pensiones.
-Pisos: 11.516–14.432 por noche (38,3–48 %), 4,2–5,3 millones de pernoctaciones al año y, a **3
-noches de estancia (supuesto)**, 1,4–1,8 millones de turistas. El INE: 9,2 millones de viajeros,
+Pisos: 9.102–11.408 por noche (38,3–48 %), 3,3–4,2 millones de pernoctaciones al año y, a **3
+noches de estancia (supuesto)**, 1,1–1,4 millones de turistas. El INE: 9,2 millones de viajeros,
 21,9 millones de pernoctaciones, 2,38 noches de estancia y 82 % de extranjeros. No mide pisos.
 **En personas:** nuestros hoteles son 56.715 × 365 / 2,38 = **8,7 millones de viajeros** al año frente
-a los 9,2 del INE, y los pisos, **entre el 17 y el 20 % de los turistas de nuestro conjunto de datos** (por noche:
-11.516–14.432 en pisos frente a 56.715 en hoteles; no interviene la estancia). Lo que el INE cuenta
+a los 9,2 del INE, y los pisos, **entre el 14 y el 17 % de los turistas de nuestro conjunto de datos** (por noche:
+9.102–11.408 en pisos frente a 56.715 en hoteles; no interviene la estancia). Lo que el INE cuenta
 en personas, de dónde vienen y cuánto se quedan, nuestros datos no lo tienen: contamos camas y
 noches.
 
 **f) Licencias y pisos sin registro** (`licencias.json`, última tarjeta de `/airbnb`). Del registro
 oficial de la ciudad (10.623 licencias únicas, 61.826 plazas) se cruzan por número de licencia con
-los anuncios: 4.756 licencias están entre los 6.834 pisos, 473 solo con anuncios descartados y
-**5.394 no tienen ningún anuncio** (30.980 plazas). Aparte, dentro de los 6.834 hay 1.849 pisos sin
-registro acreditado (334 con un número imposible, 1.351 que no declaran licencia válida). Detalle y
-cautelas en `supuestos.md` → C5 y C6. **Hoy esos 1.849 siguen contados** como turistas a realojar.
+los anuncios: 4.736 licencias están entre los 4.985 pisos, 493 solo con anuncios descartados y
+**5.394 no tienen ningún anuncio** (30.980 plazas). Los 1.849 pisos sin registro acreditado
+(334 con un número imposible, 1.351 que no declaran licencia válida) **quedan fuera del análisis**
+desde el 2026-10-06 y se cuentan debajo de la tarjeta de `/airbnb`. Detalle y cautelas en
+`supuestos.md` → C5, C6 y B7.
 
 ### 3.3 Lo que nunca sale del pipeline
 
@@ -370,8 +373,9 @@ cautelas en `supuestos.md` → C5 y C6. **Hoy esos 1.849 siguen contados** como 
   decimales—, plazas, dormitorios, precio y banda. **Sin id, sin nombre del anuncio, sin anfitrión
   y sin número de licencia.** El anfitrión solo aparece agregado: por barrio si tiene 5 pisos o más en él, y en la portada los
   cinco con más pisos de la ciudad, siempre que tengan al menos 20 (Sweett, 265; AB Apartment
-  Barcelona, 236…). `host_name` es el nombre público en Airbnb; un particular con pocos pisos nunca
-  sale.
+  Barcelona, 232…). `host_name` es el nombre público en Airbnb, y el umbral es una cautela nuestra,
+  no una exigencia legal: con tantos pisos es un operador, aunque el nombre pueda ser el de una
+  persona. Quien tiene uno o dos pisos no sale en ningún ranking.
 - **Del hotel, la sociedad titular** (razón social del Registre de Turisme), nunca una persona
   física: el marcador `No aplica` del registro se respeta y no se publica.
 - **Nombres, DNI y datos de titulares particulares.**
@@ -386,8 +390,9 @@ que no tenemos.
 
 ## 4. Lo que este trabajo no puede decir
 
-1. **No cubre las 10.623 licencias de la ciudad, cubre 6.834 viviendas anunciadas en Airbnb.**
-   5.394 licencias, con 30.980 plazas, no tienen ningún anuncio y no están (`supuestos.md` → C5).
+1. **No cubre las 10.623 licencias de la ciudad, cubre 4.985 viviendas con registro anunciadas en
+   Airbnb.** 5.394 licencias, con 30.980 plazas, no tienen ningún anuncio, y 1.849 pisos anunciados
+   no tienen registro acreditado: no están (`supuestos.md` → C5 y B7).
 2. **No sabe qué quiere un turista.** Por eso la barra de precio-ubicación la mueve quien mira, y
    no hay un escenario "correcto" marcado.
 3. **No predice qué harán los hoteles.** El modelo reparte a capacidad y precio de hoy. Si los

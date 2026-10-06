@@ -87,15 +87,17 @@ export default function PaginaAirbnb() {
   const descartados = total - estado.quedan;
   const enElFinal = paso === ultimo;
   const enLicencias = paso === fin;
+  const viviendas = criba.pasos[criba.pasos.length - 1].quedan;
 
   return (
     // Sin scroll de página a partir de tableta: la tarjeta se queda quieta y, si su texto no cabe,
     // scrollea ella sola. En móvil se deja fluir — forzar la altura ahí recorta el texto.
+    <>
     <main className="flex min-h-full w-full flex-col bg-[#faf9f7] text-[#24231f] sm:h-full sm:overflow-hidden">
       <header className="shrink-0 px-5 pt-5 sm:px-8">
         <div className="mx-auto max-w-4xl">
           <h1 className="text-[17px] font-semibold tracking-tight">
-            De 15.406 anuncios a 6.834 viviendas
+            De {n(total)} anuncios a {n(viviendas)} viviendas
           </h1>
         </div>
       </header>
@@ -159,7 +161,8 @@ export default function PaginaAirbnb() {
                 </p>
                 {enElFinal && (
                   <p className="mt-4 max-w-xl rounded border-l-2 border-[#d8d5cf] bg-[#faf9f7] px-4 py-3 text-[13px] leading-relaxed text-[#52514e]">
-                    Quedan <strong>6.834 viviendas</strong> y sus <strong>30.067 plazas</strong>.{" "}
+                    Quedan <strong>{n(estado.quedan)} viviendas</strong> y sus{" "}
+                    <strong>{n(estado.plazas)} plazas</strong>.{" "}
                     <strong>No son todas las licencias de Barcelona:</strong> mira la última tarjeta.
                   </p>
                 )}
@@ -218,21 +221,32 @@ export default function PaginaAirbnb() {
         </section>
 
         <div className="flex shrink-0 items-center justify-between gap-4 text-[11px] text-[#52514e]">
-          <span>Usa las flechas del teclado, o pincha los puntos.</span>
+          {enLicencias ? (
+            <a href="#registro" className="font-medium underline underline-offset-2">
+              Más datos del registro, abajo ↓
+            </a>
+          ) : (
+            <span>Usa las flechas del teclado, o pincha los puntos.</span>
+          )}
           <Link href="/fuentes" className="underline underline-offset-2">
             de dónde sale cada cifra →
           </Link>
         </div>
       </div>
     </main>
+
+    {/* Lo que el embudo no ve, fuera de la tarjeta: debajo, con la página ya con scroll. */}
+    {enLicencias && <DatosDebajo lic={lic} />}
+    </>
   );
 }
 
-/** Lo que el embudo no ve: licencias del registro sin ningún anuncio en Airbnb. */
+/** Lo que el embudo no ve: licencias del registro sin ningún anuncio en Airbnb. Solo la barra. */
 function TarjetaLicencias({ lic }: { lic: Licencias }) {
   const total = lic.registro.plazas;
   const trozos = [
-    { clave: "en los 6.834 pisos", plazas: lic.con_anuncio.plazas, estilo: { background: "#2f6fb5" } },
+    { clave: `en los ${n(lic.pisos_estado.con_registro.pisos)} pisos`, plazas: lic.con_anuncio.plazas,
+      estilo: { background: "#2f6fb5" } },
     { clave: "solo con anuncios descartados", plazas: lic.solo_descartados.plazas, estilo: { background: "#9dbbdc" } },
     {
       clave: "sin ningún anuncio",
@@ -266,22 +280,31 @@ function TarjetaLicencias({ lic }: { lic: Licencias }) {
           </li>
         ))}
       </ul>
-
-      <p className="mt-4 max-w-xl text-[14px] leading-relaxed text-[#3a3935]">
-        El registro oficial de la ciudad tiene <strong>{n(lic.registro.licencias)} licencias</strong> y{" "}
-        <strong>{n(lic.registro.plazas)} plazas</strong>. Airbnb enseña 30.067. De las licencias sin
-        anuncio no sabemos nada: pueden estar en otra plataforma, dormidas o sin uso. Aquí no
-        cuentan, pero si todas estuvieran activas serían hasta{" "}
-        <strong>{n(lic.sin_anuncio.plazas)} plazas más</strong>.
-      </p>
-      <p className="mt-2 max-w-xl text-[13px] leading-relaxed text-[#52514e]">
-        Y en los pisos que sí casan con una licencia, Airbnb declara{" "}
-        {n(lic.casadas.plazas_airbnb)} plazas y el registro {n(lic.casadas.plazas_registro)}.
-      </p>
-
-      <Registro lic={lic} />
-      <SinRegistro lic={lic} />
     </>
+  );
+}
+
+/** Todo lo demás, debajo de la tarjeta: el registro oficial y los pisos sin registro. */
+function DatosDebajo({ lic }: { lic: Licencias }) {
+  return (
+    <div id="registro" className="mx-auto w-full max-w-4xl px-5 pb-10 sm:px-8">
+      <div className="rounded border border-[#e3e0da] bg-white px-6 py-6 sm:px-10">
+        <p className="max-w-xl text-[14px] leading-relaxed text-[#3a3935]">
+          El registro oficial de la ciudad tiene <strong>{n(lic.registro.licencias)} licencias</strong> y{" "}
+          <strong>{n(lic.registro.plazas)} plazas</strong>. Los pisos que analizamos declaran{" "}
+          {n(lic.pisos_estado.con_registro.plazas)}. De las licencias sin anuncio no sabemos nada: pueden
+          estar en otra plataforma, dormidas o sin uso. Aquí no cuentan, pero si todas estuvieran activas
+          serían hasta <strong>{n(lic.sin_anuncio.plazas)} plazas más</strong>.
+        </p>
+        <p className="mt-2 max-w-xl text-[13px] leading-relaxed text-[#52514e]">
+          En los pisos que sí casan con una licencia, Airbnb declara {n(lic.casadas.plazas_airbnb)} plazas y el
+          registro {n(lic.casadas.plazas_registro)}.
+        </p>
+
+        <Registro lic={lic} />
+        <SinRegistro lic={lic} />
+      </div>
+    </div>
   );
 }
 
@@ -322,21 +345,21 @@ function Registro({ lic }: { lic: Licencias }) {
   );
 }
 
-/** Pisos dentro de los 6.834 cuya licencia no se puede acreditar. */
+/** Pisos anunciados cuya licencia no se puede acreditar: el último descarte del embudo. */
 function SinRegistro({ lic }: { lic: Licencias }) {
   const e = lic.pisos_estado;
   const sin = e.no_acreditado.pisos + e.sin_registro.pisos;
   const plazasSin = e.no_acreditado.plazas + e.sin_registro.plazas;
   const pct = (v: number) => `${Math.round((v / e.total.plazas) * 100)} %`;
   const trozos = [
-    { clave: "con registro", g: e.con_registro, color: "#2f6fb5" },
+    { clave: "con registro, analizados", g: e.con_registro, color: "#2f6fb5" },
     { clave: "registro que no consta", g: e.no_acreditado, color: "#a0521a" },
     { clave: "sin registro", g: e.sin_registro, color: "#cf4a30" },
   ];
   return (
     <section className="mt-8 max-w-xl border-t border-[#e3e0da] pt-5">
       <p className="text-[11px] font-semibold tracking-wider text-[#cf4a30] uppercase">
-        Sin registro válido · dentro de los {n(e.total.pisos)}
+        Sin registro acreditado · fuera del análisis (último descarte)
       </p>
       <h3 className="mt-1 text-[18px] leading-tight font-semibold">
         {n(sin)} pisos, {n(plazasSin)} plazas ({pct(plazasSin)})
@@ -386,8 +409,8 @@ function SinRegistro({ lic }: { lic: Licencias }) {
 
       <p className="mt-5 rounded border-l-2 border-[#cf4a30] bg-[#faf9f7] px-4 py-3 text-[13px] leading-relaxed text-[#3a3935]">
         La ley de 2028 quita licencias, y estos pisos no tienen ninguna acreditada que quitar. Si siguen
-        operando, será fuera del mercado legal. <b>Siguen contados dentro de los {n(e.total.pisos)}</b>:
-        ningún dato dice si se irán o se quedarán.
+        operando, será fuera del mercado legal, y no hay dato que diga que se vayan. <b>No cuentan</b> como
+        turistas que haya que realojar.
       </p>
     </section>
   );

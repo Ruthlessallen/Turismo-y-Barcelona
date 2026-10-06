@@ -19,11 +19,27 @@
     número imposible) y 1.351 deberían tenerlo y no lo declaran. 1.849 pisos, 6.301 plazas, el 21 %.
 - La tarjeta de `/airbnb` ahora scrollea dentro de sí misma cuando el contenido no cabe.
 
-## Importante: siguen contados
+## Decisión posterior: los pisos sin registro salen del modelo
 
-Esos 1.849 pisos **siguen dentro de los 6.834** y del modelo. Solo con los 4.985 con registro serían
-9.102 turistas por noche (11.516 ahora) y una ocupación hotelera del 90,2 % (93,0 % ahora). Está
-calculado, no publicado.
+Esa misma mañana se decidió quitarlos: la ley quita licencias, y estos 1.849 pisos (6.301 plazas) no
+tienen ninguna acreditada. Si siguen operando, será fuera del mercado legal.
+
+- `gold/separar_sin_registro.py` (nuevo, idempotente) los mueve de `airbnb_para_web.csv` a
+  `airbnb_excluidos_web.csv` con `motivo_exclusion = sin_registro_acreditado`. Es el séptimo y último
+  descarte del embudo: **15.406 → 4.985**.
+- **Efecto, un año medio:** 9.102 turistas por noche (antes 11.516), 4.486 habitaciones de hotel
+  absorbidas (5.706), ocupación hotelera 90,2 % (93,0 %), turistas nuevos en hoteles +16,0 %
+  (+20,3 %), facturación 185–232 M€ (222–278), restaurantes +7,5 % (+9,2 %), con 4.409 locales que
+  ganan y 3.718 que pierden. **En julio ya no falta sitio** (antes, 1.273 turistas).
+- `/airbnb`: la tarjeta final se queda en la barra de plazas y sus tres leyendas; el registro
+  oficial y los pisos sin registro pasan **debajo** de la tarjeta, con la página ya con scroll.
+- Textos con la cifra vieja corregidos en `/fuentes`, `/flujos`, `/mapa-anterior` y los `.md`.
+- Para volver atrás: no ejecutar `separar_sin_registro.py` y reejecutar el notebook.
+
+## Sobre los anfitriones
+
+Se había escrito que «un particular nunca sale». Era exagerado: el nombre es el público en Airbnb y
+el umbral es una cautela nuestra. Reescrito en `/fuentes` y `fuentes.md`.
 
 ## Corregido en el camino
 

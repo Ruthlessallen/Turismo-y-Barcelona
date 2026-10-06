@@ -1,11 +1,11 @@
 momento,etiqueta,escenario,w,turistas_colocados,turistas_sin_sitio,habitaciones_sin_sitio,km_mediano,sobrecoste_mediano,hoteles_usados,ocupacion_hotel,ocupacion_airbnb,habitaciones_hotel,habitaciones_libres,turistas_a_realojar
-anio_medio,Un ano medio,solo_precio,0.0,11515,0,0,2.3,19.3,709,0.802,0.383,44653,8841,11516
-anio_medio,Un ano medio,sobre_todo_precio,0.25,11515,0,0,0.48,18.2,708,0.802,0.383,44653,8841,11516
-anio_medio,Un ano medio,equilibrio,0.5,11515,0,0,0.34,20.8,695,0.802,0.383,44653,8841,11516
-anio_medio,Un ano medio,sobre_todo_barrio,0.75,11515,0,0,0.25,24.1,699,0.802,0.383,44653,8841,11516
-anio_medio,Un ano medio,solo_barrio,1.0,11515,0,0,0.22,33.2,729,0.802,0.383,44653,8841,11516
-julio,"Julio, la punta",solo_precio,0.0,12142,1273,619,2.31,23.4,757,0.865,0.4462,44653,6028,13416
-julio,"Julio, la punta",sobre_todo_precio,0.25,12142,1273,619,0.64,24.9,757,0.865,0.4462,44653,6028,13416
-julio,"Julio, la punta",equilibrio,0.5,12142,1273,619,0.51,26.7,757,0.865,0.4462,44653,6028,13416
-julio,"Julio, la punta",sobre_todo_barrio,0.75,12142,1273,619,0.42,29.3,757,0.865,0.4462,44653,6028,13416
-julio,"Julio, la punta",solo_barrio,1.0,12142,1273,619,0.38,34.3,757,0.865,0.4462,44653,6028,13416
+anio_medio,Un ano medio,solo_precio,0.0,9102,0,0,2.31,0.1,689,0.802,0.383,44653,8841,9102
+anio_medio,Un ano medio,sobre_todo_precio,0.25,9102,0,0,0.45,5.9,671,0.802,0.383,44653,8841,9102
+anio_medio,Un ano medio,equilibrio,0.5,9102,0,0,0.31,10.8,653,0.802,0.383,44653,8841,9102
+anio_medio,Un ano medio,sobre_todo_barrio,0.75,9102,0,0,0.23,16.5,644,0.802,0.383,44653,8841,9102
+anio_medio,Un ano medio,solo_barrio,1.0,9102,0,0,0.2,26.9,667,0.802,0.383,44653,8841,9102
+julio,"Julio, la punta",solo_precio,0.0,10604,0,0,2.31,17.8,732,0.865,0.4462,44653,6028,10604
+julio,"Julio, la punta",sobre_todo_precio,0.25,10604,0,0,0.6,16.8,733,0.865,0.4462,44653,6028,10604
+julio,"Julio, la punta",equilibrio,0.5,10604,0,0,0.45,18.8,736,0.865,0.4462,44653,6028,10604
+julio,"Julio, la punta",sobre_todo_barrio,0.75,10604,0,0,0.37,23.7,728,0.865,0.4462,44653,6028,10604
+julio,"Julio, la punta",solo_barrio,1.0,10604,0,0,0.33,31.5,739,0.865,0.4462,44653,6028,10604

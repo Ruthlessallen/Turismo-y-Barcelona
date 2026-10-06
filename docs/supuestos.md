@@ -65,7 +65,7 @@ incorpora un descuento aplicado.
 
 ---
 
-## B. La criba de 15.406 a 6.834
+## B. La criba de 15.406 a 4.985 (6.834 tras los seis primeros descartes)
 
 Cada filtro es un supuesto sobre qué alcanza la eliminación de 2028. Los recuentos exactos están en
 `criba.md`, generado del dato.
@@ -162,7 +162,7 @@ los 876:
 
 Ninguno es un anuncio nuevo: todos tienen al menos una reseña, y la mediana de la última es
 octubre de 2024. Lo que está en juego es poco: solo los **293 con licencia** son lo que la ley de
-2028 elimina (+4,3 % sobre los 6.834 pisos). Los otros 583 no tienen licencia que eliminar. Esos 293
+2028 elimina (+4,3 % sobre los 6.834 pisos de entonces). Los otros 583 no tienen licencia que eliminar. Esos 293
 ya se publican aparte como capacidad latente, sin sumarlos a la oferta anunciada.
 
 ### B6. Los duplicados se deciden por licencia, no por nombre y coordenadas
@@ -170,6 +170,28 @@ ya se publican aparte como capacidad latente, sin sumarlos a la oferta anunciada
 Comprobado que la regla textual destruía 43 viviendas reales: mismo anfitrión, mismo nombre, mismo
 precio y **licencias distintas** (HUTB-079007 / 079009 / 079012). Son pisos diferentes del mismo
 edificio anunciados igual. La desduplicación por licencia los conserva.
+
+### B7. Los pisos sin registro acreditado quedan fuera
+
+**Decisión del 2026-10-06.** La eliminación de 2028 quita licencias. Un piso que no tiene ninguna
+acreditada en el registro oficial no tiene licencia que perder: si sigue operando, lo hará fuera del
+mercado legal, y no hay dato que diga que se vaya. Contarlo como turista que hay que realojar
+inflaba el efecto. Son 1.849 de los 6.834 pisos (6.301 plazas, el 21 % de las plazas), el último
+descarte del embudo (`gold/separar_sin_registro.py`). Detalle en C6.
+
+**Qué cambia al quitarlos** (año medio):
+
+| | Con los 6.834 | Con los 4.985 |
+|---|---:|---:|
+| Turistas por noche que se realojan | 11.516 | 9.102 |
+| Habitaciones de hotel que absorben | 5.706 | 4.486 |
+| Ocupación hotelera | 93,0 % | 90,2 % |
+| Turistas nuevos en hoteles | +20,3 % | +16,0 % |
+| Julio, sin sitio | 1.273 turistas | nadie |
+
+**Lo que no se sabe.** «No consta» no es «es ilegal»: puede ser una licencia recién concedida que el
+registro aún no recoge (C1). Y no hay dato de si estos pisos seguirán anunciándose. Para volver al
+criterio anterior basta no ejecutar `separar_sin_registro.py` y reejecutar `revisar_airbnb_v2.ipynb`.
 
 ---
 
@@ -208,11 +230,11 @@ expediente (2008–2026, concentrado en 2012–2014), que es el de la solicitud,
 
 | Licencias únicas | Cuántas | Plazas del registro |
 |---|---:|---:|
-| Con anuncio entre los 6.834 pisos | 4.756 | 28.263 |
-| Solo con anuncios que se descartan | 473 | 2.583 |
+| Con anuncio entre los 4.985 pisos | 4.736 | 28.111 |
+| Solo con anuncios que se descartan | 493 | 2.735 |
 | **Sin ningún anuncio en Airbnb (junio 2026)** | **5.394** | **30.980** |
 
-De ahí la diferencia entre las 30.067 plazas de Airbnb y las 61.826 del registro. Se cuenta en
+De ahí la diferencia entre las 23.766 plazas de los pisos analizados y las 61.826 del registro. Se cuenta en
 la última tarjeta de la página `/airbnb`, junto a los datos del registro: 10 distritos (el Eixample,
 4.870 licencias), licencias en vigor por trimestre (9.603 en 2018-T2, mínimo de 9.300 en 2022-T2,
 10.730 en 2026-T1), el expediente más antiguo (2008) y el HUTB más alto emitido (80024). El modelo ya las
@@ -221,14 +243,14 @@ dormidas o ser licencias fantasma. **Cota superior, no calculada en la web:** si
 activas, serían hasta 30.980 plazas más. En las licencias que sí casan, Airbnb declara 23.888 plazas
 frente a las 29.937 del registro (un 25 % menos).
 
-### C6. 1.849 de los 6.834 pisos no tienen registro acreditado, y siguen contados
+### C6. 1.849 de los 6.834 pisos no tienen registro acreditado, y quedan fuera
 
-Dentro de los 6.834 pisos, según lo que su anuncio dice de la licencia y lo que el registro contesta
-(`motivo_estado` en `gold/airbnb_para_web.csv`):
+Dentro de los 6.834 pisos (antes del último descarte), según lo que su anuncio dice de la licencia y
+lo que el registro contesta (`motivo_estado`):
 
 | Grupo | Pisos | Plazas |
 |---|---:|---:|
-| Con registro que consta | 4.985 | 23.766 |
+| Con registro que consta (**se quedan**) | 4.985 | 23.766 |
 | Dicen tener registro y no consta | 498 | 2.093 |
 | — número imposible (por encima del HUTB-80024, o de relleno como 123456) | 334 | 1.447 |
 | — número que no consta | 102 | 492 |
@@ -243,14 +265,11 @@ Dentro de los 6.834 pisos, según lo que su anuncio dice de la licencia y lo que
 consta puede ser una licencia recién concedida que el registro aún no recoge (C1) o un error al
 escribirlo.
 
-**Lo que dice la ley.** La eliminación de 2028 quita licencias; estos 1.849 pisos (6.301 plazas, el
-21 % de las plazas) no tienen ninguna acreditada que quitar. Si siguen operando, será fuera del
-mercado legal. **Hoy el modelo los cuenta igualmente como turistas que hay que realojar**: no hay
-ningún dato que diga si se irán o se quedarán.
+**Qué se hace con ellos.** Los 1.849 salen del análisis (B7): no cuentan como turistas a realojar. Se
+cuentan aparte, debajo de la tarjeta final de `/airbnb`, y siguen en
+`gold/airbnb_excluidos_web.csv` con `motivo_exclusion = sin_registro_acreditado`.
 
-Si solo se contaran los 4.985 con registro, el reparto daría 9.102 turistas por noche (frente a
-11.516), 4.486 habitaciones de hotel absorbidas (frente a 5.706) y una ocupación hotelera del 90,2 %
-(frente al 93,0 %). Está calculado y no publicado: decide el proyecto cuál es el escenario.
+---
 
 ## D. Precio de Airbnb
 
@@ -394,8 +413,8 @@ estudia es otro: el turista que hoy elige un piso para ahorrar cocinando, y que 
 cocina) tiene que salir a comer.
 
 - **El turista de piso cuenta la mitad hoy y entero en 2028.** La mitad (`PESO_PISO_EN_RESTAURACION`)
-  **es un supuesto, no un dato**, y de él sale por sí solo el aumento total (+9,2 %). Lo que sí
-  informa el modelo es dónde sube y dónde baja: 4.245 locales ganan y 4.326 pierden.
+  **es un supuesto, no un dato**, y de él sale por sí solo el aumento total (+7,5 %). Lo que sí
+  informa el modelo es dónde sube y dónde baja: 4.409 locales ganan y 3.718 pierden.
 - **El % es sobre estos clientes, no sobre los del local.** Los vecinos y el turista de hotel de
   siempre no están.
 - **Radio de 200 m**, repartido a partes iguales entre los locales del radio. Probar 100, 300 y 500
@@ -413,7 +432,7 @@ hoteles vecinos no se pueden sumar.
 
 Ocupación (38,3–48 %) × 365 noches × precio de la noche del piso entero. El precio es el anunciado,
 anualizado con el factor de estacionalidad (A4/A5). No hay dato de facturación, y 365 supone que el
-anuncio está abierto todo el año. Total de los 6.834 pisos: **222–278 millones de euros al año.**
+anuncio está abierto todo el año. Total de los 4.985 pisos: **185–232 millones de euros al año.**
 
 ### F10. Cada turista elige hotel por su banda
 
@@ -423,8 +442,8 @@ hotel de su banda, el más cercano con hueco; si no hay, a la siguiente banda m�
 como último recurso. La distancia no limita. La banda es la **por plaza**, la única comparable.
 
 Supone la misma ocupación (80,2 %) en todas las bandas, y los pisos eligen en orden aleatorio con
-semilla fija (con tres órdenes, la mediana va de 0,37 a 0,38 km). Hallazgo: los hoteles de banda €
-tienen 57 habitaciones libres frente a 1.629 que piden los pisos baratos, así que solo el 34 %
+semilla fija (con tres órdenes, la mediana va de 0,33 a 0,34 km). Hallazgo: los hoteles de banda €
+tienen 57 habitaciones libres frente a 931 que piden los pisos baratos, así que solo el 45 %
 encuentra hotel de su banda. Resultados completos en `fuentes.md` → 3.2.
 
 ### F11. Lo que no cubre la web sobre el precio, y la oferta nueva
@@ -437,13 +456,13 @@ baratos y los hostales, no el conjunto.
 **Oferta nueva.** No hay un dataset de hoteles previstos. Lo recopilado de prensa
 (`fuentes.md` → 2.9) son 315 habitaciones anunciadas, de las que **solo 189 son de obra nueva**; el
 resto son reformas o cambios de gestión de hoteles que ya existen. Aun siendo todas nuevas y vacías,
-cubrirían como mucho el 5,5 % de las 5.706 habitaciones que piden los pisos en un año medio. La
+cubrirían como mucho el 7,0 % de las 4.486 habitaciones que piden los pisos en un año medio. La
 vigencia de la modificación del PEUAT que permite hoteles «singulares» no está verificada.
 
 ### F12. La estancia en pisos es de 3 noches
 
-Para pasar de noches a turistas al año en los pisos (1,4–1,8 millones) se supone una estancia de 3
-noches, la misma que usa el método de reseñas (F3). Con 4 noches serían 1,05–1,3 millones. El INE da
+Para pasar de noches a turistas al año en los pisos (1,1–1,4 millones) se supone una estancia de 3
+noches, la misma que usa el método de reseñas (F3). Con 4 noches serían 0,8–1,0 millones. El INE da
 2,38 noches para los hoteles; para los pisos no hay dato.
 
 ---

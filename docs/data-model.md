@@ -296,7 +296,7 @@ fuente, no se va a rellenar con estimaciones silenciosas.
 
 #### oferta_airbnb
 
-**Tabla real: `data/gold/airbnb_para_web.csv` (6.834 anuncios), producida por
+**Tabla real: `data/gold/airbnb_para_web.csv` (4.985 anuncios, tras `gold/separar_sin_registro.py`; eran 6.834), producida por
 `pipeline/notebooks/revisar_airbnb_v2.ipynb`.** El cuaderno es la fuente de verdad: cada paso de
 criba, contraste y modelado vive en una celda con su salida, y este diccionario describe lo que
 sale de ahi, no un esquema previsto. La contrapartida `airbnb_excluidos_web.csv` guarda los 8.572

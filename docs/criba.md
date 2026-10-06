@@ -51,11 +51,17 @@ flowchart TD
   s4 --> d5
   d5 -->|"no"| x5
   d5 -->|"si"| s5
-  final(["<b>df_v2<br>viviendas de uso turistico</b><br>6,834"])
-  s5 --> final
+  d6{"¿Tiene un registro acreditado<br>en el registro oficial?"}
+  x6["Sin licencia que perder<br>si opera, sera fuera del mercado legal<br><b>1,849</b>"]
+  s6["4,985 siguen"]
+  s5 --> d6
+  d6 -->|"no"| x6
+  d6 -->|"si"| s6
+  final(["<b>df_v2<br>viviendas de uso turistico</b><br>4,985"])
+  s6 --> final
   classDef descarte fill:#f6e6e6,stroke:#b06060;
   classDef meta fill:#e2f0e2,stroke:#4a8a4a;
-  class x0,x1,x2,x3,x4,x5 descarte;
+  class x0,x1,x2,x3,x4,x5,x6 descarte;
   class final meta;
 ```
 
@@ -68,7 +74,8 @@ flowchart TD
 | estancia de 32 noches | −1,848 | 9,560 |
 | sin actividad desde 09 2025 | −876 | 8,684 |
 | duplicado de nombre y anfitrion | −1,850 | 6,834 |
-| **Sujetos a la ley de 2028** | | **6,834** |
+| sin registro acreditado | −1,849 | 4,985 |
+| **Sujetos a la ley de 2028** | | **4,985** |
 
 Los descartados no se borran: quedan en `data/gold/airbnb_excluidos_web.csv` con su `motivo_exclusion`,
 de modo que cualquiera puede rehacer el recuento con otro criterio sin volver al dato crudo.

@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Mapa anterior",
   description:
-    "Dónde dormirían en 2028 los turistas de las 6.834 viviendas de uso turístico anunciadas hoy " +
+    "Dónde dormirían en 2028 los turistas de las 4.985 viviendas con registro acreditado anunciadas hoy " +
     "en Airbnb, barrio a barrio.",
 };
 

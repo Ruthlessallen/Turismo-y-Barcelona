@@ -52,6 +52,11 @@ web. Sus salidas son `data/gold/airbnb_para_web.csv` y `data/gold/airbnb_excluid
 Lee `data/bronze/airbnb_anuncios.csv` y escribe `data/gold/airbnb_para_web.csv` y
 `airbnb_excluidos_web.csv`, que son los que consumen `export/export_mapa.py` y `generar_criba.py`.
 
+**Después del notebook** se ejecuta `gold/separar_sin_registro.py`, que saca de `airbnb_para_web.csv` los
+pisos sin registro acreditado y los deja en `airbnb_excluidos_web.csv` con su motivo (es idempotente).
+Orden: notebook → `separar_sin_registro.py` → `gold/modelar_sustitucion.py` → exports. Los exports de
+`export_mapa.py` necesitan el entorno `.venv` (usa `shapely`).
+
 **Es la única cadena de Airbnb del proyecto.** Hubo dos: `pipeline/gold/preparar_airbnb_bcn.py`
 aplicaba su propia criba y el mapa publicaba desde ella, no desde el notebook. Ese script está
 retirado en `scraps/pipeline_gold/`, y su cálculo de precio por plaza y banda económica vive ahora

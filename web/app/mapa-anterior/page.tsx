@@ -92,7 +92,7 @@ export default function Pagina() {
       <aside className="w-full shrink-0 overflow-y-auto border-b border-[#e3e0da] bg-white p-5 lg:w-[330px] lg:border-r lg:border-b-0">
         <h1 className="text-[15px] font-semibold tracking-tight">Dónde dormirían en 2028</h1>
         <p className="mt-1 text-xs leading-relaxed text-[#52514e]">
-          Los turistas de las 6.834 viviendas de uso turístico anunciadas hoy en Airbnb, repartidos
+          Los turistas de las 4.985 viviendas con registro acreditado anunciadas hoy en Airbnb, repartidos
           entre los hoteles que quedan.
         </p>
 
@@ -317,14 +317,11 @@ export default function Pagina() {
             <p className="mt-2">
               {totales.turistas_sin_sitio > 0 ? (
                 <>
-                  No caben <strong>{totales.turistas_sin_sitio.toLocaleString("es")}</strong>. En un
-                  año medio sí caben todos: la ciudad se queda corta en la punta del verano, no los
-                  doce meses.
+                  No caben <strong>{totales.turistas_sin_sitio.toLocaleString("es")}</strong>.
                 </>
               ) : (
                 <>
-                  <strong>Caben todos</strong>, y sobran habitaciones. La ciudad solo se queda corta
-                  en la punta del verano — cambia el momento, arriba, para verlo.
+                  <strong>Caben todos</strong>, y sobran habitaciones.
                 </>
               )}
             </p>

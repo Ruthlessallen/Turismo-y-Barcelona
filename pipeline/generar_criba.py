@@ -45,6 +45,8 @@ PASOS_AIRBNB = [
      "Sin huespedes recientes<br>no vende"),
     ("duplicado de nombre y anfitrion", "¿Es la primera vez que<br>aparece este anuncio?", "no",
      "Mismo nombre y anfitrion<br>ya contado"),
+    ("sin_registro_acreditado", "¿Tiene un registro acreditado<br>en el registro oficial?", "no",
+     "Sin licencia que perder<br>si opera, sera fuera del mercado legal"),
 ]
 
 

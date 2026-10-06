@@ -368,11 +368,15 @@ PASOS_CRIBA = [
      "Sigue publicado pero no vende. Contarlo diría que hay oferta donde no la hay."),
     ("duplicado de nombre y anfitrion", "Repite nombre y anfitrión de otro anuncio ya contado",
      "Una misma vivienda puede anunciarse varias veces. Contarla dos veces infla el parque."),
+    ("sin_registro_acreditado", "No tiene un registro acreditado en el registro oficial",
+     "La ley de 2028 quita licencias, y este piso no tiene ninguna acreditada que perder. Si sigue "
+     "operando será fuera del mercado legal, y no hay dato que diga que se vaya: no cuenta como "
+     "turista que haya que realojar."),
 ]
 
 
 def exportar_criba_airbnb() -> dict:
-    """El embudo de 15.406 anuncios a 6.834 viviendas, paso a paso.
+    """El embudo de 15.406 anuncios a 4.985 viviendas, paso a paso.
 
     Se publican **anuncios y plazas** en cada paso. Solo con anuncios, descartar 3.083 habitaciones
     sueltas y 901 hoteles parece comparable, y en plazas no lo es: una habitacion suelta aloja a dos

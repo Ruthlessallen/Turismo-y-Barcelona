@@ -21,8 +21,8 @@
   "restauracion_2028": {
     "momentos": 2,
     "barrios": 73,
-    "ganan": 27,
-    "pierden": 38,
+    "ganan": 31,
+    "pierden": 30,
     "locales": 9479
   },
   "vut": {
@@ -31,19 +31,20 @@
     "licencias_en_barrios": 10712
   },
   "airbnb": {
-    "sujetos_a_la_ley": 6834,
-    "excluidos": 8572,
+    "sujetos_a_la_ley": 4985,
+    "excluidos": 10421,
     "motivos": {
       "habitacion_sin_hutb": 3083,
       "duplicado de nombre y anfitrion": 1850,
+      "sin_registro_acreditado": 1849,
       "estancia_de_32_noches": 1848,
       "alojamiento_reglado": 901,
       "sin_actividad_desde_09_2025": 876,
       "habitacion_de_hotel": 14
     },
-    "barrios": 64,
-    "con_precio_plaza": 6834,
-    "precio_plaza_mediano": 51.8,
+    "barrios": 58,
+    "con_precio_plaza": 4985,
+    "precio_plaza_mediano": 55.4,
     "capacidad_latente": {
       "viviendas": 293,
       "plazas": 1534,
@@ -52,21 +53,21 @@
     }
   },
   "criba_airbnb": {
-    "pasos": 6,
+    "pasos": 7,
     "inicio": 15406,
-    "final": 6834
+    "final": 4985
   },
   "sustitucion_2028": {
     "momentos": 2,
     "escenarios": 5,
-    "barrios": 64,
+    "barrios": 59,
     "sin_sitio_anio_medio": 0,
-    "sin_sitio_julio": 1273,
-    "turistas_a_realojar": 11516
+    "sin_sitio_julio": 0,
+    "turistas_a_realojar": 9102
   },
   "flujos_2028": {
-    "flujos": 848,
+    "flujos": 668,
     "barrios_sin_geometria": [],
-    "maximo_turistas": 384
+    "maximo_turistas": 382
   }
 }
