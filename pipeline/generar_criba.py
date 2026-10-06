@@ -37,8 +37,6 @@ PASOS_AIRBNB = [
      "Alojamiento reglado<br>cuenta en el lado hotelero"),
     ("habitacion_sin_hutb", "¿Cede la vivienda entera,<br>o declara un HUTB?", "no",
      "Habitaciones sueltas sin licencia<br>no es lo que la ley elimina"),
-    ("habitacion_de_hotel", "¿Es habitacion de hotel?", "si",
-     "Habitacion de establecimiento<br>se analiza en el otro lado"),
     ("estancia_de_32_noches", "¿Estancia minima<br>de 31 noches o menos?", "no",
      "Alquiler de temporada<br>fuera del alcance de la ley"),
     ("sin_actividad_desde_09_2025", "¿Tiene resenas<br>desde septiembre de 2025?", "no",
@@ -90,7 +88,9 @@ def main() -> None:
     # la que alimenta la web.
     dentro = pd.read_csv(GOLD / "airbnb_para_web.csv", low_memory=False)
     fuera = pd.read_csv(GOLD / "airbnb_excluidos_web.csv", low_memory=False)
-    conteos = fuera["motivo_exclusion"].value_counts().to_dict()
+    # Una habitacion de hotel y un hotel son el mismo descarte.
+    conteos = fuera["motivo_exclusion"].replace(
+        {"habitacion_de_hotel": "alojamiento_reglado"}).value_counts().to_dict()
     inicio = len(dentro) + len(fuera)
 
     filas = ["| Paso | Descartados | Quedan |", "|---|---:|---:|"]

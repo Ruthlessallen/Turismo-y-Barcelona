@@ -147,7 +147,7 @@ export default function PaginaAirbnb() {
         </section>
 
         {/* Una tarjeta cada vez. El texto de por qué no compite con los otros cinco. */}
-        <section className="flex min-h-0 flex-1 flex-col rounded border border-[#e3e0da] bg-white">
+        <section className="flex shrink-0 flex-col rounded border border-[#e3e0da] bg-white sm:h-[min(440px,60dvh)]">
           <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-6 py-6 sm:px-10">
             <div className="my-auto">
             {enLicencias ? (

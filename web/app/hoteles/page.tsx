@@ -71,13 +71,33 @@ export default function PaginaHoteles() {
 
           <Seccion color={COLOR.hotel} titulo="Qué supone para un hotel que desaparezcan los pisos">
             <div className="grid gap-3">
-              <Tarjeta titulo="Habitaciones ocupadas por banda, hoy y en 2028 (%)">
-                <BarrasH max={100} formato={(v) => `${dec(v)} %`}
-                  filas={p.ocupacion_bandas.flatMap((b) => [
-                    { etiqueta: `${b.banda} · hoy`, valor: (b.hoy / b.habitaciones) * 100, color: "#9dbbdc" },
-                    { etiqueta: `${b.banda} · 2028`, valor: (b.en_2028 / b.habitaciones) * 100, color: COLOR.hotel },
-                  ])} />
-                <p className="mt-2 text-[11px] text-[#52514e]">Banda por plaza. Los hoteles baratos se llenan: casi no tienen hueco.</p>
+              <Tarjeta titulo="Habitaciones ocupadas por banda: hoy (80,2 %) y lo que suben en 2028">
+                <div className="flex items-end gap-4" style={{ height: 190 }}>
+                  {p.ocupacion_bandas.map((b) => {
+                    const hoy = (b.hoy / b.habitaciones) * 100;
+                    const f28 = (b.en_2028 / b.habitaciones) * 100;
+                    return (
+                      <div key={b.banda} className="flex h-full flex-1 flex-col items-center justify-end">
+                        <span className="text-[12px] font-semibold tabular-nums">{dec(f28)} %</span>
+                        <span className="mb-1 text-[10px] tabular-nums text-[#1f5fa8]">+{dec(f28 - hoy)} pts</span>
+                        <div className="flex w-full max-w-[70px] flex-col justify-end overflow-hidden rounded-t" style={{ height: "70%" }}>
+                          <div style={{ height: `${f28 - hoy}%`, background: COLOR.hotel }} />
+                          <div style={{ height: `${hoy}%`, background: "#9dbbdc" }} />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="mt-1 flex gap-4">
+                  {p.ocupacion_bandas.map((b) => (
+                    <span key={b.banda} className="flex-1 text-center text-[12px] font-medium">{b.banda}</span>
+                  ))}
+                </div>
+                <p className="mt-2 text-[11px] text-[#52514e]">
+                  <i className="mr-1 inline-block h-2 w-2 rounded-sm bg-[#9dbbdc]" />hoy, igual en todas
+                  <i className="mr-1 ml-3 inline-block h-2 w-2 rounded-sm" style={{ background: COLOR.hotel }} />lo que suben en 2028.
+                  Banda por plaza: los hoteles baratos se llenan, casi no tienen hueco.
+                </p>
               </Tarjeta>
 
               <Tarjeta titulo="Ocupación por habitaciones, mes a mes (INE, %)">

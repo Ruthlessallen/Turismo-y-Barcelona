@@ -99,9 +99,9 @@ Cualquier ambigüedad se deja sin cruzar y se marca.
   esa posición desplazada, no la dirección real de la vivienda.
 - **El símbolo `$` del CSV crudo es un artefacto de su exportador.** El precio es en euros.
 
-De esos 15.406 se llega a **4.985 viviendas** aplicando siete filtros encadenados, cada uno con su
-recuento en `criba.md`: alojamiento ya reglado (901), habitaciones sueltas sin licencia (3.083),
-habitaciones de hotel (14), alquiler de temporada de más de 31 noches (1.848), anuncios sin reseñas
+De esos 15.406 se llega a **4.985 viviendas** aplicando seis filtros encadenados, cada uno con su
+recuento en `criba.md`: alojamiento ya reglado, con sus habitaciones de hotel (915), habitaciones sueltas sin licencia (3.083),
+alquiler de temporada de más de 31 noches (1.848), anuncios sin reseñas
 desde septiembre de 2025 (876), repeticiones del mismo anuncio (1.850) y, el último, **pisos sin
 registro acreditado (1.849)**: la ley quita licencias y estos no tienen ninguna acreditada que
 perder (`supuestos.md` → B7).
@@ -421,7 +421,7 @@ que no tenemos.
 4. **No mide meses.** Todo es un año medio. En los picos del verano habrá menos hueco en los hoteles.
 5. **Un hotel no tiene un precio, tiene un rango.** Se publica una banda, nunca el euro. Un piso sí
    lleva el precio que anuncia.
-6. **Lo que factura un piso es un orden de magnitud**: ocupación del 38,3–48 % × 365 noches × precio
+6. **Lo que factura un piso es un orden de magnitud**: noches ocupadas × precio (suelo: el calendario de cada anuncio, 365 − `availability_365`, de donde sale el 38,3 %; techo: el 48 % de 365 noches) ×
    de la noche. No hay dato de facturación.
 7. **No dice cuánto subirá el precio.** Depende de la estacionalidad (que existiría aunque Airbnb no
    se fuera), de los turistas que se vayan a otros municipios, de los pisos que no entran en la ley

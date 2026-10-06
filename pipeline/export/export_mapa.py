@@ -354,13 +354,12 @@ def exportar_restauracion_2028() -> dict:
 # **Un anuncio puede fallar varias condiciones a la vez y solo se cuenta en la primera.** Por eso el
 # orden no es decorativo: moverlo cambia los numeros de cada paso sin cambiar el total.
 PASOS_CRIBA = [
-    ("alojamiento_reglado", "Declara ser un hotel, albergue o apartament turístic",
-     "Se rige por otro régimen y la ley de 2028 no lo toca. Cuenta en el lado hotelero."),
+    ("alojamiento_reglado", "Es un hotel, albergue o apartament turístic, o una habitación de uno",
+     "Se rige por otro régimen y la ley de 2028 no lo toca; el establecimiento ya cuenta en el lado "
+     "hotelero. Incluye los 14 anuncios de habitaciones de hotel, que es el mismo caso."),
     ("habitacion_sin_hutb", "Alquila una habitación suelta, sin declarar licencia",
      "Lo que desaparece en 2028 son las licencias de vivienda de uso turístico, no las "
      "habitaciones dentro de una casa."),
-    ("habitacion_de_hotel", "Es una habitación de hotel anunciada en Airbnb",
-     "El mismo establecimiento ya está contado en el registro de alojamiento reglado."),
     ("estancia_de_32_noches", "Exige quedarse más de 31 noches",
      "La normativa catalana define estancia turística como 31 días o menos. Por encima es "
      "alquiler de temporada, que la ley de 2028 no toca."),
@@ -389,6 +388,9 @@ def exportar_criba_airbnb() -> dict:
     dentro = pd.read_csv(GOLD / "airbnb_para_web.csv", low_memory=False)
 
     # Si la criba cambia y este listado no, los numeros saldrian mal en silencio.
+    # Una habitación de hotel y un hotel son el mismo descarte: se cuentan juntos.
+    fuera = fuera.assign(motivo_exclusion=fuera["motivo_exclusion"].replace(
+        {"habitacion_de_hotel": "alojamiento_reglado"}))
     claves = {c for c, *_ in PASOS_CRIBA}
     sobran = set(fuera["motivo_exclusion"].unique()) - claves
     if sobran:

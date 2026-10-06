@@ -430,9 +430,10 @@ hoteles vecinos no se pueden sumar.
 
 ### F9. Lo que factura un piso es un orden de magnitud
 
-Ocupación (38,3–48 %) × 365 noches × precio de la noche del piso entero. El precio es el anunciado,
+Noches ocupadas × precio de la noche del piso entero. **Suelo:** las noches de cada anuncio según su
+propio calendario, `365 − availability_365` (de ahí sale el 38,3 %); **techo:** el 48 % de 365 noches. El precio es el anunciado,
 anualizado con el factor de estacionalidad (A4/A5). No hay dato de facturación, y 365 supone que el
-anuncio está abierto todo el año. Total de los 4.985 pisos: **185–232 millones de euros al año.**
+anuncio está abierto todo el año. Total de los 4.985 pisos: **178–232 millones de euros al año.**
 
 ### F10. Cada turista elige hotel por su banda
 

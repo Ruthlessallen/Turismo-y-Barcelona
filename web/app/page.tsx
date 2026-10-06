@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { BarrasDivergentes, Cifra, Seccion, Tarjeta } from "@/app/components/Graficos";
 import { COLOR, OSCURO, n } from "@/app/lib/tiposMapa";
@@ -35,9 +35,32 @@ const pct = (b: BarrioFlujo) =>
 /** Lo que sale al pasar el ratón por una barra: los turistas que hay hoy y los de 2028. */
 const hoy = (b: BarrioFlujo) => `Hoy: ${n(b.hoy)} turistas · 2028: ${n(b.en_2028)}`;
 
+/**
+ * Escala el contenido para que llene la pantalla: mide cuánto ocupa a tamaño natural y lo agranda
+ * (con `zoom`) hasta donde cabe en alto y en ancho, sin pasar de 1,8 ni bajar de 1.
+ */
+function useEncaje(listo: boolean) {
+  const caja = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const el = caja.current;
+    const padre = el?.parentElement;
+    if (!el || !padre) return;
+    const ajustar = () => {
+      el.style.zoom = "1";
+      const z = Math.min(padre.clientHeight / el.offsetHeight, padre.clientWidth / (el.offsetWidth || 1152), 1.8);
+      el.style.zoom = String(Math.max(1, Math.floor(z * 100) / 100));
+    };
+    ajustar();
+    window.addEventListener("resize", ajustar);
+    return () => window.removeEventListener("resize", ajustar);
+  }, [listo]);
+  return caja;
+}
+
 export default function Portada() {
   const [d, setD] = useState<Dashboard | null>(null);
   const [barrios, setBarrios] = useState<BarrioFlujo[] | null>(null);
+  const caja = useEncaje(Boolean(d && barrios));
 
   useEffect(() => {
     fetch("/data/mapa/dashboard.json").then((r) => r.json()).then(setD);
@@ -56,8 +79,8 @@ export default function Portada() {
   return (
     // Una pantalla: dos columnas arriba (hoteles y Airbnb) y los barrios debajo. Todo en versión
     // compacta para que quepa sin scroll; en pantallas pequeñas se apila y se desplaza.
-    <main className="min-h-full bg-[#faf9f7] text-[#24231f]">
-      <div className="mx-auto max-w-6xl px-5 py-3 sm:px-8">
+    <main className="min-h-full bg-[#faf9f7] text-[#24231f] lg:h-full">
+      <div ref={caja} className="mx-auto max-w-6xl px-5 py-3 sm:px-8">
         <div className="grid gap-x-4 gap-y-2 lg:grid-cols-2">
           <Seccion color={COLOR.hotel} titulo="Hoteles" compacta>
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">

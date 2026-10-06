@@ -7,7 +7,7 @@
  * La última es la regla del modelo: los dormitorios, y uno si el anuncio declara cero (un estudio).
  */
 export type Piso = [number, number, number | null, number | null, number | null,
-  number | null, string | null, string | null, string, number | null];
+  number | null, string | null, string | null, string, number | null, number | null];
 
 export type Hotel = {
   nom: string | null; titular: string | null; cat: string | null; barrio: string | null;

@@ -100,6 +100,8 @@ def pisos() -> pd.DataFrame:
         # Lo que cuesta la noche del piso entero, que es lo que se alquila. Anualizado, no el
         # precio de portada: sale del precio por plaza corregido de temporada.
         "precio_piso": precio * a["accommodates"],
+        # Noches que el propio calendario del anuncio no tiene libres: (365 - availability_365).
+        "noches": (365 - pd.to_numeric(a["availability_365"], errors="coerce")).clip(0, 365),
         "origen": np.where(precio.isna(), None, np.where(estimado, "estimado", "observado")),
     })
 
@@ -461,7 +463,8 @@ def dashboard(p: pd.DataFrame, h: pd.DataFrame, tur_nuevos: float) -> dict:
             "anfitriones": anfitriones(p),
             "plazas": int(p["plazas"].sum()),
             # Orden de magnitud: ocupacion 38,3-48 % x 365 noches x precio de la noche del piso.
-            "facturacion": [round(float(p["precio_piso"].fillna(0).sum() * 365 * OCUPACION_AIRBNB)),
+            # Suelo: cada piso con sus propias noches ocupadas (365 - availability_365).
+            "facturacion": [round(float((p["precio_piso"] * p["noches"]).fillna(0).sum())),
                             round(float(p["precio_piso"].fillna(0).sum() * 365
                                         * OCUPACION_AIRBNB_ALTA))],
         },
@@ -487,7 +490,7 @@ def main() -> None:
 
     volcar("puntos_pisos.json", [
         [round(x.lat, 5), round(x.lon, 5), num(x.plazas), num(x.dorm), num(x.precio_piso),
-         num(x.precio, 1), texto(x.banda), texto(x.origen), x.barrio, num(x.hab_piso)] for x in p.itertuples()])
+         num(x.precio, 1), texto(x.banda), texto(x.origen), x.barrio, num(x.hab_piso), num(x.noches)] for x in p.itertuples()])
     absorbido = ab.set_index("id")
     volcar("puntos_hoteles.json", [{
         # Lo que este hotel recibe de los pisos que desaparecen (un ano medio, reparto por banda).
@@ -540,8 +543,7 @@ def main() -> None:
             "demanda_hoy": round(float(gr["turistas"].sum())),
             "demanda_2028": round(float(gr["turistas_2028"].sum())),
             # Orden de magnitud, no facturacion real: ocupacion x 365 noches x precio de la noche.
-            "facturacion_pisos": [round(float(gp["precio_piso"].fillna(0).sum()
-                                              * 365 * OCUPACION_AIRBNB)),
+            "facturacion_pisos": [round(float((gp["precio_piso"] * gp["noches"]).fillna(0).sum())),
                                   round(float(gp["precio_piso"].fillna(0).sum()
                                               * 365 * OCUPACION_AIRBNB_ALTA))],
             # Hoteles: la sociedad titular. Pisos: el anfitrion segun Airbnb, solo a partir de 5

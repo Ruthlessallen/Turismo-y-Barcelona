@@ -71,11 +71,11 @@ const nota = (t: string) => `<div style="color:#52514e;margin-top:3px">${t}</div
 const euros = (v: number) => `${n(Math.round(v))} €`;
 
 function popupPiso(p: Piso): string {
-  const [, , plazas, dorm, precioPiso, precioPlaza, banda, origen, barrio] = p;
+  const [, , plazas, dorm, precioPiso, precioPlaza, banda, origen, barrio, , noches] = p;
   // Orden de magnitud: ocupación x 365 noches x precio de la noche. No es facturación real.
   const fact = precioPiso == null
     ? "—"
-    : `${euros(precioPiso * 365 * OCUPACION.pisoBaja)} – ${euros(precioPiso * 365 * OCUPACION.pisoAlta)}`;
+    : `${euros(precioPiso * (noches ?? 365 * OCUPACION.pisoBaja))} – ${euros(precioPiso * 365 * OCUPACION.pisoAlta)}`;
   return `<div style="min-width:230px"><b style="color:${COLOR.piso}">Piso turístico</b>
     <div style="color:#52514e;margin-bottom:4px">${escapar(barrio)}</div>
     ${fila("Precio de la noche del piso", precioPiso == null ? "—" : euros(precioPiso))}

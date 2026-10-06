@@ -134,8 +134,8 @@ export default function PaginaFuentes() {
               </P>
               <P>
                 De esos 15.406 se llega a <strong>4.985 viviendas</strong> descartando, por este
-                orden: alojamiento ya reglado (901), habitaciones sueltas sin licencia (3.083),
-                habitaciones de hotel (14), alquiler de temporada de más de 31 noches (1.848),
+                orden: alojamiento ya reglado, con sus habitaciones de hotel (915), habitaciones
+                sueltas sin licencia (3.083), alquiler de temporada de más de 31 noches (1.848),
                 anuncios sin reseñas desde septiembre de 2025 (876), repeticiones del mismo anuncio
                 (1.850) y, al final, los que no tienen registro acreditado (1.849).
               </P>
@@ -434,7 +434,7 @@ export default function PaginaFuentes() {
               </li>
               <li>
                 <strong>Lo que factura un piso es un orden de magnitud:</strong> ocupación del
-                38–48% × 365 noches × precio de la noche. No hay dato de facturación.
+                las noches ocupadas × el precio de la noche. El suelo usa el calendario de cada anuncio (365 − `availability_365`, que es de donde sale el 38,3%); el techo, el 48% de las 365 noches. No hay dato de facturación.
               </li>
               <li>
                 <strong>No hay plazas de los restaurantes</strong>: el censo no las trae. El nombre
