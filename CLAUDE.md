@@ -91,7 +91,8 @@ El procedimiento completo —comprobar lo ya configurado, elegir alcance (`user`
 bares/restaurantes) y flujos de entrada (aeropuerto, puerto) en la provincia de Barcelona, para
 analizar qué puede ocurrir cuando desaparezcan las licencias VUT de la ciudad.
 **Estado actual:** En desarrollo — web en pie con portada (dashboard), mapa, Airbnb, hoteles,
-turistas y fuentes; falta la capa del PEUAT (ver `docs/web-checklist.md`).
+restauración, turistas y fuentes; falta verificar qué zonas del PEUAT admiten hoteles nuevos
+(ver `docs/web-checklist.md`).
 
 ---
 

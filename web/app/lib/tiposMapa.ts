@@ -84,6 +84,9 @@ export type Foco = { tipo: "barrio"; nombre: string } | { tipo: "hotel"; hotel: 
 
 export const COLOR = { piso: "#e8710a", hotel: "#1f5fa8", restaurante: "#7b3fa0" } as const;
 
+/** Los mismos tres colores, en su tono más oscuro: para las cifras grandes, que se leen de lejos. */
+export const OSCURO = { piso: "#a84a00", hotel: "#123a6b", restaurante: "#4a1f63" } as const;
+
 /**
  * Ocupaciones del proyecto. La de los pisos es un rango estimado (calendario 38,3 %, reseñas
  * 38,8 %, y 48 % como extremo alto); la del hotel es la oficial del INE por habitaciones.

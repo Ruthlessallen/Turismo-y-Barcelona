@@ -221,13 +221,12 @@ export default function PaginaAirbnb() {
         </section>
 
         <div className="flex shrink-0 items-center justify-between gap-4 text-[11px] text-[#52514e]">
-          {enLicencias ? (
+          <span>
+            Usa las flechas del teclado, o pincha los puntos.{" "}
             <a href="#registro" className="font-medium underline underline-offset-2">
-              Más datos del registro, abajo ↓
+              Datos del registro, abajo ↓
             </a>
-          ) : (
-            <span>Usa las flechas del teclado, o pincha los puntos.</span>
-          )}
+          </span>
           <Link href="/fuentes" className="underline underline-offset-2">
             de dónde sale cada cifra →
           </Link>
@@ -235,8 +234,8 @@ export default function PaginaAirbnb() {
       </div>
     </main>
 
-    {/* Lo que el embudo no ve, fuera de la tarjeta: debajo, con la página ya con scroll. */}
-    {enLicencias && <DatosDebajo lic={lic} />}
+    {/* Los datos del registro, debajo de la tarjeta y desde la primera: la página tiene scroll. */}
+    <DatosDebajo lic={lic} />
     </>
   );
 }

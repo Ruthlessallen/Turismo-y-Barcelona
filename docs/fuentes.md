@@ -27,7 +27,9 @@ antes, en el pipeline, y queda en el repositorio.
 | `/data/geo/barrios.geojson` | Los 73 barrios de la ciudad | ICGC / Inside Airbnb, vía `export/preparar_geometria_web.py` |
 | `/data/mapa/puntos_pisos.json` | 4.985 pisos: posición, plazas, dormitorios, precio de la noche, banda | `export/export_mapa_limpio.py` |
 | `/data/mapa/puntos_hoteles.json` | 750 hoteles: habitaciones, plazas, banda, titular | `export/export_mapa_limpio.py` |
-| `/data/mapa/puntos_restaurantes.json` | 9.479 locales: demanda hoy y en 2028 | `export/export_mapa_limpio.py` |
+| `/data/mapa/puntos_restaurantes.json` | 9.465 locales: demanda hoy y en 2028 | `export/export_mapa_limpio.py` |
+| `/data/mapa/restauracion_pagina.json` | Marcas con más locales y los locales y barrios que más y menos ganan | `export/export_mapa_limpio.py` |
+| `/data/geo/peuat.geojson` | Las 12 zonas del PEUAT, para el mapa de `/hoteles` | Open Data BCN, convertido en `data/exports/geo/` |
 | `/data/mapa/barrios_hoy.json` | Las cifras de cada uno de los 73 barrios | `export/export_mapa_limpio.py` |
 | `/data/mapa/dashboard.json` | Las cifras de la portada | `export/export_mapa_limpio.py` |
 | `/data/mapa/turistas.json` | Turistas en el conjunto de datos y lo que dice el INE | `export/export_mapa_limpio.py` |
@@ -146,8 +148,14 @@ El ADR por categoría llega además por el Portal de Dades del Ajuntament (2013�
 
 ### 2.6 Censo comercial del Ajuntament, 2024 — restauración
 
-- **Qué aporta:** 9.479 locales de la ciudad, de tres categorías: restaurante (4.429), bar (4.272)
+- **Qué aporta:** 9.465 locales de la ciudad, de tres categorías: restaurante (4.424), bar (4.263)
   y comida rápida / take away (778).
+- **Duplicados, revisado el 2026-10-06.** Un edificio con dos accesos sale dos veces con el mismo
+  nombre y portales distintos (`SUSHI SAMBA`, en Artesa de Segre 11 y en Ciutat de Balaguer 35, a
+  6 m). No son idénticos en identificador ni en dirección, así que no eran duplicados literales y
+  la regla anterior no los veía. Se retira el de la visita más antigua cuando hay **el mismo nombre
+  a menos de 10 m**: 14 casos (el 0,15 %). Entre 10 y 40 m hay 11 pares que no se pueden distinguir de dos
+  locales distintos, y se dejan. Los locales sin nombre (56) no se comparan.
 - **Por qué solo el censo:** OSM infravalora la restauración de Barcelona en un 26% (7.430 frente a
   10.100). El censo es trabajo de campo municipal.
 - **Su fecha real:** la serie comercial termina en 2024 y el trabajo de campo se reparte entre 2023
@@ -304,12 +312,19 @@ reparte su demanda a partes iguales entre los locales a menos de 200 m de donde 
 - **Hoy**, el turista de piso cuenta la **mitad** (tiene cocina). **En 2028**, ya en un hotel,
   cuenta **entero**.
 - **La mitad es un supuesto, no un dato** (`PESO_PISO_EN_RESTAURACION`). De él sale por sí solo el
-  aumento total (61.252 → 65.816 clientes potenciales por noche, +7,5 %). **Lo que sí aporta el
-  modelo es dónde**: 4.409 locales ganan y 3.718 pierden.
+  aumento total (61.266 → 65.817 clientes potenciales por noche, +7,4 %). **Lo que sí aporta el
+  modelo es dónde**: 4.479 locales ganan y 3.830 pierden.
 - El % de cada local es sobre estos clientes, **no sobre todos los suyos**: los vecinos y el
   turista de hotel de siempre no están.
 - No hay plazas de los locales: el censo no las trae. Las sillas de terraza (127.482) se
   descartaron el 10 de septiembre.
+
+- **La página de restauración** (`/restauracion`) enseña: las 10 marcas con más locales (SANDWICHEZ y
+  STARBUCKS, 24 cada una; MCDONALDS, 22), los 5 locales que más ganan clientes en 2028, y los 5
+  barrios que más y los 5 que menos. **Se mide en clientes por noche, en valor absoluto y no en
+  porcentaje**: un local que pasa de 0,1 a 1 cliente «gana un 900 %» y no dice nada. Los locales de
+  un mismo radio comparten el mismo reparto, así que varios aparecen con la misma cifra (los tres
+  de la Vall d'Hebron). **Marca es el rótulo, no la empresa.**
 
 **c) En qué hotel acaba cada turista: por banda.** No se mira si prefiere precio o ubicación:
 se mira la banda directamente (`gold/modelar_flujos_banda.py`). Cada turista va a un hotel de **su
@@ -340,6 +355,12 @@ los hostales probablemente estén más llenos.
   de Gràcia (−490, −45 %) y Sant Antoni (−363, −23 %). Un barrio con muchos pisos y pocos hoteles pierde.
 - **Ocupación hotelera:** pasa del 80,2 % al **90,2 %** en un año medio. Por banda, los € y los €€
   llegan al 100 %, los €€€ al 91,7 % y los €€€€ al 80,9 %.
+
+- **El mapa de `/hoteles`** pinta cada barrio por cuántos turistas más tendrán sus hoteles en 2028 y
+  enseña cuántos hoteles tiene. «Turistas más» es lo que recibe el barrio del reparto por banda
+  frente a lo que alojan hoy sus hoteles (plazas × 67,9 %), el mismo criterio que el +16 % de la
+  portada. Encima, las 12 zonas del PEUAT con los códigos del Ajuntament, agrupadas por número.
+  **No está verificado qué códigos admiten hoteles nuevos** (según la prensa, las zonas 1 y 2 no).
 
 **d) Qué recibe cada hotel.** El mapa enseña, para cada hotel, las habitaciones que tiene, las
 ocupadas hoy (80,2 %), las ocupadas en 2028 (esas más las que recibe de los pisos según este

@@ -1,15 +1,32 @@
 /**
  * Gráficos sencillos en HTML: barras, sin librería. Una cifra por barra, a la vista, y el color
- * dice qué es (nunca decora). Para el signo se usa verde y morado, que se distinguen en las tres
- * formas de daltonismo comunes; verde y rojo no.
+ * dice qué es (nunca decora). Para el signo, verde y rojo desaturados: el signo también va en la
+ * posición de la barra (derecha o izquierda del centro) y en el «+» o «−» de la cifra, así que no
+ * depende solo del color.
  */
 
 import { n } from "@/app/lib/tiposMapa";
 
-export const VERDE = "#2f7a3e";
-export const MORADO = "#7b3fa0";
+/** Barras: desaturados. Texto: el mismo tono, más oscuro, para que se lea sobre blanco. */
+export const VERDE = "#7aa885";
+export const ROJO = "#c08078";
+export const VERDE_TEXTO = "#3f7a4b";
+export const ROJO_TEXTO = "#a14b44";
 
-export type FilaBarra = { etiqueta: string; valor: number; color?: string; pie?: string };
+export type FilaBarra = {
+  etiqueta: string; valor: number; color?: string; pie?: string;
+  /** Texto que sale al pasar el ratón por la barra. */
+  detalle?: string;
+};
+
+/** Burbuja que aparece sobre la barra al pasar el ratón. */
+function Burbuja({ texto }: { texto: string }) {
+  return (
+    <span className="pointer-events-none absolute -top-7 left-1/2 z-10 hidden -translate-x-1/2 rounded bg-[#24231f] px-2 py-1 text-[11px] whitespace-nowrap text-white shadow group-hover:block">
+      {texto}
+    </span>
+  );
+}
 
 /** Barras horizontales, de cero al máximo. */
 export function BarrasH({ filas, max, color = "#24231f", formato = (v: number) => n(Math.round(v)), ancho = "9rem" }: {
@@ -22,8 +39,9 @@ export function BarrasH({ filas, max, color = "#24231f", formato = (v: number) =
         <li key={f.etiqueta} className="grid items-center gap-2 text-[12px]"
           style={{ gridTemplateColumns: `minmax(0,${ancho}) 1fr auto` }}>
           <span className="truncate">{f.etiqueta}</span>
-          <span className="h-3 rounded bg-[#eeece7]">
+          <span className="group relative h-3 rounded bg-[#eeece7]">
             <span className="block h-full rounded" style={{ width: `${(f.valor / tope) * 100}%`, background: f.color ?? color }} />
+            {f.detalle && <Burbuja texto={f.detalle} />}
           </span>
           <b className="tabular-nums">{formato(f.valor)}{f.pie ? <span className="font-normal text-[#52514e]"> {f.pie}</span> : null}</b>
         </li>
@@ -32,7 +50,7 @@ export function BarrasH({ filas, max, color = "#24231f", formato = (v: number) =
   );
 }
 
-/** Barras que salen del centro: a la derecha lo que sube (verde), a la izquierda lo que baja (morado). */
+/** Barras que salen del centro: a la derecha lo que sube (verde), a la izquierda lo que baja (rojo). */
 export function BarrasDivergentes({ filas, tope: topeFijo, formato = (v: number) => `${v > 0 ? "+" : ""}${n(v)}` }: {
   filas: FilaBarra[]; tope?: number; formato?: (v: number) => string;
 }) {
@@ -45,13 +63,14 @@ export function BarrasDivergentes({ filas, tope: topeFijo, formato = (v: number)
         return (
           <li key={f.etiqueta} className="grid grid-cols-[minmax(0,10rem)_1fr_auto] items-center gap-2 text-[12px]">
             <span className="truncate">{f.etiqueta}</span>
-            <span className="relative h-3 rounded bg-[#eeece7]">
+            <span className="group relative h-3 rounded bg-[#eeece7]">
               <span className="absolute top-0 left-1/2 h-full w-px bg-[#a3a09b]" />
               <span className="absolute top-0 h-full rounded"
-                style={{ width: `${ancho}%`, background: sube ? VERDE : MORADO,
+                style={{ width: `${ancho}%`, background: sube ? VERDE : ROJO,
                   [sube ? "left" : "right"]: "50%" }} />
+              {f.detalle && <Burbuja texto={f.detalle} />}
             </span>
-            <b className="tabular-nums" style={{ color: sube ? VERDE : MORADO }}>
+            <b className="tabular-nums" style={{ color: sube ? VERDE_TEXTO : ROJO_TEXTO }}>
               {formato(f.valor)}{f.pie ? <span className="font-normal text-[#52514e]"> {f.pie}</span> : null}
             </b>
           </li>
@@ -120,8 +139,9 @@ export function Cifra({ valor, etiqueta, pie, color }: {
   valor: string; etiqueta: string; pie?: string; color?: string;
 }) {
   return (
-    <div className="rounded border border-[#e3e0da] bg-white p-4" style={color ? { borderColor: color, borderWidth: 2 } : undefined}>
-      <p className="text-[28px] leading-none font-semibold tabular-nums">{valor}</p>
+    <div className="rounded border border-[#e3e0da] bg-white p-4 text-center"
+      style={color ? { borderTop: `3px solid ${color}` } : undefined}>
+      <p className="text-[28px] leading-none font-semibold tabular-nums" style={color ? { color } : undefined}>{valor}</p>
       <p className="mt-1.5 text-[13px] font-medium">{etiqueta}</p>
       {pie && <p className="mt-0.5 text-[11px] text-[#52514e]">{pie}</p>}
     </div>

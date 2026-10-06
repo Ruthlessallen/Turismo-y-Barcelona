@@ -130,7 +130,7 @@ va después de tener el histórico funcionando y publicado, no antes.
 ## Añadido el 2026-10-05
 
 - **Hecho el 2026-10-05:** páginas `/hoteles` y `/turistas`, el reparto por banda y los hoteles
-  anunciados de prensa. Falta la capa de zonas del PEUAT en `/hoteles`.
+  anunciados de prensa. Las zonas del PEUAT ya están en el mapa de `/hoteles`.
 - **PEUAT:** capa de zonas (`data/exports/geo/peuat.geojson`, 12 zonas) y comprobar si la
   modificación de 2023 (hoteles «singulares») está en vigor. Ampliar la lista de hoteles anunciados
   con licencias de obra del Ajuntament.

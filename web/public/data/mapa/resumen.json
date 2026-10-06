@@ -11,10 +11,10 @@
   "banda_observada": 451,
   "banda_estimada": 307,
   "restauracion": {
-    "total": 9479,
+    "total": 9465,
     "por_tipo": {
-      "restaurante": 4429,
-      "bar": 4272,
+      "restaurante": 4424,
+      "bar": 4263,
       "comida_rapida": 778
     }
   },
@@ -23,7 +23,7 @@
     "barrios": 73,
     "ganan": 31,
     "pierden": 30,
-    "locales": 9479
+    "locales": 9465
   },
   "vut": {
     "total": 24075,

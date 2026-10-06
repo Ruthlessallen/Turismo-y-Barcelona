@@ -4,7 +4,7 @@ Guion de trabajo para la Fase 2 de `roadmap.md`. **No es un acuerdo cerrado ni u
 feature**: es la lista que se va marcando, y cada bloque pasará por `/feature` cuando toque
 construirlo.
 
-Estado (2026-10-05): **seis páginas en pie.** El recorrido de cinco pasos de
+Estado (2026-10-06): **siete páginas en pie.** El recorrido de cinco pasos de
 más abajo se planteó antes de que existiera el modelo de sustitución; la estructura real de la web
 es la de esta tabla.
 
@@ -14,8 +14,9 @@ es la de esta tabla.
 | `/mapa` | Tres capas: Airbnb (puntos, facturación), Hoteles (radio de 0 a 500 m: pisos que absorbe), Restauración (demanda hoy y cambio en 2028). Panel por barrio | hecho |
 | `/airbnb` | El embudo de 15.406 anuncios a 4.985 pisos, tarjeta a tarjeta, y debajo el registro oficial y los pisos sin registro | hecho |
 | `/fuentes` | Fuentes, decisiones, límites del análisis | hecho |
-| `/hoteles` | Ocupación hoy y en 2028 (por banda y mes a mes, INE), categorías y hoteles anunciados | hecho |
-| `/turistas` | Turistas en el conjunto de datos frente al INE, cuánto se alejan y qué barrios suben y bajan | hecho |
+| `/hoteles` | Cifras del INE, ocupación hoy y en 2028 (por banda y mes a mes) y categorías, con un mapa anclado a la derecha (barrios por hoteles y turistas de más, zonas del PEUAT) y debajo los hoteles anunciados | hecho |
+| `/restauracion` | Las 10 marcas con más locales, los 5 locales y los 5 barrios que más ganan y los 5 que menos | hecho |
+| `/turistas` | Adónde van los turistas de los pisos (distancia, bandas) y los viajeros frente al INE | hecho |
 | `/mapa-anterior` y `/flujos` | El mapa de sustitución con barra de precio-ubicación y flechas. Se conservan para revisar | no enlazados |
 
 **Decisiones cerradas el 2026-10-04/05**
@@ -28,12 +29,16 @@ es la de esta tabla.
 - El reparto de turistas a hoteles es por banda (`modelar_flujos_banda.py`).
 - Portada: top 5 de barrios que ganan y que pierden turistas, y anfitriones con más pisos.
 - Los pisos sin registro acreditado salen del modelo (1.849 de los 6.834; `supuestos.md` → B7).
+- Portada con KPIs centrados y en el tono oscuro de cada color; ganan y pierden en verde y rojo desaturados.
+- `/airbnb`: los datos del registro se ven desde la primera tarjeta, debajo.
+- `/turistas` pierde su primera sección y los barrios (están en la portada); el INE pasa a `/hoteles`.
+- Restaurantes: se retiran 14 repetidos (`supuestos.md` → F13).
 
 **Pendiente de decidir**
 
 - Si se publica la cota superior de las 5.394 licencias sin anuncio (`supuestos.md` → C5).
 - Si los precios de hotel siguen viniendo de varias fuentes, se raspa Booking, o se usa solo la banda.
-- PEUAT: la capa de zonas en el mapa y verificar si la modificación de 2023 está en vigor. Los hoteles nuevos ya están (cuatro, de prensa).
+- PEUAT: las zonas ya están en el mapa de `/hoteles`; falta verificar qué códigos admiten hoteles nuevos y si la modificación de 2023 está en vigor. Los hoteles nuevos ya están (cuatro, de prensa).
 - Cuánto subirá el precio de los hoteles (`supuestos.md` → F11).
 
 ---|---|---|

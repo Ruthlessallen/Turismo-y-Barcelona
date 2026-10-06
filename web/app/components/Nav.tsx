@@ -13,6 +13,7 @@ const SECCIONES = [
   { href: "/mapa", etiqueta: "El mapa" },
   { href: "/airbnb", etiqueta: "Airbnb" },
   { href: "/hoteles", etiqueta: "Hoteles" },
+  { href: "/restauracion", etiqueta: "Restauración" },
   { href: "/turistas", etiqueta: "Turistas" },
   { href: "/fuentes", etiqueta: "Fuentes" },
 ];

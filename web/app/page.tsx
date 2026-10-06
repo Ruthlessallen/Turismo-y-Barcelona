@@ -3,14 +3,14 @@
 import { useEffect, useState } from "react";
 
 import { BarrasDivergentes, Cifra, Seccion, Tarjeta } from "@/app/components/Graficos";
-import { COLOR, n } from "@/app/lib/tiposMapa";
+import { COLOR, OSCURO, n } from "@/app/lib/tiposMapa";
 
 /** Lo que publica `export_mapa_limpio.py` en `dashboard.json`. */
 type Dashboard = {
   hoteles: {
     total: number; habitaciones: number; plazas: number;
     bandas: Record<string, number>;
-    titulares: { nom: string; n: number }[];
+    titulares: { nom: string; n: number; plazas: number }[];
     turistas_nuevos: number; turistas_nuevos_pct: number;
   };
   pisos: {
@@ -22,13 +22,18 @@ type Dashboard = {
 };
 
 /** Los barrios de `flujo.json`: los mismos que enseña `/turistas`. */
-type BarrioFlujo = { barrio: string; saldo: number; cambio_pct: number | null };
+type BarrioFlujo = {
+  barrio: string; hoy: number; en_2028: number; saldo: number; cambio_pct: number | null;
+};
 
 /** 222 millones: lo que se lee de un vistazo. */
 const millones = (v: number) => (v / 1e6).toLocaleString("es", { maximumFractionDigits: 0 });
 
 const pct = (b: BarrioFlujo) =>
   b.cambio_pct == null ? "" : `${b.cambio_pct > 0 ? "+" : ""}${n(Math.round(b.cambio_pct))} %`;
+
+/** Lo que sale al pasar el ratón por una barra: los turistas que hay hoy y los de 2028. */
+const hoy = (b: BarrioFlujo) => `Hoy: ${n(b.hoy)} turistas · 2028: ${n(b.en_2028)}`;
 
 export default function Portada() {
   const [d, setD] = useState<Dashboard | null>(null);
@@ -53,11 +58,11 @@ export default function Portada() {
       <div className="mx-auto max-w-6xl px-5 py-8 sm:px-8">
         <Seccion color={COLOR.hotel} titulo="Hoteles">
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-            <Cifra valor={n(h.total)} etiqueta="hoteles" />
-            <Cifra valor={n(h.habitaciones)} etiqueta="habitaciones" />
-            <Cifra valor={n(h.plazas)} etiqueta="plazas" />
+            <Cifra valor={n(h.total)} etiqueta="hoteles" color={OSCURO.hotel} />
+            <Cifra valor={n(h.habitaciones)} etiqueta="habitaciones" color={OSCURO.hotel} />
+            <Cifra valor={n(h.plazas)} etiqueta="plazas" color={OSCURO.hotel} />
             <Cifra valor={`+${h.turistas_nuevos_pct.toLocaleString("es")} %`}
-              etiqueta="turistas nuevos tras 2028" color={COLOR.hotel}
+              etiqueta="turistas nuevos tras 2028" color={OSCURO.hotel}
               pie={`${n(h.turistas_nuevos)} por noche`} />
           </div>
 
@@ -68,25 +73,19 @@ export default function Portada() {
             </Tarjeta>
 
             <Tarjeta titulo="Titulares con más hoteles">
-              <ol className="space-y-1 text-[13px]">
-                {h.titulares.map((t) => (
-                  <li key={t.nom} className="flex justify-between gap-3">
-                    <span className="truncate">{t.nom}</span>
-                    <b className="tabular-nums">{t.n}</b>
-                  </li>
-                ))}
-              </ol>
+              <Ranking filas={h.titulares} unidad="hoteles" />
             </Tarjeta>
           </div>
         </Seccion>
 
         <Seccion color={COLOR.piso} titulo="Airbnb">
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-            <Cifra valor={n(p.total)} etiqueta="pisos" pie={`de ${n(p.anuncios_barridos)} anuncios`} />
-            <Cifra valor={n(p.habitaciones)} etiqueta="habitaciones" />
-            <Cifra valor={n(p.plazas)} etiqueta="plazas" />
+            <Cifra valor={n(p.total)} etiqueta="pisos" pie={`de ${n(p.anuncios_barridos)} anuncios`}
+              color={OSCURO.piso} />
+            <Cifra valor={n(p.habitaciones)} etiqueta="habitaciones" color={OSCURO.piso} />
+            <Cifra valor={n(p.plazas)} etiqueta="plazas" color={OSCURO.piso} />
             <Cifra valor={`${millones(p.facturacion[0])}–${millones(p.facturacion[1])} M€`}
-              etiqueta="al año" pie="aproximado" color={COLOR.piso} />
+              etiqueta="al año" pie="aproximado" color={OSCURO.piso} />
           </div>
 
           <div className="mt-3 grid gap-3 lg:grid-cols-2">
@@ -96,14 +95,7 @@ export default function Portada() {
             </Tarjeta>
 
             <Tarjeta titulo="Anfitriones con más pisos">
-              <ol className="space-y-1 text-[13px]">
-                {p.anfitriones.map((a) => (
-                  <li key={a.nom} className="flex justify-between gap-3">
-                    <span className="truncate">{a.nom}</span>
-                    <b className="tabular-nums">{n(a.n)}</b>
-                  </li>
-                ))}
-              </ol>
+              <Ranking filas={p.anfitriones} unidad="pisos" />
             </Tarjeta>
           </div>
         </Seccion>
@@ -112,16 +104,40 @@ export default function Portada() {
           <div className="grid gap-3 lg:grid-cols-2">
             <Tarjeta titulo="Los 5 barrios que ganan turistas">
               <BarrasDivergentes tope={tope}
-                filas={sube.map((b) => ({ etiqueta: b.barrio, valor: b.saldo, pie: pct(b) }))} />
+                filas={sube.map((b) => ({ etiqueta: b.barrio, valor: b.saldo, pie: pct(b), detalle: hoy(b) }))} />
             </Tarjeta>
             <Tarjeta titulo="Los 5 barrios que pierden turistas">
               <BarrasDivergentes tope={tope}
-                filas={baja.map((b) => ({ etiqueta: b.barrio, valor: b.saldo, pie: pct(b) }))} />
+                filas={baja.map((b) => ({ etiqueta: b.barrio, valor: b.saldo, pie: pct(b), detalle: hoy(b) }))} />
             </Tarjeta>
           </div>
         </Seccion>
       </div>
     </main>
+  );
+}
+
+/** Una lista con el nombre a la izquierda y, a la derecha del todo, cuántos y cuántas plazas. */
+function Ranking({ filas, unidad }: {
+  filas: { nom: string; n: number; plazas: number }[]; unidad: string;
+}) {
+  return (
+    <div className="text-[13px]">
+      <div className="mb-1 grid grid-cols-[1fr_4rem_5.5rem] gap-2 text-[11px] text-[#52514e]">
+        <span />
+        <span className="text-right">{unidad}</span>
+        <span className="text-right">plazas</span>
+      </div>
+      <ol className="space-y-1">
+        {filas.map((f) => (
+          <li key={f.nom} className="grid grid-cols-[1fr_4rem_5.5rem] items-baseline gap-2">
+            <span className="truncate">{f.nom}</span>
+            <b className="text-right tabular-nums">{n(f.n)}</b>
+            <span className="text-right tabular-nums text-[#52514e]">{n(f.plazas)}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
   );
 }
 

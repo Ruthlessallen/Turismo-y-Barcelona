@@ -333,6 +333,48 @@ def licencias() -> dict:
     }
 
 
+def restauracion_pagina(r: pd.DataFrame, filas: list[dict]) -> dict:
+    """Marcas con mas locales, locales y barrios que mas ganan clientes en 2028, y los que menos.
+
+    **«Marca» es el rotulo, no la empresa**: el censo de la ciudad no trae CIF ni razon social. Se
+    agrupan los rotulos que el censo escribe de dos maneras (`MC DONALDS`/`MCDONALDS`).
+    **Ganar o perder** se mide en clientes potenciales por noche (hoy frente a 2028), en valor
+    absoluto y no en porcentaje: un local con 0,1 clientes que pasa a 1 «gana un 900 %» y no dice nada.
+    """
+    d = r.assign(_marca=r["nombre"].map(marca))
+    c = d.dropna(subset=["_marca"]).groupby("_marca")
+    marcas = pd.DataFrame({
+        "locales": c.size(),
+        "hoy": c["turistas"].sum(), "en_2028": c["turistas_2028"].sum(),
+    }).sort_values("locales", ascending=False).head(10)
+
+    d["_dif"] = d["turistas_2028"] - d["turistas"]
+    top_locales = d.sort_values("_dif", ascending=False).head(5)
+
+    b = pd.DataFrame(filas)
+    b = b[b["restaurantes"] > 0].assign(dif=lambda x: x["demanda_2028"] - x["demanda_hoy"])
+    def barrio(x):
+        return {"barrio": x["barrio"], "hoy": int(x["demanda_hoy"]), "en_2028": int(x["demanda_2028"]),
+                "cambio": int(x["dif"]), "locales": int(x["restaurantes"]),
+                "cambio_pct": None if x["demanda_hoy"] <= 0 else round(float(x["dif"] / x["demanda_hoy"] * 100), 1)}
+
+    con = r["turistas"] > 0
+    return {
+        "locales": len(r), "con_turistas": int(con.sum()),
+        "hoy": round(float(r["turistas"].sum())), "en_2028": round(float(r["turistas_2028"].sum())),
+        "ganan": int((r["turistas_2028"] > r["turistas"]).sum()),
+        "pierden": int((r["turistas_2028"] < r["turistas"]).sum()),
+        "marcas": [{"nom": x.Index, "locales": int(x.locales),
+                    "cambio_pct": None if x.hoy <= 0 else round(float((x.en_2028 / x.hoy - 1) * 100), 1)}
+                   for x in marcas.itertuples()],
+        "locales_top": [{"nom": texto(x.nombre), "tipo": texto(x.tipo_local), "barrio": texto(x.barrio),
+                         "hoy": round(float(x.turistas), 1), "en_2028": round(float(x.turistas_2028), 1)}
+                        for x in top_locales.itertuples()],
+        "barrios_mas": [barrio(x) for _, x in b.sort_values("dif", ascending=False).head(5).iterrows()],
+        "barrios_menos": [barrio(x) for _, x in b.sort_values("dif").head(5).iterrows()],
+    }
+
+
 def nuevos() -> list[dict]:
     d = pd.read_csv(NUEVOS)
     return [{k: (None if pd.isna(v) else v) for k, v in fila.items()} for fila in d.to_dict("records")]
@@ -396,7 +438,9 @@ def dashboard(p: pd.DataFrame, h: pd.DataFrame, tur_nuevos: float) -> dict:
     todos = pd.read_csv(GOLD / "airbnb_excluidos_web.csv", low_memory=False, usecols=["id"])
     turistas_hotel_hoy = float((h["plazas"].fillna(0) * OCUPACION_HOTEL_PLAZAS).sum())
     nuevos = tur_nuevos
-    titulares = h["titular"].dropna().value_counts().head(5)
+    titulares = (h.dropna(subset=["titular"]).groupby("titular")
+                 .agg(n=("id", "size"), plazas=("plazas", "sum"))
+                 .sort_values(["n", "plazas"], ascending=False).head(5))
     bandas = h["banda_hab"].value_counts()
     return {
         "hoteles": {
@@ -404,7 +448,7 @@ def dashboard(p: pd.DataFrame, h: pd.DataFrame, tur_nuevos: float) -> dict:
             "plazas": int(h["plazas"].fillna(0).sum()),
             "bandas": {b: int(bandas.get(b, 0)) for b in ("€", "€€", "€€€", "€€€€")},
             "sin_banda": int(h["banda_hab"].isna().sum()),
-            "titulares": [{"nom": k, "n": int(v)} for k, v in titulares.items()],
+            "titulares": [{"nom": k, "n": int(v.n), "plazas": int(v.plazas)} for k, v in titulares.iterrows()],
             "turistas_hoy": round(turistas_hotel_hoy),
             "turistas_nuevos": round(nuevos),
             "turistas_nuevos_pct": round(nuevos / turistas_hotel_hoy * 100, 1),
@@ -507,6 +551,7 @@ def main() -> None:
         })
     volcar("barrios_hoy.json", filas)
     volcar("dashboard.json", dashboard(p, h, rep["tur_total"]))
+    volcar("restauracion_pagina.json", restauracion_pagina(r, filas))
 
     # --- Turistas: lo que hay en este conjunto de datos frente a lo que dice el INE.
     datos_ine = ine()
@@ -547,7 +592,20 @@ def main() -> None:
     # --- Pagina de hoteles: categorias, estacionalidad, ocupacion hoy y en 2028, hoteles nuevos.
     cat = h.groupby(h["cat"].fillna("Sin categoria")).agg(hoteles=("id", "size"), habitaciones=("hab", "sum"))
     por_banda = ab.groupby("banda").agg(hab=("hab", "sum"), abs_=("hab_abs", "sum")).reindex(BANDAS).fillna(0)
+    # Por barrio: hoteles, y cuantos turistas mas tendran en 2028 frente a los de hoy (mismo criterio
+    # que la portada: plazas x 67,9 % frente a lo que llega del reparto por banda).
+    hoy_b = h.groupby("barrio")["plazas"].sum() * OCUPACION_HOTEL_PLAZAS
+    nuevos_b = ab.groupby("barrio")["tur_abs"].sum()
+    hoteles_b = h.groupby("barrio").size()
+    hab_b = h.groupby("barrio")["hab"].sum()
+    hoteles_barrios = [{
+        "barrio": b, "hoteles": int(hoteles_b[b]), "habitaciones": int(hab_b[b]),
+        "hoy": round(float(hoy_b[b])), "nuevos": round(float(nuevos_b.get(b, 0))),
+        "mas_pct": None if hoy_b[b] <= 0 else round(float(nuevos_b.get(b, 0) / hoy_b[b] * 100), 1),
+    } for b in hoteles_b.index]
+
     volcar("hoteles_pagina.json", {
+        "barrios": hoteles_barrios,
         "categorias": [{"cat": k, "hoteles": int(v.hoteles), "habitaciones": int(v.habitaciones)}
                        for k, v in cat.sort_values("habitaciones", ascending=False).iterrows()],
         "ocupacion_mensual": datos_ine["ocupacion_habitaciones"],

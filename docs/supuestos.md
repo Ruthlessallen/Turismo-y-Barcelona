@@ -413,8 +413,8 @@ estudia es otro: el turista que hoy elige un piso para ahorrar cocinando, y que 
 cocina) tiene que salir a comer.
 
 - **El turista de piso cuenta la mitad hoy y entero en 2028.** La mitad (`PESO_PISO_EN_RESTAURACION`)
-  **es un supuesto, no un dato**, y de él sale por sí solo el aumento total (+7,5 %). Lo que sí
-  informa el modelo es dónde sube y dónde baja: 4.409 locales ganan y 3.718 pierden.
+  **es un supuesto, no un dato**, y de él sale por sí solo el aumento total (+7,4 %). Lo que sí
+  informa el modelo es dónde sube y dónde baja: 4.479 locales ganan y 3.830 pierden.
 - **El % es sobre estos clientes, no sobre los del local.** Los vecinos y el turista de hotel de
   siempre no están.
 - **Radio de 200 m**, repartido a partes iguales entre los locales del radio. Probar 100, 300 y 500
@@ -464,6 +464,26 @@ vigencia de la modificación del PEUAT que permite hoteles «singulares» no est
 Para pasar de noches a turistas al año en los pisos (1,1–1,4 millones) se supone una estancia de 3
 noches, la misma que usa el método de reseñas (F3). Con 4 noches serían 0,8–1,0 millones. El INE da
 2,38 noches para los hoteles; para los pisos no hay dato.
+
+### F13. Dos locales con el mismo nombre a menos de 10 m son uno
+
+El censo comercial da de alta dos veces un local de esquina, uno por cada portal. Con el mismo
+nombre normalizado (sin acentos ni signos) y a 10 m o menos, se queda uno: el de la visita más
+reciente. Son 14 de 9.479 locales (`gold/preparar_restauracion_bcn.py`). **Es un umbral elegido**:
+entre 10 y 40 m hay 11 pares con el mismo nombre que pueden ser locales distintos (30 m entre dos
+AROMES, en Parellada y en Gran de Sant Andreu) y no se distinguen de un duplicado: se dejan. No se tocan los locales sin nombre.
+
+### F14. El mapa de hoteles y los rankings de restauración
+
+- **«Turistas más en 2028» por barrio:** lo que el reparto por banda lleva a los hoteles del barrio,
+  dividido por lo que alojan hoy (plazas × 67,9 %). No es una ocupación: es el mismo cociente que el
+  +16,0 % de toda la ciudad. Un barrio con pocos hoteles y muchos pisos puede salir con +30 % o más.
+- **PEUAT:** se pintan las 12 zonas por su código. Qué códigos admiten hoteles nuevos no está
+  verificado (`architecture.md`); según la prensa, las zonas 1 y 2 no.
+- **Ranking de restauración en valor absoluto**, no en porcentaje. Los barrios que «menos ganan» son
+  los que más pierden; en Can Baró o el Carmel pasan de unas pocas decenas de clientes a cero.
+- **«Marca» es el rótulo**: el censo de la ciudad no trae CIF. Dos rótulos que el censo escribe de
+  dos maneras (`STARBUCKS COFFEE`/`STARBUCKS`, `MC DONALDS`/`MCDONALDS`) se agrupan.
 
 ---
 

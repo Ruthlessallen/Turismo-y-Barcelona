@@ -27,6 +27,7 @@ from __future__ import annotations
 import unicodedata
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 RAIZ = Path(__file__).resolve().parents[2]
@@ -122,6 +123,35 @@ def quitar_duplicados(r: pd.DataFrame) -> pd.DataFrame:
     return pd.concat([limpios, r[~r["local_identificado"]]]).sort_index()
 
 
+# Un edificio con dos accesos --una esquina-- sale dos veces con el mismo nombre y portales distintos:
+# `SUSHI SAMBA` en Artesa de Segre 11 y en Ciutat de Balaguer 35, a 6 m uno de otro. No son iguales
+# ni en direccion ni en identificador, asi que la regla de arriba no los ve. A 10 m, o menos, con el
+# mismo nombre, es un solo local; en el censo hay 14 casos y el mayor salto entre dos de ellos es de
+# 9 m. Mas alla de 10 m se dejan: entre 10 y 40 m hay 11 pares que pueden ser dos locales distintos.
+RADIO_MISMO_LOCAL_M = 10
+LAT0 = 41.39
+
+
+def quitar_misma_esquina(r: pd.DataFrame) -> pd.DataFrame:
+    """Mismo nombre a menos de `RADIO_MISMO_LOCAL_M`: se conserva la visita mas reciente."""
+    nombre = r["nombre"].map(lambda t: None if pd.isna(t) else sin_acentos(t).strip())
+    y = r["latitud"].to_numpy(float) * 111_320
+    x = r["longitud"].to_numpy(float) * 111_320 * np.cos(np.radians(LAT0))
+    quitar = set()
+    for _, g in r.assign(_n=nombre, _x=x, _y=y).dropna(subset=["_n"]).groupby("_n"):
+        if len(g) < 2:
+            continue
+        g = g.sort_values("fecha_revision", ascending=False)
+        for i, a in enumerate(g.index):
+            if a in quitar:
+                continue
+            for b in g.index[i + 1:]:
+                if b not in quitar and np.hypot(g.at[a, "_x"] - g.at[b, "_x"],
+                                                g.at[a, "_y"] - g.at[b, "_y"]) <= RADIO_MISMO_LOCAL_M:
+                    quitar.add(b)
+    return r.drop(index=list(quitar))
+
+
 def main() -> None:
     censo = pd.read_csv(ENTRADA, low_memory=False)
     print(f"Censo comercial: {len(censo):,} locales")
@@ -133,6 +163,9 @@ def main() -> None:
     antes = len(r)
     r = quitar_duplicados(r)
     print(f"Duplicados retirados: {antes - len(r)}")
+    antes = len(r)
+    r = quitar_misma_esquina(r)
+    print(f"Mismo nombre a menos de {RADIO_MISMO_LOCAL_M} m (un edificio con dos accesos): {antes - len(r)}")
 
     if r["local_id"].duplicated().any():
         raise ValueError("quedan local_id repetidos")

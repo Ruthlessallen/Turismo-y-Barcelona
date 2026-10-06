@@ -213,7 +213,7 @@ se acordara; en gold ningun consumidor futuro puede saltarselo.
 
 #### restauracion_bcn
 
-**Tabla real: `data/gold/restauracion_bcn.csv` (9.479 locales), producida por
+**Tabla real: `data/gold/restauracion_bcn.csv` (9.465 locales), producida por
 `pipeline/gold/preparar_restauracion_bcn.py`.** Barcelona ciudad, del censo comercial municipal de
 2024. Las comprobaciones que justifican cada decision estan en
 `pipeline/notebooks/revisar_restauracion.ipynb`.
@@ -222,7 +222,7 @@ se acordara; en gold ningun consumidor futuro puede saltarselo.
 |-------|------|-------------|
 | `local_id` | VARCHAR (PK) | `ID_Global` del censo, **normalizado**: 190 venian entre llaves `{uuid}` y uno con un caracter de mas |
 | `nombre` | VARCHAR NULL | Nulo en 56. El censo escribe `SN` --sense nom--; se pasa a nulo de verdad, porque como texto haria que 56 locales se llamaran igual |
-| `tipo_local` | VARCHAR | `restaurante` (4.429) \| `bar` (4.272) \| `comida_rapida` (778) |
+| `tipo_local` | VARCHAR | `restaurante` (4.424) \| `bar` (4.263) \| `comida_rapida` (778) |
 | `distrito`, `barrio`, `codigo_barrio` | VARCHAR | Oficiales, sin nulos. **Los 73 barrios y los 10 distritos** cubiertos |
 | `calle`, `numero`, `direccion` | VARCHAR | `direccion` es la `Direccio_Unica` del censo, que incluye el numero de local |
 | `latitud`, `longitud` | DOUBLE | Posicion real, **sin ofuscar**, precision de centimetros. 9.294 puntos distintos: 198 locales comparten punto con otro, y los 11 grupos que lo hacen tienen la misma referencia catastral --son locales del mismo edificio con el punto del portal-- |

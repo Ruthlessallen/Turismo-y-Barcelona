@@ -70,7 +70,7 @@ export default function PaginaFuentes() {
                 ],
                 [
                   "puntos_restaurantes.json",
-                  "9.479 locales: clientes potenciales hoy y en 2028",
+                  "9.465 locales: clientes potenciales hoy y en 2028",
                   "export_mapa_limpio.py",
                 ],
                 [
@@ -176,8 +176,9 @@ export default function PaginaFuentes() {
               fecha="Trabajo de campo de 2023 y 2024"
             >
               <P>
-                9.479 locales de restauración de la ciudad: 4.429 restaurantes, 4.272 bares y 778 de
-                comida rápida. Se usa el censo y no OpenStreetMap porque OSM se deja fuera un 26% de
+                9.465 locales de restauración de la ciudad: 4.424 restaurantes, 4.263 bares y 778 de
+                comida rápida. Se retiran 14 locales repetidos: el mismo nombre a menos de 10 metros,
+                que es un edificio con dos accesos dado de alta dos veces. Se usa el censo y no OpenStreetMap porque OSM se deja fuera un 26% de
                 la restauración de Barcelona. No existe un censo equivalente de 2026; se comprobó.
               </P>
             </Fuente>
@@ -363,8 +364,8 @@ export default function PaginaFuentes() {
               a comer. Cada turista reparte su demanda entre los locales a menos de 200 metros de
               donde duerme. Hoy el de piso cuenta la mitad —tiene cocina— y en 2028, ya en un hotel,
               cuenta entero. <strong>La mitad es un supuesto, no un dato</strong>, y de él sale por sí
-              solo el aumento total (+7,5%). Lo que sí aporta el modelo es dónde: 4.409 locales ganan
-              y 3.718 pierden. El % es sobre estos clientes, no sobre todos los del local.
+              solo el aumento total (+7,4%). Lo que sí aporta el modelo es dónde: 4.479 locales ganan
+              y 3.830 pierden. El % es sobre estos clientes, no sobre todos los del local.
             </Decision>
 
             <Decision titulo="Los turistas se comparan con el INE">
