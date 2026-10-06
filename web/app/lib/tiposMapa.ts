@@ -130,3 +130,18 @@ export function analisisHotel(h: Hotel, pisos: Piso[], radio: number) {
     absorbe, pisosAbsorbidos: h.pisos_abs ?? 0,
   };
 }
+
+/** Habitaciones que piden los pisos, de 0 a 500 m en pasos de 50, para el gráfico lineal del hotel. */
+export function serieHotel(h: Hotel, pisos: Piso[]) {
+  const radios = Array.from({ length: 11 }, (_, i) => i * 50);
+  const dentro = new Array(radios.length).fill(0);
+  const hab = new Array(radios.length).fill(0);
+  for (const p of pisos) {
+    const d = distanciaM(h.lat, h.lon, p[0], p[1]);
+    if (d > 500) continue;
+    for (let i = Math.ceil(d / 50); i < radios.length; i++) { dentro[i]++; hab[i] += p[9] ?? 1; }
+  }
+  return radios.map((radio, i) => ({
+    radio, pisos: dentro[i], piden: hab[i] * OCUPACION.pisoBaja, pidenAlto: hab[i] * OCUPACION.pisoAlta,
+  }));
+}

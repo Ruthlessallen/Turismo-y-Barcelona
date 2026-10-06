@@ -374,6 +374,43 @@ PASOS_CRIBA = [
 ]
 
 
+ROOM = {"Entire home/apt": "Vivienda entera", "Private room": "Habitación privada",
+        "Shared room": "Habitación compartida", "Hotel room": "Habitación de hotel"}
+MOTIVO_REGISTRO = {
+    "número por encima del máximo emitido": "Número imposible", "número de relleno (123456, 000000 y similares)": "Número imposible",
+    "número que no consta en el registro": "Número que no consta",
+    "HUTB válido usado para anunciar una habitación, no la vivienda entera": "Número de otra cosa",
+    "el anfitrión acredita hotel o albergue en otros anuncios": "Número de otra cosa",
+    "no declara nada": "No declara nada", "declara exención": "Declara exención",
+    "HUTB que no consta, y además anuncia una habitación": "Habitación con número falso",
+    "anfitrión con HUTB, pero nada liga esta vivienda a ninguna": "Anfitrión con otras licencias",
+}
+
+
+def desglose(clave: str, g: pd.DataFrame) -> list[dict]:
+    """Los anuncios de un descarte, partidos por lo que mejor explica ese descarte."""
+    if clave == "alojamiento_reglado":
+        s = g["categoria_licencia"].fillna("Habitación de hotel")
+        s = s.str.replace(r" \(.*\)", "", regex=True).replace({"Apartament turístic": "Apartamento turístico"})
+    elif clave == "habitacion_sin_hutb":
+        s = g["neighbourhood_group"]
+    elif clave == "estancia_de_32_noches":
+        s = pd.cut(pd.to_numeric(g["minimum_nights"], errors="coerce"), [0, 32, 89, 364, 10_000],
+                   labels=["32 noches", "33 a 89", "90 a 364", "un año o más"]).astype(str)
+    elif clave == "sin_actividad_desde_09_2025":
+        a = pd.to_datetime(g["last_review_dt"], errors="coerce").dt.year
+        s = pd.cut(a, [0, 2022, 2023, 2024, 2025], labels=["2022 o antes", "2023", "2024", "2025"]).astype(str)
+    elif clave == "duplicado de nombre y anfitrion":
+        s = pd.cut(pd.to_numeric(g["calculated_host_listings_count"], errors="coerce"), [0, 9, 99, 299, 10_000],
+                   labels=["Anfitrión de 1 a 9 anuncios", "de 10 a 99", "de 100 a 299", "de 300 o más"]).astype(str)
+    elif clave == "sin_registro_acreditado":
+        s = g["motivo_estado"].map(MOTIVO_REGISTRO).fillna("Otro")
+    else:
+        return []
+    c = s.value_counts()
+    return [{"etiqueta": k, "anuncios": int(v)} for k, v in c.items()]
+
+
 def exportar_criba_airbnb() -> dict:
     """El embudo de 15.406 anuncios a 4.985 viviendas, paso a paso.
 
@@ -409,6 +446,7 @@ def exportar_criba_airbnb() -> dict:
             "plazas_descartadas": int(round(caen["accommodates"].fillna(0).sum())),
             "quedan": quedan,
             "plazas_restantes": int(round(plazas)),
+            "desglose": desglose(clave, caen),
         })
 
     volcar(DESTINO / "criba_airbnb.json", {
@@ -416,6 +454,8 @@ def exportar_criba_airbnb() -> dict:
                    "plazas": int(round(float(fuera["accommodates"].fillna(0).sum()
                                              + dentro["accommodates"].fillna(0).sum())))},
         "pasos": pasos,
+        "partida": [{"etiqueta": ROOM.get(k, k), "anuncios": int(v)} for k, v in
+                    pd.concat([fuera["room_type"], dentro["room_type"]]).value_counts().items()],
     })
     return {"pasos": len(pasos), "inicio": len(fuera) + len(dentro), "final": quedan}
 

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 import {
-  COLOR, analisisHotel, n,
+  COLOR, analisisHotel, serieHotel, n,
   type BarrioHoy, type Capas, type ColorRestaurante, type DatosMapa, type Foco, type Hotel,
   type ModoAlojamiento, type TipoBarrio,
 } from "@/app/lib/tiposMapa";
@@ -199,37 +199,105 @@ function PanelHotel({ hotel, datos, radio, onCerrar }: {
   hotel: Hotel; datos: DatosMapa; radio: number; onCerrar: () => void;
 }) {
   const a = useMemo(() => analisisHotel(hotel, datos.pisos, radio), [hotel, datos.pisos, radio]);
-  const pct = (v: number) => (a.total > 0 ? Math.round((v / a.total) * 100) : 0);
+  const serie = useMemo(() => serieHotel(hotel, datos.pisos), [hotel, datos.pisos]);
+  const total = a.total;
+  const libres = Math.max(total - a.ocupadas2028, 0);
+  const pct = (v: number) => (total > 0 ? Math.round((v / total) * 100) : 0);
+  const piden = a.habitaciones * 0.383;
+  const cubre = piden > 0 ? Math.min(a.absorbe / piden, 1) * 100 : 0;
 
   return (
-    <aside className="absolute top-3 right-3 bottom-3 z-[1000] w-[290px] max-w-[85vw] overflow-y-auto rounded border border-[#e3e0da] bg-white p-4 text-[13px] shadow-sm">
+    <aside className="absolute top-3 right-3 bottom-3 z-[1000] w-[300px] max-w-[85vw] overflow-y-auto rounded border border-[#e3e0da] bg-white p-4 text-[13px] shadow-sm">
       <div className="flex items-start justify-between gap-2">
         <div>
           <h2 className="text-[16px] leading-tight font-semibold">{hotel.nom ?? "Hotel"}</h2>
           <p className="text-[11px] text-[#52514e]">{hotel.cat} · {hotel.barrio}</p>
         </div>
-        <button type="button" onClick={onCerrar} aria-label="Cerrar"
-          className="text-[18px] leading-none text-[#52514e]">×</button>
+        <button type="button" onClick={onCerrar} aria-label="Cerrar" className="text-[18px] leading-none text-[#52514e]">×</button>
       </div>
 
-      <Bloque color={COLOR.piso} titulo={`Pisos a ${radio} m`} cifra={n(a.cerca)} unidad="pisos">
-        {n(a.plazas)} plazas · {n(a.habitaciones)} habitaciones
-      </Bloque>
-      <Bloque color={COLOR.hotel} titulo="El hotel" cifra={n(a.total)} unidad="habitaciones">
-        {n(hotel.plazas)} plazas
-      </Bloque>
-      <Bloque color={COLOR.hotel} titulo="Ocupadas hoy" cifra={n(Math.round(a.ocupadasHoy))}
-        unidad="habitaciones">
-        {pct(a.ocupadasHoy)} % del hotel
-      </Bloque>
-      <Bloque color="#24231f" titulo="Ocupadas en 2028" cifra={n(Math.round(a.ocupadas2028))}
-        unidad="habitaciones">
-        {pct(a.ocupadas2028)} % del hotel
-      </Bloque>
-      <Bloque color={COLOR.piso} titulo="Absorbe de Airbnb" cifra={n(a.pisosAbsorbidos)} unidad="pisos">
-        {n(Math.round(a.absorbe))} habitaciones
-      </Bloque>
+      <Titulo className="mt-3">Las {n(total)} habitaciones del hotel</Titulo>
+      <Apilada partes={[
+        { valor: a.ocupadasHoy, color: "#9dbbdc", texto: "ocupadas hoy" },
+        { valor: a.ocupadas2028 - a.ocupadasHoy, color: COLOR.hotel, texto: "absorbe de Airbnb" },
+        { valor: libres, color: "#e3e0da", texto: "libres en 2028" },
+      ]} total={total} formato={(v) => `${n(Math.round(v))} · ${pct(v)} %`} />
+
+      <Titulo className="mt-4">Los pisos a {radio} m piden</Titulo>
+      <Apilada partes={[
+        { valor: Math.min(a.absorbe, piden), color: COLOR.hotel, texto: "las absorbe este hotel" },
+        { valor: Math.max(piden - a.absorbe, 0), color: COLOR.piso, texto: "no las absorbe" },
+      ]} total={Math.max(piden, 0.0001)} formato={(v) => `${n(Math.round(v))} hab.`} />
+      <p className="mt-1 text-[11px] text-[#52514e]">
+        {n(a.cerca)} pisos · {n(a.plazas)} plazas · {n(Math.round(piden))} habitaciones por noche
+        {piden > 0 ? `, cubre el ${Math.round(cubre)} %` : ""}
+      </p>
+
+      <Titulo className="mt-4">Habitaciones que piden, según el radio</Titulo>
+      <Lineas serie={serie} radio={radio} absorbe={a.absorbe} libres={Math.max(total - a.ocupadasHoy, 0)} />
     </aside>
+  );
+}
+
+/** Una barra partida en tramos, con su leyenda debajo. */
+function Apilada({ partes, total, formato }: {
+  partes: { valor: number; color: string; texto: string }[]; total: number; formato: (v: number) => string;
+}) {
+  return (
+    <>
+      <div className="mt-1.5 flex h-4 overflow-hidden rounded bg-[#eeece7]">
+        {partes.map((p) => (
+          <div key={p.texto} style={{ width: `${(p.valor / total) * 100}%`, background: p.color }} />
+        ))}
+      </div>
+      <ul className="mt-1 space-y-0.5 text-[11px]">
+        {partes.map((p) => (
+          <li key={p.texto} className="flex items-center gap-1.5">
+            <i className="inline-block h-2 w-2 shrink-0 rounded-sm" style={{ background: p.color }} />
+            <b className="tabular-nums">{formato(p.valor)}</b>
+            <span className="text-[#52514e]">{p.texto}</span>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
+
+/** Gráfico lineal pequeño: lo que piden los pisos crece con el radio; lo que el hotel puede dar, no. */
+function Lineas({ serie, radio, absorbe, libres }: {
+  serie: { radio: number; pisos: number; piden: number; pidenAlto: number }[]; radio: number; absorbe: number; libres: number;
+}) {
+  const W = 260, H = 110, X0 = 28, Y0 = 8, ancho = W - X0 - 6, alto = H - Y0 - 18;
+  const max = Math.max(...serie.map((s) => s.pidenAlto), libres, 1) * 1.1;
+  const x = (r: number) => X0 + (r / 500) * ancho;
+  const y = (v: number) => Y0 + alto - (v / max) * alto;
+  const linea = (f: (s: (typeof serie)[number]) => number) => serie.map((s) => `${x(s.radio)},${y(f(s))}`).join(" ");
+  const actual = serie.find((s) => s.radio === Math.round(radio / 50) * 50) ?? serie[0];
+  return (
+    <>
+      <svg viewBox={`0 0 ${W} ${H}`} className="mt-1 w-full" role="img" aria-label="Habitaciones que piden los pisos según el radio">
+        {[0, 0.5, 1].map((f) => (
+          <g key={f}>
+            <line x1={X0} x2={W - 6} y1={y(max * f / 1.1)} y2={y(max * f / 1.1)} stroke="#eeece7" />
+            <text x={X0 - 3} y={y(max * f / 1.1) + 3} fontSize="8" textAnchor="end" fill="#52514e">{Math.round(max * f / 1.1)}</text>
+          </g>
+        ))}
+        <polyline points={linea((s) => s.pidenAlto)} fill="none" stroke={COLOR.piso} strokeWidth="1" strokeDasharray="3 2" />
+        <polyline points={linea((s) => s.piden)} fill="none" stroke={COLOR.piso} strokeWidth="2" />
+        <line x1={X0} x2={W - 6} y1={y(libres)} y2={y(libres)} stroke="#9dbbdc" strokeWidth="1.5" strokeDasharray="4 3" />
+        <line x1={X0} x2={W - 6} y1={y(absorbe)} y2={y(absorbe)} stroke={COLOR.hotel} strokeWidth="2" />
+        <line x1={x(radio)} x2={x(radio)} y1={Y0} y2={Y0 + alto} stroke="#24231f" strokeWidth="1" />
+        <circle cx={x(radio)} cy={y(actual.piden)} r="3" fill={COLOR.piso} />
+        {[0, 250, 500].map((r) => (
+          <text key={r} x={x(r)} y={H - 4} fontSize="8" textAnchor="middle" fill="#52514e">{r} m</text>
+        ))}
+      </svg>
+      <ul className="space-y-0.5 text-[11px] text-[#52514e]">
+        <li><i className="mr-1.5 inline-block h-0.5 w-3 align-middle" style={{ background: COLOR.piso }} />piden los pisos (38 %; discontinua, 48 %)</li>
+        <li><i className="mr-1.5 inline-block h-0.5 w-3 align-middle" style={{ background: COLOR.hotel }} />absorbe este hotel: <b className="text-[#24231f]">{n(Math.round(absorbe))}</b></li>
+        <li><i className="mr-1.5 inline-block h-0.5 w-3 align-middle" style={{ background: "#9dbbdc" }} />libres hoy en el hotel: <b className="text-[#24231f]">{n(Math.round(libres))}</b></li>
+      </ul>
+    </>
   );
 }
 
