@@ -54,64 +54,66 @@ export default function Portada() {
   const tope = Math.max(...sube.map((b) => b.saldo), ...baja.map((b) => -b.saldo));
 
   return (
+    // Una pantalla: dos columnas arriba (hoteles y Airbnb) y los barrios debajo. Todo en versión
+    // compacta para que quepa sin scroll; en pantallas pequeñas se apila y se desplaza.
     <main className="min-h-full bg-[#faf9f7] text-[#24231f]">
-      <div className="mx-auto max-w-6xl px-5 py-8 sm:px-8">
-        <Seccion color={COLOR.hotel} titulo="Hoteles">
-          <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-            <Cifra valor={n(h.total)} etiqueta="hoteles" color={OSCURO.hotel} />
-            <Cifra valor={n(h.habitaciones)} etiqueta="habitaciones" color={OSCURO.hotel} />
-            <Cifra valor={n(h.plazas)} etiqueta="plazas" color={OSCURO.hotel} />
-            <Cifra valor={`+${h.turistas_nuevos_pct.toLocaleString("es")} %`}
-              etiqueta="turistas nuevos tras 2028" color={OSCURO.hotel}
-              pie={`${n(h.turistas_nuevos)} por noche`} />
-          </div>
+      <div className="mx-auto max-w-6xl px-5 py-3 sm:px-8">
+        <div className="grid gap-x-4 gap-y-2 lg:grid-cols-2">
+          <Seccion color={COLOR.hotel} titulo="Hoteles" compacta>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+              <Cifra compacta valor={n(h.total)} etiqueta="hoteles" color={OSCURO.hotel} />
+              <Cifra compacta valor={n(h.habitaciones)} etiqueta="habitaciones" color={OSCURO.hotel} />
+              <Cifra compacta valor={n(h.plazas)} etiqueta="plazas" color={OSCURO.hotel} />
+              <Cifra compacta valor={`+${h.turistas_nuevos_pct.toLocaleString("es")} %`}
+                etiqueta="turistas más en 2028" color={OSCURO.hotel}
+                pie={`${n(h.turistas_nuevos)} por noche`} />
+            </div>
+            <div className="mt-2 grid gap-2">
+              <Tarjeta compacta titulo="Bandas económicas · por habitación">
+                <Bandas bandas={h.bandas} total={totalBandas}
+                  colores={["#9dbbdc", "#6f9fd0", "#1f5fa8", "#123a6b"]} />
+              </Tarjeta>
+              <Tarjeta compacta titulo="Titulares con más hoteles">
+                <Ranking filas={h.titulares} unidad="hoteles" />
+              </Tarjeta>
+            </div>
+          </Seccion>
 
-          <div className="mt-3 grid gap-3 lg:grid-cols-2">
-            <Tarjeta titulo="Bandas económicas · por habitación">
-              <Bandas bandas={h.bandas} total={totalBandas}
-                colores={["#9dbbdc", "#6f9fd0", "#1f5fa8", "#123a6b"]} />
-            </Tarjeta>
+          <Seccion color={COLOR.piso} titulo="Airbnb" compacta>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+              <Cifra compacta valor={n(p.total)} etiqueta="pisos" pie={`de ${n(p.anuncios_barridos)} anuncios`}
+                color={OSCURO.piso} />
+              <Cifra compacta valor={n(p.habitaciones)} etiqueta="habitaciones" color={OSCURO.piso} />
+              <Cifra compacta valor={n(p.plazas)} etiqueta="plazas" color={OSCURO.piso} />
+              <Cifra compacta valor={`${millones(p.facturacion[0])}–${millones(p.facturacion[1])}`}
+                etiqueta="millones de € al año" pie="aproximado" color={OSCURO.piso} />
+            </div>
+            <div className="mt-2 grid gap-2">
+              <Tarjeta compacta titulo="Bandas económicas · por plaza">
+                <Bandas bandas={p.bandas} total={totalBandasPisos}
+                  colores={["#f3ad62", "#e8710a", "#a84a00", "#6b2f00"]} />
+              </Tarjeta>
+              <Tarjeta compacta titulo="Anfitriones con más pisos">
+                <Ranking filas={p.anfitriones} unidad="pisos" />
+              </Tarjeta>
+            </div>
+          </Seccion>
+        </div>
 
-            <Tarjeta titulo="Titulares con más hoteles">
-              <Ranking filas={h.titulares} unidad="hoteles" />
-            </Tarjeta>
-          </div>
-        </Seccion>
-
-        <Seccion color={COLOR.piso} titulo="Airbnb">
-          <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-            <Cifra valor={n(p.total)} etiqueta="pisos" pie={`de ${n(p.anuncios_barridos)} anuncios`}
-              color={OSCURO.piso} />
-            <Cifra valor={n(p.habitaciones)} etiqueta="habitaciones" color={OSCURO.piso} />
-            <Cifra valor={n(p.plazas)} etiqueta="plazas" color={OSCURO.piso} />
-            <Cifra valor={`${millones(p.facturacion[0])}–${millones(p.facturacion[1])} M€`}
-              etiqueta="al año" pie="aproximado" color={OSCURO.piso} />
-          </div>
-
-          <div className="mt-3 grid gap-3 lg:grid-cols-2">
-            <Tarjeta titulo="Bandas económicas · por plaza">
-              <Bandas bandas={p.bandas} total={totalBandasPisos}
-                colores={["#f3ad62", "#e8710a", "#a84a00", "#6b2f00"]} />
-            </Tarjeta>
-
-            <Tarjeta titulo="Anfitriones con más pisos">
-              <Ranking filas={p.anfitriones} unidad="pisos" />
-            </Tarjeta>
-          </div>
-        </Seccion>
-
-        <Seccion color="#24231f" titulo="Turistas en 2028, por noche">
-          <div className="grid gap-3 lg:grid-cols-2">
-            <Tarjeta titulo="Los 5 barrios que ganan turistas">
-              <BarrasDivergentes tope={tope}
-                filas={sube.map((b) => ({ etiqueta: b.barrio, valor: b.saldo, pie: pct(b), detalle: hoy(b) }))} />
-            </Tarjeta>
-            <Tarjeta titulo="Los 5 barrios que pierden turistas">
-              <BarrasDivergentes tope={tope}
-                filas={baja.map((b) => ({ etiqueta: b.barrio, valor: b.saldo, pie: pct(b), detalle: hoy(b) }))} />
-            </Tarjeta>
-          </div>
-        </Seccion>
+        <div className="mt-2">
+          <Seccion color="#24231f" titulo="Turistas en 2028, por noche" compacta>
+            <div className="grid gap-2 lg:grid-cols-2">
+              <Tarjeta compacta titulo="Los 5 barrios que ganan turistas">
+                <BarrasDivergentes compacta tope={tope}
+                  filas={sube.map((b) => ({ etiqueta: b.barrio, valor: b.saldo, pie: pct(b), detalle: hoy(b) }))} />
+              </Tarjeta>
+              <Tarjeta compacta titulo="Los 5 barrios que pierden turistas">
+                <BarrasDivergentes compacta tope={tope}
+                  filas={baja.map((b) => ({ etiqueta: b.barrio, valor: b.saldo, pie: pct(b), detalle: hoy(b) }))} />
+              </Tarjeta>
+            </div>
+          </Seccion>
+        </div>
       </div>
     </main>
   );
@@ -128,7 +130,7 @@ function Ranking({ filas, unidad }: {
         <span className="text-right">{unidad}</span>
         <span className="text-right">plazas</span>
       </div>
-      <ol className="space-y-1">
+      <ol className="space-y-0.5">
         {filas.map((f) => (
           <li key={f.nom} className="grid grid-cols-[1fr_4rem_5.5rem] items-baseline gap-2">
             <span className="truncate">{f.nom}</span>
@@ -147,7 +149,7 @@ function Bandas({ bandas, total, colores }: {
 }) {
   return (
     <>
-      <div className="flex h-7 overflow-hidden rounded text-[12px] font-semibold text-white">
+      <div className="flex h-5 overflow-hidden rounded text-[11px] font-semibold text-white">
         {Object.entries(bandas).map(([banda, cuantos], i) => (
           <div key={banda} className="flex items-center justify-center"
             style={{ width: `${(cuantos / total) * 100}%`, background: colores[i] }}>
@@ -155,7 +157,7 @@ function Bandas({ bandas, total, colores }: {
           </div>
         ))}
       </div>
-      <ul className="mt-2 flex justify-between text-[13px] tabular-nums">
+      <ul className="mt-1 flex justify-between text-[12px] tabular-nums">
         {Object.entries(bandas).map(([banda, cuantos]) => (
           <li key={banda}><b>{n(cuantos)}</b> <span className="text-[#52514e]">{banda}</span></li>
         ))}

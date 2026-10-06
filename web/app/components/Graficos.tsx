@@ -51,12 +51,12 @@ export function BarrasH({ filas, max, color = "#24231f", formato = (v: number) =
 }
 
 /** Barras que salen del centro: a la derecha lo que sube (verde), a la izquierda lo que baja (rojo). */
-export function BarrasDivergentes({ filas, tope: topeFijo, formato = (v: number) => `${v > 0 ? "+" : ""}${n(v)}` }: {
-  filas: FilaBarra[]; tope?: number; formato?: (v: number) => string;
+export function BarrasDivergentes({ filas, tope: topeFijo, formato = (v: number) => `${v > 0 ? "+" : ""}${n(v)}`, compacta }: {
+  filas: FilaBarra[]; tope?: number; formato?: (v: number) => string; compacta?: boolean;
 }) {
   const tope = topeFijo ?? Math.max(...filas.map((f) => Math.abs(f.valor)), 1);
   return (
-    <ul className="space-y-1.5">
+    <ul className={compacta ? "space-y-1" : "space-y-1.5"}>
       {filas.map((f) => {
         const ancho = (Math.abs(f.valor) / tope) * 50;
         const sube = f.valor >= 0;
@@ -135,36 +135,38 @@ export function Matriz({ etiquetas, valores, color = "31,95,168", titulo }: {
   );
 }
 
-export function Cifra({ valor, etiqueta, pie, color }: {
-  valor: string; etiqueta: string; pie?: string; color?: string;
+/** `compacta`: para las pantallas que tienen que caber sin scroll, como la portada. */
+export function Cifra({ valor, etiqueta, pie, color, compacta }: {
+  valor: string; etiqueta: string; pie?: string; color?: string; compacta?: boolean;
 }) {
   return (
-    <div className="rounded border border-[#e3e0da] bg-white p-4 text-center"
+    <div className={`rounded border border-[#e3e0da] bg-white text-center ${compacta ? "flex min-h-[80px] flex-col justify-center px-2 py-2" : "p-4"}`}
       style={color ? { borderTop: `3px solid ${color}` } : undefined}>
-      <p className="text-[28px] leading-none font-semibold tabular-nums" style={color ? { color } : undefined}>{valor}</p>
-      <p className="mt-1.5 text-[13px] font-medium">{etiqueta}</p>
-      {pie && <p className="mt-0.5 text-[11px] text-[#52514e]">{pie}</p>}
+      <p className={`leading-none font-semibold tabular-nums ${compacta ? "text-[21px]" : "text-[28px]"}`}
+        style={color ? { color } : undefined}>{valor}</p>
+      <p className={`font-medium ${compacta ? "mt-1 text-[11px] leading-tight" : "mt-1.5 text-[13px]"}`}>{etiqueta}</p>
+      {pie && <p className={`text-[#52514e] ${compacta ? "mt-0.5 text-[10px] leading-tight" : "mt-0.5 text-[11px]"}`}>{pie}</p>}
     </div>
   );
 }
 
-export function Tarjeta({ titulo, children, className = "" }: {
-  titulo: string; children: React.ReactNode; className?: string;
+export function Tarjeta({ titulo, children, className = "", compacta }: {
+  titulo: string; children: React.ReactNode; className?: string; compacta?: boolean;
 }) {
   return (
-    <div className={`rounded border border-[#e3e0da] bg-white p-4 ${className}`}>
-      <p className="mb-2.5 text-[12px] font-medium">{titulo}</p>
+    <div className={`rounded border border-[#e3e0da] bg-white ${compacta ? "p-2.5" : "p-4"} ${className}`}>
+      <p className={`text-[12px] font-medium ${compacta ? "mb-1" : "mb-2.5"}`}>{titulo}</p>
       {children}
     </div>
   );
 }
 
-export function Seccion({ color, titulo, children }: {
-  color: string; titulo: string; children: React.ReactNode;
+export function Seccion({ color, titulo, children, compacta }: {
+  color: string; titulo: string; children: React.ReactNode; compacta?: boolean;
 }) {
   return (
-    <section className="mb-8">
-      <h2 className="mb-3 flex items-center gap-2 text-[11px] font-semibold tracking-wider text-[#52514e] uppercase">
+    <section className={compacta ? "" : "mb-8"}>
+      <h2 className={`flex items-center gap-2 text-[11px] font-semibold tracking-wider text-[#52514e] uppercase ${compacta ? "mb-1.5" : "mb-3"}`}>
         <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: color }} />
         {titulo}
       </h2>

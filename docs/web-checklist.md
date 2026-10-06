@@ -10,7 +10,7 @@ es la de esta tabla.
 
 | Ruta | Qué es | Estado |
 |---|---|---|
-| `/` | Dashboard: solo cifras. Hoteles (hoteles, habitaciones, plazas, bandas, titulares con más hoteles, % de turistas nuevos tras 2028) y Airbnb (pisos, habitaciones, plazas, lo que mueven al año) | hecho |
+| `/` | Dashboard en una pantalla, sin scroll: solo cifras. Hoteles (hoteles, habitaciones, plazas, bandas, titulares con más hoteles, % de turistas nuevos tras 2028) y Airbnb (pisos, habitaciones, plazas, lo que mueven al año) | hecho |
 | `/mapa` | Tres capas: Airbnb (puntos, facturación), Hoteles (radio de 0 a 500 m: pisos que absorbe), Restauración (demanda hoy y cambio en 2028). Panel por barrio | hecho |
 | `/airbnb` | El embudo de 15.406 anuncios a 4.985 pisos, tarjeta a tarjeta, y debajo el registro oficial y los pisos sin registro | hecho |
 | `/fuentes` | Fuentes, decisiones, límites del análisis | hecho |
