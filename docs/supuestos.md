@@ -213,11 +213,44 @@ expediente (2008–2026, concentrado en 2012–2014), que es el de la solicitud,
 | **Sin ningún anuncio en Airbnb (junio 2026)** | **5.394** | **30.980** |
 
 De ahí la diferencia entre las 30.067 plazas de Airbnb y las 61.826 del registro. Se cuenta en
-la última tarjeta de la página `/airbnb`. El modelo ya las
+la última tarjeta de la página `/airbnb`, junto a los datos del registro: 10 distritos (el Eixample,
+4.870 licencias), licencias en vigor por trimestre (9.603 en 2018-T2, mínimo de 9.300 en 2022-T2,
+10.730 en 2026-T1), el expediente más antiguo (2008) y el HUTB más alto emitido (80024). El modelo ya las
 deja fuera: sin anuncio ni reseña no hay evidencia de actividad. Pueden estar en otras plataformas,
 dormidas o ser licencias fantasma. **Cota superior, no calculada en la web:** si todas estuvieran
 activas, serían hasta 30.980 plazas más. En las licencias que sí casan, Airbnb declara 23.888 plazas
 frente a las 29.937 del registro (un 25 % menos).
+
+### C6. 1.849 de los 6.834 pisos no tienen registro acreditado, y siguen contados
+
+Dentro de los 6.834 pisos, según lo que su anuncio dice de la licencia y lo que el registro contesta
+(`motivo_estado` en `gold/airbnb_para_web.csv`):
+
+| Grupo | Pisos | Plazas |
+|---|---:|---:|
+| Con registro que consta | 4.985 | 23.766 |
+| Dicen tener registro y no consta | 498 | 2.093 |
+| — número imposible (por encima del HUTB-80024, o de relleno como 123456) | 334 | 1.447 |
+| — número que no consta | 102 | 492 |
+| — número válido, pero de una habitación o de un hotel | 62 | 154 |
+| Deberían tenerlo y no lo declaran | 1.351 | 4.208 |
+| — no declara nada | 342 | 1.236 |
+| — declara exención | 373 | 1.263 |
+| — habitación con un número que no consta | 400 | 812 |
+| — anfitrión con licencias, ninguna de esta vivienda | 236 | 897 |
+
+**«No consta» no es «es mentira».** Solo el número imposible lo es con seguridad. Un número que no
+consta puede ser una licencia recién concedida que el registro aún no recoge (C1) o un error al
+escribirlo.
+
+**Lo que dice la ley.** La eliminación de 2028 quita licencias; estos 1.849 pisos (6.301 plazas, el
+21 % de las plazas) no tienen ninguna acreditada que quitar. Si siguen operando, será fuera del
+mercado legal. **Hoy el modelo los cuenta igualmente como turistas que hay que realojar**: no hay
+ningún dato que diga si se irán o se quedarán.
+
+Si solo se contaran los 4.985 con registro, el reparto daría 9.102 turistas por noche (frente a
+11.516), 4.486 habitaciones de hotel absorbidas (frente a 5.706) y una ocupación hotelera del 90,2 %
+(frente al 93,0 %). Está calculado y no publicado: decide el proyecto cuál es el escenario.
 
 ## D. Precio de Airbnb
 

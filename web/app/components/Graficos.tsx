@@ -12,14 +12,15 @@ export const MORADO = "#7b3fa0";
 export type FilaBarra = { etiqueta: string; valor: number; color?: string; pie?: string };
 
 /** Barras horizontales, de cero al máximo. */
-export function BarrasH({ filas, max, color = "#24231f", formato = (v: number) => n(Math.round(v)) }: {
-  filas: FilaBarra[]; max?: number; color?: string; formato?: (v: number) => string;
+export function BarrasH({ filas, max, color = "#24231f", formato = (v: number) => n(Math.round(v)), ancho = "9rem" }: {
+  filas: FilaBarra[]; max?: number; color?: string; formato?: (v: number) => string; ancho?: string;
 }) {
   const tope = max ?? Math.max(...filas.map((f) => f.valor), 1);
   return (
     <ul className="space-y-1.5">
       {filas.map((f) => (
-        <li key={f.etiqueta} className="grid grid-cols-[minmax(0,9rem)_1fr_auto] items-center gap-2 text-[12px]">
+        <li key={f.etiqueta} className="grid items-center gap-2 text-[12px]"
+          style={{ gridTemplateColumns: `minmax(0,${ancho}) 1fr auto` }}>
           <span className="truncate">{f.etiqueta}</span>
           <span className="h-3 rounded bg-[#eeece7]">
             <span className="block h-full rounded" style={{ width: `${(f.valor / tope) * 100}%`, background: f.color ?? color }} />

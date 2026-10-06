@@ -368,7 +368,8 @@ export default function PaginaFuentes() {
 
             <Decision titulo="Los turistas se comparan con el INE">
               Los hoteles de este conjunto alojan a 56.715 turistas por noche; el INE cuenta 60.133
-              pernoctaciones por noche (ago 2025 – jul 2026), un 6% más; en personas, 8,7 millones de viajeros al año frente a 9,2. Los pisos, entre 11.516 y
+              pernoctaciones por noche (ago 2025 – jul 2026), un 6% más; en personas, 8,7 millones de viajeros al año frente a 9,2. Los pisos son entre el
+              17 y el 20% de los turistas de este conjunto de datos, entre 11.516 y
               14.432 por noche y, a 3 noches de estancia —un supuesto—, entre 1,4 y 1,8 millones de
               turistas al año. El INE no mide pisos.
             </Decision>
@@ -380,8 +381,10 @@ export default function PaginaFuentes() {
               punto. Un piso también sale como punto, pero solo con lo que pinta el mapa: la
               posición que da la fuente (ya desplazada hasta 150 metros), las plazas, los
               dormitorios, el precio y la banda. <strong>Nunca</strong> su identificador, el nombre
-              del anuncio, el anfitrión ni el número de licencia. El anfitrión solo aparece agregado
-              por barrio, y solo si tiene cinco pisos o más en él: un operador, no un particular.
+              del anuncio, el anfitrión ni el número de licencia. El anfitrión solo aparece agregado:
+              por barrio si tiene cinco pisos o más en él, y en la portada los cinco con más pisos de
+              la ciudad, siempre que tengan al menos veinte. Es el nombre público en Airbnb de un
+              operador; un particular con pocos pisos nunca sale.
             </P>
             <P>
               Del hotel se publica la sociedad titular, nunca una persona física. Entre los titulares

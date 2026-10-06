@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+import { BarrasDivergentes, Cifra, Seccion, Tarjeta } from "@/app/components/Graficos";
 import { COLOR, n } from "@/app/lib/tiposMapa";
 
 /** Lo que publica `export_mapa_limpio.py` en `dashboard.json`. */
@@ -15,24 +16,37 @@ type Dashboard = {
   pisos: {
     anuncios_barridos: number; total: number; habitaciones: number; plazas: number;
     bandas: Record<string, number>;
+    anfitriones: { nom: string; n: number; plazas: number }[];
     facturacion: [number, number];
   };
 };
 
+/** Los barrios de `flujo.json`: los mismos que enseña `/turistas`. */
+type BarrioFlujo = { barrio: string; saldo: number; cambio_pct: number | null };
+
 /** 222 millones: lo que se lee de un vistazo. */
 const millones = (v: number) => (v / 1e6).toLocaleString("es", { maximumFractionDigits: 0 });
 
+const pct = (b: BarrioFlujo) =>
+  b.cambio_pct == null ? "" : `${b.cambio_pct > 0 ? "+" : ""}${n(Math.round(b.cambio_pct))} %`;
+
 export default function Portada() {
   const [d, setD] = useState<Dashboard | null>(null);
+  const [barrios, setBarrios] = useState<BarrioFlujo[] | null>(null);
 
   useEffect(() => {
     fetch("/data/mapa/dashboard.json").then((r) => r.json()).then(setD);
+    fetch("/data/mapa/flujo.json").then((r) => r.json()).then((f) => setBarrios(f.barrios));
   }, []);
 
-  if (!d) return <main className="min-h-full bg-[#faf9f7]" />;
+  if (!d || !barrios) return <main className="min-h-full bg-[#faf9f7]" />;
   const { hoteles: h, pisos: p } = d;
   const totalBandas = Object.values(h.bandas).reduce((a, b) => a + b, 0);
   const totalBandasPisos = Object.values(p.bandas).reduce((a, b) => a + b, 0);
+
+  const sube = barrios.filter((b) => b.saldo > 0).sort((a, b) => b.saldo - a.saldo).slice(0, 5);
+  const baja = barrios.filter((b) => b.saldo < 0).sort((a, b) => a.saldo - b.saldo).slice(0, 5);
+  const tope = Math.max(...sube.map((b) => b.saldo), ...baja.map((b) => -b.saldo));
 
   return (
     <main className="min-h-full bg-[#faf9f7] text-[#24231f]">
@@ -43,26 +57,14 @@ export default function Portada() {
             <Cifra valor={n(h.habitaciones)} etiqueta="habitaciones" />
             <Cifra valor={n(h.plazas)} etiqueta="plazas" />
             <Cifra valor={`+${h.turistas_nuevos_pct.toLocaleString("es")} %`}
-              etiqueta="turistas nuevos tras 2028" destacada color={COLOR.hotel}
+              etiqueta="turistas nuevos tras 2028" color={COLOR.hotel}
               pie={`${n(h.turistas_nuevos)} por noche`} />
           </div>
 
           <div className="mt-3 grid gap-3 lg:grid-cols-2">
             <Tarjeta titulo="Bandas económicas · por habitación">
-              <div className="flex h-7 overflow-hidden rounded text-[12px] font-semibold text-white">
-                {Object.entries(h.bandas).map(([banda, cuantos], i) => (
-                  <div key={banda} className="flex items-center justify-center"
-                    style={{ width: `${(cuantos / totalBandas) * 100}%`,
-                      background: ["#9dbbdc", "#6f9fd0", "#1f5fa8", "#123a6b"][i] }}>
-                    {cuantos / totalBandas > 0.08 && banda}
-                  </div>
-                ))}
-              </div>
-              <ul className="mt-2 flex justify-between text-[13px] tabular-nums">
-                {Object.entries(h.bandas).map(([banda, cuantos]) => (
-                  <li key={banda}><b>{n(cuantos)}</b> <span className="text-[#52514e]">{banda}</span></li>
-                ))}
-              </ul>
+              <Bandas bandas={h.bandas} total={totalBandas}
+                colores={["#9dbbdc", "#6f9fd0", "#1f5fa8", "#123a6b"]} />
             </Tarjeta>
 
             <Tarjeta titulo="Titulares con más hoteles">
@@ -84,25 +86,37 @@ export default function Portada() {
             <Cifra valor={n(p.habitaciones)} etiqueta="habitaciones" />
             <Cifra valor={n(p.plazas)} etiqueta="plazas" />
             <Cifra valor={`${millones(p.facturacion[0])}–${millones(p.facturacion[1])} M€`}
-              etiqueta="al año" pie="aproximado" destacada color={COLOR.piso} />
+              etiqueta="al año" pie="aproximado" color={COLOR.piso} />
           </div>
 
-          <div className="mt-3">
+          <div className="mt-3 grid gap-3 lg:grid-cols-2">
             <Tarjeta titulo="Bandas económicas · por plaza">
-              <div className="flex h-7 overflow-hidden rounded text-[12px] font-semibold text-white">
-                {Object.entries(p.bandas).map(([banda, cuantos], i) => (
-                  <div key={banda} className="flex items-center justify-center"
-                    style={{ width: `${(cuantos / totalBandasPisos) * 100}%`,
-                      background: ["#f3ad62", "#e8710a", "#a84a00", "#6b2f00"][i] }}>
-                    {cuantos / totalBandasPisos > 0.08 && banda}
-                  </div>
+              <Bandas bandas={p.bandas} total={totalBandasPisos}
+                colores={["#f3ad62", "#e8710a", "#a84a00", "#6b2f00"]} />
+            </Tarjeta>
+
+            <Tarjeta titulo="Anfitriones con más pisos">
+              <ol className="space-y-1 text-[13px]">
+                {p.anfitriones.map((a) => (
+                  <li key={a.nom} className="flex justify-between gap-3">
+                    <span className="truncate">{a.nom}</span>
+                    <b className="tabular-nums">{n(a.n)}</b>
+                  </li>
                 ))}
-              </div>
-              <ul className="mt-2 flex justify-between text-[13px] tabular-nums">
-                {Object.entries(p.bandas).map(([banda, cuantos]) => (
-                  <li key={banda}><b>{n(cuantos)}</b> <span className="text-[#52514e]">{banda}</span></li>
-                ))}
-              </ul>
+              </ol>
+            </Tarjeta>
+          </div>
+        </Seccion>
+
+        <Seccion color="#24231f" titulo="Turistas en 2028, por noche">
+          <div className="grid gap-3 lg:grid-cols-2">
+            <Tarjeta titulo="Los 5 barrios que ganan turistas">
+              <BarrasDivergentes tope={tope}
+                filas={sube.map((b) => ({ etiqueta: b.barrio, valor: b.saldo, pie: pct(b) }))} />
+            </Tarjeta>
+            <Tarjeta titulo="Los 5 barrios que pierden turistas">
+              <BarrasDivergentes tope={tope}
+                filas={baja.map((b) => ({ etiqueta: b.barrio, valor: b.saldo, pie: pct(b) }))} />
             </Tarjeta>
           </div>
         </Seccion>
@@ -111,38 +125,25 @@ export default function Portada() {
   );
 }
 
-function Seccion({ color, titulo, children }: {
-  color: string; titulo: string; children: React.ReactNode;
+/** Una barra partida en las cuatro bandas, con el recuento debajo. */
+function Bandas({ bandas, total, colores }: {
+  bandas: Record<string, number>; total: number; colores: string[];
 }) {
   return (
-    <section className="mb-8">
-      <h2 className="mb-3 flex items-center gap-2 text-[11px] font-semibold tracking-wider text-[#52514e] uppercase">
-        <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: color }} />
-        {titulo}
-      </h2>
-      {children}
-    </section>
-  );
-}
-
-function Cifra({ valor, etiqueta, pie, destacada, color }: {
-  valor: string; etiqueta: string; pie?: string; destacada?: boolean; color?: string;
-}) {
-  return (
-    <div className="rounded border border-[#e3e0da] bg-white p-4"
-      style={destacada ? { borderColor: color, borderWidth: 2 } : undefined}>
-      <p className="text-[30px] leading-none font-semibold tabular-nums">{valor}</p>
-      <p className="mt-1.5 text-[13px] font-medium">{etiqueta}</p>
-      {pie && <p className="mt-0.5 text-[11px] text-[#52514e]">{pie}</p>}
-    </div>
-  );
-}
-
-function Tarjeta({ titulo, children }: { titulo: string; children: React.ReactNode }) {
-  return (
-    <div className="rounded border border-[#e3e0da] bg-white p-4">
-      <p className="mb-2 text-[12px] font-medium">{titulo}</p>
-      {children}
-    </div>
+    <>
+      <div className="flex h-7 overflow-hidden rounded text-[12px] font-semibold text-white">
+        {Object.entries(bandas).map(([banda, cuantos], i) => (
+          <div key={banda} className="flex items-center justify-center"
+            style={{ width: `${(cuantos / total) * 100}%`, background: colores[i] }}>
+            {cuantos / total > 0.08 && banda}
+          </div>
+        ))}
+      </div>
+      <ul className="mt-2 flex justify-between text-[13px] tabular-nums">
+        {Object.entries(bandas).map(([banda, cuantos]) => (
+          <li key={banda}><b>{n(cuantos)}</b> <span className="text-[#52514e]">{banda}</span></li>
+        ))}
+      </ul>
+    </>
   );
 }

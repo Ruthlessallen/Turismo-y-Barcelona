@@ -37,16 +37,6 @@ const MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "o
 const periodo = (p: string) =>
   p.split(" a ").map((m) => `${MESES[Number(m.slice(5, 7)) - 1]} ${m.slice(0, 4)}`).join(" – ");
 
-/** Lo que cuenta cada fuente. «Sin dato» es lo que de verdad no tenemos. */
-const FALTA = (ine: Turistas["ine"], d: Turistas["dataset"]): [string, string, string][] => [
-  ["Viajeros, en personas", `${millones(ine.viajeros)} M al año en hoteles`,
-    `Contamos camas y noches; con la estancia del INE salen ${millones(d.hoteles_viajeros_equivalentes)} M`],
-  ["De dónde vienen", `${n(Math.round(ine.extranjeros_pct))} % del extranjero`, "Sin dato"],
-  ["Cuántas noches se quedan", `${dec(ine.estancia_media)} de media`, `Pisos: sin dato, se supone ${d.estancia_pisos}`],
-  ["Apartamentos turísticos legales, cámpings, turismo rural", "No entran en la encuesta", "Sin dato de ocupación"],
-  ["Visitantes de un día y cruceristas", "No entran en la encuesta", "Sin dato"],
-];
-
 const TRAMO = (desde: number, hasta: number | null) =>
   hasta == null ? `más de ${desde} km`
     : desde === 0 ? `menos de ${hasta * 1000} m`
@@ -66,11 +56,8 @@ export default function PaginaTuristas() {
   const sube = [...f.barrios].filter((b) => b.saldo > 0).sort((a, b) => b.saldo - a.saldo).slice(0, 8);
   const baja = [...f.barrios].filter((b) => b.saldo < 0).sort((a, b) => a.saldo - b.saldo).slice(0, 8);
   const tope = Math.max(...sube.map((b) => b.saldo), ...baja.map((b) => -b.saldo));
-  const V = ine.viajeros;
-  const pctPisos = [
-    (d.pisos_turistas_ano[0] / (V + d.pisos_turistas_ano[0])) * 100,
-    (d.pisos_turistas_ano[1] / (V + d.pisos_turistas_ano[1])) * 100,
-  ];
+  // Por noche y con nuestros propios datos: ni la estancia ni el INE intervienen.
+  const pctPisos = d.pisos_noche.map((p) => (p / (p + d.hoteles_noche)) * 100);
   const pct = (b: { cambio_pct: number | null }) => (b.cambio_pct == null ? "" : `${b.cambio_pct > 0 ? "+" : ""}${n(Math.round(b.cambio_pct))} %`);
 
   return (
@@ -116,7 +103,7 @@ export default function PaginaTuristas() {
           </p>
         </Seccion>
 
-        <Seccion color="#a0521a" titulo="Lo que el INE cuenta y nuestros datos no">
+        <Seccion color="#a0521a" titulo="Viajeros: el INE frente a nuestros datos">
           <div className="grid gap-3 lg:grid-cols-[2fr_1fr]">
             <Tarjeta titulo="Viajeros al año">
               <BarrasH max={ine.viajeros} formato={(v) => `${millones(v)} M`} filas={[
@@ -129,29 +116,9 @@ export default function PaginaTuristas() {
             </Tarjeta>
             <Cifra
               valor={`${n(Math.round(pctPisos[0]))}–${n(Math.round(pctPisos[1]))} %`}
-              etiqueta="de los viajeros de hoteles y pisos se alojan en pisos"
+              etiqueta="de los turistas se alojan en pisos, según nuestro dataset"
+              pie="por noche, en hoteles y pisos de este análisis"
               color={COLOR.piso} />
-          </div>
-
-          <div className="mt-3 overflow-x-auto rounded border border-[#e3e0da] bg-white">
-            <table className="w-full text-left text-[12px]">
-              <thead className="border-b border-[#e3e0da] text-[#52514e]">
-                <tr>
-                  <th className="px-3 py-2 font-medium">Dato</th>
-                  <th className="px-3 py-2 font-medium">El INE</th>
-                  <th className="px-3 py-2 font-medium">Nuestros datos</th>
-                </tr>
-              </thead>
-              <tbody>
-                {FALTA(ine, d).map(([dato, inee, nosotros]) => (
-                  <tr key={dato} className="border-b border-[#eeece7] last:border-0">
-                    <td className="px-3 py-2 font-medium">{dato}</td>
-                    <td className="px-3 py-2">{inee}</td>
-                    <td className="px-3 py-2">{nosotros}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
           </div>
         </Seccion>
 

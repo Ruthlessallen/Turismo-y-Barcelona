@@ -61,5 +61,6 @@ JSON ya recortado y simplificado, generado desde `gold`. Hoteles y restaurantes 
 porque son establecimientos abiertos al público. Los pisos también salen como punto (decisión del
 2026-10-04), pero solo con lo que pinta el mapa —posición desplazada por la fuente, plazas,
 dormitorios, precio y banda—: sin id, sin nombre del anuncio, sin anfitrión y sin licencia. El
-anfitrión solo sale agregado por barrio, desde 5 pisos. Del hotel sale la sociedad titular, nunca
+anfitrión solo sale agregado: por barrio desde 5 pisos, y en la portada los cinco con más pisos de la
+ciudad (al menos 20). Del hotel sale la sociedad titular, nunca
 una persona física. Los ficheros de `mapa/` los produce `pipeline/export/export_mapa_limpio.py`.

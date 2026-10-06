@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+
+import { BarrasH } from "@/app/components/Graficos";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 type Paso = {
@@ -19,7 +21,21 @@ type Grupo = { licencias: number; plazas: number };
 type Licencias = {
   registro: Grupo; con_anuncio: Grupo; solo_descartados: Grupo; sin_anuncio: Grupo;
   casadas: { anuncios: number; plazas_airbnb: number; plazas_registro: number };
+  pisos_estado: {
+    total: Pisos; con_registro: Pisos;
+    no_acreditado: Pisos & { detalle: Record<"numero_imposible" | "numero_no_consta" | "numero_de_otra_cosa", Pisos> };
+    sin_registro: Pisos & {
+      detalle: Record<"no_declara_nada" | "declara_exencion" | "habitacion_con_numero_falso" | "anfitrion_con_hutb_sin_vinculo", Pisos>;
+    };
+  };
+  registro_detalle: {
+    mediana_plazas: number; hutb_maximo: number; expediente_desde: number; licencias_2012_2014: number;
+    por_distrito: { distrito: string; licencias: number }[];
+    vigor: { trimestre_inicial: string; inicial: number; trimestre_minimo: string; minimo: number;
+      trimestre_ultimo: string; ultimo: number };
+  };
 };
+type Pisos = { pisos: number; plazas: number };
 
 // `toLocaleString("es")` deja 2390 sin punto: el español no agrupa los números de cuatro cifras.
 // Aquí sí se agrupa siempre, porque estas cifras se leen unas junto a otras y «2390» al lado de
@@ -122,7 +138,8 @@ export default function PaginaAirbnb() {
 
         {/* Una tarjeta cada vez. El texto de por qué no compite con los otros cinco. */}
         <section className="flex min-h-0 flex-1 flex-col rounded border border-[#e3e0da] bg-white">
-          <div className="flex min-h-0 flex-1 flex-col justify-center overflow-y-auto px-6 py-6 sm:px-10">
+          <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-6 py-6 sm:px-10">
+            <div className="my-auto">
             {enLicencias ? (
               <TarjetaLicencias lic={lic} />
             ) : estado.actual ? (
@@ -167,6 +184,7 @@ export default function PaginaAirbnb() {
                 </p>
               </>
             )}
+            </div>
           </div>
 
           <div className="flex shrink-0 items-center justify-between gap-4 border-t border-[#e3e0da] px-4 py-3">
@@ -260,7 +278,127 @@ function TarjetaLicencias({ lic }: { lic: Licencias }) {
         Y en los pisos que sí casan con una licencia, Airbnb declara{" "}
         {n(lic.casadas.plazas_airbnb)} plazas y el registro {n(lic.casadas.plazas_registro)}.
       </p>
+
+      <Registro lic={lic} />
+      <SinRegistro lic={lic} />
     </>
+  );
+}
+
+const trimestre = (t: string) => `${t.slice(5, 7)} de ${t.slice(0, 4)}`;
+
+/** Los datos oficiales: Open Data BCN, una fila por licencia. */
+function Registro({ lic }: { lic: Licencias }) {
+  const r = lic.registro_detalle;
+  return (
+    <section className="mt-8 max-w-xl border-t border-[#e3e0da] pt-5">
+      <p className="text-[11px] font-semibold tracking-wider text-[#52514e] uppercase">
+        El registro oficial · Open Data BCN
+      </p>
+      <div className="mt-3 grid grid-cols-3 gap-3">
+        <Dato valor={n(lic.registro.licencias)} etiqueta="licencias" />
+        <Dato valor={n(lic.registro.plazas)} etiqueta="plazas" />
+        <Dato valor={n(r.mediana_plazas)} etiqueta="plazas por licencia (mediana)" />
+      </div>
+
+      <p className="mt-4 mb-2 text-[12px] font-medium">Licencias por distrito</p>
+      <BarrasH color="#52514e" filas={r.por_distrito.map((d) => ({ etiqueta: d.distrito, valor: d.licencias }))} />
+
+      <ul className="mt-4 space-y-1 text-[13px] leading-snug text-[#3a3935]">
+        <li>
+          <b>Licencias en vigor:</b> {n(r.vigor.inicial)} ({trimestre(r.vigor.trimestre_inicial)}) →{" "}
+          {n(r.vigor.minimo)} ({trimestre(r.vigor.trimestre_minimo)}, el mínimo) →{" "}
+          <b>{n(r.vigor.ultimo)}</b> ({trimestre(r.vigor.trimestre_ultimo)}).
+        </li>
+        <li>
+          <b>Desde cuándo:</b> el expediente más antiguo es de {r.expediente_desde}; {n(r.licencias_2012_2014)} son de
+          2012–2014. Es el año de la solicitud, no el del alta.
+        </li>
+        <li>
+          <b>Número más alto emitido:</b> HUTB-{n(r.hutb_maximo).replace(".", "")}. El registro no trae habitaciones.
+        </li>
+      </ul>
+    </section>
+  );
+}
+
+/** Pisos dentro de los 6.834 cuya licencia no se puede acreditar. */
+function SinRegistro({ lic }: { lic: Licencias }) {
+  const e = lic.pisos_estado;
+  const sin = e.no_acreditado.pisos + e.sin_registro.pisos;
+  const plazasSin = e.no_acreditado.plazas + e.sin_registro.plazas;
+  const pct = (v: number) => `${Math.round((v / e.total.plazas) * 100)} %`;
+  const trozos = [
+    { clave: "con registro", g: e.con_registro, color: "#2f6fb5" },
+    { clave: "registro que no consta", g: e.no_acreditado, color: "#a0521a" },
+    { clave: "sin registro", g: e.sin_registro, color: "#cf4a30" },
+  ];
+  return (
+    <section className="mt-8 max-w-xl border-t border-[#e3e0da] pt-5">
+      <p className="text-[11px] font-semibold tracking-wider text-[#cf4a30] uppercase">
+        Sin registro válido · dentro de los {n(e.total.pisos)}
+      </p>
+      <h3 className="mt-1 text-[18px] leading-tight font-semibold">
+        {n(sin)} pisos, {n(plazasSin)} plazas ({pct(plazasSin)})
+      </h3>
+
+      <div className="mt-3 flex h-5 overflow-hidden rounded-sm">
+        {trozos.map((t) => (
+          <div key={t.clave} style={{ width: `${(t.g.plazas / e.total.plazas) * 100}%`, background: t.color }} />
+        ))}
+      </div>
+      <ul className="mt-2 space-y-1 text-[13px]">
+        {trozos.map((t) => (
+          <li key={t.clave} className="flex items-center gap-2">
+            <span className="inline-block h-3 w-3 shrink-0 rounded-sm" style={{ background: t.color }} />
+            <b className="tabular-nums">{n(t.g.pisos)}</b>
+            <span className="text-[#52514e]">pisos {t.clave} · {n(t.g.plazas)} plazas</span>
+          </li>
+        ))}
+      </ul>
+
+      <p className="mt-5 mb-2 text-[12px] font-medium">
+        Dicen tener registro, y no consta · {n(e.no_acreditado.pisos)}
+      </p>
+      <BarrasH color="#a0521a" ancho="12rem" filas={[
+        { etiqueta: "Número imposible", valor: e.no_acreditado.detalle.numero_imposible.pisos },
+        { etiqueta: "Número que no consta", valor: e.no_acreditado.detalle.numero_no_consta.pisos },
+        { etiqueta: "Número de otra cosa", valor: e.no_acreditado.detalle.numero_de_otra_cosa.pisos },
+      ]} />
+      <p className="mt-1 text-[11px] leading-snug text-[#52514e]">
+        Imposible: por encima del HUTB-{n(lic.registro_detalle.hutb_maximo).replace(".", "")} o de relleno
+        (123456, 000000). De otra cosa: valía para una habitación o para un hotel.
+      </p>
+
+      <p className="mt-5 mb-2 text-[12px] font-medium">
+        Deberían tenerlo y no lo declaran · {n(e.sin_registro.pisos)}
+      </p>
+      <BarrasH color="#cf4a30" ancho="12rem" filas={[
+        { etiqueta: "No declara nada", valor: e.sin_registro.detalle.no_declara_nada.pisos },
+        { etiqueta: "Declara exención", valor: e.sin_registro.detalle.declara_exencion.pisos },
+        { etiqueta: "Habitación, con número falso", valor: e.sin_registro.detalle.habitacion_con_numero_falso.pisos },
+        { etiqueta: "Anfitrión con otras licencias", valor: e.sin_registro.detalle.anfitrion_con_hutb_sin_vinculo.pisos },
+      ]} />
+      <p className="mt-1 text-[11px] leading-snug text-[#52514e]">
+        Habitación: anuncia una habitación con un número que no consta. Otras licencias: el anfitrión tiene
+        licencias, pero ninguna es de esta vivienda.
+      </p>
+
+      <p className="mt-5 rounded border-l-2 border-[#cf4a30] bg-[#faf9f7] px-4 py-3 text-[13px] leading-relaxed text-[#3a3935]">
+        La ley de 2028 quita licencias, y estos pisos no tienen ninguna acreditada que quitar. Si siguen
+        operando, será fuera del mercado legal. <b>Siguen contados dentro de los {n(e.total.pisos)}</b>:
+        ningún dato dice si se irán o se quedarán.
+      </p>
+    </section>
+  );
+}
+
+function Dato({ valor, etiqueta }: { valor: string; etiqueta: string }) {
+  return (
+    <div>
+      <p className="text-[22px] leading-none font-semibold tabular-nums">{valor}</p>
+      <p className="mt-1 text-[11px] leading-snug text-[#52514e]">{etiqueta}</p>
+    </div>
   );
 }
 

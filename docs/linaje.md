@@ -133,6 +133,7 @@ flowchart TD
   n_export_export_mapa_py --> n_RAIZ_data_exports_mapa_resumen_json
   n_export_export_mapa_py --> n_RAIZ_data_exports_mapa_vut_por_barrio_json
   n_RAIZ_data_bronze_hoteles_nuevos_bcn_csv --> n_export_export_mapa_limpio_py
+  n_RAIZ_data_bronze_serie_vut_trimestral_csv --> n_export_export_mapa_limpio_py
   n_RAIZ_data_gold_airbnb_excluidos_web_csv --> n_export_export_mapa_limpio_py
   n_RAIZ_data_gold_airbnb_para_web_csv --> n_export_export_mapa_limpio_py
   n_RAIZ_data_gold_alojamientos_reglados_csv --> n_export_export_mapa_limpio_py
@@ -192,7 +193,7 @@ flowchart TD
 | `bronze/unificar_airbnb.py` | bronze | insideairbnb_barcelona_2026-06-24_listings.csv<br>insideairbnb_barcelona_2026-06-24_listings_detalle.csv.gz | airbnb_anuncios.csv |
 | `bronze/unificar_registros.py` | bronze | titulares.csv | titulares.csv |
 | `export/export_mapa.py` | export | geocodificacion_icgc.csv<br>vut_unificados.csv<br>airbnb_capacidad_latente.csv<br>airbnb_excluidos_web.csv<br>airbnb_para_web.csv<br>alojamientos_reglados.csv<br>sustitucion_resumen.csv<br>restauracion_bcn.csv<br>restauracion_presion_2028.csv<br>sustitucion_2028.csv<br>sustitucion_flujos_2028.csv | resumen.json<br>vut_por_barrio.json |
-| `export/export_mapa_limpio.py` | export | hoteles_nuevos_bcn.csv<br>airbnb_excluidos_web.csv<br>airbnb_para_web.csv<br>alojamientos_reglados.csv<br>restauracion_bcn.csv<br>hoteles_y_apartaments_turistics_provincia_barcelona.csv<br>opendata_bcn_hut_2016-2026Q1.csv | — |
+| `export/export_mapa_limpio.py` | export | hoteles_nuevos_bcn.csv<br>serie_vut_trimestral.csv<br>airbnb_excluidos_web.csv<br>airbnb_para_web.csv<br>alojamientos_reglados.csv<br>restauracion_bcn.csv<br>hoteles_y_apartaments_turistics_provincia_barcelona.csv<br>opendata_bcn_hut_2016-2026Q1.csv | — |
 | `export/preparar_geometria_web.py` | export | — | — |
 | `generar_criba.py` | generar_criba.py | airbnb_excluidos_web.csv<br>airbnb_para_web.csv | criba.md |
 | `gold/modelar_flujos_banda.py` | gold | — | — |

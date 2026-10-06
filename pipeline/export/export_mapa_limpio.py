@@ -90,7 +90,7 @@ def pisos() -> pd.DataFrame:
     estimado = a["precio_plaza_anual"].isna()
     precio = a["precio_plaza_anual"].fillna(a["precio_plaza_final"])
     return pd.DataFrame({
-        "anfitrion": a["host_name"],
+        "anfitrion": a["host_name"], "host_id": a["host_id"],
         "lat": a["latitude"], "lon": a["longitude"], "barrio": a["neighbourhood"],
         "plazas": a["accommodates"], "dorm": a["bedrooms"],
         # Un estudio declara 0 dormitorios y sigue alojando gente: cuenta como uno.
@@ -253,7 +253,8 @@ def licencias() -> dict:
     reg["h"] = reg["NUMERO_REGISTRE_GENERALITAT"].astype(str).str.upper().str.replace(r"\s", "", regex=True)
     reg = reg.drop_duplicates("h")
     reg["pl"] = pd.to_numeric(reg["NUMERO_PLACES"], errors="coerce")
-    a = pd.read_csv(GOLD / "airbnb_para_web.csv", low_memory=False, usecols=["licencia_norm", "accommodates"])
+    a = pd.read_csv(GOLD / "airbnb_para_web.csv", low_memory=False,
+                    usecols=["licencia_norm", "accommodates", "estado_licencia", "motivo_estado"])
     x = pd.read_csv(GOLD / "airbnb_excluidos_web.csv", low_memory=False, usecols=["licencia_norm"])
     en_pisos = set(a["licencia_norm"].dropna().str.upper())
     en_descartados = set(x["licencia_norm"].dropna().str.upper())
@@ -265,7 +266,60 @@ def licencias() -> dict:
         return {"licencias": len(c), "plazas": int(reg.loc[reg["h"].isin(c), "pl"].sum())}
 
     casadas = a.assign(h=a["licencia_norm"].str.upper()).merge(reg[["h", "pl"]], on="h")
+
+    # Serie trimestral del propio registro: licencias en vigor cada trimestre.
+    serie = pd.read_csv(RAIZ / "data" / "bronze" / "serie_vut_trimestral.csv")
+    minimo = serie.loc[serie["stock"].idxmin()]
+
+    reg["anio"] = pd.to_numeric(reg["N_EXPEDIENT"].astype(str).str.extract(r"-(\d{4})-")[0], errors="coerce")
+    distrito = (reg.groupby("NOM_DISTRICTE").size().sort_values(ascending=False))
+
+    # Los 6.834 pisos, segun lo que su anuncio dice de la licencia y lo que el registro contesta.
+    # `motivo_estado` es la razon que dejo el pipeline al contrastar el anuncio con el registro.
+    GRUPOS = {
+        "numero_imposible": ["número por encima del máximo emitido",
+                             "número de relleno (123456, 000000 y similares)"],
+        "numero_no_consta": ["número que no consta en el registro"],
+        "numero_de_otra_cosa": ["HUTB válido usado para anunciar una habitación, no la vivienda entera",
+                                "el anfitrión acredita hotel o albergue en otros anuncios"],
+        "no_declara_nada": ["no declara nada"],
+        "declara_exencion": ["declara exención"],
+        "habitacion_con_numero_falso": ["HUTB que no consta, y además anuncia una habitación"],
+        "anfitrion_con_hutb_sin_vinculo": ["anfitrión con HUTB, pero nada liga esta vivienda a ninguna"],
+    }
+
+    def contar(motivos):
+        g = a[a["motivo_estado"].isin(motivos)]
+        return {"pisos": len(g), "plazas": int(g["accommodates"].sum())}
+
+    con_registro = a[a["estado_licencia"] == "con_licencia"]
     return {
+        "pisos_estado": {
+            "total": {"pisos": len(a), "plazas": int(a["accommodates"].sum())},
+            "con_registro": {"pisos": len(con_registro), "plazas": int(con_registro["accommodates"].sum())},
+            "no_acreditado": {
+                **contar(sum((GRUPOS[k] for k in ("numero_imposible", "numero_no_consta", "numero_de_otra_cosa")), [])),
+                "detalle": {k: contar(GRUPOS[k]) for k in ("numero_imposible", "numero_no_consta", "numero_de_otra_cosa")},
+            },
+            "sin_registro": {
+                **contar(sum((GRUPOS[k] for k in ("no_declara_nada", "declara_exencion",
+                                                  "habitacion_con_numero_falso", "anfitrion_con_hutb_sin_vinculo")), [])),
+                "detalle": {k: contar(GRUPOS[k]) for k in ("no_declara_nada", "declara_exencion",
+                                                           "habitacion_con_numero_falso",
+                                                           "anfitrion_con_hutb_sin_vinculo")},
+            },
+        },
+        "registro_detalle": {
+            "mediana_plazas": float(reg["pl"].median()),
+            "hutb_maximo": int(pd.to_numeric(reg["h"].str.extract(r"(\d+)")[0], errors="coerce").max()),
+            "expediente_desde": int(reg["anio"].min()),
+            "licencias_2012_2014": int(reg["anio"].between(2012, 2014).sum()),
+            "por_distrito": [{"distrito": NOMBRE_DISTRITO.get(d, d.title()), "licencias": int(v)}
+                             for d, v in distrito.items()],
+            "vigor": {"trimestre_inicial": str(serie.iloc[0]["trimestre"]), "inicial": int(serie.iloc[0]["stock"]),
+                      "trimestre_minimo": str(minimo["trimestre"]), "minimo": int(minimo["stock"]),
+                      "trimestre_ultimo": str(serie.iloc[-1]["trimestre"]), "ultimo": int(serie.iloc[-1]["stock"])},
+        },
         "registro": {"licencias": len(todas), "plazas": int(reg["pl"].sum())},
         "con_anuncio": grupo(con), "solo_descartados": grupo(solo_x), "sin_anuncio": grupo(sin),
         "casadas": {"anuncios": len(casadas), "plazas_airbnb": int(casadas["accommodates"].sum()),
@@ -309,6 +363,24 @@ def marca_principal(g: pd.DataFrame):
     return {"nom": str(c.index[0]), "locales": int(c.iloc[0])}
 
 
+# El registro escribe los distritos en mayusculas y sin tildes.
+NOMBRE_DISTRITO = {"SANT MARTI": "Sant Martí", "GRACIA": "Gràcia", "SARRIA-SANT GERVASI": "Sarrià-Sant Gervasi",
+                   "SANTS-MONTJUÏC": "Sants-Montjuïc", "HORTA-GUINARDÓ": "Horta-Guinardó"}
+MINIMO_ANFITRION_CIUDAD = 20  # pisos: por debajo de esto un anfitrion es un particular, no un operador
+
+
+def anfitriones(p: pd.DataFrame) -> list[dict]:
+    """Los cinco anfitriones con mas pisos, por identificador y no por nombre.
+
+    `host_name` es el nombre publico del anfitrion en Airbnb. Solo se publica el de quien tiene al
+    menos 20 pisos en la ciudad, que es un operador; un particular con uno o dos pisos nunca sale.
+    """
+    g = p.groupby("host_id").agg(nom=("anfitrion", "first"), n=("anfitrion", "size"),
+                                 plazas=("plazas", "sum")).sort_values("n", ascending=False)
+    g = g[g["n"] >= MINIMO_ANFITRION_CIUDAD].head(5)
+    return [{"nom": str(r.nom), "n": int(r.n), "plazas": int(r.plazas)} for r in g.itertuples()]
+
+
 def dashboard(p: pd.DataFrame, h: pd.DataFrame, tur_nuevos: float) -> dict:
     """Las cifras de la portada: solo numeros, un ano medio, sin escenarios.
 
@@ -336,6 +408,7 @@ def dashboard(p: pd.DataFrame, h: pd.DataFrame, tur_nuevos: float) -> dict:
             "total": len(p), "habitaciones": int(p["hab_piso"].sum()),
             # La banda de un piso es por plaza (la unica que tiene); la del hotel, por habitacion.
             "bandas": {b: int((p["banda"] == b).sum()) for b in BANDAS},
+            "anfitriones": anfitriones(p),
             "plazas": int(p["plazas"].sum()),
             # Orden de magnitud: ocupacion 38,3-48 % x 365 noches x precio de la noche del piso.
             "facturacion": [round(float(p["precio_piso"].fillna(0).sum() * 365 * OCUPACION_AIRBNB)),

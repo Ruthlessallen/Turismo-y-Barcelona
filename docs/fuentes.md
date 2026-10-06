@@ -31,6 +31,7 @@ antes, en el pipeline, y queda en el repositorio.
 | `/data/mapa/barrios_hoy.json` | Las cifras de cada uno de los 73 barrios | `export/export_mapa_limpio.py` |
 | `/data/mapa/dashboard.json` | Las cifras de la portada | `export/export_mapa_limpio.py` |
 | `/data/mapa/turistas.json` | Turistas en el conjunto de datos y lo que dice el INE | `export/export_mapa_limpio.py` |
+| `/data/mapa/licencias.json` | Licencias del registro, y cuántas tienen anuncio y cuántos pisos no tienen registro | `export/export_mapa_limpio.py` |
 | `/data/mapa/flujo.json` | Distancia recorrida, bandas de origen y destino, barrios que suben y bajan | `export/export_mapa_limpio.py` |
 | `/data/mapa/hoteles_pagina.json` | Categorías, ocupación mensual, ocupación por banda y hoteles anunciados | `export/export_mapa_limpio.py` |
 | `/data/mapa/sustitucion_2028.json`, `flujos_2028.json` | El reparto por barrio y escenario | `gold/modelar_sustitucion.py` — solo los lee `/mapa-anterior` |
@@ -350,17 +351,27 @@ Pisos: 11.516–14.432 por noche (38,3–48 %), 4,2–5,3 millones de pernoctaci
 noches de estancia (supuesto)**, 1,4–1,8 millones de turistas. El INE: 9,2 millones de viajeros,
 21,9 millones de pernoctaciones, 2,38 noches de estancia y 82 % de extranjeros. No mide pisos.
 **En personas:** nuestros hoteles son 56.715 × 365 / 2,38 = **8,7 millones de viajeros** al año frente
-a los 9,2 del INE, y los pisos, entre el 13 y el 16 % de los viajeros de hoteles y pisos. Lo que el
-INE cuenta en personas, de dónde vienen y cuánto se quedan, nuestros datos no lo tienen: contamos
-camas y noches. La página `/turistas` lo dice en una tabla.
+a los 9,2 del INE, y los pisos, **entre el 17 y el 20 % de los turistas de nuestro conjunto de datos** (por noche:
+11.516–14.432 en pisos frente a 56.715 en hoteles; no interviene la estancia). Lo que el INE cuenta
+en personas, de dónde vienen y cuánto se quedan, nuestros datos no lo tienen: contamos camas y
+noches.
+
+**f) Licencias y pisos sin registro** (`licencias.json`, última tarjeta de `/airbnb`). Del registro
+oficial de la ciudad (10.623 licencias únicas, 61.826 plazas) se cruzan por número de licencia con
+los anuncios: 4.756 licencias están entre los 6.834 pisos, 473 solo con anuncios descartados y
+**5.394 no tienen ningún anuncio** (30.980 plazas). Aparte, dentro de los 6.834 hay 1.849 pisos sin
+registro acreditado (334 con un número imposible, 1.351 que no declaran licencia válida). Detalle y
+cautelas en `supuestos.md` → C5 y C6. **Hoy esos 1.849 siguen contados** como turistas a realojar.
 
 ### 3.3 Lo que nunca sale del pipeline
 
 - **Del piso, solo lo que pinta el mapa.** Es una decisión del proyecto (2026-10-04): cada piso
   sale como punto con su posición —ya desplazada hasta 150 m por la fuente y redondeada a 5
   decimales—, plazas, dormitorios, precio y banda. **Sin id, sin nombre del anuncio, sin anfitrión
-  y sin número de licencia.** El anfitrión solo aparece agregado por barrio, y solo si tiene 5 pisos
-  o más en él (un operador, no un particular).
+  y sin número de licencia.** El anfitrión solo aparece agregado: por barrio si tiene 5 pisos o más en él, y en la portada los
+  cinco con más pisos de la ciudad, siempre que tengan al menos 20 (Sweett, 265; AB Apartment
+  Barcelona, 236…). `host_name` es el nombre público en Airbnb; un particular con pocos pisos nunca
+  sale.
 - **Del hotel, la sociedad titular** (razón social del Registre de Turisme), nunca una persona
   física: el marcador `No aplica` del registro se respeta y no se publica.
 - **Nombres, DNI y datos de titulares particulares.**

@@ -21,7 +21,8 @@ completo en [`docs/prd.md`](docs/prd.md).
 ## Estado actual
 
 **En desarrollo.** La web tiene portada con cifras, un mapa de tres capas (Airbnb, hoteles,
-restauración), el embudo de Airbnb y la página de fuentes. Falta la página de hoteles. El pipeline
+restauración), el embudo de Airbnb (con los datos del registro y los pisos sin licencia), hoteles, turistas y la
+página de fuentes. Falta la capa del PEUAT. El pipeline
 va de `data/raw` a `data/exports` (ver `docs/README.md` para el mapa de la documentación).
 
 ## Requisitos previos
