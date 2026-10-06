@@ -1,5 +1,7 @@
 # Auditoría de los datos que enseña la web
 
+> **Histórica.** Cifras del modelo del 14 de septiembre (reparto por precio y cercanía, 6.834 pisos, dos momentos). No describen la web actual; ver `fuentes.md` y `supuestos.md`.
+
 **Fecha:** 2026-09-14
 **Alcance:** de la web hasta la fuente, y el modelo por dentro.
 **Script:** `scripts/auditar_web.py`, retirado el 2026-10-04: el modelo pasó a anidar el JSON por momento y dejó de funcionar.

@@ -31,9 +31,16 @@ python pipeline/bronze/rescatar_precios_hoteles.py     # segundo pase del cruce
 python pipeline/gold/preparar_hoteles_bcn.py           # recoge lo rescatado
 python pipeline/gold/modelar_precios_hoteles_bcn.py
 python pipeline/gold/preparar_alojamientos_provincia.py
+python pipeline/gold/preparar_restauracion_bcn.py
+python pipeline/gold/separar_sin_registro.py           # saca los pisos sin registro acreditado
+python pipeline/gold/modelar_sustitucion.py            # solo lo lee /mapa-anterior
 python pipeline/export/preparar_geometria_web.py
-python pipeline/export/export_mapa.py
+python pipeline/export/export_mapa.py                  # con .venv: usa shapely
+python pipeline/export/export_mapa_limpio.py           # el que lee la web actual (llama a modelar_flujos_banda)
+python pipeline/generar_criba.py && python pipeline/generar_linaje.py
 ```
+
+`gold/modelar_flujos_banda.py` no se ejecuta aparte: lo importa `export_mapa_limpio.py`.
 
 `preparar_alojamientos_provincia` va al final de `gold` porque necesita el precio ya estimado: es
 lo que lleva la banda economica desde la ciudad al censo provincial para que el export la publique.

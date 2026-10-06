@@ -1,5 +1,7 @@
 # Product Requirements Document (PRD)
 
+> **Nota (2026-10-07).** El alcance real se redujo a la **ciudad de Barcelona**: la comparativa entre municipios de la provincia se descartó. Donde este documento habla de la provincia, manda `docs/fuentes.md`.
+
 Fuente de verdad sobre qué construimos y por qué. Actualizar este archivo cuando cambie el
 alcance, las funcionalidades o el usuario objetivo. Si algo se mueve a "fuera de alcance", no
 borrar: mover a la sección correspondiente.
