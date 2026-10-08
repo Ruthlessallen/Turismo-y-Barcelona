@@ -136,13 +136,13 @@ export function Matriz({ etiquetas, valores, color = "31,95,168", titulo }: {
 }
 
 /** `compacta`: para las pantallas que tienen que caber sin scroll, como la portada. */
-export function Cifra({ valor, etiqueta, pie, color, compacta }: {
-  valor: string; etiqueta: string; pie?: string; color?: string; compacta?: boolean;
+export function Cifra({ valor, etiqueta, pie, color, compacta, grande }: {
+  valor: string; etiqueta: string; pie?: string; color?: string; compacta?: boolean; grande?: boolean;
 }) {
   return (
     <div className={`rounded border border-[#e3e0da] bg-white text-center ${compacta ? "flex min-h-[80px] flex-col justify-center px-2 py-2" : "p-4"}`}
       style={color ? { borderTop: `3px solid ${color}` } : undefined}>
-      <p className={`leading-none font-semibold tabular-nums ${compacta ? "text-[21px]" : "text-[28px]"}`}
+      <p className={`leading-none font-semibold tabular-nums ${compacta ? "text-[21px]" : grande ? "text-[44px]" : "text-[28px]"}`}
         style={color ? { color } : undefined}>{valor}</p>
       <p className={`font-medium ${compacta ? "mt-1 text-[11px] leading-tight" : "mt-1.5 text-[13px]"}`}>{etiqueta}</p>
       {pie && <p className={`text-[#52514e] ${compacta ? "mt-0.5 text-[10px] leading-tight" : "mt-0.5 text-[11px]"}`}>{pie}</p>}

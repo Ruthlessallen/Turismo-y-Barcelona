@@ -85,6 +85,7 @@ export default function Pagina() {
               <div className="mt-1.5">
                 <Segmentos valor={tipo} onCambio={setTipo}
                   opciones={[["pisos", "Pisos (naranja)"], ["hoteles", "Hoteles (azul)"]]} />
+                <LeyendaBarrios tipo={tipo} barrios={datos.barrios} />
               </div>
             )}
           </>
@@ -132,7 +133,8 @@ export default function Pagina() {
       {hotelActivo ? (
         <PanelHotel hotel={hotelActivo} datos={datos} radio={radio} onCerrar={() => setFoco(null)} />
       ) : ficha ? (
-        <PanelBarrio b={ficha} onCerrar={() => setFoco(null)} />
+        <PanelBarrio b={ficha} hotelesBarrio={datos.hoteles.filter((h) => h.barrio === ficha.barrio)}
+          onCerrar={() => setFoco(null)} />
       ) : null}
     </main>
   );
@@ -171,6 +173,37 @@ function Segmentos<T extends string>({ valor, onCambio, opciones }: {
           {texto}
         </button>
       ))}
+    </div>
+  );
+}
+
+const RAMPA = {
+  pisos: ["#fdf0e1", "#f9d3a8", "#f3ad62", "#e8710a", "#a84a00"],
+  hoteles: ["#e6eff8", "#b7d0ea", "#6f9fd0", "#1f5fa8", "#123a6b"],
+};
+
+/** Qué significa el color del barrio: el mismo corte que `clase()` del mapa (escala de raíz). */
+function LeyendaBarrios({ tipo, barrios }: { tipo: TipoBarrio; barrios: BarrioHoy[] }) {
+  const tope = Math.max(...barrios.map((b) => b[tipo]));
+  const colores = RAMPA[tipo];
+  const desde = (i: number) => (i === 0 ? 1 : Math.ceil(tope * (i / colores.length) ** 2));
+  return (
+    <div className="mt-2">
+      <p className="mb-1 text-[11px]">
+        Color = {tipo === "pisos" ? "pisos turísticos" : "hoteles"} en el barrio
+      </p>
+      <ul className="space-y-0.5 text-[11px]">
+        {colores.map((c, i) => (
+          <li key={c} className="flex items-center gap-2">
+            <span className="inline-block h-2.5 w-4 shrink-0 rounded-sm border border-[#d8d5cd]" style={{ background: c }} />
+            {i === colores.length - 1 ? `${n(desde(i))} o más` : `${n(desde(i))} – ${n(desde(i + 1) - 1)}`}
+          </li>
+        ))}
+        <li className="flex items-center gap-2">
+          <span className="inline-block h-2.5 w-4 shrink-0 rounded-sm border border-[#d8d5cd]" style={{ background: "#f3f1ec" }} />
+          ninguno
+        </li>
+      </ul>
     </div>
   );
 }
@@ -301,8 +334,15 @@ function Lineas({ serie, radio, absorbe, libres }: {
   );
 }
 
-function PanelBarrio({ b, onCerrar }: { b: BarrioHoy; onCerrar: () => void }) {
+function PanelBarrio({ b, hotelesBarrio, onCerrar }: { b: BarrioHoy; hotelesBarrio: Hotel[]; onCerrar: () => void }) {
   const [bajo, alto] = b.turistas_pisos;
+  // Ocupación por habitaciones: hoy la media del INE (80,2 %); en 2028, más lo que reciben de los pisos.
+  const habs = hotelesBarrio.reduce((s, h) => s + (h.hab ?? 0), 0);
+  const absorbidas = hotelesBarrio.reduce((s, h) => s + (h.hab_abs ?? 0), 0);
+  const sube = habs ? (absorbidas / habs) * 100 : null;
+  const top = [...hotelesBarrio].filter((h) => (h.hab_abs ?? 0) > 0)
+    .sort((a, c) => (c.hab_abs ?? 0) - (a.hab_abs ?? 0)).slice(0, 5);
+  const tope = top[0]?.hab_abs ?? 1;
   // Quién gana, en la unidad que cada uno alquila: el hotel, habitaciones; Airbnb, el piso entero.
   const unidades = b.pisos + b.habitaciones_hoteles;
   const pisos = unidades ? (b.pisos / unidades) * 100 : 0;
@@ -335,14 +375,49 @@ function PanelBarrio({ b, onCerrar }: { b: BarrioHoy; onCerrar: () => void }) {
       <Precio color={COLOR.hotel} nombre="Habitación de hotel" precio={null} banda={b.banda_hoteles} />
 
       <Bloque color={COLOR.piso} titulo="Pisos" cifra={rango(bajo, alto)} unidad="turistas">
-        {n(b.plazas_pisos)} plazas · {dinero(b.facturacion_pisos[0])}–{dinero(b.facturacion_pisos[1])} al año
+        {n(b.plazas_pisos)} plazas
       </Bloque>
+      <section className="mt-2 rounded bg-[#fbe3cc] px-3 py-2 text-[11px] leading-snug text-[#52514e]">
+        Se dejarían de facturar al año
+        <b className="block text-[18px] leading-tight text-[#a84a00]">
+          {dinero(b.facturacion_pisos[0])}–{dinero(b.facturacion_pisos[1])}
+        </b>
+        Aproximado: precio de la noche × noches ocupadas (38,3 %–48 %).
+      </section>
       <Operador color={COLOR.piso} etiqueta="Anfitrión con más pisos" op={b.operador_pisos}
         unidad="pisos" vacio="Ningún anfitrión llega a 5 pisos" />
 
       <Bloque color={COLOR.hotel} titulo="Hoteles" cifra={n(b.turistas_hoteles)} unidad="turistas">
-        {n(b.hoteles)} hoteles · {n(b.plazas_hoteles)} plazas
+        {n(b.hoteles)} hoteles · {n(b.plazas_hoteles)} plazas · {n(habs)} habitaciones
       </Bloque>
+      {sube != null && (
+        <section className="mt-2 rounded bg-[#e6eff8] px-3 py-2 text-[11px] leading-snug text-[#52514e]">
+          Ocupación de las habitaciones en 2028
+          <b className="block text-[18px] leading-tight text-[#123a6b]">
+            +{sube.toLocaleString("es", { maximumFractionDigits: 1 })} pts
+          </b>
+          Del 80,2 % al {(80.2 + sube).toLocaleString("es", { maximumFractionDigits: 1 })} % de media en el barrio.
+        </section>
+      )}
+      {top.length > 0 && (
+        <div className="mt-2">
+          <p className="mb-1 text-[11px] font-medium">Los 5 hoteles que más ganan (habitaciones ocupadas de más)</p>
+          <ol className="space-y-1.5 text-[11px]">
+            {top.map((h, i) => (
+              <li key={`${h.nom}-${i}`}>
+                <div className="flex justify-between gap-2">
+                  <span className="truncate">{h.nom ?? "Hotel"}</span>
+                  <b className="tabular-nums">+{n(Math.round(h.hab_abs ?? 0))}</b>
+                </div>
+                <span className="block h-1.5 rounded bg-[#eeece7]">
+                  <span className="block h-full rounded" style={{ width: `${((h.hab_abs ?? 0) / tope) * 100}%`, background: COLOR.hotel }} />
+                </span>
+                <span className="text-[10px]">{n(h.hab)} hab. · +{n(Math.round(((h.hab_abs ?? 0) / (h.hab || 1)) * 100))} pts</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
       <Operador color={COLOR.hotel} etiqueta="Titular con más hoteles" op={b.operador_hoteles}
         unidad="hoteles" vacio="Ninguna sociedad reúne 2 hoteles" />
 

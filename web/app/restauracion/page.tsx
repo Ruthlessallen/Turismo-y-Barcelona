@@ -42,7 +42,7 @@ export default function PaginaRestauracion() {
         <Seccion color={COLOR.restaurante} titulo="Restauración de Barcelona">
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
             <Cifra valor={n(p.locales)} etiqueta="locales" color={OSCURO.restaurante} />
-            <Cifra valor={`+${((p.en_2028 / p.hoy - 1) * 100).toLocaleString("es", { maximumFractionDigits: 1 })} %`} etiqueta="clientes de turistas en 2028"
+            <Cifra valor={`+${((p.en_2028 / p.hoy - 1) * 100).toLocaleString("es", { maximumFractionDigits: 1 })} %`} etiqueta="clientes de turistas en 2028" grande
               pie={`${n(p.hoy)} → ${n(p.en_2028)} por noche`} color={OSCURO.restaurante} />
             <Cifra valor={n(p.ganan)} etiqueta="locales que ganan" color={OSCURO.restaurante} />
             <Cifra valor={n(p.pierden)} etiqueta="locales que pierden" color={OSCURO.restaurante} />
