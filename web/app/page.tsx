@@ -11,7 +11,7 @@ type Dashboard = {
     total: number; habitaciones: number; plazas: number;
     bandas: Record<string, number>;
     titulares: { nom: string; n: number; plazas: number }[];
-    turistas_nuevos: number; turistas_nuevos_pct: number;
+    turistas_nuevos: number; turistas_nuevos_pct: number; ocupacion_hoy: number; ocupacion_2028: number;
   };
   pisos: {
     anuncios_barridos: number; total: number; habitaciones: number; plazas: number;
@@ -87,9 +87,9 @@ export default function Portada() {
               <Cifra compacta valor={n(h.total)} etiqueta="hoteles" color={OSCURO.hotel} />
               <Cifra compacta valor={n(h.habitaciones)} etiqueta="habitaciones" color={OSCURO.hotel} />
               <Cifra compacta valor={n(h.plazas)} etiqueta="plazas" color={OSCURO.hotel} />
-              <Cifra compacta valor={`+${h.turistas_nuevos_pct.toLocaleString("es")} %`}
-                etiqueta="turistas más en 2028" color={OSCURO.hotel}
-                pie={`${n(h.turistas_nuevos)} por noche`} />
+              <Cifra compacta valor={`+${(h.ocupacion_2028 - h.ocupacion_hoy).toLocaleString("es", { maximumFractionDigits: 1 })} pts`}
+                etiqueta="ocupación más en 2028" color={OSCURO.hotel}
+                pie={`del ${h.ocupacion_hoy.toLocaleString("es")} % al ${h.ocupacion_2028.toLocaleString("es")} %`} />
             </div>
             <div className="mt-2 grid gap-2">
               <Tarjeta compacta titulo="Bandas económicas · por habitación">

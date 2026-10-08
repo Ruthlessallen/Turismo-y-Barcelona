@@ -431,7 +431,7 @@ def anfitriones(p: pd.DataFrame) -> list[dict]:
     return [{"nom": str(r.nom), "n": int(r.n), "plazas": int(r.plazas)} for r in g.itertuples()]
 
 
-def dashboard(p: pd.DataFrame, h: pd.DataFrame, tur_nuevos: float) -> dict:
+def dashboard(p: pd.DataFrame, h: pd.DataFrame, tur_nuevos: float, ocupacion_2028: float) -> dict:
     """Las cifras de la portada: solo numeros, un ano medio, sin escenarios.
 
     Los turistas nuevos son los que los pisos aportan a los hoteles al desaparecer (reparto del
@@ -454,6 +454,8 @@ def dashboard(p: pd.DataFrame, h: pd.DataFrame, tur_nuevos: float) -> dict:
             "turistas_hoy": round(turistas_hotel_hoy),
             "turistas_nuevos": round(nuevos),
             "turistas_nuevos_pct": round(nuevos / turistas_hotel_hoy * 100, 1),
+            # Ocupacion por habitaciones: la del INE hoy y lo que queda al absorber a los pisos.
+            "ocupacion_hoy": 80.2, "ocupacion_2028": ocupacion_2028,
         },
         "pisos": {
             "anuncios_barridos": len(p) + len(todos),
@@ -552,7 +554,7 @@ def main() -> None:
             "operador_pisos": operador(gp["anfitrion"], 5),
         })
     volcar("barrios_hoy.json", filas)
-    volcar("dashboard.json", dashboard(p, h, rep["tur_total"]))
+    volcar("dashboard.json", dashboard(p, h, rep["tur_total"], round((float(ab["hab"].sum()) * 0.802 + float(ab["hab_abs"].sum())) / float(ab["hab"].sum()) * 100, 1)))
     volcar("restauracion_pagina.json", restauracion_pagina(r, filas))
 
     # --- Turistas: lo que hay en este conjunto de datos frente a lo que dice el INE.
