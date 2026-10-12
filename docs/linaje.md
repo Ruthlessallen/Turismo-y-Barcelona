@@ -4,7 +4,7 @@
 cada script y anotando que ficheros lee y cuales escribe, asi que describe el pipeline tal como
 esta, no como se documento. Volver a ejecutarlo despues de cualquier cambio.
 
-21 scripts, 32 ficheros.
+21 scripts, 30 ficheros.
 
 **Llamadas no resueltas:** `bronze/unificar_registros.py` (3), `export/export_criba.py` (1), `export/export_mapa_limpio.py` (1), `export/preparar_geometria_web.py` (2), `gold/modelar_flujos_banda.py` (1), `sources/descargar_fuentes.py` (2), `sources/descargar_ine_barcelona.py` (1), `sources/descargar_serie_vut.py` (2), `sources/geocodificar_registros.py` (1). Son rutas que se componen en tiempo de ejecucion o que llegan como argumento; el grafo no las incluye y por eso se listan aqui en vez de pasar desapercibidas.
 
@@ -20,7 +20,6 @@ flowchart TD
     n_RAIZ_data_raw_ine_portaldades_adr_por_categoria_2013_2026_csv[("portaldades_adr_por_categoria_2013_2026.csv")]
     n_RAIZ_data_raw_registre_turisme_hoteles_y_apartaments_turistics_provincia_barcelona_csv[("hoteles_y_apartaments_turistics_provincia_barcelona.csv")]
     n_RAIZ_data_raw_restauracion_hoteles_provincia_bcn_cens_comercial_restauracion_2024_csv[("bcn_cens_comercial_restauracion_2024.csv")]
-    n_RAIZ_data_raw_restauracion_hoteles_provincia_provincia_barcelona_restauracion_osm_2026_csv[("provincia_barcelona_restauracion_osm_2026.csv")]
     n_RAIZ_data_raw_vut_opendata_bcn_hut_2016_2026Q1_csv[("opendata_bcn_hut_2016-2026Q1.csv")]
   end
   subgraph bronze ["bronze · limpio"]
@@ -33,7 +32,6 @@ flowchart TD
     n_RAIZ_data_bronze_hoteles_nuevos_bcn_csv[("hoteles_nuevos_bcn.csv")]
     n_RAIZ_data_bronze_hoteles_y_apartaments_unificados_csv[("hoteles_y_apartaments_unificados.csv")]
     n_RAIZ_data_bronze_municipios_provincia_barcelona_geojson[("municipios_provincia_barcelona.geojson")]
-    n_RAIZ_data_bronze_restauracion_con_municipio_csv[("restauracion_con_municipio.csv")]
     n_RAIZ_data_bronze_serie_ine_barcelona_csv[("serie_ine_barcelona.csv")]
     n_RAIZ_data_bronze_serie_vut_trimestral_csv[("serie_vut_trimestral.csv")]
     n_RAIZ_data_bronze_titulares_csv[("titulares.csv")]
@@ -76,9 +74,7 @@ flowchart TD
   n_RAIZ_data_bronze_geocodificacion_icgc_csv --> n_bronze_asignar_municipio_py
   n_RAIZ_data_bronze_municipios_provincia_barcelona_geojson --> n_bronze_asignar_municipio_py
   n_RAIZ_data_raw_geometria_insideairbnb_barrios_barcelona_geojson --> n_bronze_asignar_municipio_py
-  n_RAIZ_data_raw_restauracion_hoteles_provincia_provincia_barcelona_restauracion_osm_2026_csv --> n_bronze_asignar_municipio_py
   n_bronze_asignar_municipio_py --> n_RAIZ_data_bronze_geocodificacion_verificada_csv
-  n_bronze_asignar_municipio_py --> n_RAIZ_data_bronze_restauracion_con_municipio_csv
   n_RAIZ_data_raw_ine_portaldades_adr_por_categoria_2013_2026_csv --> n_bronze_preparar_adr_por_categoria_py
   n_bronze_preparar_adr_por_categoria_py --> n_RAIZ_data_bronze_adr_estacionalidad_csv
   n_bronze_preparar_adr_por_categoria_py --> n_RAIZ_data_bronze_adr_por_categoria_csv
@@ -136,7 +132,7 @@ flowchart TD
 
 | Script | Capa | Lee | Escribe |
 |---|---|---|---|
-| `bronze/asignar_municipio.py` | bronze | geocodificacion_icgc.csv<br>municipios_provincia_barcelona.geojson<br>insideairbnb_barrios_barcelona.geojson<br>provincia_barcelona_restauracion_osm_2026.csv | geocodificacion_verificada.csv<br>restauracion_con_municipio.csv |
+| `bronze/asignar_municipio.py` | bronze | geocodificacion_icgc.csv<br>municipios_provincia_barcelona.geojson<br>insideairbnb_barrios_barcelona.geojson | geocodificacion_verificada.csv |
 | `bronze/preparar_adr_por_categoria.py` | bronze | portaldades_adr_por_categoria_2013_2026.csv | adr_estacionalidad.csv<br>adr_por_categoria.csv |
 | `bronze/reparar_geometria_municipios.py` | bronze | icgc_municipis_provincia_barcelona.geojson | municipios_provincia_barcelona.geojson |
 | `bronze/unificar_airbnb.py` | bronze | insideairbnb_barcelona_2026-06-24_listings.csv<br>insideairbnb_barcelona_2026-06-24_listings_detalle.csv.gz | airbnb_anuncios.csv |
