@@ -4,7 +4,7 @@
  * El Ajuntament publica 12 polígonos con códigos `ZE1`, `ZE2`, `ZE3A`…`ZE4C` y `EXCLO`. Se agrupan
  * por su número. Reglas del PEUAT de 2021, según prensa y despachos jurídicos: zona 1 no admite
  * establecimientos nuevos; zona 2 mantiene el censo (solo sustitución); zona 3 crecimiento contenido;
- * zona 4 regulación propia. **El detalle por subzona no está verificado** contra el texto del plan.
+ * zona 4 regulación propia. Las zonas 3 y 4 dependen de topes de plazas por subzona, no contrastados con el texto oficial.
  */
 export type GrupoPeuat = "ze1" | "ze2" | "ze3" | "ze4" | "exclo";
 

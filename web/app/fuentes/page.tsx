@@ -230,11 +230,12 @@ export default function PaginaFuentes() {
                 El mapa de <em>Hoteles</em> pinta las 12 zonas por su código y las agrupa por número.
                 Según el plan: la <strong>zona 1</strong> no admite establecimientos nuevos; la{" "}
                 <strong>zona 2</strong> mantiene el censo (solo se abre sustituyendo uno que cerró);
-                la <strong>zona 3</strong> permite crecimiento contenido; la <strong>zona 4</strong> tiene
-                regulación propia (Prat Vermell, la Sagrera, el norte del 22@). No está verificado el
-                detalle por subzona (3A–3E, 4A–4C) contra el texto del plan, y una propuesta de
-                2023 para admitir hoteles «singulares» en las zonas 1 y 2 no consta como aprobada.
-                No entra en ningún cálculo: es información sobre el mapa.
+                la <strong>zona 3</strong> permite crecimiento contenido, con una densidad máxima de plazas
+                por subzona (3A–3E); la <strong>zona 4</strong> son subzonas con regla propia (Prat
+                Vermell, la Sagrera y el norte del 22@, este último de mantenimiento). Las cifras de
+                plazas de cada subzona no están contrastadas con el texto oficial. Una propuesta de 2023 para
+                admitir hoteles «singulares» en las zonas 1 y 2 avanzó en comisión, pero no consta que se
+                aprobara: hoy rige el plan de 2021. No entra en ningún cálculo: es información sobre el mapa.
               </P>
             </Fuente>
 

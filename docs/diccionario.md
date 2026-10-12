@@ -16,6 +16,7 @@ produce. Generado por `pipeline/generar_diccionario.py`; no se edita a mano.
 | `hoteles_nuevos_bcn.csv` | 4 | `—` | nombre, marca, direccion, habitaciones, categoria, apertura, tipo, lat, lon, precision, fuente, url, consultado |
 | `hoteles_y_apartaments_unificados.csv` | 1.563 | `—` | licencia_id, nombre_comercial, municipio, codi_ine, comarca, tipo_via, nombre_via, numero, codigo_postal, categoria, plazas, habitaciones, nif, razon_social, tipo, es_persona_fisica, titular_id, lat, lon, metodo_match, similitud_nombre, piso, puerta, coordenada_compartida, nivel_geo |
 | `municipios_provincia_barcelona.geojson` | 311 | `bronze/reparar_geometria_municipios.py` | GmlID, OBJECTID, CODIMUNI, NOMMUNI, NOMMUNIIND, CAPMUNI, CAPMUNIIND, AREAM5000, CODICOMAR, NOMCOMAR, CAPCOMAR, CAPCOMIND, CODIVEGUE, NOMVEGUE, CAPVEGUE, CODIPROV, NOMPROV, CAPPROV, SHAPE_Length, SHAPE_Area |
+| `restauracion_con_municipio.csv` | 16.801 | `bronze/asignar_municipio.py` | osm_id, tipo_local, nombre_comercial, tipo_cocina, calle, numero, codigo_postal, municipio, telefono, sitio_web, latitud, longitud, municipio_poligono, codi_ine, barrio, distrito |
 | `serie_ine_barcelona.csv` | 926 | `sources/descargar_ine_barcelona.py` | fuente, serie, unidad, anyo, periodo, provisional, fecha, valor, mes |
 | `serie_vut_trimestral.csv` | 30 | `sources/descargar_serie_vut.py` | trimestre, anyo, stock, altas, bajas, variacion_neta |
 | `titulares.csv` | 3.107 | `bronze/unificar_registros.py` | nif, titular_id |

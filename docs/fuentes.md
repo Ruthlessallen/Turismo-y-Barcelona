@@ -68,9 +68,12 @@ solo sitio, los JSON de `data/exports/mapa/`, y la web las lee de ahí.
   prensa y despachos jurídicos (PwC, Uría, Hosteltur): **zona 1** sin establecimientos nuevos,
   **zona 2** mantiene el censo (solo se abre sustituyendo uno cerrado), **zona 3** crecimiento
   contenido, **zona 4** regulación propia.
-- **No verificado:** el detalle por subzona (3A–3E, 4A–4C) contra el texto del plan, y si la
-  propuesta de 2023 de admitir hoteles «singulares» en las zonas 1 y 2 llegó a aprobarse. Solo
-  informa sobre el mapa; no entra en ningún cálculo.
+- En las zonas 3 y 4 la apertura depende de topes de plazas por subzona (3A–3E; 4A Prat Vermell, 4B
+  la Sagrera, 4C 22@ Norte, de mantenimiento). Las cifras de plazas varían entre fuentes y no están
+  contrastadas con el texto oficial.
+- La propuesta de 2023 de admitir hoteles «singulares» en las zonas 1 y 2 avanzó en comisión, pero
+  el gobierno municipal dijo que mantenía las restricciones y no consta aprobación definitiva (comprobado
+  en octubre de 2026). Rige el plan de 2021. Solo informa sobre el mapa; no entra en ningún cálculo.
 
 ### 1.8 Hoteles anunciados — prensa
 - `data/bronze/hoteles_nuevos_bcn.csv`, recopilado a mano el 5 de octubre de 2026 (Hosteltur, ON

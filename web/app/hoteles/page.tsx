@@ -151,7 +151,7 @@ export default function PaginaHoteles() {
                   ))}
                 </ul>
                 <p className="mt-1 text-[10px] leading-snug text-[#52514e]">
-                  Zonas del PEUAT (2021) agrupadas por número; reglas según prensa y despachos, subzonas sin verificar. Ver Fuentes.
+                  Zonas del PEUAT (2021) agrupadas por número; reglas según prensa y despachos jurídicos. Ver Fuentes.
                 </p>
               </>
             )}

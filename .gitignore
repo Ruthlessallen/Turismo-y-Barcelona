@@ -88,3 +88,6 @@ scraps/
 web/node_modules/
 web/.next/
 web/out/
+
+# Checklist de trabajo pendiente: solo local
+docs/web-checklist.md
