@@ -293,8 +293,8 @@ function PanelHotel({ hotel, datos, radio, onCerrar }: {
         </p>
       )}
 
-      <Titulo className="mt-4">Habitaciones que piden, según el radio</Titulo>
-      <Lineas serie={serie} radio={radio} absorbe={a.absorbe} libres={Math.max(total - a.ocupadasHoy, 0)} param={datos.param} />
+      <Titulo className="mt-4">Habitaciones absorbibles, según el radio</Titulo>
+      <Lineas serie={serie} radio={radio} libres={Math.max(total - a.ocupadasHoy, 0)} param={datos.param} />
     </aside>
   );
 }
@@ -324,39 +324,74 @@ function Apilada({ partes, total, formato }: {
 }
 
 /** Gráfico lineal pequeño: lo que piden los pisos crece con el radio; lo que el hotel puede dar, no. */
-function Lineas({ serie, radio, absorbe, libres, param }: {
+function Lineas({ serie, radio, libres, param }: {
   param: DatosMapa["param"];
-  serie: { radio: number; pisos: number; piden: number; pidenAlto: number }[]; radio: number; absorbe: number; libres: number;
+  serie: { radio: number; pisos: number; piden: number; pidenAlto: number }[]; radio: number; libres: number;
 }) {
   const W = 260, H = 110, X0 = 28, Y0 = 8, ancho = W - X0 - 6, alto = H - Y0 - 18;
   const max = Math.max(...serie.map((s) => s.pidenAlto), libres, 1) * 1.1;
   const x = (r: number) => X0 + (r / 500) * ancho;
-  const y = (v: number) => Y0 + alto - (v / max) * alto;
+  // El cero queda 4 unidades por encima del eje: el trazo no se sale por debajo de 0.
+  // Lineal o logarítmica (log10 de 1 + v: así el 0 sigue siendo 0). La logarítmica abre la parte
+  // de abajo, donde hay pocas habitaciones, y comprime la de arriba.
+  const [log, setLog] = useState(false);
+  const f = (v: number) => (log ? Math.log10(1 + v) / Math.log10(1 + max) : v / max);
+  const y = (v: number) => Y0 + alto - 4 - f(v) * (alto - 4);
+  const marcas = log ? [0, 1, 10, 100, 1000].filter((v) => v <= max) : [0, 0.5, 1].map((k) => Math.round((max * k) / 1.1));
   const linea = (f: (s: (typeof serie)[number]) => number) => serie.map((s) => `${x(s.radio)},${y(f(s))}`).join(" ");
+  // Entre la curva y el hueco libre del hotel: azul donde el hotel tiene sitio de sobra, naranja donde
+  // lo que piden los pisos no cabe y se va a otros hoteles. Se parte en el cruce de las dos.
+  const bandas: { pts: string; color: string }[] = [];
+  for (let i = 0; i < serie.length - 1; i++) {
+    const [r0, r1] = [serie[i].radio, serie[i + 1].radio], [c0, c1] = [serie[i].piden, serie[i + 1].piden];
+    const trozos: [number, number, number, number][] = [];
+    if ((c0 - libres) * (c1 - libres) < 0) {
+      const t = (libres - c0) / (c1 - c0), rc = r0 + (r1 - r0) * t;
+      trozos.push([r0, c0, rc, libres], [rc, libres, r1, c1]);
+    } else trozos.push([r0, c0, r1, c1]);
+    for (const [a0, v0, a1, v1] of trozos) {
+      const sobra = (v0 + v1) / 2 > libres;
+      bandas.push({
+        pts: `${x(a0)},${y(v0)} ${x(a1)},${y(v1)} ${x(a1)},${y(libres)} ${x(a0)},${y(libres)}`,
+        color: sobra ? COLOR.piso : COLOR.hotel,
+      });
+    }
+  }
   const actual = serie.find((s) => s.radio === Math.round(radio / 50) * 50) ?? serie[0];
   return (
     <>
-      <svg viewBox={`0 0 ${W} ${H}`} className="mt-1 w-full" role="img" aria-label="Habitaciones que piden los pisos según el radio">
-        {[0, 0.5, 1].map((f) => (
-          <g key={f}>
-            <line x1={X0} x2={W - 6} y1={y(max * f / 1.1)} y2={y(max * f / 1.1)} stroke="#eeece7" />
-            <text x={X0 - 3} y={y(max * f / 1.1) + 3} fontSize="8" textAnchor="end" fill="#52514e">{Math.round(max * f / 1.1)}</text>
+      <div className="mt-1 flex items-center gap-1 text-[10px]">
+        <span className="text-[#52514e]">Escala</span>
+        {([false, true] as const).map((v) => (
+          <button key={String(v)} type="button" aria-pressed={log === v} onClick={() => setLog(v)}
+            className={`rounded border px-1.5 py-0.5 ${log === v ? "border-[#24231f] bg-[#24231f] text-white" : "border-[#d8d5cd] bg-white"}`}>
+            {v ? "logarítmica" : "lineal"}
+          </button>
+        ))}
+      </div>
+      <svg viewBox={`0 0 ${W} ${H}`} className="mt-1 w-full" role="img" aria-label="Habitaciones absorbibles según el radio">
+        {marcas.map((v) => (
+          <g key={v}>
+            <line x1={X0} x2={W - 6} y1={y(v)} y2={y(v)} stroke="#eeece7" />
+            <text x={X0 - 3} y={y(v) + 3} fontSize="8" textAnchor="end" fill="#52514e">{v}</text>
           </g>
         ))}
+        {bandas.map((b, i) => <polygon key={i} points={b.pts} fill={b.color} fillOpacity="0.28" />)}
+        <line x1={X0} x2={W - 6} y1={y(libres)} y2={y(libres)} stroke={COLOR.hotel} strokeWidth="1.2" strokeDasharray="4 3" />
         <polyline points={linea((s) => s.pidenAlto)} fill="none" stroke={COLOR.piso} strokeWidth="1" strokeDasharray="3 2" />
         <polyline points={linea((s) => s.piden)} fill="none" stroke={COLOR.piso} strokeWidth="2" />
-        <line x1={X0} x2={W - 6} y1={y(libres)} y2={y(libres)} stroke="#9dbbdc" strokeWidth="1.5" strokeDasharray="4 3" />
-        <line x1={X0} x2={W - 6} y1={y(absorbe)} y2={y(absorbe)} stroke={COLOR.hotel} strokeWidth="2" />
-        <line x1={x(radio)} x2={x(radio)} y1={Y0} y2={Y0 + alto} stroke="#24231f" strokeWidth="1" />
-        <circle cx={x(radio)} cy={y(actual.piden)} r="3" fill={COLOR.piso} />
+        <line x1={X0} x2={W - 6} y1={Y0 + alto} y2={Y0 + alto} stroke="#d9d6cf" />
+        <line x1={x(radio)} x2={x(radio)} y1={y(actual.piden)} y2={Y0 + alto} stroke="#24231f" strokeWidth="1" strokeDasharray="3 2" />
+        <circle cx={x(radio)} cy={y(actual.piden)} r="3.5" fill={COLOR.piso} stroke="#fff" strokeWidth="1.5" />
         {[0, 250, 500].map((r) => (
           <text key={r} x={x(r)} y={H - 4} fontSize="8" textAnchor="middle" fill="#52514e">{r} m</text>
         ))}
       </svg>
       <ul className="space-y-0.5 text-[11px] text-[#52514e]">
-        <li><i className="mr-1.5 inline-block h-0.5 w-3 align-middle" style={{ background: COLOR.piso }} />piden los pisos ({dec(param.ocupacion_piso[0])} %; discontinua, {dec(param.ocupacion_piso[1])} %)</li>
-        <li><i className="mr-1.5 inline-block h-0.5 w-3 align-middle" style={{ background: COLOR.hotel }} />absorbe este hotel: <b className="text-[#24231f]">{n(Math.round(absorbe))}</b></li>
-        <li><i className="mr-1.5 inline-block h-0.5 w-3 align-middle" style={{ background: "#9dbbdc" }} />libres hoy en el hotel: <b className="text-[#24231f]">{n(Math.round(libres))}</b></li>
+        <li><i className="mr-1.5 inline-block h-0.5 w-3 align-middle" style={{ background: COLOR.piso }} />habitaciones absorbibles ({dec(param.ocupacion_piso[0])} %; discontinua, {dec(param.ocupacion_piso[1])} %)</li>
+        <li><i className="mr-1.5 inline-block h-2 w-3 align-middle" style={{ background: COLOR.hotel, opacity: 0.45 }} />hueco libre en el hotel hoy ({n(Math.round(libres))} hab.): lo que aún le cabe</li>
+        <li><i className="mr-1.5 inline-block h-2 w-3 align-middle" style={{ background: COLOR.piso, opacity: 0.45 }} />lo que no le cabe y se va a otros hoteles</li>
+        <li>A {Math.round(radio / 50) * 50} m: <b className="text-[#24231f]">{n(Math.round(actual.piden))}</b> habitaciones absorbibles</li>
       </ul>
     </>
   );

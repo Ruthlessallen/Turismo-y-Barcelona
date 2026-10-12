@@ -91,3 +91,6 @@ web/out/
 
 # Checklist de trabajo pendiente: solo local
 docs/web-checklist.md
+
+# Vídeo renderizado
+video/out/

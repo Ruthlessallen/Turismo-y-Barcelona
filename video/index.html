@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Barcelona sin pisos turísticos · vídeo</title>
+<style>
+  html, body { margin: 0; background: #faf9f7; }
+  canvas { display: block; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1080" height="1350"></canvas>
+<script>
+/*
+ * Vídeo de LinkedIn (1080x1350, 30 s). Cada fotograma es una función del tiempo: window.draw(t).
+ * Los datos son los reales de la web (puntos de pisos y hoteles, barrios). Sin nombre de hotel.
+ * Para verlo en directo abre esta página; para renderizarlo, `python video/render.py`.
+ */
+const W = 1080, H = 1350, DURACION = 33.5;
+const COL = { blue: "#1f5fa8", orange: "#e8710a", lblue: "#9dbbdc", bg: "#faf9f7", ink: "#24231f", mut: "#52514e",
+  line: "#d9d6cf", dark: "#a84a00", navy: "#123a6b", libre: "#e3e0da" };
+const FONT = '"Segoe UI", "Helvetica Neue", Arial, sans-serif';
+const URL_WEB = "barcelona-en-2028-iota.vercel.app";
+
+const cv = document.getElementById("c"), ctx = cv.getContext("2d");
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const eio = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const lerp = (a, b, k) => a + (b - a) * k;
+const hash = (i) => { const s = Math.sin(i * 12.9898 + 78.233) * 43758.5453; return s - Math.floor(s); };
+const num = (v) => Math.round(v).toLocaleString("es", { useGrouping: "always" });
+
+let D = null; // datos y geometría
+
+// ---------------------------------------------------------------- carga y preparación
+async function cargar() {
+  const base = "../web/public/data/";
+  const [pisos, hoteles, barrios, param] = await Promise.all([
+    fetch(base + "mapa/puntos_pisos.json").then((r) => r.json()),
+    fetch(base + "mapa/puntos_hoteles.json").then((r) => r.json()),
+    fetch(base + "geo/barrios.geojson").then((r) => r.json()),
+    fetch(base + "mapa/parametros.json").then((r) => r.json()),
+  ]);
+  // Proyección: el mapa ocupa x 90..990, y 330..1290.
+  let lonMin = 9, lonMax = 0, latMin = 99, latMax = 0;
+  const anillos = [];
+  for (const f of barrios.features) {
+    const polis = f.geometry.type === "Polygon" ? [f.geometry.coordinates] : f.geometry.coordinates;
+    for (const poli of polis) for (const a of poli) {
+      anillos.push(a);
+      for (const [lo, la] of a) { lonMin = Math.min(lonMin, lo); lonMax = Math.max(lonMax, lo); latMin = Math.min(latMin, la); latMax = Math.max(latMax, la); }
+    }
+  }
+  const kx = Math.cos((41.39 * Math.PI) / 180);
+  const sc = Math.min(900 / ((lonMax - lonMin) * kx), 880 / (latMax - latMin));
+  const ox = 540 - ((lonMax - lonMin) * kx * sc) / 2, oy = 440;
+  const px = (lo) => ox + (lo - lonMin) * kx * sc, py = (la) => oy + (latMax - la) * sc;
+  const mPorUnidad = 111320 / sc; // metros por unidad de mundo
+  const centro = [px(2.17), py(41.387)];
+
+  const P = pisos.map((p, i) => ({ x: px(p[1]), y: py(p[0]), plazas: p[2], hab: p[9] ?? 1, i }));
+  const Hs = hoteles.map((h, i) => ({ x: px(h.lon), y: py(h.lat), h, i }));
+  const todos = [...P.map((p) => [p, "p"]), ...Hs.map((h) => [h, "h"])];
+  const dmax = Math.max(...todos.map(([o]) => Math.hypot(o.x - centro[0], o.y - centro[1])));
+  for (const [o, k] of todos) {
+    const d = Math.hypot(o.x - centro[0], o.y - centro[1]) / dmax;
+    o.tA = 2.3 + 5.6 * Math.pow(d, 0.85) + hash(o.i + (k === "h" ? 7777 : 0)) * 0.5;
+    o.tV = 9.7 + 3.7 * hash(o.i + 31); // solo los pisos se apagan
+  }
+
+  // El hotel del clic: del centro-izquierda, tamaño medio y con mucho que absorber. Sin nombre.
+  const r300 = 300 / mPorUnidad;
+  // Un hotel de tamaño medio, en la zona densa, con muchos pisos alrededor y mucho que absorber.
+  let mejor = null;
+  const r500 = 500 / mPorUnidad;
+  for (const o of Hs) {
+    if (!o.h.hab || o.h.hab < 90 || o.h.hab > 200 || o.x < 440 || o.x > 760 || o.y < 600 || o.y > 1050) continue;
+    let c300 = 0, c500 = 0;
+    for (const p of P) { const d = Math.hypot(p.x - o.x, p.y - o.y); if (d <= r300) c300++; if (d <= r500) c500++; }
+    if (c300 < 40 || o.h.hab_abs < 8 || o.h.hab_abs > 0.10 * o.h.hab) continue; // que le queden bastantes habitaciones libres en 2028
+    const puntos = c500 * Math.min(o.h.hab_abs, 25);
+    if (!mejor || puntos > mejor.puntos) mejor = { o, puntos };
+  }
+  const o = mejor.o, h = o.h;
+  // La tarjeta va al lado contrario del hotel para no taparlo.
+  CARD.x = o.x > 540 ? 40 : 560;
+  // Habitaciones que piden los pisos, de 0 a 500 m en pasos de 50 (como el gráfico de la web).
+  const bajo = param.ocupacion_piso[0] / 100, alto = param.ocupacion_piso[1] / 100;
+  const radios = Array.from({ length: 11 }, (_, i) => i * 50);
+  const serie = radios.map((r) => {
+    const rr = r / mPorUnidad;
+    const hab = P.filter((p) => Math.hypot(p.x - o.x, p.y - o.y) <= rr).reduce((s, p) => s + p.hab, 0);
+    return { r, piden: hab * bajo, alto: hab * alto };
+  });
+  const cerca300 = P.filter((p) => Math.hypot(p.x - o.x, p.y - o.y) <= r300);
+  const hoy = h.hab * (param.ocupacion_hotel_habitaciones / 100);
+  const absorbe = Math.min(h.hab_abs, h.hab - hoy);
+  const info = {
+    total: h.hab, hoy, absorbe, libres: Math.max(h.hab - hoy - absorbe, 0), cat: h.cat_ine, barrio: h.barrio,
+    pisos300: cerca300.length, plazas300: cerca300.reduce((s, p) => s + (p.plazas || 0), 0),
+    piden300: cerca300.reduce((s, p) => s + p.hab, 0) * bajo, serie,
+  };
+  D = { P, Hs, anillos, px, py, mPorUnidad, hotel: o, info, r300, ocHotel: param.ocupacion_hotel_habitaciones, nP: P.length, nH: Hs.length };
+  prepararCamara();
+}
+
+// ---------------------------------------------------------------- cámara
+const CARD = { x: 560, y: 300, w: 480, h: 800 };
+let KF = [];
+function chartGeom() {
+  const x0 = CARD.x + 36, x1 = CARD.x + CARD.w - 24, yTop = 850, yBase = 1030;
+  const s = D.info.serie;
+  const max = Math.max(...s.map((q) => q.alto), D.info.total - D.info.hoy, 1) * 1.12;
+  const cero = yBase - 14; // el cero queda por encima del eje: el trazo no se sale por debajo
+  const X = (r) => x0 + (r / 500) * (x1 - x0), Y = (v) => cero - (v / max) * (cero - yTop);
+  return { x0, x1, yTop, yBase, X, Y };
+}
+function prepararCamara() {
+  const g = chartGeom();
+  const sFin = 2.3;
+  const E = [g.X(500), g.Y(D.info.serie[10].piden)];
+  // Al final, el extremo de la línea queda abajo a la izquierda (donde nace la «B»).
+  const Sx = 112, Sy = 720;      // donde nace el palo de la «B»
+  const Ex = -140, Ey = 960;     // donde queda, en pantalla, el extremo de la línea del gráfico
+  const q0 = D.info.serie[9], q1 = D.info.serie[10];
+  const dx = g.X(500) - g.X(450), dy = g.Y(q1.piden) - g.Y(q0.piden), dl = Math.hypot(dx, dy);
+  D.E = E; D.sFin = sFin; D.Sx = Sx; D.Sy = Sy; D.Ex = Ex; D.Ey = Ey; D.dir = [dx / dl, dy / dl];
+  KF = [
+    { t: 0, s: 1, cx: 540, cy: 675 },
+    { t: 15.8, s: 1, cx: 540, cy: 675 },
+    { t: 17.6, s: 2.1, cx: CARD.x + 240, cy: 611 },
+    { t: 21.0, s: 2.1, cx: CARD.x + 240, cy: 750 },
+    { t: 23.6, s: 2.3, cx: CARD.x + 240, cy: 905 },
+    { t: 24.8, s: 2.3, cx: CARD.x + 240, cy: 905 },
+    { t: 27.0, s: sFin, cx: E[0] + (540 - Ex) / sFin, cy: E[1] - (Ey - 675) / sFin },
+  ];
+}
+function camara(t) {
+  let a = KF[0], b = KF[KF.length - 1];
+  if (t >= b.t) return b;
+  for (let i = 0; i < KF.length - 1; i++) if (t >= KF[i].t && t < KF[i + 1].t) { a = KF[i]; b = KF[i + 1]; break; }
+  const k = eio(seg(t, a.t, b.t));
+  // La escala se interpola en logaritmo para que el zoom se sienta uniforme.
+  return { s: Math.exp(lerp(Math.log(a.s), Math.log(b.s), k)), cx: lerp(a.cx, b.cx, k), cy: lerp(a.cy, b.cy, k) };
+}
+
+// ---------------------------------------------------------------- dibujo
+function texto(s, x, y, tam, color, peso = 600, align = "left", alpha = 1) {
+  ctx.save(); ctx.globalAlpha *= alpha; ctx.font = `${peso} ${tam}px ${FONT}`; ctx.fillStyle = color;
+  ctx.textAlign = align; ctx.textBaseline = "alphabetic"; ctx.fillText(s, x, y); ctx.restore();
+}
+function rrect(x, y, w, h, r) {
+  ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+}
+
+function cabecera(t) {
+  const a = 1 - seg(t, 15.4, 16.4);
+  if (a <= 0) return;
+  ctx.save(); ctx.globalAlpha = a;
+  const x1 = 150, x2 = 930, y = 100;
+  // línea temporal 2026 → 2028
+  const pLinea = eio(seg(t, 8.0, 9.4));
+  ctx.strokeStyle = COL.ink; ctx.lineWidth = 4; ctx.lineCap = "round";
+  ctx.beginPath(); ctx.moveTo(x1 + 22, y); ctx.lineTo(lerp(x1 + 22, x2 - 22, pLinea), y); ctx.stroke();
+  const pop = (t0) => eo(seg(t, t0, t0 + 0.6));
+  const p1 = pop(0.2), p2 = pop(8.0);
+  for (const [x, p, c] of [[x1, p1, COL.ink], [x2, p2, COL.ink]]) {
+    ctx.fillStyle = c; ctx.beginPath(); ctx.arc(x, y, 16 * p, 0, 7); ctx.fill();
+  }
+  texto("2026", x1, y + 78, 60, COL.ink, 700, "center", p1);
+  texto("2028", x2, y + 78, 60, COL.ink, 700, "center", p2);
+  ctx.restore();
+}
+
+function contadores(t, c) {
+  const a = 1 - seg(t, 15.4, 16.4);
+  if (a <= 0) return;
+  const bloque = (x, alpha, hoteles, pisos) => {
+    if (alpha <= 0) return;
+    ctx.save(); ctx.globalAlpha = a * alpha;
+    texto(num(hoteles), x, 262, 50, COL.navy, 700, "center");
+    texto("hoteles", x, 290, 21, COL.mut, 500, "center");
+    texto(num(pisos), x, 358, 50, COL.dark, 700, "center");
+    texto("pisos turísticos", x, 386, 21, COL.mut, 500, "center");
+    ctx.restore();
+  };
+  bloque(150, seg(t, 2.4, 3.0), c.hoteles, c.pisosApar);
+  bloque(930, seg(t, 8.4, 9.2), D.nH, c.pisos2028);
+}
+
+function dibujarMapa(t) {
+  // barrios
+  const aMapa = eo(seg(t, 1.0, 2.6));
+  ctx.save(); ctx.globalAlpha = aMapa; ctx.strokeStyle = "#bdb9b0"; ctx.lineWidth = 1.2; ctx.lineJoin = "round";
+  ctx.fillStyle = "#f2f0eb";
+  for (const a of D.anillos) {
+    ctx.beginPath();
+    a.forEach(([lo, la], i) => (i ? ctx.lineTo(D.px(lo), D.py(la)) : ctx.moveTo(D.px(lo), D.py(la))));
+    ctx.closePath(); ctx.fill(); ctx.stroke();
+  }
+  ctx.restore();
+
+  let nPapar = 0, nH = 0, nSal = 0;
+  ctx.fillStyle = COL.orange; ctx.globalAlpha = 0.86;
+  for (const p of D.P) {
+    const ent = eo(seg(t, p.tA, p.tA + 0.5));
+    const sal = 1 - eio(seg(t, p.tV, p.tV + 0.5));
+    const k = ent * sal;
+    nPapar += ent; nSal += ent * (1 - sal);
+    if (k <= 0.01) continue;
+    ctx.beginPath(); ctx.arc(p.x, p.y, 2.7 * k, 0, 7); ctx.fill();
+  }
+  ctx.globalAlpha = 1; ctx.fillStyle = COL.blue;
+  for (const h of D.Hs) {
+    const k = eo(seg(t, h.tA, h.tA + 0.5));
+    if (k <= 0.01) continue;
+    nH += k >= 0.99 ? 1 : k;
+    ctx.strokeStyle = "#fff"; ctx.lineWidth = 1.4;
+    ctx.beginPath(); ctx.arc(h.x, h.y, 4.6 * k, 0, 7); ctx.fill(); ctx.stroke();
+  }
+  return { pisosApar: Math.round(nPapar), pisos2028: Math.max(0, Math.round(nPapar - nSal)), hoteles: Math.round(nH) };
+}
+
+function dibujarSeleccion(t) {
+  const o = D.hotel;
+  const kClic = seg(t, 15.0, 15.7);
+  // radio de 300 m y anillo
+  if (kClic > 0) {
+    ctx.save(); ctx.strokeStyle = COL.blue; ctx.lineWidth = 2; ctx.setLineDash([8, 6]);
+    ctx.globalAlpha = 0.9 * eo(kClic);
+    ctx.beginPath(); ctx.arc(o.x, o.y, D.r300 * eo(kClic), 0, 7); ctx.stroke(); ctx.restore();
+    ctx.fillStyle = COL.navy; ctx.strokeStyle = "#fff"; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.arc(o.x, o.y, 9, 0, 7); ctx.fill(); ctx.stroke();
+    // onda del clic
+    const w = seg(t, 15.0, 15.6);
+    if (w > 0 && w < 1) {
+      ctx.save(); ctx.globalAlpha = 1 - w; ctx.strokeStyle = COL.navy; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.arc(o.x, o.y, 10 + 40 * eo(w), 0, 7); ctx.stroke(); ctx.restore();
+    }
+  }
+}
+
+function cursor(t) {
+  const a = seg(t, 13.6, 14.0) * (1 - seg(t, 16.0, 16.6));
+  if (a <= 0) return;
+  const o = D.hotel, k = eio(seg(t, 13.8, 14.95));
+  const x0 = 930, y0 = 1230;
+  const cxp = lerp(x0, o.x, k) + 60 * Math.sin(k * Math.PI), cyp = lerp(y0, o.y, k) - 40 * Math.sin(k * Math.PI);
+  const pres = seg(t, 14.95, 15.05) * (1 - seg(t, 15.05, 15.2)); // pulsación
+  ctx.save(); ctx.globalAlpha = a; ctx.translate(cxp, cyp); ctx.scale(1 - 0.12 * pres, 1 - 0.12 * pres);
+  ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(0, 34); ctx.lineTo(8, 27); ctx.lineTo(14, 40); ctx.lineTo(20, 37);
+  ctx.lineTo(14, 25); ctx.lineTo(24, 25); ctx.closePath();
+  ctx.fillStyle = "#fff"; ctx.strokeStyle = COL.ink; ctx.lineWidth = 2.5; ctx.lineJoin = "round"; ctx.fill(); ctx.stroke();
+  ctx.restore();
+}
+
+// --- la columna del hotel
+function barraApilada(x, y, w, h, partes, p) {
+  const tot = partes.reduce((s, q) => s + q.v, 0) || 1;
+  ctx.save(); rrect(x, y, w, h, 6); ctx.clip();
+  ctx.fillStyle = COL.libre; ctx.fillRect(x, y, w, h);
+  let cx = x;
+  for (const q of partes) {
+    const ww = (q.v / tot) * w * p;
+    ctx.fillStyle = q.c; ctx.fillRect(cx, y, ww, h); cx += ww;
+  }
+  ctx.restore();
+}
+function leyenda(x, y, filas, a) {
+  filas.forEach((f, i) => {
+    ctx.save(); ctx.globalAlpha *= a; ctx.fillStyle = f.c; rrect(x, y + i * 30 - 13, 14, 14, 3); ctx.fill(); ctx.restore();
+    texto(f.t, x + 24, y + i * 30, 19, COL.mut, 500, "left", a);
+    texto(f.n, x + 400, y + i * 30, 20, COL.ink, 700, "right", a);
+  });
+}
+
+function dibujarTarjeta(t, finalOnlyLine) {
+  const I = D.info;
+  const kIn = eo(seg(t, 15.0, 15.9));
+  if (kIn <= 0) return;
+  const dx = (1 - kIn) * 90;
+  ctx.save(); ctx.globalAlpha = kIn; ctx.translate(dx, 0);
+  ctx.shadowColor = "rgba(0,0,0,0.12)"; ctx.shadowBlur = 24; ctx.shadowOffsetY = 6;
+  rrect(CARD.x, CARD.y, CARD.w, CARD.h, 14); ctx.fillStyle = "#fff"; ctx.fill();
+  ctx.shadowColor = "transparent"; ctx.strokeStyle = "#e3e0da"; ctx.lineWidth = 1.5; ctx.stroke();
+  const X = CARD.x + 28, Wd = CARD.w - 56;
+
+  // título: categoría y barrio, sin nombre
+  texto("Hotel", X, CARD.y + 52, 34, COL.ink, 700);
+  texto(`${I.cat} · ${I.barrio}`, X, CARD.y + 80, 17, COL.mut, 500);
+
+  // bloque 1: habitaciones
+  const a1 = eo(seg(t, 16.2, 17.0)), p1 = eio(seg(t, 17.0, 18.4));
+  texto(`Las ${num(I.total)} habitaciones del hotel`, X, CARD.y + 128, 19, COL.mut, 700, "left", a1);
+  ctx.save(); ctx.globalAlpha *= a1;
+  barraApilada(X, CARD.y + 146, Wd, 30, [{ v: I.hoy, c: COL.lblue }, { v: I.absorbe, c: COL.blue }, { v: I.libres, c: COL.libre }], p1);
+  ctx.restore();
+  leyenda(X, CARD.y + 214, [
+    { c: COL.lblue, t: "ocupadas hoy", n: `${num(I.hoy)} · ${Math.round((I.hoy / I.total) * 100)} %` },
+    { c: COL.blue, t: "absorbe de Airbnb", n: `${num(I.absorbe)} · ${Math.round((I.absorbe / I.total) * 100)} %` },
+    { c: COL.libre, t: "libres en 2028", n: `${num(I.libres)} · ${Math.round((I.libres / I.total) * 100)} %` },
+  ], eo(seg(t, 18.0, 18.8)));
+
+  // bloque 2: lo que piden los pisos a 300 m
+  const a2 = eo(seg(t, 18.9, 19.6)), p2 = eio(seg(t, 19.4, 20.8));
+  texto("Habitaciones absorbibles a 300 m", X, CARD.y + 330, 19, COL.mut, 700, "left", a2);
+  ctx.save(); ctx.globalAlpha *= a2;
+  barraApilada(X, CARD.y + 348, Wd, 30, [{ v: Math.min(I.absorbe, I.piden300), c: COL.blue }, { v: Math.max(I.piden300 - I.absorbe, 0), c: COL.orange }], p2);
+  ctx.restore();
+  texto(`${num(I.pisos300)} pisos · ${num(I.plazas300)} plazas · ${num(I.piden300)} habitaciones`, X, CARD.y + 410, 17, COL.mut, 500, "left", eo(seg(t, 19.8, 20.5)));
+
+  // bloque 3: el gráfico
+  const a3 = eo(seg(t, 20.2, 20.9));
+  texto("Habitaciones absorbibles, según el radio", X, CARD.y + 480, 19, COL.mut, 700, "left", a3);
+  dibujarGrafico(t, a3, finalOnlyLine);
+  ctx.restore();
+}
+
+function polilinea(pts, p) {
+  // dibuja la fracción p (0..1) de la longitud total
+  const seglen = []; let tot = 0;
+  for (let i = 1; i < pts.length; i++) { const l = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]); seglen.push(l); tot += l; }
+  let objetivo = tot * p; ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1]);
+  for (let i = 1; i < pts.length; i++) {
+    if (objetivo <= 0) break;
+    const l = seglen[i - 1], f = Math.min(1, objetivo / l);
+    ctx.lineTo(lerp(pts[i - 1][0], pts[i][0], f), lerp(pts[i - 1][1], pts[i][1], f)); objetivo -= l;
+  }
+  ctx.stroke();
+}
+
+function dibujarGrafico(t, a, soloLinea) {
+  const g = chartGeom(), s = D.info.serie, I = D.info;
+  ctx.save(); ctx.globalAlpha *= a;
+  // ejes
+  ctx.strokeStyle = COL.line; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(g.x0, g.yBase); ctx.lineTo(g.x1, g.yBase); ctx.stroke();
+  for (const r of [0, 250, 500]) texto(`${r} m`, g.X(r), g.yBase + 26, 15, COL.mut, 500, "center");
+  ctx.restore();
+  // La diferencia entre la curva y el hueco libre del hotel hoy: azul donde le cabe, naranja donde no.
+  const L = I.total - I.hoy, pB = eio(seg(t, 21.4, 23.2));
+  ctx.save(); ctx.globalAlpha = a;
+  ctx.beginPath(); ctx.rect(g.x0 - 4, 0, (g.x1 - g.x0) * pB + 8, H * 2); ctx.clip();
+  for (let i = 0; i < s.length - 1; i++) {
+    const r0 = s[i].r, r1 = s[i + 1].r, c0 = s[i].piden, c1 = s[i + 1].piden, trozos = [];
+    if ((c0 - L) * (c1 - L) < 0) { const k = (L - c0) / (c1 - c0), rc = r0 + (r1 - r0) * k; trozos.push([r0, c0, rc, L], [rc, L, r1, c1]); }
+    else trozos.push([r0, c0, r1, c1]);
+    for (const [a0, v0, a1, v1] of trozos) {
+      ctx.fillStyle = (v0 + v1) / 2 > L ? COL.orange : COL.blue; ctx.globalAlpha = 0.28 * a;
+      ctx.beginPath(); ctx.moveTo(g.X(a0), g.Y(v0)); ctx.lineTo(g.X(a1), g.Y(v1)); ctx.lineTo(g.X(a1), g.Y(L)); ctx.lineTo(g.X(a0), g.Y(L)); ctx.closePath(); ctx.fill();
+    }
+  }
+  ctx.restore();
+  ctx.save(); ctx.globalAlpha = a * eo(seg(t, 21.4, 22.2)); ctx.strokeStyle = COL.blue; ctx.lineWidth = 2.5; ctx.setLineDash([9, 7]);
+  ctx.beginPath(); ctx.moveTo(g.x0, g.Y(L)); ctx.lineTo(g.x1, g.Y(L)); ctx.stroke(); ctx.restore();
+  // leyenda
+  const aL = eo(seg(t, 21.4, 22.2)) * a;
+  ctx.save(); ctx.globalAlpha = aL; ctx.fillStyle = COL.blue; ctx.globalAlpha = 0.45 * aL; rrect(g.x0, 807, 16, 12, 3); ctx.fill();
+  ctx.fillStyle = COL.orange; rrect(g.x0, 831, 16, 12, 3); ctx.fill(); ctx.restore();
+  texto(`hueco libre del hotel hoy (${num(L)} hab.): lo que aún le cabe`, g.x0 + 26, 818, 14.5, COL.mut, 500, "left", aL);
+  texto("lo que no le cabe y se va a otros hoteles", g.x0 + 26, 842, 14.5, COL.mut, 500, "left", aL);
+  // línea discontinua (48 %) y línea sólida (38,3 %): lo que piden los pisos
+  const p = eio(seg(t, 21.4, 23.2));
+  ctx.save(); ctx.lineCap = "round"; ctx.lineJoin = "round";
+  if (!soloLinea) {
+    ctx.globalAlpha = 0.55 * a; ctx.strokeStyle = COL.orange; ctx.lineWidth = 3; ctx.setLineDash([9, 8]);
+    polilinea(s.map((q) => [g.X(q.r), g.Y(q.alto)]), p);
+    ctx.setLineDash([]);
+  }
+  ctx.restore();
+  if (!soloLinea) {
+    lineaPiden(a * 1, p);
+    // el punto: cuántas habitaciones se pueden absorber a 300 m (el radio del panel)
+    const kPunto = eio(seg(t, 23.0, 24.0));
+    if (kPunto > 0) {
+      const r = 300 * kPunto, i = Math.min(9, Math.floor(r / 50)), f = (r - i * 50) / 50;
+      const v = lerp(s[i].piden, s[i + 1].piden, f);
+      const px_ = g.X(r), py_ = g.Y(v);
+      ctx.save(); ctx.globalAlpha = a;
+      ctx.strokeStyle = COL.line; ctx.lineWidth = 2; ctx.setLineDash([6, 6]);
+      ctx.beginPath(); ctx.moveTo(px_, py_); ctx.lineTo(px_, g.yBase); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = COL.orange; ctx.strokeStyle = "#fff"; ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.arc(px_, py_, 10, 0, 7); ctx.fill(); ctx.stroke();
+      ctx.restore();
+      if (kPunto >= 1) texto(`${Math.round(r)} m · ${num(v)} hab.`, px_ - 6, py_ - 22, 17, COL.dark, 700, "right", eo(seg(t, 24.0, 24.5)) * a);
+    }
+  }
+}
+function lineaPiden(a, p) {
+  const g = chartGeom(), s = D.info.serie;
+  ctx.save(); ctx.globalAlpha = a; ctx.lineCap = "round"; ctx.lineJoin = "round";
+  ctx.strokeStyle = COL.orange; ctx.lineWidth = 6;
+  polilinea(s.map((q) => [g.X(q.r), g.Y(q.piden)]), p); ctx.restore();
+}
+
+// --- la «B»: el palo es la continuación de la línea
+function dibujarB(t) {
+  const xb = D.Sx, yBot = D.Sy;
+  // altura de mayúscula calculada para que «Barcelona» quepa en el ancho
+  ctx.font = `800 100px ${FONT}`;
+  const wUno = ctx.measureText("arcelona").width / 100; // ancho por px de fuente
+  const bw = 0.62; // ancho de la B en alturas de mayúscula... se ajusta abajo
+  let tam = 168;
+  const anchoDisp = 1030 - (xb + tam * 0.62);
+  tam = Math.min(tam, anchoDisp / wUno);
+  const cap = tam * 0.72, yTop = yBot - cap, yMid = yBot - cap / 2, bwid = tam * 0.5;
+  const sw = tam * 0.13;
+  D.B = { tam, cap, yTop, yBot, xb, bwid, sw };
+
+  // la línea del gráfico se dobla hasta quedar vertical: es el palo de la «B»
+  const L1 = 210, L2 = 130, d = D.dir;
+  const P0 = [D.Ex, D.Ey], P1 = [D.Ex + d[0] * L1, D.Ey + d[1] * L1], P2 = [xb, yBot + L2], P3 = [xb, yBot];
+  const pCurva = eio(seg(t, 27.0, 28.3));
+  if (pCurva > 0) {
+    const N = 80, n = Math.max(1, Math.floor(N * pCurva));
+    ctx.save(); ctx.strokeStyle = COL.orange; ctx.lineCap = "round"; ctx.lineJoin = "round";
+    const pt = (u) => {
+      const m = 1 - u;
+      return [m * m * m * P0[0] + 3 * m * m * u * P1[0] + 3 * m * u * u * P2[0] + u * u * u * P3[0],
+              m * m * m * P0[1] + 3 * m * m * u * P1[1] + 3 * m * u * u * P2[1] + u * u * u * P3[1]];
+    };
+    for (let i = 0; i < n; i++) {
+      const a = pt(i / N), b = pt((i + 1) / N);
+      ctx.lineWidth = lerp(6 * D.sFin, sw, (i + 1) / N);
+      ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+    }
+    ctx.restore();
+  }
+  const pPalo = eio(seg(t, 28.2, 29.0));
+  const pBarr = seg(t, 28.9, 29.9);
+  ctx.save(); ctx.strokeStyle = COL.orange; ctx.lineWidth = sw; ctx.lineCap = "round"; ctx.lineJoin = "round";
+  if (pPalo > 0) { ctx.beginPath(); ctx.moveTo(xb, yBot); ctx.lineTo(xb, lerp(yBot, yTop, pPalo)); ctx.stroke(); }
+  if (pBarr > 0) {
+    const x1 = xb + bwid * 0.55;
+    const tramo = (y0, y1) => {
+      ctx.beginPath(); ctx.moveTo(xb, y0); ctx.lineTo(x1, y0);
+      ctx.bezierCurveTo(xb + bwid * 1.18, y0, xb + bwid * 1.18, y1, x1, y1); ctx.lineTo(xb, y1);
+    };
+    const pasos = [[yTop, yMid, seg(pBarr, 0, 0.5)], [yMid, yBot, seg(pBarr, 0.45, 1)]];
+    for (const [y0, y1, pp] of pasos) {
+      if (pp <= 0) continue;
+      ctx.setLineDash([700, 700]); ctx.lineDashOffset = 700 * (1 - eio(pp)); tramo(y0, y1); ctx.stroke();
+    }
+  }
+  ctx.restore();
+  // «arcelona» aparece de izquierda a derecha
+  const pT = eio(seg(t, 29.5, 30.7));
+  if (pT > 0) {
+    const x = xb + bwid * 1.18 + sw * 0.2 + tam * 0.02;
+    ctx.save(); ctx.font = `800 ${tam}px ${FONT}`; ctx.textBaseline = "alphabetic";
+    const wTot = ctx.measureText("arcelona").width;
+    ctx.beginPath(); ctx.rect(x - 4, yTop - tam, (wTot + 12) * pT, tam * 2); ctx.clip();
+    ctx.fillStyle = COL.ink; ctx.fillText("arcelona", x, yBot); ctx.restore();
+  }
+  const a2 = eo(seg(t, 30.5, 31.2)), a3 = eo(seg(t, 31.1, 31.8));
+  const xa = xb + bwid * 1.18 + sw * 0.2 + tam * 0.02; // donde empieza la «a» de «Barcelona»
+  texto("sin pisos turísticos en 2028", xa, yBot + 100, 56, COL.ink, 700, "left", a2);
+  texto("Ya disponible en", xa, yBot + 205, 30, COL.mut, 500, "left", a3);
+  texto(URL_WEB, xa, yBot + 253, 36, COL.blue, 700, "left", a3);
+}
+
+// ---------------------------------------------------------------- fotograma
+window.draw = function (t) {
+  if (!D) return;
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = COL.bg; ctx.fillRect(0, 0, W, H);
+
+  const cam = camara(t);
+  ctx.save();
+  ctx.translate(540, 675); ctx.scale(cam.s, cam.s); ctx.translate(-cam.cx, -cam.cy);
+  const cont = dibujarMapa(t);
+  dibujarSeleccion(t);
+  dibujarTarjeta(t, false);
+  ctx.restore();
+
+  // cabecera y cursor, en pantalla
+  cabecera(t); contadores(t, cont);
+  ctx.save(); cursor(t); ctx.restore();
+
+  // final: se funde todo menos la línea, que sigue hasta formar la «B»
+  const fade = eio(seg(t, 24.8, 25.8));
+  if (fade > 0) {
+    ctx.save(); ctx.globalAlpha = fade; ctx.fillStyle = COL.bg; ctx.fillRect(0, 0, W, H); ctx.restore();
+    ctx.save(); ctx.translate(540, 675); ctx.scale(cam.s, cam.s); ctx.translate(-cam.cx, -cam.cy);
+    lineaPiden(1, 1); ctx.restore();
+  }
+  if (t >= 25.8) dibujarB(t);
+};
+
+window.DURACION = DURACION;
+cargar().then(() => {
+  window.ready = true;
+  if (!location.search.includes("render")) {
+    const t0 = performance.now();
+    const bucle = () => { window.draw(((performance.now() - t0) / 1000) % (DURACION + 1)); requestAnimationFrame(bucle); };
+    bucle();
+  }
+});
+</script>
+</body>
+</html>
