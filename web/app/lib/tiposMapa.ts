@@ -52,6 +52,8 @@ export type BarrioHoy = {
   habitaciones_hoteles: number;
   /** Mediana de la noche del piso entero. El hotel solo tiene banda, no euro. */
   precio_pisos: number | null;
+  /** Media del precio por plaza y noche de los pisos del barrio. */
+  precio_plaza_pisos: number | null;
   /** Las dos bandas son por plaza; la del hotel sale de su categoría del INE. */
   banda_pisos: string | null;
   banda_hoteles: string | null;

@@ -403,6 +403,10 @@ function PanelBarrio({ b, hotelesBarrio, param, onCerrar }: {
 
       <Titulo className="mt-4">Noche mediana</Titulo>
       <Precio color={COLOR.piso} nombre="Piso entero" precio={b.precio_pisos} banda={b.banda_pisos} />
+      <div className="mt-2 flex justify-between text-[12px]">
+        <span>Precio medio por plaza (pisos)</span>
+        <b className="tabular-nums">{b.precio_plaza_pisos == null ? "—" : `${dec(b.precio_plaza_pisos)} €`}</b>
+      </div>
       <Precio color={COLOR.hotel} nombre="Habitación de hotel" precio={null} banda={b.banda_hoteles} />
 
       <Bloque color={COLOR.piso} titulo="Pisos" cifra={rango(bajo, alto)} unidad="turistas">

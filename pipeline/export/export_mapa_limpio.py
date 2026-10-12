@@ -541,6 +541,8 @@ def main() -> None:
             # noche del otro, no plazas con plazas.
             "habitaciones_hoteles": int(gh["hab"].fillna(0).sum()),
             "precio_pisos": mediana(gp["precio_piso"]),
+            # Media del precio por plaza de la noche (precio del piso entero entre sus plazas).
+            "precio_plaza_pisos": (None if gp["precio"].dropna().empty else round(float(gp["precio"].mean()), 1)),
             "banda_pisos": banda(gp["precio"]),  # por plaza: es la unica banda que tienen los pisos
             "banda_hoteles": banda_comun(gh["banda"]),
             "marca": marca_principal(gr),
