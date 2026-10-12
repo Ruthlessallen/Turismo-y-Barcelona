@@ -1,7 +1,6 @@
 """Datos del mapa limpio: tres capas de puntos y las cifras de hoy por barrio.
 
-Sustituye al mapa de sustitucion 2028 como pagina principal, pero no lo borra: `/mapa-anterior`
-sigue leyendo sus propios ficheros, que este script no toca.
+Es el export de la web: puntos, barrios y paginas.
 
 **Pisos turisticos como punto.** Es una decision del proyecto (2026-10-04) que contradice la
 politica anterior de publicar las viviendas solo agregadas. Para acotar el efecto, cada punto
@@ -14,7 +13,7 @@ hotel de su banda y, si no hay hueco, a la siguiente mas cara. Un solo reparto a
 (cuantos pisos absorbe), a los restaurantes y a los graficos de flujo.
 
 **Demanda de los restaurantes hoy.** Cada turista alojado reparte un punto, a partes iguales,
-entre los locales que tiene a menos de 200 m (el mismo criterio que `modelar_sustitucion.py`).
+entre los locales que tiene a menos de 200 m (`modelo.RADIO_COMIDA_M`).
 Turistas por noche = plazas x ocupacion: 38,3% en pisos (estimada, no hay dato oficial) y 67,9%
 en hoteles (INE, por plazas: aqui se cuentan personas, no habitaciones). **Los de piso cuentan la
 mitad** (`PESO_PISO_EN_RESTAURACION`): con cocina propia cenan menos fuera. El peso es un supuesto.
@@ -36,9 +35,12 @@ GOLD = RAIZ / "data" / "gold"
 DESTINO = RAIZ / "data" / "exports" / "mapa"
 sys.path.insert(0, str(RAIZ / "pipeline" / "gold"))
 from bandas import por_habitacion, por_plaza  # noqa: E402
-from modelar_sustitucion import OCUPACION_AIRBNB, RADIO_COMIDA_M, proyectar  # noqa: E402
+from modelo import OCUPACION_AIRBNB, OCUPACION_HOTEL_HAB, RADIO_COMIDA_M, proyectar  # noqa: E402
 
 OCUPACION_HOTEL_PLAZAS = 0.679
+# Nombre corto de cada categoria oficial (ver bandas.CATEGORIA_INE).
+CATEGORIA_CORTA = {"1 and 2 gold stars and silver stars": "1–2 estrellas y hostales",
+                   "3 gold stars": "3 estrellas", "4 gold stars": "4 estrellas", "5 gold stars": "5 estrellas"}
 OCUPACION_AIRBNB_ALTA = 0.48  # extremo alto del rango 38-48% que se maneja para los pisos
 # Un turista de piso tiene cocina; uno de hotel, no. Es un supuesto del proyecto (2026-10-04), no un
 # dato: no sabemos cuanto cocina nadie. Con 0 solo contarian los hoteles; con 1, los dos igual.
@@ -133,8 +135,9 @@ def hoteles() -> pd.DataFrame:
         "titular": h["ra_social_del_titular"].map(razon_social),
         "nom": h["nombre_comercial"], "cat": h["categoria"], "barrio": h["barrio"],
         "lat": h["lat"], "lon": h["lon"], "plazas": h["plazas"], "hab": h["habitaciones"],
-        "precio_hab": h["precio_noche_final"], "banda_hab": h["banda_precio"],
-        "precio": h["precio_plaza"], "banda": h["banda_plaza"], "origen": h["origen_precio"],
+        # ADR oficial de su categoria (INE, ultimos 12 meses): el hotel no tiene precio propio.
+        "adr": h["precio_noche_final"], "cat_ine": h["categoria_ine"].map(CATEGORIA_CORTA),
+        "precio": h["precio_plaza"], "banda": h["banda_plaza"],
     }).reset_index(drop=True)
 
 
@@ -400,9 +403,10 @@ def banda(serie: pd.Series):
     return None if m is None else por_plaza(pd.Series([m])).iloc[0]
 
 
-def banda_habitacion(serie: pd.Series):
-    m = mediana(serie)
-    return None if m is None else por_habitacion(pd.Series([m])).iloc[0]
+def banda_comun(serie: pd.Series):
+    """La banda que mas hoteles tienen en el barrio."""
+    c = serie.dropna().value_counts()
+    return None if c.empty else str(c.index[0])
 
 
 def marca_principal(g: pd.DataFrame):
@@ -443,19 +447,19 @@ def dashboard(p: pd.DataFrame, h: pd.DataFrame, tur_nuevos: float, ocupacion_202
     titulares = (h.dropna(subset=["titular"]).groupby("titular")
                  .agg(n=("id", "size"), plazas=("plazas", "sum"))
                  .sort_values(["n", "plazas"], ascending=False).head(5))
-    bandas = h["banda_hab"].value_counts()
+    bandas = h["banda"].value_counts()
     return {
         "hoteles": {
             "total": len(h), "habitaciones": int(h["hab"].fillna(0).sum()),
             "plazas": int(h["plazas"].fillna(0).sum()),
             "bandas": {b: int(bandas.get(b, 0)) for b in ("€", "€€", "€€€", "€€€€")},
-            "sin_banda": int(h["banda_hab"].isna().sum()),
+            "sin_banda": int(h["banda"].isna().sum()),
             "titulares": [{"nom": k, "n": int(v.n), "plazas": int(v.plazas)} for k, v in titulares.iterrows()],
             "turistas_hoy": round(turistas_hotel_hoy),
             "turistas_nuevos": round(nuevos),
             "turistas_nuevos_pct": round(nuevos / turistas_hotel_hoy * 100, 1),
             # Ocupacion por habitaciones: la del INE hoy y lo que queda al absorber a los pisos.
-            "ocupacion_hoy": 80.2, "ocupacion_2028": ocupacion_2028,
+            "ocupacion_hoy": round(OCUPACION_HOTEL_HAB * 100, 1), "ocupacion_2028": ocupacion_2028,
         },
         "pisos": {
             "anuncios_barridos": len(p) + len(todos),
@@ -500,10 +504,8 @@ def main() -> None:
         "pisos_abs": num(absorbido["pisos_abs"].get(x.id, 0)),
         "nom": texto(x.nom), "titular": texto(x.titular), "cat": texto(x.cat),
         "barrio": texto(x.barrio), "lat": round(x.lat, 5), "lon": round(x.lon, 5), "plazas": num(x.plazas),
-        "hab": num(x.hab), "banda_hab": texto(x.banda_hab),
-        # Solo la banda: el mismo hotel se mueve un 22 % en quince dias y el modelo yerra un 27 %,
-        # asi que un euro exacto de hotel diria mas de lo que sabemos.
-        "banda": texto(x.banda), "origen": texto(x.origen),
+        "hab": num(x.hab), "cat_ine": texto(x.cat_ine), "adr": num(x.adr, 0),
+        "banda": texto(x.banda),
     } for x in h.itertuples()])
     volcar("puntos_restaurantes.json", [{
         "nom": texto(x.nombre), "tipo": texto(x.tipo_local), "barrio": texto(x.barrio),
@@ -540,7 +542,7 @@ def main() -> None:
             "habitaciones_hoteles": int(gh["hab"].fillna(0).sum()),
             "precio_pisos": mediana(gp["precio_piso"]),
             "banda_pisos": banda(gp["precio"]),  # por plaza: es la unica banda que tienen los pisos
-            "banda_hoteles": banda_habitacion(gh["precio_hab"]),
+            "banda_hoteles": banda_comun(gh["banda"]),
             "marca": marca_principal(gr),
             "demanda_hoy": round(float(gr["turistas"].sum())),
             "demanda_2028": round(float(gr["turistas_2028"].sum())),
@@ -554,7 +556,7 @@ def main() -> None:
             "operador_pisos": operador(gp["anfitrion"], 5),
         })
     volcar("barrios_hoy.json", filas)
-    volcar("dashboard.json", dashboard(p, h, rep["tur_total"], round((float(ab["hab"].sum()) * 0.802 + float(ab["hab_abs"].sum())) / float(ab["hab"].sum()) * 100, 1)))
+    volcar("dashboard.json", dashboard(p, h, rep["tur_total"], round((float(ab["hab"].sum()) * OCUPACION_HOTEL_HAB + float(ab["hab_abs"].sum())) / float(ab["hab"].sum()) * 100, 1)))
     volcar("restauracion_pagina.json", restauracion_pagina(r, filas))
 
     # --- Turistas: lo que hay en este conjunto de datos frente a lo que dice el INE.
@@ -608,15 +610,22 @@ def main() -> None:
         "mas_pct": None if hoy_b[b] <= 0 else round(float(nuevos_b.get(b, 0) / hoy_b[b] * 100), 1),
     } for b in hoteles_b.index]
 
+    volcar("parametros.json", {
+        # Los porcentajes que la web enseña y usa en cuentas: una sola fuente, aquí.
+        "ocupacion_hotel_habitaciones": round(OCUPACION_HOTEL_HAB * 100, 1),
+        "ocupacion_hotel_plazas": round(OCUPACION_HOTEL_PLAZAS * 100, 1),
+        "ocupacion_piso": [round(OCUPACION_AIRBNB * 100, 1), round(OCUPACION_AIRBNB_ALTA * 100, 1)],
+        "radio_comida_m": RADIO_COMIDA_M,
+    })
     volcar("hoteles_pagina.json", {
         "barrios": hoteles_barrios,
         "categorias": [{"cat": k, "hoteles": int(v.hoteles), "habitaciones": int(v.habitaciones)}
                        for k, v in cat.sort_values("habitaciones", ascending=False).iterrows()],
         "ocupacion_mensual": datos_ine["ocupacion_habitaciones"],
         "ocupacion_bandas": [{"banda": b, "habitaciones": round(float(v.hab)),
-                              "hoy": round(float(v.hab) * 0.802), "en_2028": round(float(v.hab) * 0.802 + float(v.abs_))}
+                              "hoy": round(float(v.hab) * OCUPACION_HOTEL_HAB), "en_2028": round(float(v.hab) * OCUPACION_HOTEL_HAB + float(v.abs_))}
                              for b, v in por_banda.iterrows()],
-        "ocupacion": {"hoy": 80.2, "en_2028": round((float(ab["hab"].sum()) * 0.802 + float(ab["hab_abs"].sum()))
+        "ocupacion": {"hoy": round(OCUPACION_HOTEL_HAB * 100, 1), "en_2028": round((float(ab["hab"].sum()) * OCUPACION_HOTEL_HAB + float(ab["hab_abs"].sum()))
                                                     / float(ab["hab"].sum()) * 100, 1),
                       "habitaciones": round(float(ab["hab"].sum())),
                       "habitaciones_absorbidas": round(float(ab["hab_abs"].sum()))},

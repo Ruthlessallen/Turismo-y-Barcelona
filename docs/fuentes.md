@@ -1,443 +1,129 @@
 # Fuentes de los datos
 
-De dónde sale cada número que se publica, quién lo publica, con qué fecha y licencia, qué le
-hacemos por el camino y por qué. Está escrito para que cualquiera pueda rehacer el recorrido sin
-preguntarnos nada.
+De dónde sale cada dato, quién lo publica, con qué fecha y licencia, y qué se le hace. Las cifras
+derivadas (cuántos pisos, cuánta ocupación, cuántos turistas) **no se repiten aquí**: viven en un
+solo sitio, los JSON de `data/exports/mapa/`, y la web las lee de ahí.
 
-Tres documentos lo complementan y no se repiten aquí:
-
-| Documento | Qué añade |
+| Documento | Para qué |
 |---|---|
-| `linaje.md` | El grafo fichero → script → fichero, generado leyendo el código |
-| `criba.md` | Cuántos registros cae en cada filtro, contados sobre el CSV final |
 | `supuestos.md` | Las decisiones nuestras de las que depende el resultado |
+| `criba.md` | Cuántos anuncios caen en cada filtro *(generado)* |
+| `linaje.md` | Qué fichero alimenta a qué script *(generado)* |
+| `diccionario.md` | Cada fichero de `data/`: filas, columnas y quién lo produce *(generado)* |
 | `observaciones-datos.md` | Comprobaciones manuales contra la fuente original |
 
-**Última revisión:** 2026-09-15.
+**Última revisión:** 2026-10-12.
 
 ---
 
-## 1. Qué lee la web, exactamente
+## 1. Las fuentes originales
 
-La web es estática: el navegador solo descarga ficheros ya calculados. Todo lo demás ocurre
-antes, en el pipeline, y queda en el repositorio.
+### 1.1 Registre de Turisme de Catalunya — Generalitat de Catalunya
+- **Qué aporta:** el censo oficial de alojamiento de la provincia (viviendas de uso turístico,
+  hoteles, apartaments turístics…). Es la única fuente con titular (razón social).
+- **Cómo se obtiene:** API abierta de Transparència,
+  `https://analisi.transparenciacatalunya.cat/resource/t2h3-cgys.json`. Descargado el 27-28 de agosto de 2026.
+- **No trae:** coordenadas, ni plazas en las viviendas de uso turístico.
+- **Datos personales.** Entre los titulares hay personas físicas. `data/raw/` no se versiona;
+  `bronze/unificar_registros.py` anula los DNI por su forma y la web solo publica la sociedad titular.
 
-| Fichero que pide el navegador | Qué contiene | Sale de |
-|---|---|---|
-| `/data/geo/barrios.geojson` | Los 73 barrios de la ciudad | ICGC / Inside Airbnb, vía `export/preparar_geometria_web.py` |
-| `/data/mapa/puntos_pisos.json` | 4.985 pisos: posición, plazas, dormitorios, precio de la noche, banda | `export/export_mapa_limpio.py` |
-| `/data/mapa/puntos_hoteles.json` | 750 hoteles: habitaciones, plazas, banda, titular | `export/export_mapa_limpio.py` |
-| `/data/mapa/puntos_restaurantes.json` | 9.465 locales: demanda hoy y en 2028 | `export/export_mapa_limpio.py` |
-| `/data/mapa/restauracion_pagina.json` | Marcas con más locales y los locales y barrios que más y menos ganan | `export/export_mapa_limpio.py` |
-| `/data/geo/peuat.geojson` | Las 12 zonas del PEUAT, para el mapa de `/hoteles` | Open Data BCN, convertido en `data/exports/geo/` |
-| `/data/mapa/barrios_hoy.json` | Las cifras de cada uno de los 73 barrios | `export/export_mapa_limpio.py` |
-| `/data/mapa/dashboard.json` | Las cifras de la portada | `export/export_mapa_limpio.py` |
-| `/data/mapa/turistas.json` | Turistas en el conjunto de datos y lo que dice el INE | `export/export_mapa_limpio.py` |
-| `/data/mapa/licencias.json` | Licencias del registro, y cuántas tienen anuncio y cuántos pisos no tienen registro | `export/export_mapa_limpio.py` |
-| `/data/mapa/flujo.json` | Distancia recorrida, bandas de origen y destino, barrios que suben y bajan | `export/export_mapa_limpio.py` |
-| `/data/mapa/hoteles_pagina.json` | Categorías, ocupación mensual, ocupación por banda y hoteles anunciados | `export/export_mapa_limpio.py` |
-| `/data/mapa/sustitucion_2028.json`, `flujos_2028.json` | El reparto por barrio y escenario | `gold/modelar_sustitucion.py` — solo los lee `/mapa-anterior` |
+### 1.2 Open Data BCN — Ajuntament de Barcelona (CC BY 4.0)
+- Licencias de viviendas turísticas 2016–2026T1 (coordenadas reales y plazas de la ciudad), hoteles
+  de la ciudad (barrio y distrito; snapshot congelado en 2023) y el mapa del PEUAT (12 zonas, 2022).
+- Se cruza con el Registre primero por número de registro oficial y, lo que queda suelto, por
+  dirección normalizada y solo si la correspondencia es 1:1.
 
-Hay más capas exportadas (`hoteles.json`, `restauracion.json`, `vut_por_barrio.json`,
-`airbnb_por_barrio.json`, `resumen.json`) que el pipeline genera y **ninguna página consume**.
-Están listas para la página de hoteles, no publicadas.
+### 1.3 Inside Airbnb — volcado del 24 de junio de 2026
+- **Qué aporta:** los anuncios de la ciudad con precio, capacidad, licencia declarada y reseñas.
+  `https://data.insideairbnb.com/spain/catalonia/barcelona/2026-06-24/`
+- Es un anuncio, no una vivienda, y no es el registro oficial. **Las coordenadas están desplazadas
+  hasta 150 m a propósito** por la fuente.
+- De los anuncios a las viviendas del análisis hay seis filtros encadenados (`criba.md`).
 
----|---|---|
-| `/data/geo/barrios.geojson` | Los 75 barrios de la ciudad | ICGC / Inside Airbnb, vía `export/preparar_geometria_web.py` |
-| `/data/mapa/sustitucion_2028.json` | 64 barrios × 5 escenarios: quién sale, quién llega, quién no cabe | `gold/modelar_sustitucion.py` |
-| `/data/mapa/flujos_2028.json` | 887 movimientos barrio → barrio, y el centroide de cada barrio | `gold/modelar_sustitucion.py` |
+### 1.4 INE — Encuesta de Ocupación Hotelera
+- **Cómo se obtiene:** API pública `servicios.ine.es/wstempus` (viajeros y pernoctaciones,
+  establecimientos, plazas y ocupación; punto turístico Barcelona, últimos 60 meses) y el Portal de
+  Dades del Ajuntament (ADR por categoría, 2013–2026).
+- **Tres usos:**
+  1. **Ocupación por habitaciones**, media de 12 meses: es lo que descuenta las habitaciones ya
+     vendidas. Por habitaciones y no por plazas porque la habitación es lo que limita a un hotel.
+  2. **ADR por categoría** (ingreso medio por habitación ocupada): **el único precio de hotel del
+     proyecto** (ver 2).
+  3. **Estacionalidad** (trece años): lleva el precio de Airbnb a equivalente anual.
+- **Su límite:** es un agregado de la ciudad por categoría. Nunca atribuye un precio a un hotel.
 
-Hay más capas exportadas (`hoteles.json`, `restauracion.json`, `vut_por_barrio.json`,
-`airbnb_por_barrio.json`, `resumen.json`) que el pipeline genera pero **ninguna página consume
-todavía**. Están listas para las páginas de KPIs y rankings, no publicadas.
+### 1.5 Censo comercial municipal — restauración
+- Ajuntament de Barcelona, trabajo de campo de 2023 y 2024. Se usa el censo y no OpenStreetMap,
+  que se deja fuera una cuarta parte de la restauración. No existe censo equivalente de 2026.
+- Se retiran los locales con el mismo nombre a menos de 10 m (un edificio con dos accesos dado de
+  alta dos veces); los locales sin nombre no se comparan.
 
----
+### 1.6 Geometría — ICGC e Inside Airbnb
+- Los barrios vienen del GeoJSON de Inside Airbnb; el ICGC aporta los municipios usados para
+  verificar geocodificaciones. Antes de llegar al navegador se reparan las geometrías inválidas y
+  se simplifican (si la superficie cambia más de un 1 %, el script falla).
 
-## 2. Las fuentes originales
+### 1.7 PEUAT — Pla especial urbanístic d'allotjaments turístics
+- Aprobado definitivamente el 23 de diciembre de 2021. Zonas del Open Data BCN; reglas según
+  prensa y despachos jurídicos (PwC, Uría, Hosteltur): **zona 1** sin establecimientos nuevos,
+  **zona 2** mantiene el censo (solo se abre sustituyendo uno cerrado), **zona 3** crecimiento
+  contenido, **zona 4** regulación propia.
+- **No verificado:** el detalle por subzona (3A–3E, 4A–4C) contra el texto del plan, y si la
+  propuesta de 2023 de admitir hoteles «singulares» en las zonas 1 y 2 llegó a aprobarse. Solo
+  informa sobre el mapa; no entra en ningún cálculo.
 
-### 2.1 Registre de Turisme de Catalunya — Generalitat
+### 1.8 Hoteles anunciados — prensa
+- `data/bronze/hoteles_nuevos_bcn.csv`, recopilado a mano el 5 de octubre de 2026 (Hosteltur, ON
+  Economia, EjePrime). **No es un registro oficial.** Cada entrada lleva su enlace; casi todo es
+  reforma o cambio de gestión de hoteles que ya existen.
 
-- **Qué aporta:** el censo oficial de alojamiento de toda la provincia: 27.180 registros, de los
-  cuales 23.975 HUT (viviendas de uso turístico), 1.442 hoteles, 120 apartaments turístics, más
-  càmpings, turisme rural y llars compartides.
-- **Cómo se obtiene:** API abierta de Transparència
-  `https://analisi.transparenciacatalunya.cat/resource/t2h3-cgys.json`, filtrada por
-  `prov_ncia='Barcelona'`.
-- **Fecha de la descarga:** 27-28 de agosto de 2026.
-- **Es la única fuente con titular** (CIF y razón social), y por eso mismo la más delicada.
-- **Lo que no trae:** coordenadas, y en el caso de los HUT tampoco plazas.
-
-**Tratamiento de datos personales.** Entre los titulares hay personas físicas. `data/raw/` no se
-versiona y no se publica. Además, `bronze/unificar_registros.py` detecta los DNI por su forma
-(ocho dígitos y una letra) y los anula antes de que salgan de bronze — no se confía en que la
-fuente los marque. Ningún fichero publicado contiene nombre, DNI ni dirección de un particular.
-
-### 2.2 Open Data BCN — Ajuntament de Barcelona
-
-- **Licencia:** Creative Commons Attribution 4.0.
-- **Tres datasets:**
-
-| Dataset | Qué aporta | Estado |
-|---|---|---|
-| Licencias HUT 2016–2026Q1 | Coordenadas reales y plazas de las VUT de la ciudad | Serie viva |
-| Hoteles de la ciudad | Barrio y distrito de cada establecimiento | **Snapshot congelado en 2023**, no sirve como serie |
-| Mapa PEUAT | 12 zonas de regulación urbanística | Actualizado 2022; no entra todavía en el modelo |
-
-Open Data BCN y el Registre **no son duplicados**: cada uno tiene campos que el otro no. Se cruzan
-primero por número de registro oficial (clave real: cruzan 443 de 446 en hoteles y 10.556 en VUT) y
-solo lo que queda suelto por dirección normalizada, y únicamente cuando la correspondencia es 1:1.
-Cualquier ambigüedad se deja sin cruzar y se marca.
-
-### 2.3 Inside Airbnb — volcado del 24 de junio de 2026
-
-- **Qué aporta:** 15.406 anuncios de la ciudad, con precio, capacidad declarada (`accommodates`),
-  licencia declarada y reseñas.
-- **URL:** `https://data.insideairbnb.com/spain/catalonia/barcelona/2026-06-24/`
-- **Es un anuncio, no una vivienda, y no es el registro oficial.** Cubre lo que se comercializa en
-  una plataforma concreta en un día concreto.
-- **Coordenadas desplazadas a propósito** hasta 150 m por la propia fuente. El punto del mapa es
-  esa posición desplazada, no la dirección real de la vivienda.
-- **El símbolo `$` del CSV crudo es un artefacto de su exportador.** El precio es en euros.
-
-De esos 15.406 se llega a **4.985 viviendas** aplicando seis filtros encadenados, cada uno con su
-recuento en `criba.md`: alojamiento ya reglado, con sus habitaciones de hotel (915), habitaciones sueltas sin licencia (3.083),
-alquiler de temporada de más de 31 noches (1.848), anuncios sin reseñas
-desde septiembre de 2025 (876), repeticiones del mismo anuncio (1.850) y, el último, **pisos sin
-registro acreditado (1.849)**: la ley quita licencias y estos no tienen ninguna acreditada que
-perder (`supuestos.md` → B7).
-
-**El salto que hay que decir en voz alta:** el registro oficial de la ciudad tiene 10.623 licencias
-únicas y 61.826 plazas. Nosotros movemos los turistas de 4.985 viviendas con registro anunciadas hoy en Airbnb — y no sus
-23.766 plazas declaradas, sino las **9.102 personas** que hay dentro una noche cualquiera, porque esos
-pisos no se llenan los 365 días. Las que no se anuncian en Airbnb no están en el mapa.
-
-### 2.4 INE — Encuesta de Ocupación Hotelera
-
-- **Cómo se obtiene:** API pública `servicios.ine.es/wstempus`, tablas 2078 (viajeros y
-  pernoctaciones), 46298 (ADR) y 2076 (establecimientos, plazas y ocupación), punto turístico
-  Barcelona, últimos 60 meses.
-- **Dos usos distintos:**
-  1. **Ocupación de partida** — `Grado de ocupación por habitaciones`, media de los doce últimos
-     meses: **80,2%**. Es lo que descuenta las habitaciones ya vendidas antes
-     de repartir a nadie.
-
-     Se usa la ocupación por habitaciones y no la de plazas, que es más baja (67,9%), porque **la
-     habitación es lo que limita a un hotel**: una plaza libre suele ser la segunda cama de una
-     habitación ya vendida, no se puede vender aparte, y un grupo de cuatro no cabe en ella. Las
-     dos cifras salen de la misma encuesta y el mismo mes; miden cosas distintas.
-  2. **Estacionalidad** — trece años de serie, lo que permite llevar el precio de una ventana
-     concreta a equivalente anual.
-- **Su límite:** es agregado por punto turístico. Sirve para el nivel de la ciudad, nunca para
-  atribuir un precio a un establecimiento.
-
-El ADR por categoría llega además por el Portal de Dades del Ajuntament (2013–2026).
-
-### 2.5 Precios de hotel raspados
-
-- **Qué son:** dos exportaciones de portales de reserva, del 29 de septiembre de 2026, para
-  estancias del 29 de septiembre al 7 de octubre.
-- **Procedencia declarada sin adornos:** salen de raspar portales cuyos términos lo prohíben. **No
-  se versionan, no se republican y no se citan como fuente.** Sirven para entrenar el modelo en
-  local. Lo que se publica es la **banda económica**, no el euro, y la referencia oficial citable
-  es el ADR del INE.
-- **El cruce con el censo se hace por fiabilidad decreciente** —coordenada a menos de 60 m, nombre
-  idéntico, nombre contenido y cerca, nombre contenido y único, parecido literal alto— y todo cruce
-  bajo umbral se marca `dudoso` en vez de descartarse en silencio. Un segundo pase resuelve el
-  reparto como asignación global (`linear_sum_assignment`) para que **ninguna ficha se asigne a dos
-  hoteles**.
-
-### 2.6 Censo comercial del Ajuntament, 2024 — restauración
-
-- **Qué aporta:** 9.465 locales de la ciudad, de tres categorías: restaurante (4.424), bar (4.263)
-  y comida rápida / take away (778).
-- **Duplicados, revisado el 2026-10-06.** Un edificio con dos accesos sale dos veces con el mismo
-  nombre y portales distintos (`SUSHI SAMBA`, en Artesa de Segre 11 y en Ciutat de Balaguer 35, a
-  6 m). No son idénticos en identificador ni en dirección, así que no eran duplicados literales y
-  la regla anterior no los veía. Se retira el de la visita más antigua cuando hay **el mismo nombre
-  a menos de 10 m**: 14 casos (el 0,15 %). Entre 10 y 40 m hay 11 pares que no se pueden distinguir de dos
-  locales distintos, y se dejan. Los locales sin nombre (56) no se comparan.
-- **Por qué solo el censo:** OSM infravalora la restauración de Barcelona en un 26% (7.430 frente a
-  10.100). El censo es trabajo de campo municipal.
-- **Su fecha real:** la serie comercial termina en 2024 y el trabajo de campo se reparte entre 2023
-  y 2024 (el 57% visitado en 2023). No existe censo equivalente de 2026; se comprobó.
-- **Ya no hay capa híbrida.** Hasta el 2026-09-15 el export publicaba OSM de toda la provincia pese
-  a que la decisión era usar el censo; desde esa fecha publica el censo y solo la ciudad. OSM queda
-  fuera del análisis.
-
-### 2.7 Geometría — ICGC
-
-WFS de divisiones administrativas del Institut Cartogràfic i Geològic de Catalunya: 311 municipios
-de la provincia y 947 de Catalunya, en WGS84. Los 75 barrios vienen del GeoJSON de Inside Airbnb.
-
-Antes de llegar al navegador se **repara** (dos barrios traen una autointersección), se
-**simplifica** con Douglas-Peucker sobre coordenadas proyectadas —no sobre grados— y se
-**recortan** los atributos internos. Si la superficie total cambia más de un 1% tras simplificar,
-el script falla: la tolerancia era demasiado agresiva.
-
-### 2.8 Observatori del Turisme a Barcelona
-
-Informes de perfil del turista 2025. **Son infografías, no tablas**: se transcribieron a mano
-verificando visualmente sobre la página renderizada. No alimentan el modelo; sirven de contexto.
-
-### 2.9 Hoteles anunciados — prensa
-
-`data/bronze/hoteles_nuevos_bcn.csv`, **recopilado a mano el 2026-10-05** de Hosteltur, ON Economia
-y EjePrime. **No es un registro oficial**: no existe un dataset de hoteles previstos. Cuatro
-entradas, cada una con su enlace:
-
-| Hotel | Habitaciones | Qué es |
-|---|---:|---|
-| ibis budget Barcelona Center (Carrer d'Àvila 66, 22@) | 189 | **Obra nueva**, abierto en julio de 2026 |
-| UMA House Granados (Carrer del Rosselló 205) | 56 | Reforma del Allegro Barcelona, un hotel que ya existe |
-| NH Barcelona Paral·lel | 70 | Cambio de gestión y reforma de un hotel que ya existe |
-| Bestprice Maragall | sin dato (62 camas) | Abierto en junio de 2026; por confirmar |
-
-Solo las dos con dirección conocida llevan coordenada (ICGC) y salen en el mapa con una
-exclamación. **Casi todo lo anunciado es reforma o cambio de gestión**: de obra nueva hay 189
-habitaciones, el 4,2 % de las 4.486 que piden los pisos en un año medio. Sobre el PEUAT, las
-fuentes dicen que en 2022 el 22@ pasó a la zona 2 (no abre un hotel nuevo salvo que cierre otro) y
-que en noviembre de 2023 se aprobó una modificación que permite proyectos «singulares»; **no se ha
-verificado su vigencia**. Quedan fuera pistas sin ubicación ni habitaciones (Círculo Condal, Akeah)
-y el Meininger de la Fira, que está en L'Hospitalet.
-
-### 2.10 Descartadas
-
-AENA y Port de Barcelona: ninguna respondió al verificarlas (timeout / 503). El volumen y el origen
-de los turistas los cubre el OTB.
+### 1.9 Descartadas
+- **Precios de hotel recogidos de portales de reserva** (Google Hotels, Booking): se usaron al
+  principio, con un modelo para estimar los que faltaban, y se retiraron el 2026-10-12. Sus términos
+  no permiten redistribuirlos, el 41 % de los precios eran estimados y el error del modelo superaba
+  la variación natural de un hotel. Los scripts están archivados fuera del repo.
+- AENA y Port de Barcelona: no respondieron al verificarlas. Observatori del Turisme: infografías,
+  solo contexto.
 
 ---
 
-## 3. Dónde se transforma cada cosa, y por qué
+## 2. De dónde sale un precio
 
-El pipeline tiene cuatro capas y la regla es que **nada salta una capa**: raw se descarga y no se
-toca, bronze limpia y tipa, gold decide, exports agrega para el navegador.
+- **Hotel:** no tiene precio propio. Recibe el ADR medio de los últimos 12 meses de su categoría
+  oficial del INE (1–2 estrellas, 3, 4, 5; `bandas.categoria_ine`, `adr_ultimos_12_meses`). De ahí:
+  banda por habitación (cortes 100/175/300 €) y banda por plaza (ADR ÷ plazas por habitación de la
+  categoría; cortes 40/70/120 €). Todos los hoteles de una categoría comparten banda.
+  - Hostales y pensiones (`sin_estrellas`) van con «1 y 2 estrellas», que es donde el INE los
+    incluye: **es un supuesto**.
+  - Apartaments turístics y «sense categoritzar» no tienen categoría oficial: sin banda, fuera del reparto.
+- **Piso:** el precio anunciado en Inside Airbnb, sin corregir limpieza ni comisión, llevado a
+  equivalente anual con la estacionalidad del INE.
 
-### 3.1 Las decisiones que más mueven el resultado
-
-**Dos unidades, y cada una responde a una pregunta distinta.** Conviene no mezclarlas:
-
-| Pregunta | Unidad | Por qué |
-|---|---|---|
-| ¿Cuánto cuesta? | **La plaza** | Un piso para cuatro a 221 € y una habitación doble a 64 € no se comparan; 54 € y 43 € por plaza, sí |
-| ¿Cabe la gente? | **La habitación** | Una plaza libre de hotel suele ser la segunda cama de una habitación ya vendida: no se vende aparte, y un grupo de cuatro no cabe en ella |
-
-En el precio se divide entre la capacidad **declarada**, no entre los ocupantes reales, y se aplica
-igual a los dos lados. En la capacidad se usa la habitación de hotel frente al dormitorio de la
-vivienda, que son comparables sin corregir nada: 1,88 plazas por habitación en nuestros hoteles
-frente a 2,00 plazas por dormitorio en Airbnb.
-
-**Se publica la banda, no el euro.** El mismo hotel se mueve un ±22% sobre su propia mediana en
-quince días según el tipo de habitación y la fecha. El modelo de imputación tiene un 27% de error:
-por debajo de la variación natural de lo que mide. Una banda aguanta donde un euro exacto miente.
-Los cortes son 40 / 70 / 120 € por plaza, y no son los cuartiles de ningún mercado: se eligieron
-para que hoteles y Airbnb ocupen varias bandas cada uno.
-
-**El precio de Airbnb se publica tal cual se anuncia.** Inside Airbnb no captura limpieza, comisión
-ni impuestos. No se corrige porque el dato no permite saber quién cobra la limpieza aparte y quién
-la lleva incluida; aplicar un importe común a todos sería falso para los segundos. Consecuencia
-asumida: en estancias cortas la banda de Airbnb puede quedar por debajo de lo que se acaba pagando.
-
-**Un precio de hotel tiene dos procedencias posibles, y solo dos.** La columna publicada es
-`origen_precio`:
-
-| Valor | Cuántos | Qué significa |
-|---|---|---|
-| `observado` | 451 | Cruzado con los precios raspados |
-| `estimado` | 312 | Calculado por el modelo |
-| vacío | 800 | Sin precio: resto de la provincia, más 5 estimaciones sin apoyo suficiente |
-
-**Airbnb no aporta ni un solo precio de hotel.** Lo único que cruza del lado Airbnb al hotelero es
-la geometría de barrios. La comparación entre el precio de Google y el de Airbnb para cuatro
-apartaments turístics fue una comprobación manual, no un camino de datos.
-
-La capa de análisis distingue siete matices más (`metodo_cruce`, `apoyo_estimacion`,
-`estimacion_fiable`, `mae_modelo_eur`…) y ahí es donde deben estar: sirven para auditar el cruce y
-el modelo. Viven en `hoteles_bcn_precio_estimado.csv` y no se publican.
-
-**41% de los precios de hotel están estimados por un modelo; 3% de los de Airbnb.** El modelo se
-entrenó solo con la ciudad de Barcelona, así que los 795 establecimientos del resto de la provincia
-salen **sin banda** — es la respuesta honesta, y aparecen en el mapa igualmente porque su ubicación
-y su capacidad sí constan. El error se mide con validación cruzada repetida, no con una partición
-única: una versión anterior anunciaba 40,6 € de error con 86 casos apartados y la validación
-cruzada sobre los mismos datos daba 57 €. Y se publica el error **por segmento**, porque los
-hoteles con precio tienen 58 habitaciones de mediana y los que hay que imputar, 13.
-
-**La ocupación de Airbnb se estima, porque no existe el dato.** Ninguna estadística pública dice
-cuántas noches se alquila un piso turístico. Se calcula por dos vías independientes:
-
-| Vía | Qué supone | Resultado |
-|---|---|---|
-| Calendario | Nada: `(365 − noches disponibles) / 365` | **38,3%** |
-| Reseñas | Que reseña la mitad de los huéspedes y que la estancia media es de 3 noches | 38,8% |
-
-**Que dos métodos que no comparten supuestos den lo mismo es lo que la hace publicable.** Con
-estancias de 4 noches la segunda sube al 48,6%, así que la horquilla honesta es 38-48% y se toma el
-extremo bajo: es el que coincide con el calendario, que no supone nada.
-
-Consecuencia: los 4.985 pisos no alojan a 23.766 personas cada noche, sino a **9.102**.
-
-**La estacionalidad hotelera se aplica a Airbnb.** El volcado es del 24 de junio y se lleva a
-equivalente anual con el factor 1,188 de la serie del INE, **porque no existe serie estacional del
-alquiler turístico**. Es el supuesto más frágil de todos: si el alquiler turístico fuera más plano
-que el hotelero, estaríamos abaratando Airbnb de más.
-
-### 3.2 Lo que calcula la web, y cómo
-
-Todo es **un año medio**. Se descartó enseñar también julio: dos fechas a la vez confundían más
-que aclaraban. (`/mapa-anterior` y el modelo aún guardan las dos.)
-
-**Cada uno alquila una cosa distinta.** Un hotel alquila habitaciones; un piso de Airbnb se
-alquila entero, tenga 1 o 3 dormitorios. Por eso la web no compara plazas con plazas: compara
-habitaciones de hotel con pisos enteros, y la noche de una con la noche del otro. La plaza solo se
-usa para la banda de precio, que es la única escala común (ver 3.1).
-
-**a) Cuántos pisos tiene cerca un hotel y cuántos puede absorber** (el radio de 0 a 500 m).
-Un piso pide tantas habitaciones como dormitorios declara (una, si declara cero: es un estudio) y
-solo las ocupa el 38,3–48 % de las noches. El hotel ofrece las que tiene sin vender: el 19,8 % de
-sus habitaciones (ocupación del 80,2 % por habitaciones, INE). Absorbe lo menor de las dos cifras.
-**Cada hotel por separado**: otros hoteles del mismo radio compiten por los mismos pisos, así que
-no se pueden sumar.
-
-| Un año medio, toda la ciudad | Habitaciones |
-|---|---|
-| Libres en los hoteles | 8.841 |
-| Que piden los pisos | 4.486 |
-| Sin sitio | nadie |
-
-**b) Los restaurantes: solo se mira a quien hoy cocina.** Los locales ya tienen clientes y eso no
-se estima. Se mira un solo grupo: el turista que hoy se aloja en un piso porque así ahorra,
-cocinando, y que al pasar a un hotel —sin cocina— tiene que salir a comer. Cada turista alojado
-reparte su demanda a partes iguales entre los locales a menos de 200 m de donde duerme.
-
-- **Hoy**, el turista de piso cuenta la **mitad** (tiene cocina). **En 2028**, ya en un hotel,
-  cuenta **entero**.
-- **La mitad es un supuesto, no un dato** (`PESO_PISO_EN_RESTAURACION`). De él sale por sí solo el
-  aumento total (61.266 → 65.817 clientes potenciales por noche, +7,4 %). **Lo que sí aporta el
-  modelo es dónde**: 4.479 locales ganan y 3.830 pierden.
-- El % de cada local es sobre estos clientes, **no sobre todos los suyos**: los vecinos y el
-  turista de hotel de siempre no están.
-- No hay plazas de los locales: el censo no las trae. Las sillas de terraza (127.482) se
-  descartaron el 10 de septiembre.
-
-- **La página de restauración** (`/restauracion`) enseña: las 10 marcas con más locales (SANDWICHEZ y
-  STARBUCKS, 24 cada una; MCDONALDS, 22), los 5 locales que más ganan clientes en 2028, y los 5
-  barrios que más y los 5 que menos. **Se mide en clientes por noche, en valor absoluto y no en
-  porcentaje**: un local que pasa de 0,1 a 1 cliente «gana un 900 %» y no dice nada. Los locales de
-  un mismo radio comparten el mismo reparto, así que varios aparecen con la misma cifra (los tres
-  de la Vall d'Hebron). **Marca es el rótulo, no la empresa.**
-
-**c) En qué hotel acaba cada turista: por banda.** No se mira si prefiere precio o ubicación:
-se mira la banda directamente (`gold/modelar_flujos_banda.py`). Cada turista va a un hotel de **su
-banda**, el más cercano con habitaciones libres. Si en su banda no queda sitio, va a la **siguiente
-más cara**, y así hasta la más cara; solo después, y como último recurso, baja. La distancia no
-limita: si el único hotel libre de su banda está al otro lado de la ciudad, va. La banda es la
-**por plaza** en los dos lados, la única comparable. La capacidad es un límite duro.
-
-Los pisos eligen en orden aleatorio con semilla fija: el orden decide quién se queda con las
-habitaciones escasas de una banda, no cuántos caben. Con tres órdenes distintos la mediana de
-distancia se mueve entre 0,33 y 0,34 km. Supone la misma ocupación del 80,2 % en todas las bandas, y
-los hostales probablemente estén más llenos.
-
-| Banda (por plaza) | Habitaciones libres en hoteles | Que piden los pisos |
-|---|---|---|
-| € | 57 | 931 |
-| €€ | 1.392 | 2.575 |
-| €€€ | 5.065 | 895 |
-| €€€€ | 2.327 | 85 |
-
-- **Los hoteles baratos son el cuello de botella.** Solo el **45 %** de los turistas encuentra hotel
-  de su banda, el 42 % sube una banda y el 13 % sube dos o más. El volumen acaba en los €€€ (65 %),
-  pero la **presión de precio** es de los €: 16 habitaciones pedidas por cada una libre.
-- **Cuánto se alejan:** mediana de 0,33 km, media de 0,65, el 90 % a menos de 1,6 km, el 6,6 % a más
-  de 2 km, máximo 7,3 km.
-- **Qué barrios suben y bajan:** ganan turistas el Raval (+525 por noche), el Parc i la Llacuna del
-  Poblenou (+232) y Sant Gervasi - Galvany (+220); pierden la Sagrada Família (−688, −59 %), la Vila
-  de Gràcia (−490, −45 %) y Sant Antoni (−363, −23 %). Un barrio con muchos pisos y pocos hoteles pierde.
-- **Ocupación hotelera:** pasa del 80,2 % al **90,2 %** en un año medio. Por banda, los € y los €€
-  llegan al 100 %, los €€€ al 91,7 % y los €€€€ al 80,9 %.
-
-- **El mapa de `/hoteles`** pinta cada barrio por cuántos turistas más tendrán sus hoteles en 2028 y
-  enseña cuántos hoteles tiene. «Turistas más» es lo que recibe el barrio del reparto por banda
-  frente a lo que alojan hoy sus hoteles (plazas × 67,9 %), el mismo criterio que el +16 % de la
-  portada. Encima, las 12 zonas del PEUAT con los códigos del Ajuntament, agrupadas por número.
-  **No está verificado qué códigos admiten hoteles nuevos** (según la prensa, las zonas 1 y 2 no).
-
-**d) Qué recibe cada hotel.** El mapa enseña, para cada hotel, las habitaciones que tiene, las
-ocupadas hoy (80,2 %), las ocupadas en 2028 (esas más las que recibe de los pisos según este
-reparto) y de cuántos pisos le llegan. El radio de 0 a 500 m es aparte: cuenta los pisos que tiene
-cerca (pisos, plazas y habitaciones), sin pasar por el reparto.
-
-**e) Turistas en el conjunto de datos y frente al INE.** Hoteles: plazas × 67,9 % de ocupación =
-**56.715 turistas por noche**, frente a **60.133 pernoctaciones por noche** del INE (ago 2025 –
-jul 2026): un 6 % menos, que es lo esperable de un conjunto sin todos los hostales y pensiones.
-Pisos: 9.102–11.408 por noche (38,3–48 %), 3,3–4,2 millones de pernoctaciones al año y, a **3
-noches de estancia (supuesto)**, 1,1–1,4 millones de turistas. El INE: 9,2 millones de viajeros,
-21,9 millones de pernoctaciones, 2,38 noches de estancia y 82 % de extranjeros. No mide pisos.
-**En personas:** nuestros hoteles son 56.715 × 365 / 2,38 = **8,7 millones de viajeros** al año frente
-a los 9,2 del INE, y los pisos, **entre el 14 y el 17 % de los turistas de nuestro conjunto de datos** (por noche:
-9.102–11.408 en pisos frente a 56.715 en hoteles; no interviene la estancia). Lo que el INE cuenta
-en personas, de dónde vienen y cuánto se quedan, nuestros datos no lo tienen: contamos camas y
-noches.
-
-**f) Licencias y pisos sin registro** (`licencias.json`, última tarjeta de `/airbnb`). Del registro
-oficial de la ciudad (10.623 licencias únicas, 61.826 plazas) se cruzan por número de licencia con
-los anuncios: 4.736 licencias están entre los 4.985 pisos, 493 solo con anuncios descartados y
-**5.394 no tienen ningún anuncio** (30.980 plazas). Los 1.849 pisos sin registro acreditado
-(334 con un número imposible, 1.351 que no declaran licencia válida) **quedan fuera del análisis**
-desde el 2026-10-06 y se cuentan debajo de la tarjeta de `/airbnb`. Detalle y cautelas en
-`supuestos.md` → C5, C6 y B7.
-
-### 3.3 Lo que nunca sale del pipeline
-
-- **Del piso, solo lo que pinta el mapa.** Es una decisión del proyecto (2026-10-04): cada piso
-  sale como punto con su posición —ya desplazada hasta 150 m por la fuente y redondeada a 5
-  decimales—, plazas, dormitorios, precio y banda. **Sin id, sin nombre del anuncio, sin anfitrión
-  y sin número de licencia.** El anfitrión solo aparece agregado: por barrio si tiene 5 pisos o más en él, y en la portada los
-  cinco con más pisos de la ciudad, siempre que tengan al menos 20 (Sweett, 265; AB Apartment
-  Barcelona, 232…). `host_name` es el nombre público en Airbnb, y el umbral es una cautela nuestra,
-  no una exigencia legal: con tantos pisos es un operador, aunque el nombre pueda ser el de una
-  persona. Quien tiene uno o dos pisos no sale en ningún ranking.
-- **Del hotel, la sociedad titular** (razón social del Registre de Turisme), nunca una persona
-  física: el marcador `No aplica` del registro se respeta y no se publica.
-- **Nombres, DNI y datos de titulares particulares.**
-- **Los precios raspados en crudo.**
-
-Cada punto que sí se publica lleva su `precision`: `exacta` (registro oficial), `geocodificada`
-(deducida de la dirección con el ICGC y verificada contra el polígono del municipio) o `desplazada`
-(Inside Airbnb la mueve hasta 150 m). Pintarlas con el mismo símbolo daría a entender una precisión
-que no tenemos.
+Consecuencia que hay que decir: la banda es de la categoría, no del hotel, y con estos cortes
+ningún hotel cae en la banda €.
 
 ---
 
-## 4. Lo que este trabajo no puede decir
+## 3. Qué lee la web
 
-1. **No cubre las 10.623 licencias de la ciudad, cubre 4.985 viviendas con registro anunciadas en
-   Airbnb.** 5.394 licencias, con 30.980 plazas, no tienen ningún anuncio, y 1.849 pisos anunciados
-   no tienen registro acreditado: no están (`supuestos.md` → C5 y B7).
-2. **No sabe qué quiere un turista.** Por eso la barra de precio-ubicación la mueve quien mira, y
-   no hay un escenario "correcto" marcado.
-3. **No predice qué harán los hoteles.** El modelo reparte a capacidad y precio de hoy. Si los
-   precios suben al desaparecer la oferta alternativa —que es lo esperable— el reparto cambia.
-4. **No mide meses.** Todo es un año medio. En los picos del verano habrá menos hueco en los hoteles.
-5. **Un hotel no tiene un precio, tiene un rango.** Se publica una banda, nunca el euro. Un piso sí
-   lleva el precio que anuncia.
-6. **Lo que factura un piso es un orden de magnitud**: noches ocupadas × precio (suelo: el calendario de cada anuncio, 365 − `availability_365`, de donde sale el 38,3 %; techo: el 48 % de 365 noches) ×
-   de la noche. No hay dato de facturación.
-7. **No dice cuánto subirá el precio.** Depende de la estacionalidad (que existiría aunque Airbnb no
-   se fuera), de los turistas que se vayan a otros municipios, de los pisos que no entran en la ley
-   y de la oferta nueva que permita el PEUAT. Los hoteles baratos y los hostales son los que más
-   presión de precio recibirían; no se cuantifica.
+La web es estática: descarga ficheros ya calculados. Cada uno lo produce un script del pipeline y
+está descrito, con sus columnas, en `diccionario.md`. Las ocupaciones que usa el modelo viven en
+`gold/modelo.py` y viajan a la web por `parametros.json`.
 
----
+## 4. Lo que nunca sale del pipeline
 
-## 5. Cómo rehacerlo
+- **Del piso, solo lo que pinta el mapa:** posición (ya desplazada por la fuente), plazas,
+  dormitorios, precio y banda. Sin id, nombre del anuncio, anfitrión ni licencia. El anfitrión solo
+  sale agregado (por barrio desde 5 pisos; en la portada los cinco con más de 20).
+- **Del hotel, la sociedad titular** tal como figura en el registro público, sin CIF.
+- **Los DNI y los datos de titulares particulares.**
 
-```bash
-python pipeline/sources/descargar_fuentes.py
-python pipeline/sources/descargar_ine_barcelona.py
-```
+## 5. Lo que este trabajo no puede decir
 
-`data/raw/` no se versiona (≈90 MB redescargables, más los datos personales del Registre). El resto
-del pipeline es determinista: `linaje.md` dice en qué orden corre cada script, y se regenera con
-`python pipeline/generar_linaje.py` después de cualquier cambio, junto con
-`python pipeline/generar_criba.py` para los recuentos.
+Está en `/fuentes` (sección «Lo que esto no puede decir») y en `supuestos.md`.
+
+## 6. Cómo rehacerlo
+
+El orden de ejecución está en `pipeline/README.md`. `data/raw/` no se versiona (redescargable con
+`pipeline/sources/descargar_fuentes.py`). Tras cualquier cambio: `python pipeline/generar_linaje.py`,
+`generar_criba.py` y `generar_diccionario.py`.

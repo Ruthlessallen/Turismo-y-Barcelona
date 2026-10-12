@@ -8,7 +8,7 @@ carpeta desde cero para que el proyecto siga siendo reproducible sin cargar esos
     python pipeline/sources/descargar_fuentes.py vut peuat # solo algunas
 
 Las fuentes, su formato y sus peculiaridades están documentadas en
-`docs/architecture.md` → Integraciones externas.
+`docs/fuentes.md` → Integraciones externas.
 """
 
 from __future__ import annotations

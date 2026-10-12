@@ -3,7 +3,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { BarrasDivergentes, Cifra, Seccion, Tarjeta } from "@/app/components/Graficos";
-import { COLOR, OSCURO, n } from "@/app/lib/tiposMapa";
+import { COLOR, OSCURO, dec, n } from "@/app/lib/tiposMapa";
 
 /** Lo que publica `export_mapa_limpio.py` en `dashboard.json`. */
 type Dashboard = {
@@ -87,12 +87,11 @@ export default function Portada() {
               <Cifra compacta valor={n(h.total)} etiqueta="hoteles" color={OSCURO.hotel} />
               <Cifra compacta valor={n(h.habitaciones)} etiqueta="habitaciones" color={OSCURO.hotel} />
               <Cifra compacta valor={n(h.plazas)} etiqueta="plazas" color={OSCURO.hotel} />
-              <Cifra compacta valor={`+${(h.ocupacion_2028 - h.ocupacion_hoy).toLocaleString("es", { maximumFractionDigits: 1 })} pts`}
-                etiqueta="ocupación más en 2028" color={OSCURO.hotel}
-                pie={`del ${h.ocupacion_hoy.toLocaleString("es")} % al ${h.ocupacion_2028.toLocaleString("es")} %`} />
+              <Cifra compacta valor={`+${dec(h.ocupacion_2028 - h.ocupacion_hoy)} pts`}
+                etiqueta="ocupación más en 2028" color={OSCURO.hotel} />
             </div>
             <div className="mt-2 grid gap-2">
-              <Tarjeta compacta titulo="Bandas económicas · por habitación">
+              <Tarjeta compacta titulo="Bandas económicas · por plaza, según categoría INE">
                 <Bandas bandas={h.bandas} total={totalBandas}
                   colores={["#9dbbdc", "#6f9fd0", "#1f5fa8", "#123a6b"]} />
               </Tarjeta>

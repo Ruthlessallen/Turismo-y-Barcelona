@@ -30,14 +30,14 @@
      Sustituye cualquier valor sensible por su nombre de variable. -->
 
 ```
-$ pnpm test
+$ node scripts/verificar-datos.mjs
 ...
 ```
 
 **Verificación de los requisitos:**
 
 <!-- Un renglón por cada requisito de la sección anterior. Si el requisito no se valida con un
-     test, di con qué se ha comprobado. Copia lo que ya declaraste en la ficha de docs/features/. -->
+     test, di con qué se ha comprobado.  -->
 
 | Requisito | Se validó con | Resultado |
 |-----------|---------------|-----------|
@@ -50,7 +50,7 @@ $ pnpm test
      uno marcado a ciegas es ruido que además tapa el problema. -->
 
 - [ ] Los documentos afectados en `docs/` están actualizados
-- [ ] La ficha de `docs/features/` está en estado **Verificada** (si este PR cierra una feature)
+- [ ] `node scripts/verificar-datos.mjs` y el build de la web pasan
 - [ ] Hay una entrada en `changelog/` con este cambio
 - [ ] La sección "Evidencia" contiene salida real de comandos, no una descripción de lo que pasaría
 - [ ] Se ha ejecutado `/security-review` si hay cambios sensibles

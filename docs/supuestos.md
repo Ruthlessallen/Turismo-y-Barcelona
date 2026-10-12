@@ -5,9 +5,9 @@ dato. No son defectos: son las decisiones que hacen falta para poder decir algo.
 defecto es tomarlas y no dejarlas escritas.
 
 El detalle y las comprobaciones que las respaldan están en `observaciones-datos.md` (verificaciones
-manuales), `criba.md` (recuentos de cada filtro, generado del dato) y `data-model.md` (diccionario).
+manuales), `criba.md` (recuentos de cada filtro, generado del dato) y `diccionario.md` (cada fichero de `data/`).
 
-**Última revisión:** 2026-09-04, con la banda económica ya aplicada a los dos lados.
+**Última revisión:** 2026-10-12, con la banda de hotel sacada del ADR del INE por categoría.
 
 ---
 
@@ -55,7 +55,7 @@ De nuestros 6.834 anuncios, 6.743 traen cotización con el desglose completo. En
 
 No se corrige, y esa es la decisión. El dato no permite saber quién cobra la limpieza aparte y
 quién la lleva ya incluida en la tarifa; aplicar un importe común a todos sería falso para los
-segundos. El precio de hotel sí incluye todo salvo la tasa turística.
+segundos. El ADR del INE (el precio de hotel del proyecto) es lo efectivamente cobrado.
 
 **Consecuencia asumida:** en las estancias cortas, que son las que compiten con el hotel, la banda
 de Airbnb puede quedar por debajo de lo que se acaba pagando.
@@ -300,34 +300,32 @@ prácticamente vacío.
 
 ## E. Hoteles
 
-### E1. La imputación pesa mucho más que en Airbnb
+### E1. El hotel no tiene precio propio: tiene el ADR de su categoría
 
-**307 de 758 bandas hoteleras son estimadas, unos dos quintos, frente al 3,2% de Airbnb.** Es la
-asimetría más importante entre los dos lados y debe acompañar a cualquier comparación de las dos
-distribuciones.
+Desde el 2026-10-12 el único precio de hotel es el **ADR del INE por categoría** (media de los
+últimos 12 meses): 1–2 estrellas, 3, 4 y 5. Se retiraron los precios recogidos de portales de
+reserva y el modelo que estimaba los que faltaban: el 41 % de las bandas eran estimadas, el error
+del modelo (27 %) quedaba por debajo de la variación natural de un hotel (±22 % en quince días) y
+sus términos no permitían redistribuirlos.
 
-### E2. La banda más barata no se puede imputar en hoteles
+**Consecuencia asumida:** la banda es de la categoría, no del hotel. Un 3 estrellas de lujo y uno
+modesto salen en la misma banda. Con los cortes de 40/70/120 € por plaza, 1–2 estrellas cae en €€,
+3 y 4 en €€€ y 5 en €€€€: **ninguna categoría cae en €**, así que la banda más barata queda vacía
+de hoteles y los pisos baratos suben una banda.
 
-De 52 hoteles realmente por debajo de 100 EUR, el modelo acierta 2; los otros 50 los sitúa una
-banda por encima. Solo 54 filas del entrenamiento bajan de ese umbral. Se publica esa banda
-únicamente cuando es observada.
+### E2. Hostales y pensiones van con «1 y 2 estrellas»
 
-### E3. El precio raspado se valida contra el ADR oficial del INE
+El INE los agrupa en esa fila («estrellas de plata»). Los hostales (`sin_estrellas`) reciben su ADR
+y su banda. **Es un supuesto**: probablemente sean más baratos que un hotel de 1–2 estrellas.
 
-Desvíos de −3% a +12% por categoría, en la dirección esperada: el anunciado es mayor o igual que el
-efectivamente cobrado.
+### E3. Apartaments turístics y «sense categoritzar» quedan sin banda
 
-### E4. Un hotel no tiene un precio, tiene un rango
+No tienen categoría en la estadística. Salen sin banda y no reciben turistas en el reparto.
 
-Comprobado a mano sobre Hostemplo: de 138 a 219 EUR según habitación y fecha dentro de la misma
-quincena. Un ±22% que pone suelo a lo que cualquier método puede lograr.
+### E4. La banda por plaza usa las plazas por habitación de la categoría
 
-### E5. Cinco estimaciones sin apoyo suficiente
-
-Marcadas en `apoyo_estimacion`: pensiones (6 estimadas con 2 ejemplos), residencias (3 con 4) y
-apartaments turístics (5 con 8).
-
----
+ADR ÷ mediana de (plazas ÷ habitaciones) de la categoría, no la de cada hotel, para que todos los
+hoteles de una categoría compartan banda.
 
 ---
 
@@ -391,10 +389,8 @@ el factor de la serie hotelera (×1,165). Mismo supuesto, y misma fragilidad, qu
 ### F5. Un año medio, no dos fechas
 
 Hasta el 2026-10-04 se publicaban el año medio y julio. Se dejó solo el **año medio**: dos fechas a
-la vez confundían más que aclaraban. Julio, la punta, sigue en `/mapa-anterior` y en el modelo
-(`modelar_sustitucion.py`), pero la web nueva no lo enseña. Consecuencia asumida: en los picos del
-verano habrá menos hueco en los hoteles de lo que dice el año medio (en julio, el modelo
-anterior daba 1.273 turistas sin sitio).
+la vez confundían más que aclaraban. Julio (ocupación hotelera 86,5 %) se retiró del modelo. Consecuencia asumida: en los picos del
+verano habrá menos hueco en los hoteles de lo que dice el año medio.
 
 ### F6. El turista desplazado sigue viniendo
 
@@ -437,28 +433,26 @@ anuncio está abierto todo el año. Total de los 4.985 pisos: **178–232 millon
 
 ### F10. Cada turista elige hotel por su banda
 
-Desde el 2026-10-05 es el reparto de la web (`gold/modelar_flujos_banda.py`); el reparto por
-cercanía y precio de `modelar_sustitucion.py` solo alimenta a `/mapa-anterior`. El turista va a un
-hotel de su banda, el más cercano con hueco; si no hay, a la siguiente banda más cara, y baja solo
-como último recurso. La distancia no limita. La banda es la **por plaza**, la única comparable.
+Es el reparto de la web (`gold/modelar_flujos_banda.py`). El turista va a un hotel de su banda, el
+más cercano con hueco; si no hay, a la siguiente banda más cara, y baja solo como último recurso. La
+distancia no limita. La banda es la **por plaza**, la única comparable.
 
-Supone la misma ocupación (80,2 %) en todas las bandas, y los pisos eligen en orden aleatorio con
-semilla fija (con tres órdenes, la mediana va de 0,33 a 0,34 km). Hallazgo: los hoteles de banda €
-tienen 57 habitaciones libres frente a 931 que piden los pisos baratos, así que solo el 45 %
-encuentra hotel de su banda. Resultados completos en `fuentes.md` → 3.2.
+Supone la misma ocupación (`gold/modelo.py`, 80,2 %) en todas las bandas, y los pisos eligen en
+orden aleatorio con semilla fija. Como no hay hoteles en la banda €, los pisos baratos pasan a €€.
+Los resultados (cuántos encuentran hotel de su banda, distancias) están en `flujo.json` y en
+`/fuentes`.
 
 ### F11. Lo que no cubre la web sobre el precio, y la oferta nueva
 
-La web no estima cuánto subirá el precio de los hoteles. Hay cuatro cosas que lo harían impreciso:
-la estacionalidad existiría aunque Airbnb no se fuera; parte de los turistas se irá a otros
-municipios; hay pisos que no entran en la ley; y los que más presión recibirían son los hoteles
-baratos y los hostales, no el conjunto.
+La web no estima cuánto subirá el precio de los hoteles. La estacionalidad existiría aunque Airbnb
+no se fuera; parte de los turistas se irá a otros municipios; hay pisos que no entran en la ley; y
+los que más presión recibirían son los hoteles baratos y los hostales, no el conjunto.
 
-**Oferta nueva.** No hay un dataset de hoteles previstos. Lo recopilado de prensa
-(`fuentes.md` → 2.9) son 315 habitaciones anunciadas, de las que **solo 189 son de obra nueva**; el
-resto son reformas o cambios de gestión de hoteles que ya existen. Aun siendo todas nuevas y vacías,
-cubrirían como mucho el 7,0 % de las 4.486 habitaciones que piden los pisos en un año medio. La
-vigencia de la modificación del PEUAT que permite hoteles «singulares» no está verificada.
+**Oferta nueva.** No hay un dataset de hoteles previstos. Lo recopilado de prensa (`fuentes.md` →
+1.8) son pocas habitaciones y **solo 189 son de obra nueva**; el resto son reformas o cambios de
+gestión de hoteles que ya existen. Cubrirían como mucho un porcentaje pequeño de las habitaciones
+que piden los pisos (`hoteles_pagina.json`). La vigencia de la modificación del PEUAT de 2023 para
+hoteles «singulares» no está verificada.
 
 ### F12. La estancia en pisos es de 3 noches
 
@@ -470,17 +464,15 @@ noches, la misma que usa el método de reseñas (F3). Con 4 noches serían 0,8�
 
 El censo comercial da de alta dos veces un local de esquina, uno por cada portal. Con el mismo
 nombre normalizado (sin acentos ni signos) y a 10 m o menos, se queda uno: el de la visita más
-reciente. Son 14 de 9.479 locales (`gold/preparar_restauracion_bcn.py`). **Es un umbral elegido**:
+reciente. Son 14 locales retirados (`gold/preparar_restauracion_bcn.py`). **Es un umbral elegido**:
 entre 10 y 40 m hay 11 pares con el mismo nombre que pueden ser locales distintos (30 m entre dos
 AROMES, en Parellada y en Gran de Sant Andreu) y no se distinguen de un duplicado: se dejan. No se tocan los locales sin nombre.
 
 ### F14. El mapa de hoteles y los rankings de restauración
 
 - **«Turistas más en 2028» por barrio:** lo que el reparto por banda lleva a los hoteles del barrio,
-  dividido por lo que alojan hoy (plazas × 67,9 %). No es una ocupación: es el mismo cociente que el
-  +16,0 % de toda la ciudad. Un barrio con pocos hoteles y muchos pisos puede salir con +30 % o más.
-- **PEUAT:** se pintan las 12 zonas por su código. Qué códigos admiten hoteles nuevos no está
-  verificado (`architecture.md`); según la prensa, las zonas 1 y 2 no.
+  dividido por lo que alojan hoy (plazas × 67,9 %). No es una ocupación: es el mismo cociente que se calcula para toda la ciudad. Un barrio con pocos hoteles y muchos pisos puede salir con +30 % o más.
+- **PEUAT:** se pintan las 12 zonas agrupadas por número (`fuentes.md` → 1.7). Reglas según prensa; el detalle por subzona no está verificado.
 - **Ranking de restauración en valor absoluto**, no en porcentaje. Los barrios que «menos ganan» son
   los que más pierden; en Can Baró o el Carmel pasan de unas pocas decenas de clientes a cero.
 - **«Marca» es el rótulo**: el censo de la ciudad no trae CIF. Dos rótulos que el censo escribe de

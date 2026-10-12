@@ -1,3 +1,6 @@
+> **Retirado el 2026-10-12.** Estos precios ya no alimentan nada: el precio de hotel es el ADR del INE por
+> categoría (`docs/fuentes.md` → 2). Se conservan aquí solo como histórico local.
+
 # precios_hoteles — precios raspados de portales de reserva
 
 Deja aquí la exportación del scraper (JSON o CSV). `pipeline/transform/cruzar_precios_hoteles.py`
@@ -17,6 +20,6 @@ El script busca por sí solo los campos habituales bajo distintos nombres (`name
 
 Estos precios salen de raspar un portal de reservas, cuyos términos lo prohíben. Sirven para
 explorar y modelar en local. **Para publicar cifras en el dashboard hace falta una fuente
-citable** — el ADR del INE es la referencia oficial (ver `docs/architecture.md`).
+citable** — el ADR del INE es la referencia oficial (ver `docs/fuentes.md`).
 
 Como todo `data/raw/`, esta carpeta no se versiona.

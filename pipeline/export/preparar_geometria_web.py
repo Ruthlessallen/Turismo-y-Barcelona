@@ -3,7 +3,6 @@
     python pipeline/transform/preparar_geometria_web.py
 
 Salidas
-    data/exports/geo/municipios.geojson   — 311 municipios de la provincia
     data/exports/geo/barrios.geojson      — 75 barrios de la ciudad
     data/exports/geo/peuat.geojson        — 12 zonas del PEUAT
 
@@ -12,16 +11,15 @@ Tres cosas que hay que hacer antes de que un mapa web pueda usar estos ficheros:
 **Reparar.** Dos barrios traen una autointersección —comparten un vértice mal montado— y una
 geometría inválida rompe tanto el dibujado como cualquier operación de punto dentro de polígono.
 
-**Simplificar.** El fichero municipal pesa 13,7 MB, que en un móvil son varios segundos de espera
-antes de ver nada. A la escala en que se mira una provincia, la precisión submétrica del ICGC no
-aporta: dos vértices separados por 20 m caen en el mismo píxel. Se simplifica con Douglas-Peucker
+**Simplificar.** La precisión submétrica del ICGC no aporta en un navegador: dos vértices
+separados por 5 m caen en el mismo píxel, y cada KB cuenta en un móvil. Se simplifica con Douglas-Peucker
 sobre coordenadas proyectadas, no sobre grados, porque un grado de longitud y uno de latitud no
 miden lo mismo y la tolerancia saldría deformada.
 
 **Recortar atributos.** El GeoJSON del ICGC arrastra identificadores internos que no se usan y que
 viajan en cada respuesta.
 
-`preserve_topology=True` evita que la simplificación abra huecos entre municipios vecinos o
+`preserve_topology=True` evita que la simplificación abra huecos entre barrios vecinos o
 convierta un polígono en algo degenerado. Y el resultado se comprueba: si la superficie total
 cambia más de un 1%, la tolerancia era demasiado agresiva.
 """
@@ -35,9 +33,7 @@ import geopandas as gpd
 RAIZ = Path(__file__).resolve().parents[2]
 DESTINO = RAIZ / "data" / "exports" / "geo"
 
-# Metros. Los municipios se ven a escala de provincia y admiten más simplificación que los
-# barrios, que se miran con zoom de ciudad.
-TOLERANCIA_MUNICIPIOS = 25
+# Metros.
 TOLERANCIA_BARRIOS = 5
 TOLERANCIA_PEUAT = 5
 
@@ -45,11 +41,6 @@ TOLERANCIA_PEUAT = 5
 CRS_METRICO = 25831
 
 FUENTES = {
-    "municipios": (
-        RAIZ / "data" / "bronze" / "municipios_provincia_barcelona.geojson",
-        {"NOMMUNI": "municipio", "CODIMUNI": "codi_ine", "CODICOMAR": "codi_comarca"},
-        TOLERANCIA_MUNICIPIOS,
-    ),
     "barrios": (
         RAIZ / "data" / "raw" / "geometria" / "insideairbnb_barrios_barcelona.geojson",
         {"neighbourhood": "barrio", "neighbourhood_group": "distrito"},

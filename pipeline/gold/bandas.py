@@ -33,6 +33,36 @@ CORTES_HABITACION = [100, 175, 300]
 CORTES_PLAZA = [40, 70, 120]
 ETIQUETAS = ["€", "€€", "€€€", "€€€€"]
 
+# A qué categoría de la estadística oficial (ADR del Portal de Dades) pertenece cada valor de
+# `estrellas` del Registre. El "4 estrelles superior" (4,5) va con los de 4: el INE no lo separa.
+CATEGORIA_INE = {
+    "1 and 2 gold stars and silver stars": [1.0, 2.0],
+    "3 gold stars": [3.0],
+    "4 gold stars": [4.0, 4.5],
+    "5 gold stars": [5.0],
+}
+
+
+def categoria_ine(estrellas: pd.Series, tipo_alojamiento: pd.Series) -> pd.Series:
+    """Categoría oficial de cada alojamiento, nula si la estadística no tiene una para él.
+
+    Los hostales y pensiones (`sin_estrellas`) van con "1 y 2 estrellas de oro y de plata": el INE
+    mete las de plata en esa misma fila. Los apartaments turístics y lo "sense categoritzar" no
+    tienen fila propia y se quedan sin categoría, y por tanto sin banda.
+    """
+    cat = pd.Series(index=estrellas.index, dtype=object)
+    for nombre, valores in CATEGORIA_INE.items():
+        cat[estrellas.isin(valores)] = nombre
+    cat[tipo_alojamiento.eq("sin_estrellas")] = "1 and 2 gold stars and silver stars"
+    return cat
+
+
+def adr_ultimos_12_meses(ruta) -> pd.Series:
+    """ADR medio de los últimos 12 meses de la serie, por categoría oficial (EUR por habitación ocupada)."""
+    adr = pd.read_csv(ruta, parse_dates=["fecha"])
+    desde = adr["fecha"].max() - pd.DateOffset(months=11)
+    return adr[adr["fecha"] >= desde].groupby("categoria_oficial")["adr"].mean().round(2)
+
 
 def asignar(precio: pd.Series, cortes: list[int]) -> pd.Series:
     """Etiqueta de banda, nula donde no hay precio.

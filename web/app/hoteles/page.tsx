@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { BarrasH, Cifra, Columnas, Seccion, Tarjeta } from "@/app/components/Graficos";
 import { LEYENDA, type HotelesBarrio } from "@/app/lib/hotelesMapa";
 import { GRUPOS_PEUAT } from "@/app/lib/peuat";
-import { COLOR, OSCURO, n, type HotelNuevo } from "@/app/lib/tiposMapa";
+import { COLOR, OSCURO, dec, n, type HotelNuevo } from "@/app/lib/tiposMapa";
 
 // Leaflet toca `window` al cargarse: sin esto el render del servidor revienta.
 const MapaHoteles = dynamic(() => import("@/app/components/MapaHoteles"), {
@@ -33,7 +33,6 @@ const mes = (aaaamm: string) => MESES[Number(aaaamm.slice(5, 7)) - 1];
 /** «2025-08 a 2026-07» → «ago 2025 – jul 2026». */
 const periodo = (p: string) =>
   p.split(" a ").map((m) => `${MESES[Number(m.slice(5, 7)) - 1]} ${m.slice(0, 4)}`).join(" – ");
-const dec = (v: number) => v.toLocaleString("es", { maximumFractionDigits: 1 });
 const millones = (v: number) => (v / 1e6).toLocaleString("es", { maximumFractionDigits: 1 });
 
 /** Los nombres de categoría del registro vienen en catalán; «No aplica» son hostales y pensiones. */
@@ -71,9 +70,9 @@ export default function PaginaHoteles() {
 
           <Seccion color={COLOR.hotel} titulo="Qué supone para un hotel que desaparezcan los pisos">
             <div className="grid gap-3">
-              <Tarjeta titulo="Habitaciones ocupadas por banda: hoy (80,2 %) y lo que suben en 2028">
+              <Tarjeta titulo={`Habitaciones ocupadas por banda: hoy (${dec(p.ocupacion.hoy)} %) y lo que suben en 2028`}>
                 <div className="flex items-end gap-4" style={{ height: 190 }}>
-                  {p.ocupacion_bandas.map((b) => {
+                  {p.ocupacion_bandas.filter((b) => b.habitaciones > 0).map((b) => {
                     const hoy = (b.hoy / b.habitaciones) * 100;
                     const f28 = (b.en_2028 / b.habitaciones) * 100;
                     return (
@@ -89,14 +88,14 @@ export default function PaginaHoteles() {
                   })}
                 </div>
                 <div className="mt-1 flex gap-4">
-                  {p.ocupacion_bandas.map((b) => (
+                  {p.ocupacion_bandas.filter((b) => b.habitaciones > 0).map((b) => (
                     <span key={b.banda} className="flex-1 text-center text-[12px] font-medium">{b.banda}</span>
                   ))}
                 </div>
                 <p className="mt-2 text-[11px] text-[#52514e]">
                   <i className="mr-1 inline-block h-2 w-2 rounded-sm bg-[#9dbbdc]" />hoy, igual en todas
                   <i className="mr-1 ml-3 inline-block h-2 w-2 rounded-sm" style={{ background: COLOR.hotel }} />lo que suben en 2028.
-                  Banda por plaza: los hoteles baratos se llenan, casi no tienen hueco.
+                  Banda por plaza, según la categoría del INE de cada hotel: la más barata (1–2 estrellas y hostales) se llena, casi no tiene hueco.
                 </p>
               </Tarjeta>
 
@@ -152,7 +151,7 @@ export default function PaginaHoteles() {
                   ))}
                 </ul>
                 <p className="mt-1 text-[10px] leading-snug text-[#52514e]">
-                  Zonas del PEUAT con los códigos del Ajuntament. Cuáles admiten hoteles nuevos no está verificado.
+                  Zonas del PEUAT (2021) agrupadas por número; reglas según prensa y despachos, subzonas sin verificar. Ver Fuentes.
                 </p>
               </>
             )}

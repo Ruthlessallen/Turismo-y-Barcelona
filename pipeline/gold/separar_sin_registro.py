@@ -23,7 +23,7 @@ siguen en `airbnb_excluidos_web.csv` con su `motivo_estado` para quien quiera re
 criterio. Para volver al criterio anterior basta ejecutar de nuevo `revisar_airbnb_v2.ipynb`, que
 regenera los dos ficheros, y no ejecutar este script.
 
-**Orden:** `revisar_airbnb_v2.ipynb` -> este script -> `modelar_sustitucion.py` -> exports.
+**Orden:** `revisar_airbnb_v2.ipynb` -> este script -> `modelar_flujos_banda` (via el export).
 Es idempotente: si ya se ejecuto, no encuentra nada que mover.
 """
 

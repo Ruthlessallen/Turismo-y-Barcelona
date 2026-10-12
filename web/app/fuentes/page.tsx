@@ -1,4 +1,8 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+
 import type { Metadata } from "next";
+import { dec } from "@/app/lib/tiposMapa";
 
 export const metadata: Metadata = {
   title: "Fuentes y método",
@@ -18,7 +22,37 @@ const SECCIONES = [
   { id: "limites", titulo: "Lo que esto no puede decir" },
 ];
 
+/**
+ * Las cifras de esta página salen de los mismos JSON que pintan el resto de la web, leídos al
+ * construir. Así no hay un segundo sitio donde escribirlas a mano ni que se pueda desfasar.
+ */
+const leer = (f: string) => JSON.parse(readFileSync(join(process.cwd(), "public/data/mapa", f), "utf-8"));
+const n = (v: number) => v.toLocaleString("es", { useGrouping: "always" });
+
 export default function PaginaFuentes() {
+  const dash = leer("dashboard.json");
+  const par = leer("parametros.json");
+  const lic = leer("licencias.json");
+  const criba = leer("criba_airbnb.json");
+  const hp = leer("hoteles_pagina.json");
+  const rp = leer("restauracion_pagina.json");
+  const fl = leer("flujo.json");
+  const hoteles: { cat_ine: string | null; adr: number | null; banda: string | null; hab: number | null }[] =
+    leer("puntos_hoteles.json");
+  const paso = (clave: string): number => criba.pasos.find((x: { clave: string }) => x.clave === clave).descartados;
+  const nPisos: number = dash.pisos.total;
+  const [ocPisoBaja, ocPisoAlta] = par.ocupacion_piso as [number, number];
+  const obraNueva = hp.nuevos
+    .filter((h: { tipo: string }) => h.tipo === "Obra nueva")
+    .reduce((t: number, h: { habitaciones: number | null }) => t + (h.habitaciones ?? 0), 0);
+  const categorias = Object.values(
+    hoteles.reduce((acc: Record<string, { cat: string; adr: number | null; banda: string | null; hoteles: number; hab: number }>, h) => {
+      const k = h.cat_ine ?? "Sin categoría";
+      acc[k] ??= { cat: k, adr: h.adr, banda: h.banda, hoteles: 0, hab: 0 };
+      acc[k].hoteles++; acc[k].hab += h.hab ?? 0;
+      return acc;
+    }, {}));
+  const libres = Math.round(hp.ocupacion.habitaciones * (1 - par.ocupacion_hotel_habitaciones / 100));
   return (
     <main className="min-h-full bg-[#faf9f7] text-[#24231f]">
       <header className="border-b border-[#e3e0da] bg-white">
@@ -57,37 +91,15 @@ export default function PaginaFuentes() {
             <Tabla
               cabeceras={["Fichero", "Qué contiene", "Lo produce"]}
               filas={[
-                ["barrios.geojson", "Los 73 barrios de la ciudad", "ICGC, simplificado para el navegador"],
-                [
-                  "puntos_pisos.json",
-                  "4.985 pisos: posición, plazas, dormitorios, precio de la noche y banda",
-                  "export_mapa_limpio.py",
-                ],
-                [
-                  "puntos_hoteles.json",
-                  "750 hoteles: habitaciones, plazas, banda y sociedad titular",
-                  "export_mapa_limpio.py",
-                ],
-                [
-                  "puntos_restaurantes.json",
-                  "9.465 locales: clientes potenciales hoy y en 2028",
-                  "export_mapa_limpio.py",
-                ],
-                [
-                  "barrios_hoy.json y dashboard.json",
-                  "Las cifras de cada barrio y las de la portada",
-                  "export_mapa_limpio.py",
-                ],
-                [
-                  "turistas.json y flujo.json",
-                  "Turistas frente al INE; distancia recorrida, bandas y barrios que suben y bajan",
-                  "export_mapa_limpio.py",
-                ],
-                [
-                  "hoteles_pagina.json",
-                  "Categorías, ocupación mensual y por banda, hoteles anunciados",
-                  "export_mapa_limpio.py",
-                ],
+                ["barrios.geojson, peuat.geojson", "Los 73 barrios de la ciudad y las 12 zonas del PEUAT", "preparar_geometria_web.py"],
+                ["puntos_pisos.json", `${n(nPisos)} pisos: posición, plazas, dormitorios, precio de la noche y banda`, "export_mapa_limpio.py"],
+                ["puntos_hoteles.json", `${n(dash.hoteles.total)} hoteles: habitaciones, plazas, categoría INE, banda y sociedad titular`, "export_mapa_limpio.py"],
+                ["puntos_restaurantes.json", `${n(rp.locales)} locales: clientes potenciales hoy y en 2028`, "export_mapa_limpio.py"],
+                ["barrios_hoy.json, dashboard.json", "Las cifras de cada barrio y las de la portada", "export_mapa_limpio.py"],
+                ["turistas.json, flujo.json", "Turistas frente al INE; distancia, bandas y barrios que suben y bajan", "export_mapa_limpio.py"],
+                ["hoteles_pagina.json, restauracion_pagina.json, licencias.json", "Lo que pintan esas tres páginas", "export_mapa_limpio.py"],
+                ["criba_airbnb.json", "Cuántos anuncios caen en cada paso del embudo de Airbnb", "export_criba.py"],
+                ["parametros.json", "Las ocupaciones que usa el modelo: una sola fuente para toda la web", "export_mapa_limpio.py"],
               ]}
             />
           </Seccion>
@@ -126,25 +138,25 @@ export default function PaginaFuentes() {
               fecha="Volcado del 24 de junio de 2026"
             >
               <P>
-                15.406 anuncios de la ciudad, con precio, capacidad declarada y reseñas. Es{" "}
+                {n(criba.inicio.anuncios)} anuncios de la ciudad, con precio, capacidad declarada y reseñas. Es{" "}
                 <em>un anuncio</em>, no una vivienda, y no es el registro oficial: cubre lo que se
                 comercializa en una plataforma concreta un día concreto. La propia fuente desplaza
                 cada anuncio hasta 150 metros a propósito: el punto del mapa es esa posición
                 desplazada, no la dirección de la vivienda.
               </P>
               <P>
-                De esos 15.406 se llega a <strong>4.985 viviendas</strong> descartando, por este
-                orden: alojamiento ya reglado, con sus habitaciones de hotel (915), habitaciones
-                sueltas sin licencia (3.083), alquiler de temporada de más de 31 noches (1.848),
-                anuncios sin reseñas desde septiembre de 2025 (876), repeticiones del mismo anuncio
-                (1.850) y, al final, los que no tienen registro acreditado (1.849).
+                De esos {n(criba.inicio.anuncios)} se llega a <strong>{n(nPisos)} viviendas</strong> descartando, por este
+                orden: alojamiento ya reglado, con sus habitaciones de hotel ({n(paso("alojamiento_reglado"))}), habitaciones
+                sueltas sin licencia ({n(paso("habitacion_sin_hutb"))}), alquiler de temporada de más de 31 noches ({n(paso("estancia_de_32_noches"))}),
+                anuncios sin reseñas desde septiembre de 2025 ({n(paso("sin_actividad_desde_09_2025"))}), repeticiones del mismo anuncio
+                ({n(paso("duplicado de nombre y anfitrion"))}) y, al final, los que no tienen registro acreditado ({n(paso("sin_registro_acreditado"))}).
               </P>
               <Aviso>
-                El registro oficial de la ciudad tiene 10.623 licencias con 61.826 plazas. Este análisis
-                mueve 23.766 plazas, las de las 4.985 viviendas con registro acreditado anunciadas
-                hoy en Airbnb. Otras 5.394 licencias, con 30.980 plazas, no tienen ningún anuncio, y
-                1.849 pisos anunciados no tienen registro acreditado: no sabemos nada de ellos. Están
-                contados en la página de Airbnb.
+                El registro oficial de la ciudad tiene {n(lic.registro.licencias)} licencias con {n(lic.registro.plazas)} plazas.
+                Este análisis mueve {n(lic.pisos_estado.con_registro.plazas)} plazas, las de las {n(nPisos)} viviendas con
+                registro acreditado anunciadas hoy en Airbnb. Otras {n(lic.sin_anuncio.licencias)} licencias, con{" "}
+                {n(lic.sin_anuncio.plazas)} plazas, no tienen ningún anuncio, y {n(paso("sin_registro_acreditado"))} pisos
+                anunciados no tienen registro acreditado: no sabemos nada de ellos. Están contados en la página de Airbnb.
               </Aviso>
             </Fuente>
 
@@ -154,19 +166,21 @@ export default function PaginaFuentes() {
               fecha="Últimos 60 meses, punto turístico Barcelona"
             >
               <P>
-                Dos usos distintos. Uno: la <strong>ocupación de partida</strong> —el 80,2% de media
-                anual— que descuenta las habitaciones ya vendidas antes de
-                repartir a nadie. Dos: la <strong>estacionalidad</strong>, trece años de serie, que
-                permite llevar un precio de una fecha concreta a equivalente anual.
+                Tres usos. Uno: la <strong>ocupación de partida</strong> —el {dec(par.ocupacion_hotel_habitaciones)}% de media
+                anual, por habitaciones— que descuenta las habitaciones ya vendidas antes de repartir
+                a nadie. Dos: el <strong>ADR por categoría</strong> (ingreso medio por habitación
+                ocupada, del Portal de Dades del Ajuntament sobre la misma encuesta), que es el único
+                precio de hotel del proyecto. Tres: la <strong>estacionalidad</strong>, trece años de
+                serie, que lleva el precio de Airbnb a equivalente anual.
               </P>
               <P>
-                Se usa la ocupación <em>por habitaciones</em> y no la de plazas, que es más baja
-                (67,9%), porque la habitación es lo que limita a un hotel. Las dos salen de la misma
-                encuesta y el mismo mes; miden cosas distintas.
+                La ocupación es <em>por habitaciones</em> y no por plazas ({dec(par.ocupacion_hotel_plazas)}%), porque la
+                habitación es lo que limita a un hotel. Las dos salen de la misma encuesta y miden
+                cosas distintas.
               </P>
               <P>
-                Su límite: es un agregado de la ciudad. Sirve para el nivel y la tendencia, nunca
-                para atribuir un precio a un hotel concreto.
+                Su límite: es un agregado por categoría de la ciudad. Sirve para el nivel y la
+                tendencia, nunca para atribuir un precio a un hotel concreto.
               </P>
             </Fuente>
 
@@ -176,8 +190,7 @@ export default function PaginaFuentes() {
               fecha="Trabajo de campo de 2023 y 2024"
             >
               <P>
-                9.465 locales de restauración de la ciudad: 4.424 restaurantes, 4.263 bares y 778 de
-                comida rápida. Se retiran 14 locales repetidos: el mismo nombre a menos de 10 metros,
+                {n(rp.locales)} locales de restauración de la ciudad. Se retiran 14 locales repetidos: el mismo nombre a menos de 10 metros,
                 que es un edificio con dos accesos dado de alta dos veces. Se usa el censo y no OpenStreetMap porque OSM se deja fuera un 26% de
                 la restauración de Barcelona. No existe un censo equivalente de 2026; se comprobó.
               </P>
@@ -185,14 +198,13 @@ export default function PaginaFuentes() {
 
             <Fuente
               nombre="Precios de hotel"
-              quien="Portales de reserva"
-              fecha="Consultados el 29 de septiembre de 2026"
+              quien="INE · Portal de Dades del Ajuntament de Barcelona"
+              fecha="ADR mensual por categoría, 2013 – julio de 2026"
             >
               <P>
-                Precios recogidos de portales de reserva cuyos términos no permiten redistribuirlos.
-                No se republican y no se citan como fuente: sirven para calibrar el análisis en
-                local. Lo que se publica es la <strong>banda económica</strong>, nunca el euro
-                exacto, y la referencia oficial citable es el ADR del INE.
+                No se usa ningún precio recogido de portales de reserva: se probaron y se
+                descartaron. Cada hotel recibe el ADR medio de los últimos 12 meses de su categoría
+                oficial. Detalle en «De dónde sale un precio».
               </P>
             </Fuente>
 
@@ -202,71 +214,72 @@ export default function PaginaFuentes() {
               fecha="Recopilado a mano el 5 de octubre de 2026"
             >
               <P>
-                No es un registro oficial: no existe un dataset de hoteles previstos. Son cuatro
+                No es un registro oficial: no existe un dataset de hoteles previstos. Son {hp.nuevos.length}{" "}
                 entradas, cada una con su enlace en la página de hoteles. <strong>Casi todo es
-                reforma o cambio de gestión de hoteles que ya existen</strong>: de obra nueva hay 189
-                habitaciones (el ibis budget del 22@), el 4,2% de las 4.486 que piden los pisos. La
-                modificación del PEUAT de 2023 que permite hoteles «singulares» no se ha verificado
-                que siga en vigor.
+                reforma o cambio de gestión de hoteles que ya existen</strong>: de obra nueva hay {n(obraNueva)}{" "}
+                habitaciones, el {dec((obraNueva / hp.ocupacion.habitaciones_absorbidas) * 100)}% de las {n(hp.ocupacion.habitaciones_absorbidas)} que piden los pisos.
+              </P>
+            </Fuente>
+
+            <Fuente
+              nombre="PEUAT · Pla especial urbanístic d'allotjaments turístics"
+              quien="Ajuntament de Barcelona · aprobado definitivamente el 23 de diciembre de 2021"
+              fecha="Zonas del Open Data BCN; reglas según prensa y despachos jurídicos"
+            >
+              <P>
+                El mapa de <em>Hoteles</em> pinta las 12 zonas por su código y las agrupa por número.
+                Según el plan: la <strong>zona 1</strong> no admite establecimientos nuevos; la{" "}
+                <strong>zona 2</strong> mantiene el censo (solo se abre sustituyendo uno que cerró);
+                la <strong>zona 3</strong> permite crecimiento contenido; la <strong>zona 4</strong> tiene
+                regulación propia (Prat Vermell, la Sagrera, el norte del 22@). No está verificado el
+                detalle por subzona (3A–3E, 4A–4C) contra el texto del plan, y una propuesta de
+                2023 para admitir hoteles «singulares» en las zonas 1 y 2 no consta como aprobada.
+                No entra en ningún cálculo: es información sobre el mapa.
               </P>
             </Fuente>
 
             <Fuente
               nombre="Geometría"
               quien="Institut Cartogràfic i Geològic de Catalunya"
-              fecha="311 municipios de la provincia, 75 barrios de la ciudad"
+              fecha="75 barrios de la ciudad y 12 zonas del PEUAT"
             >
               <P>
                 Antes de llegar al navegador se reparan dos barrios con la geometría mal cerrada y se
-                simplifica el contorno, porque el fichero original pesa 13,7 MB y a la escala en que
-                se mira una ciudad dos vértices separados por 20 metros caen en el mismo píxel. Si al
-                simplificar la superficie total cambiara más de un 1%, el proceso se detiene.
+                simplifica el contorno, porque a la escala de una ciudad dos vértices
+                separados por 5 metros caen en el mismo píxel. Si al simplificar la superficie total cambiara más de un 1%, el proceso se detiene.
               </P>
             </Fuente>
           </Seccion>
 
           <Seccion id="precio" numero={3} titulo="De dónde sale un precio">
             <P>
-              Un hotel tiene precio por una de dos vías, y solo dos. <strong>Airbnb no aporta ni un
-              solo precio de hotel</strong>: lo único que cruza de ese lado al hotelero es la
-              geometría de los barrios.
+              <strong>Un hotel no tiene precio propio.</strong> Recibe el ADR oficial de su
+              categoría (INE, media de los últimos 12 meses) y de ahí salen sus dos bandas. Todos los
+              hoteles de una categoría comparten banda.
             </P>
             <Tabla
-              cabeceras={["Procedencia", "Cuántos", "Qué significa"]}
-              filas={[
-                ["Observado", "451", "Su ficha cruzó con un precio real recogido de un portal"],
-                ["Estimado", "312", "No tiene precio recogido: lo calcula un modelo"],
-                ["Sin precio", "800", "Ni lo uno ni lo otro — ver abajo"],
-              ]}
+              cabeceras={["Categoría oficial", "Hoteles", "Habitaciones", "ADR por habitación", "Banda por plaza"]}
+              filas={categorias.map((c) => [
+                c.cat === "Sin categoría" ? "Sin categoría (sin banda)" : c.cat,
+                n(c.hoteles), n(c.hab), c.adr == null ? "—" : `${n(c.adr)} €`, c.banda ?? "—",
+              ])}
             />
             <P>
-              Los tres suman los 1.563 hoteles y apartaments turístics de la provincia. Los 800 sin
-              precio son dos grupos que no tienen nada que ver entre sí:
+              La banda por plaza divide ese ADR entre las plazas por habitación de la categoría
+              (mediana), con cortes en 40, 70 y 120 € por plaza: es la única escala en la que un piso
+              entero y una habitación de hotel se comparan. Los hostales y pensiones van con «1 y 2
+              estrellas», que es donde el INE los incluye: <strong>es un supuesto</strong>. Los
+              apartaments turístics y lo «sense categoritzar» no tienen categoría oficial y quedan
+              fuera del reparto.
             </P>
-            <ul className="ml-4 list-disc space-y-2 text-[14px] leading-relaxed text-[#3a3935] marker:text-[#a3a09b]">
-              <li>
-                <strong>795 están fuera de la ciudad de Barcelona</strong> — Sitges, Castelldefels,
-                l&apos;Hospitalet, Calella. Los precios recogidos cubren la ciudad y el modelo se
-                entrenó solo con ella; estimar un hotel de Calella con lo aprendido en el Eixample
-                sería inventar.
-              </li>
-              <li>
-                <strong>5 están en la ciudad</strong>, y son apartaments turístics. El modelo les da
-                un número, pero apoyándose en menos de diez casos comparables. Se les quita: un hueco
-                es más honesto que una cifra que nadie puede contradecir.
-              </li>
-            </ul>
             <Aviso>
-              <strong>El 41% de los precios de hotel que se publican están estimados por un
-              modelo</strong>, frente al 3% en el lado de Airbnb. No es un detalle menor: significa
-              que la banda de cuatro de cada diez hoteles es una deducción, no una medición.
+              Consecuencia: la banda es una propiedad de la categoría, no del hotel. Un 3 estrellas
+              de lujo y uno modesto salen igual. Y con estos cortes no hay hoteles en la banda €.
             </Aviso>
             <P>
-              El error del modelo se mide con validación cruzada repetida y no con una partición
-              única. Una versión anterior anunciaba 40,6 € de error apartando 86 casos de prueba; la
-              validación cruzada sobre los mismos datos daba 57 €. No era un modelo mejor, era una
-              partición afortunada. Y el error se publica <em>por segmento</em>, porque los hoteles
-              con precio recogido tienen 58 habitaciones de mediana y los que hay que estimar, 13.
+              <strong>Un piso lleva el precio que anuncia en Airbnb</strong>, tal como lo publica la
+              fuente, sin corregir limpieza ni comisión, y llevado a equivalente anual con la
+              estacionalidad hotelera del INE.
             </P>
           </Seccion>
 
@@ -288,18 +301,15 @@ export default function PaginaFuentes() {
             <Decision titulo="La ocupación de los pisos turísticos se estima">
               No existe ninguna estadística pública que diga cuántas noches se alquila un piso
               turístico. Se calcula por dos vías que no comparten supuestos —el calendario del
-              anuncio y el recuento de reseñas— y dan <strong>38,3% y 38,8%</strong>. Que coincidan
-              es lo que la hace publicable. Consecuencia: los 4.985 pisos no alojan a 23.766
-              personas cada noche, sino a <strong>9.102</strong>.
+              anuncio y el recuento de reseñas— y dan <strong>{dec(ocPisoBaja)}% y 38,8%</strong>. Que coincidan
+              es lo que la hace publicable. Consecuencia: los {n(nPisos)} pisos no alojan a {n(lic.pisos_estado.con_registro.plazas)}{" "}
+              personas cada noche, sino a <strong>{n(fl.turistas)}</strong>.
             </Decision>
 
-            <Decision titulo="Se publica la banda, no el euro">
-              El mismo hotel se mueve un ±22% sobre su propia mediana en quince días, según el tipo
-              de habitación y la fecha. El modelo tiene un 27% de error: por debajo de la variación
-              natural de aquello que mide. Una banda aguanta donde un euro exacto miente. Los cortes
-              son 40, 70 y 120 € por plaza, elegidos para que hoteles y Airbnb ocupen varias bandas
-              cada uno — no son los cuartiles de ninguno de los dos. Los pisos sí llevan el precio que
-              anuncian; los hoteles, solo la banda.
+            <Decision titulo="De los hoteles se publica la categoría y su banda">
+              El ADR de una categoría es un dato oficial y se enseña. Pero no es el precio de ningún
+              hotel concreto, así que no se enseña como si lo fuera: se enseña la categoría y la
+              banda. Los pisos sí llevan el precio que anuncian.
             </Decision>
 
             <Decision titulo="El precio de Airbnb se publica tal y como se anuncia">
@@ -333,47 +343,42 @@ export default function PaginaFuentes() {
             <Decision titulo="Qué hay cerca de un hotel y qué recibe en 2028">
               El radio de 0 a 500 metros cuenta los pisos que tiene cerca, con sus plazas y sus
               habitaciones (un piso, tantas como dormitorios; una si es un estudio). Aparte, para
-              cada hotel: sus habitaciones, las ocupadas hoy (80,2% por habitaciones, INE) y las
+              cada hotel: sus habitaciones, las ocupadas hoy ({dec(par.ocupacion_hotel_habitaciones)}% por habitaciones, INE) y las
               ocupadas en 2028, que son esas más las que recibe de los pisos según el reparto.
             </Decision>
             <Tabla
               cabeceras={["Toda la ciudad, un año medio", "Habitaciones"]}
               filas={[
-                ["Libres en los hoteles", "8.841"],
-                ["Que piden los pisos", "4.486"],
-                ["Sin sitio", "nadie"],
-                ["Ocupación hotelera", "del 80,2% al 90,2%"],
+                ["Libres en los hoteles", n(libres)],
+                ["Que piden los pisos", n(hp.ocupacion.habitaciones_absorbidas)],
+                ["Ocupación hotelera", `del ${dec(hp.ocupacion.hoy)}% al ${dec(hp.ocupacion.en_2028)}%`],
               ]}
             />
 
             <Decision titulo="Cada turista elige hotel por su banda">
               No se mira si prefiere precio o ubicación: se mira la banda. Cada turista va a un
               hotel de su banda, el más cercano con habitaciones libres; si no queda sitio, va a la
-              siguiente más cara. La distancia no limita: si el único hotel libre de su banda está
-              al otro lado de la ciudad, va. Los hoteles baratos son el cuello de botella: tienen 57
-              habitaciones libres frente a 931 que piden los pisos baratos, así que solo el 45% de
-              los turistas encuentra hotel de su banda, el 42% sube una banda y el 13% sube dos o
-              más. El volumen acaba en los €€€; la presión de precio es de los €. La mediana de
-              distancia es de 0,33 km, y el 90% llega a menos de 1,6 km. Supone la misma ocupación
+              siguiente más cara. La distancia no limita. Resultado: el {dec(fl.bandas.su_banda_pct)}% encuentra
+              hotel de su banda, el {dec(fl.bandas.una_mas_pct)}% sube una banda y el {dec(fl.bandas.dos_o_mas_pct)}% sube dos o más. La mediana de
+              distancia es de {dec(fl.km.mediana)} km y el 90% llega a menos de {dec(fl.km.p90)} km. Supone la misma ocupación
               en todas las bandas, y los hostales probablemente estén más llenos.
             </Decision>
 
             <Decision titulo="En restauración solo se mira a quien hoy cocina">
               Los locales ya tienen clientes y eso no se estima. Se mira un solo grupo: el turista que
               hoy elige un piso para ahorrar cocinando y que, en un hotel sin cocina, tiene que salir
-              a comer. Cada turista reparte su demanda entre los locales a menos de 200 metros de
+              a comer. Cada turista reparte su demanda entre los locales a menos de {par.radio_comida_m} metros de
               donde duerme. Hoy el de piso cuenta la mitad —tiene cocina— y en 2028, ya en un hotel,
               cuenta entero. <strong>La mitad es un supuesto, no un dato</strong>, y de él sale por sí
-              solo el aumento total (+7,4%). Lo que sí aporta el modelo es dónde: 4.479 locales ganan
-              y 3.830 pierden. El % es sobre estos clientes, no sobre todos los del local.
+              solo el aumento total (+{dec((rp.en_2028 / rp.hoy - 1) * 100)}%). Lo que sí aporta el modelo es dónde: {n(rp.ganan)} locales ganan
+              y {n(rp.pierden)} pierden. El % es sobre estos clientes, no sobre todos los del local.
             </Decision>
 
             <Decision titulo="Los turistas se comparan con el INE">
-              Los hoteles de este conjunto alojan a 56.715 turistas por noche; el INE cuenta 60.133
-              pernoctaciones por noche (ago 2025 – jul 2026), un 6% más; en personas, 8,7 millones de viajeros al año frente a 9,2. Los pisos son entre el
-              14 y el 17% de los turistas de este conjunto de datos, entre 9.102 y
-              11.408 por noche y, a 3 noches de estancia —un supuesto—, entre 1,1 y 1,4 millones de
-              turistas al año. El INE no mide pisos.
+              La página de Turistas pone los viajeros y pernoctaciones del INE frente a los que alojan
+              los hoteles de este conjunto. El INE no mide pisos: los pisos se estiman con la
+              ocupación de arriba y, a 3 noches de estancia —un supuesto—, se pasa de turistas por
+              noche a turistas al año.
             </Decision>
           </Seccion>
 
@@ -404,9 +409,9 @@ export default function PaginaFuentes() {
           <Seccion id="limites" numero={7} titulo="Lo que esto no puede decir">
             <ol className="ml-4 list-decimal space-y-2 text-[14px] leading-relaxed text-[#3a3935] marker:text-[#a3a09b]">
               <li>
-                <strong>No cubre las 10.623 licencias de la ciudad</strong>, cubre 4.985 viviendas
-                con registro acreditado anunciadas en Airbnb. 5.394 licencias no tienen ningún
-                anuncio y 1.849 pisos anunciados no tienen registro acreditado: no están.
+                <strong>No cubre las {n(lic.registro.licencias)} licencias de la ciudad</strong>, cubre {n(nPisos)} viviendas
+                con registro acreditado anunciadas en Airbnb. {n(lic.sin_anuncio.licencias)} licencias no tienen ningún
+                anuncio y {n(paso("sin_registro_acreditado"))} pisos anunciados no tienen registro acreditado: no están.
               </li>
               <li>
                 <strong>No sabe qué quiere un turista.</strong> Qué hotel elige, o si prefiere precio
@@ -429,12 +434,12 @@ export default function PaginaFuentes() {
                 hoy duermen en esos pisos: nadie se queda en su casa ni se va a otra ciudad.
               </li>
               <li>
-                <strong>Un hotel no tiene un precio, tiene un rango.</strong> Se publica una banda
-                precisamente por eso.
+                <strong>Un hotel no tiene un precio.</strong> Tiene la banda de su categoría: dos
+                hoteles de la misma categoría salen iguales aunque uno cueste el doble.
               </li>
               <li>
                 <strong>Lo que factura un piso es un orden de magnitud:</strong> ocupación del
-                las noches ocupadas × el precio de la noche. El suelo usa el calendario de cada anuncio (365 − `availability_365`, que es de donde sale el 38,3%); el techo, el 48% de las 365 noches. No hay dato de facturación.
+                las noches ocupadas × el precio de la noche. El suelo usa el calendario de cada anuncio (365 − `availability_365`, que es de donde sale el {dec(ocPisoBaja)}%); el techo, el {dec(ocPisoAlta)}% de las 365 noches. No hay dato de facturación.
               </li>
               <li>
                 <strong>No hay plazas de los restaurantes</strong>: el censo no las trae. El nombre

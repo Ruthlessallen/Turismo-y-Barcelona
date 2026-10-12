@@ -1,0 +1,29 @@
+# Comprueba que los datos son coherentes y que la web compila.
+name: Comprobaciones
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Datos coherentes
+        run: node scripts/verificar-datos.mjs
+      - name: Web (tipos, lint y build)
+        working-directory: web
+        run: |
+          corepack enable
+          corepack pnpm@11 install --frozen-lockfile
+          corepack pnpm@11 exec tsc --noEmit
+          corepack pnpm@11 exec eslint
+          corepack pnpm@11 exec next build

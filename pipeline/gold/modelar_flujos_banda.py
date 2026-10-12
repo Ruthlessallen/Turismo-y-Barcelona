@@ -1,8 +1,7 @@
 """Adonde van los turistas cuando desaparecen los pisos: cada uno elige hotel por su banda.
 
-Es el reparto que usa la web desde el 2026-10-05 (`export/export_mapa_limpio.py` llama a `asignar`).
-Sustituye al reparto por cercania y parecido de precio de `modelar_sustitucion.py`, que sigue
-alimentando solo a `/mapa-anterior`. Ejecutado a mano, imprime la comparacion de variantes.
+Es el reparto que usa la web (`export/export_mapa_limpio.py` llama a `asignar`). Ejecutado a mano,
+imprime la comparacion de variantes.
 
 La regla, tal como se plantea:
   1. El turista va a un hotel de **su banda**, el mas cercano con habitaciones libres.
@@ -14,7 +13,7 @@ La regla, tal como se plantea:
 La banda es la **por plaza** (40/70/120 EUR) en los dos lados: es la unica escala en la que un piso
 entero y una habitacion de hotel se pueden comparar.
 
-Un ano medio: ocupacion del hotel 80,2 % por habitaciones, de los pisos 38,3 %. Lo que se reparte
+Un ano medio: ocupacion del hotel y de los pisos segun `modelo.py` (80,2 % por habitaciones y 38,3 %). Lo que se reparte
 son habitaciones; se cuentan turistas al final. Los pisos eligen en orden aleatorio (semilla fija):
 el orden decide quien se queda con las habitaciones escasas de una banda, no cuantos caben.
 """
@@ -24,7 +23,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-import modelar_sustitucion as m
+import modelo as m
 
 SALIDA = m.GOLD / "calidad" / "flujos_banda_resumen.csv"
 BANDAS = ["€", "€€", "€€€", "€€€€"]
@@ -43,7 +42,7 @@ def claves(dist: np.ndarray, delta: np.ndarray, tope: float | None) -> np.ndarra
 
 def repartir(vut, hot, dist, delta, tope, semilla) -> pd.DataFrame:
     orden_hoteles = np.argsort(claves(dist, delta, tope), axis=1)
-    libre = np.array(hot["habitaciones"] * (1 - m.MOMENTOS["anio_medio"]["ocupacion_hotel"]), dtype=float)
+    libre = np.array(hot["habitaciones"] * (1 - m.OCUPACION_HOTEL_HAB), dtype=float)
     demanda = (vut["dormitorios"] * m.OCUPACION_AIRBNB).to_numpy()
     filas = []
     for i in np.random.default_rng(semilla).permutation(len(vut)):
@@ -70,7 +69,7 @@ def asignar(semilla: int = 0, tope: float | None = None):
     """
     vut, hot = m.cargar()
     vut = vut[vut["banda_plaza"].notna()].reset_index(drop=True)
-    dist, _, _ = m.matrices(vut, hot)
+    dist = m.distancias(vut, hot)
     idx = {b: i for i, b in enumerate(BANDAS)}
     bv = vut["banda_plaza"].map(idx).to_numpy()
     bh = hot["banda_plaza"].map(idx).to_numpy()
@@ -119,13 +118,13 @@ def resumen(nombre, a, vut, hot, dist, bv, bh) -> dict:
 def main() -> None:
     vut, hot = m.cargar()
     vut = vut[vut["banda_plaza"].notna()].reset_index(drop=True)
-    dist, _, _ = m.matrices(vut, hot)
+    dist = m.distancias(vut, hot)
     bv = vut["banda_plaza"].map({b: i for i, b in enumerate(BANDAS)}).to_numpy()
     bh = hot["banda_plaza"].map({b: i for i, b in enumerate(BANDAS)}).to_numpy()
     delta = bh[None, :] - bv[:, None]
 
     print("OFERTA Y DEMANDA POR BANDA (habitaciones por noche, un ano medio)")
-    libre = (hot["habitaciones"] * (1 - m.MOMENTOS["anio_medio"]["ocupacion_hotel"])).to_numpy()
+    libre = (hot["habitaciones"] * (1 - m.OCUPACION_HOTEL_HAB)).to_numpy()
     demanda = (vut["dormitorios"] * m.OCUPACION_AIRBNB).to_numpy()
     for i, b in enumerate(BANDAS):
         print(f"  {b:<5} hoteles libres {libre[bh == i].sum():>7,.0f}   pisos piden {demanda[bv == i].sum():>7,.0f}")
@@ -141,15 +140,6 @@ def main() -> None:
         print(f"  -> con 3 ordenes distintos: mediana {min(r['mediana'] for r in res):.2f}-"
               f"{max(r['mediana'] for r in res):.2f} km, su banda "
               f"{min(r['su_banda'] for r in res):.0f}-{max(r['su_banda'] for r in res):.0f} %")
-
-    # Referencia: el modelo actual (precio y cercania al 50 %), mismos datos.
-    _, cercania, parecido = m.matrices(vut, hot)
-    vut["precio"] = vut["precio_plaza_anual"]
-    vut["por_habitacion"] = vut["accommodates"] / vut["dormitorios"]
-    vut["demanda"] = vut["dormitorios"] * m.OCUPACION_AIRBNB
-    asign = m.repartir(vut, hot, dist, cercania, parecido, 0.5, libre)
-    tablas.append(resumen("Referencia: modelo actual (precio y cercania al 50 %)",
-                          asign[["vut_idx", "hotel_idx", "habitaciones"]], vut, hot, dist, bv, bh)["tabla"])
 
     SALIDA.parent.mkdir(parents=True, exist_ok=True)
     pd.concat(tablas).to_csv(SALIDA, index=False, encoding="utf-8")

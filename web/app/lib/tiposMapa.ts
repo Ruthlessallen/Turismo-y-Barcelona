@@ -13,8 +13,10 @@ export type Hotel = {
   nom: string | null; titular: string | null; cat: string | null; barrio: string | null;
   lat: number; lon: number;
   plazas: number | null; hab: number | null;
-  /** Solo bandas, nunca el euro: por habitación (100/175/300) y por plaza (40/70/120). */
-  banda_hab: string | null; banda: string | null; origen: string | null;
+  /** Categoría del INE a la que pertenece y el ADR de esa categoría (EUR por habitación ocupada, 12 meses). */
+  cat_ine: string | null; adr: number | null;
+  /** Banda por plaza (40/70/120): sale de la categoría, el hotel no tiene precio propio. */
+  banda: string | null;
   /** Lo que recibe de los pisos que desaparecen, en un año medio: habitaciones y pisos de origen. */
   hab_abs: number | null; pisos_abs: number | null;
 };
@@ -50,7 +52,7 @@ export type BarrioHoy = {
   habitaciones_hoteles: number;
   /** Mediana de la noche del piso entero. El hotel solo tiene banda, no euro. */
   precio_pisos: number | null;
-  /** La banda de los pisos es por plaza (única que tienen); la del hotel, por habitación. */
+  /** Las dos bandas son por plaza; la del hotel sale de su categoría del INE. */
   banda_pisos: string | null;
   banda_hoteles: string | null;
   /** Quién reúne más hoteles (sociedad titular) y más pisos (anfitrión según Airbnb, desde 5). */
@@ -72,6 +74,7 @@ export type DatosMapa = {
   hoteles: Hotel[];
   restaurantes: Restaurante[];
   nuevos: HotelNuevo[];
+  param: Parametros;
 };
 
 export type ModoAlojamiento = "puntos" | "barrios";
@@ -88,12 +91,16 @@ export const COLOR = { piso: "#e8710a", hotel: "#1f5fa8", restaurante: "#7b3fa0"
 export const OSCURO = { piso: "#a84a00", hotel: "#123a6b", restaurante: "#4a1f63" } as const;
 
 /**
- * Ocupaciones del proyecto. La de los pisos es un rango estimado (calendario 38,3 %, reseñas
- * 38,8 %, y 48 % como extremo alto); la del hotel es la oficial del INE por habitaciones.
+ * Los porcentajes del proyecto, tal y como los publica `parametros.json`: una sola fuente. La
+ * ocupación de los pisos es un rango estimado (suelo y techo); la del hotel es la del INE.
  */
-export const OCUPACION = {
-  pisoBaja: 0.383, pisoAlta: 0.48, hotelAnio: 0.802, hotelJulio: 0.865,
-} as const;
+export type Parametros = {
+  ocupacion_hotel_habitaciones: number; ocupacion_hotel_plazas: number;
+  ocupacion_piso: [number, number]; radio_comida_m: number;
+};
+
+/** 80,2: un porcentaje con coma y un decimal como máximo. */
+export const dec = (v: number) => v.toLocaleString("es", { maximumFractionDigits: 1 });
 
 export const n = (v: number | null | undefined) =>
   v == null ? "—" : v.toLocaleString("es", { useGrouping: "always" });
@@ -109,10 +116,10 @@ export function distanciaM(lat1: number, lon1: number, lat2: number, lon2: numbe
  * Qué hay alrededor de un hotel y qué le pasa en 2028.
  *
  * Alrededor: los pisos a menos de `radio` metros, con sus plazas y sus habitaciones (los
- * dormitorios). El hotel: sus habitaciones, las ocupadas hoy (80,2 %) y las ocupadas en 2028, que
+ * dormitorios). El hotel: sus habitaciones, las ocupadas hoy y las ocupadas en 2028, que
  * son esas más las que recibe de los pisos según el reparto por banda.
  */
-export function analisisHotel(h: Hotel, pisos: Piso[], radio: number) {
+export function analisisHotel(h: Hotel, pisos: Piso[], radio: number, par: Parametros) {
   let cerca = 0, plazas = 0, habitaciones = 0;
   for (const p of pisos) {
     if (distanciaM(h.lat, h.lon, p[0], p[1]) <= radio) {
@@ -122,7 +129,7 @@ export function analisisHotel(h: Hotel, pisos: Piso[], radio: number) {
     }
   }
   const total = h.hab ?? 0;
-  const hoy = total * OCUPACION.hotelAnio;
+  const hoy = total * par.ocupacion_hotel_habitaciones / 100;
   const absorbe = h.hab_abs ?? 0;
   return {
     cerca, plazas, habitaciones, total,
@@ -132,7 +139,7 @@ export function analisisHotel(h: Hotel, pisos: Piso[], radio: number) {
 }
 
 /** Habitaciones que piden los pisos, de 0 a 500 m en pasos de 50, para el gráfico lineal del hotel. */
-export function serieHotel(h: Hotel, pisos: Piso[]) {
+export function serieHotel(h: Hotel, pisos: Piso[], par: Parametros) {
   const radios = Array.from({ length: 11 }, (_, i) => i * 50);
   const dentro = new Array(radios.length).fill(0);
   const hab = new Array(radios.length).fill(0);
@@ -142,6 +149,6 @@ export function serieHotel(h: Hotel, pisos: Piso[]) {
     for (let i = Math.ceil(d / 50); i < radios.length; i++) { dentro[i]++; hab[i] += p[9] ?? 1; }
   }
   return radios.map((radio, i) => ({
-    radio, pisos: dentro[i], piden: hab[i] * OCUPACION.pisoBaja, pidenAlto: hab[i] * OCUPACION.pisoAlta,
+    radio, pisos: dentro[i], piden: hab[i] * par.ocupacion_piso[0] / 100, pidenAlto: hab[i] * par.ocupacion_piso[1] / 100,
   }));
 }

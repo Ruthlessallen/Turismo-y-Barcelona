@@ -32,11 +32,10 @@ responde a una pregunta en vez de describir un hecho, no es bronze.
 
 ## gold — transformado y publicable
 
-Lo que responde a las preguntas del proyecto: la situación de licencia de cada anuncio, el precio
-por hotel con su banda económica. Es lo que consumen los cuadernos, los exports y la web.
+Lo que responde a las preguntas del proyecto: la situación de licencia de cada anuncio, la banda
+económica de cada hotel (según el ADR oficial de su categoría). Es lo que consumen los cuadernos, los exports y la web.
 
-`gold/calidad/` guarda **informes sobre los datos**, no datos: cuánto acierta el modelo, qué
-segmentos se estiman sin ejemplos comparables. Separados a propósito, para que nadie los publique
+`gold/calidad/` guarda **informes sobre los datos**, no datos: la comparación de variantes del reparto. Separados a propósito, para que nadie los publique
 creyendo que son una tabla más.
 
 ## Qué capa puede leer cada script
@@ -47,7 +46,7 @@ Cada script escribe en la capa que le da nombre. Sobre **qué puede leer**, la r
 > licencia, cualquier cosa estimada o clasificada. Solo puede leerse de `bronze` lo que el script
 > se limita a agregar sin interpretarlo.
 
-No es purismo. `export_mapa.py` leía el precio de bronze y publicaba el valor crudo de una ventana
+No es purismo. Un export antiguo leía el precio de bronze y publicaba el valor crudo de una ventana
 de septiembre: sin corregir de temporada, sin banda, y sin decir si estaba medido o estimado. El
 fallo no era el número, era que el mapa no podía distinguir un dato de una suposición. Existiendo
 `gold/alojamientos_reglados.csv`, esa confusión ya no puede volver a colarse.
@@ -63,4 +62,5 @@ porque son establecimientos abiertos al público. Los pisos también salen como 
 dormitorios, precio y banda—: sin id, sin nombre del anuncio, sin anfitrión y sin licencia. El
 anfitrión solo sale agregado: por barrio desde 5 pisos, y en la portada los cinco con más pisos de la
 ciudad (al menos 20). Del hotel sale la sociedad titular, nunca
-una persona física. Los ficheros de `mapa/` los produce `pipeline/export/export_mapa_limpio.py`.
+una persona física. Los ficheros de `mapa/` los producen `pipeline/export/export_mapa_limpio.py` y `export_criba.py`. Qué
+contiene cada fichero, con sus columnas: [`docs/diccionario.md`](../docs/diccionario.md).

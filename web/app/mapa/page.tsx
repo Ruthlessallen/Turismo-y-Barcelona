@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 import {
-  COLOR, analisisHotel, serieHotel, n,
+  COLOR, analisisHotel, dec, serieHotel, n,
   type BarrioHoy, type Capas, type ColorRestaurante, type DatosMapa, type Foco, type Hotel,
   type ModoAlojamiento, type TipoBarrio,
 } from "@/app/lib/tiposMapa";
@@ -43,8 +43,9 @@ export default function Pagina() {
       cargar<DatosMapa["hoteles"]>(`${base}/puntos_hoteles.json`),
       cargar<DatosMapa["restaurantes"]>(`${base}/puntos_restaurantes.json`),
       cargar<{ nuevos: DatosMapa["nuevos"] }>(`${base}/hoteles_pagina.json`),
-    ]).then(([geo, barrios, pisos, hoteles, restaurantes, pagina]) =>
-      setDatos({ geo, barrios, pisos, hoteles, restaurantes, nuevos: pagina.nuevos }));
+      cargar<DatosMapa["param"]>(`${base}/parametros.json`),
+    ]).then(([geo, barrios, pisos, hoteles, restaurantes, pagina, param]) =>
+      setDatos({ geo, barrios, pisos, hoteles, restaurantes, nuevos: pagina.nuevos, param }));
   }, []);
 
   const alternar = (capa: keyof Capas) => {
@@ -68,7 +69,8 @@ export default function Pagina() {
         onBarrio={(nombre) => setFoco({ tipo: "barrio", nombre })} />
 
       <div className="absolute top-3 left-3 z-[1000] max-h-[calc(100%-1.5rem)] w-[248px] overflow-y-auto rounded border border-[#e3e0da] bg-white/95 p-3 text-[12px] shadow-sm">
-        <Titulo>Capas</Titulo>
+        <ResumenPisos pisos={datos.pisos.length} barrios={datos.barrios} />
+        <Titulo className="mt-3">Capas</Titulo>
         <div className="flex gap-1">
           <Capa activa={capas.airbnb} color={COLOR.piso} onClick={() => alternar("airbnb")}>Airbnb</Capa>
           <Capa activa={capas.hoteles} color={COLOR.hotel} onClick={() => alternar("hoteles")}>Hoteles</Capa>
@@ -133,10 +135,28 @@ export default function Pagina() {
       {hotelActivo ? (
         <PanelHotel hotel={hotelActivo} datos={datos} radio={radio} onCerrar={() => setFoco(null)} />
       ) : ficha ? (
-        <PanelBarrio b={ficha} hotelesBarrio={datos.hoteles.filter((h) => h.barrio === ficha.barrio)}
+        <PanelBarrio b={ficha} param={datos.param} hotelesBarrio={datos.hoteles.filter((h) => h.barrio === ficha.barrio)}
           onCerrar={() => setFoco(null)} />
       ) : null}
     </main>
+  );
+}
+
+/** Lo primero que se ve: cuántos pisos turísticos hay y cuántos turistas alojan por noche. */
+function ResumenPisos({ pisos, barrios }: { pisos: number; barrios: BarrioHoy[] }) {
+  const bajo = barrios.reduce((s, b) => s + b.turistas_pisos[0], 0);
+  const alto = barrios.reduce((s, b) => s + b.turistas_pisos[1], 0);
+  return (
+    <div className="mb-1 grid grid-cols-2 gap-2 text-center">
+      <div className="rounded border-t-[3px] bg-[#fbe3cc] px-1 py-2" style={{ borderColor: COLOR.piso }}>
+        <p className="text-[24px] leading-none font-semibold tabular-nums" style={{ color: "#a84a00" }}>{n(pisos)}</p>
+        <p className="mt-1 text-[11px] leading-tight">pisos turísticos</p>
+      </div>
+      <div className="rounded border-t-[3px] bg-[#fbe3cc] px-1 py-2" style={{ borderColor: COLOR.piso }}>
+        <p className="text-[24px] leading-none font-semibold tabular-nums" style={{ color: "#a84a00" }}>{rango(bajo, alto)}</p>
+        <p className="mt-1 text-[11px] leading-tight">turistas por noche en Airbnb</p>
+      </div>
+    </div>
   );
 }
 
@@ -231,12 +251,12 @@ function dinero(v: number): string {
 function PanelHotel({ hotel, datos, radio, onCerrar }: {
   hotel: Hotel; datos: DatosMapa; radio: number; onCerrar: () => void;
 }) {
-  const a = useMemo(() => analisisHotel(hotel, datos.pisos, radio), [hotel, datos.pisos, radio]);
-  const serie = useMemo(() => serieHotel(hotel, datos.pisos), [hotel, datos.pisos]);
+  const a = useMemo(() => analisisHotel(hotel, datos.pisos, radio, datos.param), [hotel, datos.pisos, radio, datos.param]);
+  const serie = useMemo(() => serieHotel(hotel, datos.pisos, datos.param), [hotel, datos.pisos, datos.param]);
   const total = a.total;
   const libres = Math.max(total - a.ocupadas2028, 0);
   const pct = (v: number) => (total > 0 ? Math.round((v / total) * 100) : 0);
-  const piden = a.habitaciones * 0.383;
+  const piden = a.habitaciones * datos.param.ocupacion_piso[0] / 100;
   const cubre = piden > 0 ? Math.min(a.absorbe / piden, 1) * 100 : 0;
 
   return (
@@ -265,9 +285,16 @@ function PanelHotel({ hotel, datos, radio, onCerrar }: {
         {n(a.cerca)} pisos · {n(a.plazas)} plazas · {n(Math.round(piden))} habitaciones por noche
         {piden > 0 ? `, cubre el ${Math.round(cubre)} %` : ""}
       </p>
+      {piden > a.absorbe && (
+        <p className="mt-1 text-[11px] leading-snug text-[#52514e]">
+          Absorbe menos de lo que piden por dos límites: solo recibe pisos de su banda ({hotel.banda ?? "—"}; los
+          de otras bandas van a otros hoteles) y no puede pasar de sus habitaciones libres (
+          {n(Math.round(Math.max(total - a.ocupadasHoy, 0)))}).
+        </p>
+      )}
 
       <Titulo className="mt-4">Habitaciones que piden, según el radio</Titulo>
-      <Lineas serie={serie} radio={radio} absorbe={a.absorbe} libres={Math.max(total - a.ocupadasHoy, 0)} />
+      <Lineas serie={serie} radio={radio} absorbe={a.absorbe} libres={Math.max(total - a.ocupadasHoy, 0)} param={datos.param} />
     </aside>
   );
 }
@@ -297,7 +324,8 @@ function Apilada({ partes, total, formato }: {
 }
 
 /** Gráfico lineal pequeño: lo que piden los pisos crece con el radio; lo que el hotel puede dar, no. */
-function Lineas({ serie, radio, absorbe, libres }: {
+function Lineas({ serie, radio, absorbe, libres, param }: {
+  param: DatosMapa["param"];
   serie: { radio: number; pisos: number; piden: number; pidenAlto: number }[]; radio: number; absorbe: number; libres: number;
 }) {
   const W = 260, H = 110, X0 = 28, Y0 = 8, ancho = W - X0 - 6, alto = H - Y0 - 18;
@@ -326,7 +354,7 @@ function Lineas({ serie, radio, absorbe, libres }: {
         ))}
       </svg>
       <ul className="space-y-0.5 text-[11px] text-[#52514e]">
-        <li><i className="mr-1.5 inline-block h-0.5 w-3 align-middle" style={{ background: COLOR.piso }} />piden los pisos (38 %; discontinua, 48 %)</li>
+        <li><i className="mr-1.5 inline-block h-0.5 w-3 align-middle" style={{ background: COLOR.piso }} />piden los pisos ({dec(param.ocupacion_piso[0])} %; discontinua, {dec(param.ocupacion_piso[1])} %)</li>
         <li><i className="mr-1.5 inline-block h-0.5 w-3 align-middle" style={{ background: COLOR.hotel }} />absorbe este hotel: <b className="text-[#24231f]">{n(Math.round(absorbe))}</b></li>
         <li><i className="mr-1.5 inline-block h-0.5 w-3 align-middle" style={{ background: "#9dbbdc" }} />libres hoy en el hotel: <b className="text-[#24231f]">{n(Math.round(libres))}</b></li>
       </ul>
@@ -334,12 +362,15 @@ function Lineas({ serie, radio, absorbe, libres }: {
   );
 }
 
-function PanelBarrio({ b, hotelesBarrio, onCerrar }: { b: BarrioHoy; hotelesBarrio: Hotel[]; onCerrar: () => void }) {
+function PanelBarrio({ b, hotelesBarrio, param, onCerrar }: {
+  b: BarrioHoy; hotelesBarrio: Hotel[]; param: DatosMapa["param"]; onCerrar: () => void;
+}) {
   const [bajo, alto] = b.turistas_pisos;
-  // Ocupación por habitaciones: hoy la media del INE (80,2 %); en 2028, más lo que reciben de los pisos.
+  // Ocupación por habitaciones: hoy la media del INE; en 2028, más lo que reciben de los pisos.
+  const hoy = param.ocupacion_hotel_habitaciones;
   const habs = hotelesBarrio.reduce((s, h) => s + (h.hab ?? 0), 0);
   const absorbidas = hotelesBarrio.reduce((s, h) => s + (h.hab_abs ?? 0), 0);
-  const sube = habs ? (absorbidas / habs) * 100 : null;
+  const sube = habs ? Math.min((absorbidas / habs) * 100, 100 - hoy) : null;
   const top = [...hotelesBarrio].filter((h) => (h.hab_abs ?? 0) > 0)
     .sort((a, c) => (c.hab_abs ?? 0) - (a.hab_abs ?? 0)).slice(0, 5);
   const tope = top[0]?.hab_abs ?? 1;
@@ -382,7 +413,7 @@ function PanelBarrio({ b, hotelesBarrio, onCerrar }: { b: BarrioHoy; hotelesBarr
         <b className="block text-[18px] leading-tight text-[#a84a00]">
           {dinero(b.facturacion_pisos[0])}–{dinero(b.facturacion_pisos[1])}
         </b>
-        Aproximado: precio de la noche × noches ocupadas (38,3 %–48 %).
+        Aproximado: precio de la noche × noches ocupadas ({dec(param.ocupacion_piso[0])} %–{dec(param.ocupacion_piso[1])} %).
       </section>
       <Operador color={COLOR.piso} etiqueta="Anfitrión con más pisos" op={b.operador_pisos}
         unidad="pisos" vacio="Ningún anfitrión llega a 5 pisos" />
@@ -396,7 +427,7 @@ function PanelBarrio({ b, hotelesBarrio, onCerrar }: { b: BarrioHoy; hotelesBarr
           <b className="block text-[18px] leading-tight text-[#123a6b]">
             +{sube.toLocaleString("es", { maximumFractionDigits: 1 })} pts
           </b>
-          Del 80,2 % al {(80.2 + sube).toLocaleString("es", { maximumFractionDigits: 1 })} % de media en el barrio.
+          Del {dec(hoy)} % al {dec(hoy + sube)} % de media en el barrio.
         </section>
       )}
       {top.length > 0 && (

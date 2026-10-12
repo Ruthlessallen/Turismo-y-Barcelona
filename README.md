@@ -17,7 +17,7 @@ año medio, adónde irían los turistas de los pisos y cómo cambia la demanda d
 |---|---|
 | Resumen | Cifras de hoteles y Airbnb; barrios que ganan y pierden turistas |
 | El mapa | Dónde está cada piso, hotel y restaurante; qué absorbe cada hotel en un radio de 0 a 500 m |
-| Airbnb | De 15.406 anuncios a 4.985 viviendas con registro, y qué licencias no vemos |
+| Airbnb | De los anuncios a las viviendas con registro, y qué licencias no vemos |
 | Hoteles | Ocupación por banda, PEUAT, hoteles anunciados |
 | Restauración | Marcas con más locales; locales y barrios que ganan o pierden clientes |
 | Turistas | Distancia y bandas del realojo; viajeros frente al INE |
@@ -35,7 +35,7 @@ data/raw → data/bronze → data/gold → data/exports → web/public/data → 
 
 - `pipeline/` — Python, un directorio por capa (`sources`, `bronze`, `gold`, `export`).
 - `web/` — Next.js 15 + Tailwind 4 + Leaflet, sitio estático.
-- `docs/` — documentación; empieza por [`docs/README.md`](docs/README.md).
+- `docs/` — documentación; empieza por [`docs/README.md`](docs/README.md). Qué hay en cada fichero de datos: [`docs/diccionario.md`](docs/diccionario.md).
 
 ## Puesta en marcha
 
@@ -50,7 +50,7 @@ pip install -r pipeline/requirements.txt
 ```
 
 El orden de ejecución del pipeline está en [`pipeline/README.md`](pipeline/README.md) y cómo
-actualizar los datos de la web en [`web/README.md`](web/README.md). Los datos crudos no se
+actualizar los datos de la web en [`web/README.md`](web/README.md). Para comprobar que los datos cuadran: `node scripts/verificar-datos.mjs`. Los datos crudos no se
 versionan (llevan datos personales): se bajan con `pipeline/sources/descargar_fuentes.py`.
 
 ## Reglas del repo

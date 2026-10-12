@@ -4,14 +4,14 @@ Cubre dos categorías, con el mismo método pero distinta configuración:
   - `hoteles`: hoteles y apartamentos turísticos (AT) de toda la provincia.
   - `vut`: viviendas de uso turístico (HUT), el objeto central del proyecto.
 
-Fuentes (ver docs/architecture.md):
+Fuentes (ver docs/fuentes.md):
   - Registre de Turisme de Catalunya (Generalitat): toda la provincia, con CIF/razón social
     del titular. No trae coordenadas, ni plazas en el caso de los HUT.
   - Open Data BCN: solo ciudad de Barcelona, con coordenadas reales. Aporta además las plazas
     en el caso de los HUT. No trae titular.
 
 No son duplicados a eliminar: cada fuente aporta campos que la otra no tiene (ver
-docs/data-model.md → "Estrategia frente a Open Data BCN"). El objetivo es un registro unificado
+docs/diccionario.md → "Estrategia frente a Open Data BCN"). El objetivo es un registro unificado
 que conserve lo mejor de ambas sin inventar ni perder filas.
 
 Estrategia, en dos pasadas:
@@ -75,7 +75,7 @@ class Perfil:
     ruta_registre: Path
     ruta_opendata: Path
     salida: Path
-    # Columnas del Registre → nombre canónico (ver docs/data-model.md).
+    # Columnas del Registre → nombre canónico (ver docs/diccionario.md).
     columnas_registre: dict[str, str]
     # Columnas de Open Data BCN → nombre canónico.
     columnas_opendata: dict[str, str]

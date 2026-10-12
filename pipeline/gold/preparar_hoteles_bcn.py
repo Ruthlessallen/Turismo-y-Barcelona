@@ -4,7 +4,7 @@
 
 Entradas
     data/bronze/hoteles_y_apartaments_unificados.csv   — censo del Registre de Turisme
-    data/bronze/precios_hoteles_cruzados.csv                 — precios raspados ya cruzados
+    data/bronze/adr_por_categoria.csv                  — ADR oficial por categoría (INE)
     data/bronze/geocodificacion_verificada.csv         — ICGC verificado contra polígono
     data/bronze/hoteles_geocodificados.csv             — geocodificación previa
     data/raw/hoteles/opendata_bcn_hotels_snapshot.csv     — barrio y distrito del Ajuntament
@@ -17,10 +17,9 @@ Sustituye a `preparar_hoteles_bcn_analisis.py` y `preparar_hoteles_bcn_imputacio
 construían este mismo dataset por dos caminos que no coincidían: 306 de 768 filas discrepaban en
 la categoría y una rama perdía 322 coordenadas que la otra sí tenía.
 
-**El precio no se divide.** Las dos fuentes ya cotizan por noche: Google devuelve `nightly` y
-Booking trae `precio_noche_eur` calculado sobre su estancia de dos noches. `cruzar_precios_hoteles`
-mapea `precio` desde esas dos columnas, así que volver a dividir entre dos dejaba la mediana
-hotelera de Barcelona en 86 € cuando la real es 173 €.
+**El precio es el ADR oficial de la categoría.** No hay precio por hotel: cada uno recibe el ADR
+medio de los últimos 12 meses de su categoría del INE (`bandas.categoria_ine`). Se descartaron los
+precios raspados de Google y Booking y su modelo de estimación.
 
 **La categoría no es una escala.** Un hostal y un apartament turístic no tienen cero estrellas: no
 se miden en estrellas. Ponerlos en 0,0 y 0,5 de una variable continua afirma que un AT vale menos
@@ -37,6 +36,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from bandas import adr_ultimos_12_meses, categoria_ine
+
 RAIZ = Path(__file__).resolve().parents[2]
 BRONZE = RAIZ / "data" / "bronze"
 GOLD = RAIZ / "data" / "gold"
@@ -47,15 +48,6 @@ SALIDA = GOLD / "hoteles_bcn.csv"
 # Plaça de Catalunya, origen convencional de distancias en la ciudad.
 CENTRO = (41.3870, 2.1700)
 
-# Meses que cubre el raspado (estancias del 29-09 al 07-10 de 2026) y a qué banda oficial del INE
-# corresponde cada categoría del Registre, para la corrección de temporada.
-MESES_RASPADO = [9, 10]
-BANDA_OFICIAL = {
-    "1 and 2 gold stars and silver stars": [1.0, 2.0],
-    "3 gold stars": [3.0],
-    "4 gold stars": [4.0, 4.5],
-    "5 gold stars": [5.0],
-}
 RADIO_TIERRA_KM = 6371.0
 
 ESTRELLAS = {
@@ -215,70 +207,6 @@ def anadir_barrio(d: pd.DataFrame) -> pd.DataFrame:
     return d.drop(columns=["addresses_neighborhood_name", "addresses_district_name"])
 
 
-def incorporar_rescatados(d: pd.DataFrame) -> pd.DataFrame:
-    """Suma los precios del segundo pase del cruce, si ya se ha ejecutado.
-
-    Se leen del libro de emparejamientos los pares dados por buenos, ya sea por el emparejador
-    (`auto`) o por una persona (`si`).
-
-    `rescatar_precios_hoteles.py` lee este mismo fichero para saber a quién le falta precio, así
-    que hay un orden entre los dos: preparar, rescatar, preparar. No es circular —el rescate solo
-    devuelve pares licencia/precio— y es idempotente.
-    """
-    ruta = BRONZE / "precios_emparejamientos.csv"
-    if not ruta.exists():
-        return d
-    r = pd.read_csv(ruta, dtype={"licencia_id": str})
-    # `auto` lo acepto el emparejador por su cuenta; `si` lo confirmo una persona. Cualquier otro
-    # valor —`no`, o vacio— es un par que no se ha dado por bueno y no debe aportar precio.
-    r = r[r["veredicto"].astype(str).str.strip().str.lower().isin(["auto", "si", "sí"])]
-    r = r[["licencia_id", "precio_rescatado"]].drop_duplicates("licencia_id")
-    d = d.merge(r, on="licencia_id", how="left")
-    nuevos = d["precio_noche"].isna() & d["precio_rescatado"].notna()
-    d.loc[nuevos, "precio_noche"] = d.loc[nuevos, "precio_rescatado"]
-    d.loc[nuevos, "origen_precio"] = "rescate"
-    print(f"  precios incorporados del segundo pase: {int(nuevos.sum())}")
-    return d.drop(columns="precio_rescatado")
-
-
-def a_equivalente_anual(d: pd.DataFrame) -> pd.DataFrame:
-    """Quita a los precios el efecto de haberse consultado en temporada alta.
-
-    El raspado corresponde a estancias del 29 de septiembre al 7 de octubre de 2026, y esas dos
-    semanas están un 16% y un 13% por encima de la media anual según trece años de serie oficial.
-    Un hotel a 175 € en esa ventana ronda los 151 € de media en el año.
-
-    Importa para las bandas: con cortes en 100/175/300, un hotel a 178 € en septiembre cae en
-    `€€€`, pero su media anual son 153 € y le corresponde `€€`. Sin corregir, la ciudad entera
-    aparece una banda más cara de lo que es.
-
-    El factor se toma por categoría, no global, porque la estacionalidad no es igual en todas: los
-    cinco estrellas oscilan menos entre temporadas que los de una y dos.
-    """
-    ruta = BRONZE / "adr_estacionalidad.csv"
-    if not ruta.exists():
-        print("  (sin adr_estacionalidad.csv: no se aplica corrección de temporada)")
-        d["precio_noche_anual"] = np.nan
-        return d
-
-    est = pd.read_csv(ruta)
-    # La ventana cae a caballo de los dos meses, así que se promedian.
-    ventana = est[est["mes"].isin(MESES_RASPADO)].groupby("categoria_oficial")["factor"].mean()
-
-    banda = pd.Series(index=d.index, dtype=object)
-    for nombre, estrellas in BANDA_OFICIAL.items():
-        banda[d["estrellas"].isin(estrellas)] = nombre
-    # Hostales y pensiones van con la banda de "estrellas de plata", que es donde los mete el INE.
-    banda[d["estrellas"].isna()] = "1 and 2 gold stars and silver stars"
-
-    factor = banda.map(ventana)
-    d["factor_temporada"] = factor.round(3)
-    d["precio_noche_anual"] = (d["precio_noche"] / factor).round(2)
-    print(f"  factor de temporada por categoría: "
-          f"{ {k[:18]: round(v, 3) for k, v in ventana.items()} }")
-    return d
-
-
 def marcar_duplicados(d: pd.DataFrame) -> pd.DataFrame:
     """Señala, sin borrar, el mismo establecimiento inscrito con dos licencias.
 
@@ -304,15 +232,6 @@ def main() -> None:
     for c in ("plazas", "habitaciones"):
         d[c] = pd.to_numeric(d[c], errors="coerce")
 
-    precios = pd.read_csv(BRONZE / "precios_hoteles_cruzados.csv", low_memory=False)
-    fiables = precios[precios["precio"].notna() & ~precios["dudoso"].fillna(False)]
-    d = d.merge(fiables[["licencia_id", "precio", "metodo_cruce", "puntuacion"]],
-                on="licencia_id", how="left")
-    # El precio ya viene por noche en ambas fuentes. No se divide.
-    d = d.rename(columns={"precio": "precio_noche"})
-    d["origen_precio"] = np.where(d["precio_noche"].notna(), "cruce_inicial", None)
-    d = incorporar_rescatados(d)
-
     d = anadir_coordenadas(d)
     d = anadir_barrio(d)
 
@@ -327,15 +246,17 @@ def main() -> None:
     d["cadena"] = [cadena_hotelera(n, r) for n, r in zip(d["nombre_comercial"], d["razon_social"])]
     d["es_cadena"] = d["cadena"].ne("Independiente")
     d["distancia_centro_km"] = distancia_km(d["lat"], d["lon"]).round(3)
-    d = a_equivalente_anual(d)
+    d["categoria_ine"] = categoria_ine(d["estrellas"], d["tipo_alojamiento"])
+    adr = adr_ultimos_12_meses(BRONZE / "adr_por_categoria.csv")
+    d["precio_noche"] = d["categoria_ine"].map(adr)
+    d["origen_precio"] = np.where(d["precio_noche"].notna(), "ine_categoria", None)
     d = marcar_duplicados(d)
 
     columnas = ["licencia_id", "nombre_comercial", "razon_social", "tipo", "tipo_alojamiento",
                 "subtipo", "categoria", "estrellas", "cadena", "es_cadena", "plazas",
                 "habitaciones", "codigo_postal", "barrio", "distrito", "nombre_via", "numero",
-                "lat", "lon", "origen_coord", "distancia_centro_km", "precio_noche",
-                "precio_noche_anual", "factor_temporada", "origen_precio", "metodo_cruce",
-                "puntuacion", "duplicado_probable"]
+                "lat", "lon", "origen_coord", "distancia_centro_km", "categoria_ine",
+                "precio_noche", "origen_precio", "duplicado_probable"]
     d[columnas].to_csv(SALIDA, index=False, encoding="utf-8")
 
     print(f"\nCobertura sobre {len(d)}:")
@@ -349,9 +270,8 @@ def main() -> None:
     print(f"  en cadena              : {int(d['es_cadena'].sum())} "
           f"en {d['cadena'].nunique() - 1} grupos")
     print(f"  duplicado_probable     : {int(d['duplicado_probable'].sum())}")
-    p = d["precio_noche"].dropna()
-    print(f"\n  precio/noche: n={len(p)}  mediana={p.median():.0f} EUR  "
-          f"p1={p.quantile(.01):.0f}  p99={p.quantile(.99):.0f}")
+    print(f"\n  ADR por categoría INE (EUR/hab): {adr.to_dict()}")
+    print(f"  alojamientos por categoría INE : {d['categoria_ine'].value_counts(dropna=False).to_dict()}")
     print(f"\nGuardado en {SALIDA.relative_to(RAIZ)}")
 
 

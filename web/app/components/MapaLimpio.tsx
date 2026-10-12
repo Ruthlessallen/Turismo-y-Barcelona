@@ -6,9 +6,9 @@ import "leaflet/dist/leaflet.css";
 
 import { fondoDelMapa } from "@/app/lib/fondo";
 import {
-  COLOR, OCUPACION, distanciaM, n,
+  COLOR, distanciaM, n,
   type BarrioHoy, type Capas, type HotelNuevo, type ColorRestaurante, type DatosMapa, type Hotel,
-  type ModoAlojamiento, type Piso, type Restaurante, type TipoBarrio,
+  type ModoAlojamiento, type Parametros, type Piso, type Restaurante, type TipoBarrio,
 } from "@/app/lib/tiposMapa";
 
 type Props = {
@@ -70,28 +70,30 @@ const nota = (t: string) => `<div style="color:#52514e;margin-top:3px">${t}</div
 
 const euros = (v: number) => `${n(Math.round(v))} €`;
 
-function popupPiso(p: Piso): string {
-  const [, , plazas, dorm, precioPiso, precioPlaza, banda, origen, barrio, , noches] = p;
+function popupPiso(p: Piso, par: Parametros): string {
+  const [, , plazas, dorm, precioPiso, precioPlaza, banda, , barrio, , noches] = p;
   // Orden de magnitud: ocupación x 365 noches x precio de la noche. No es facturación real.
   const fact = precioPiso == null
     ? "—"
-    : `${euros(precioPiso * (noches ?? 365 * OCUPACION.pisoBaja))} – ${euros(precioPiso * 365 * OCUPACION.pisoAlta)}`;
+    : `${euros(precioPiso * (noches ?? 365 * par.ocupacion_piso[0] / 100))} – ${euros(precioPiso * 365 * par.ocupacion_piso[1] / 100)}`;
   return `<div style="min-width:230px"><b style="color:${COLOR.piso}">Piso turístico</b>
     <div style="color:#52514e;margin-bottom:4px">${escapar(barrio)}</div>
     ${fila("Precio de la noche del piso", precioPiso == null ? "—" : euros(precioPiso))}
     ${fila("Plazas", n(plazas))}${fila("Dormitorios", n(dorm))}
     ${fila("Banda (por plaza)", `${banda ?? "—"} · ${precioPlaza == null ? "—" : n(precioPlaza) + " €/plaza"}`)}
     ${fila("Factura al año (aprox.)", fact)}
-    ${origen === "estimado" ? nota("Precio estimado, no observado.") : ""}</div>`;
+    </div>`;
 }
 
 function popupHotel(h: Hotel): string {
   return `<div style="min-width:220px"><b style="color:${COLOR.hotel}">${escapar(h.nom) || "Hotel"}</b>
     <div style="color:#52514e;margin-bottom:4px">${escapar(h.cat)} · ${escapar(h.barrio)}</div>
     ${h.titular ? fila("Titular", escapar(h.titular)) : ""}
-    ${fila("Banda (por habitación)", h.banda_hab ?? "—")}
+    ${fila("Categoría (INE)", escapar(h.cat_ine) || "—")}
+    ${fila("Habitación, ADR de la categoría", h.adr == null ? "—" : euros(h.adr))}
+    ${fila("Banda (por plaza)", h.banda ?? "—")}
     ${fila("Habitaciones", n(h.hab))}${fila("Plazas", n(h.plazas))}
-    ${h.origen === "estimado" ? nota("Precio estimado, no observado.") : ""}</div>`;
+    ${nota("El hotel no tiene precio propio: se le aplica el ADR oficial de su categoría.")}</div>`;
 }
 
 function popupNuevo(h: HotelNuevo): string {
@@ -194,12 +196,12 @@ export default function MapaLimpio({
       m: L.circleMarker([p[0], p[1]], {
         radius: 3.5, weight: 0.6, color: "#fff", fillColor: COLOR.piso, fillOpacity: 0.9,
       }).bindTooltip(`Piso · ${p[4] == null ? "—" : n(p[4]) + " €/noche"} · ${n(p[2])} plazas`,
-        { direction: "top" }).on("click", (e) => abrir(e, popupPiso(p))),
+        { direction: "top" }).on("click", (e) => abrir(e, popupPiso(p, datos.param))),
     }));
     const hoteles = datos.hoteles.map((h) =>
       L.circleMarker([h.lat, h.lon], {
         radius: 6, weight: 1, color: "#fff", fillColor: COLOR.hotel, fillOpacity: 0.95,
-      }).bindTooltip(`${h.nom ?? "Hotel"} · banda ${h.banda_hab ?? "—"} · ${n(h.hab)} hab.`,
+      }).bindTooltip(`${h.nom ?? "Hotel"} · banda ${h.banda ?? "—"} · ${n(h.hab)} hab.`,
         { direction: "top" })
         .on("click", (e) => { abrir(e, popupHotel(h)); alClicHotel.current(h); }));
 

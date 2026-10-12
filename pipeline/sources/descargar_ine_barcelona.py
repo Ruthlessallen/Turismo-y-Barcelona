@@ -42,7 +42,7 @@ TABLAS = {
     "plazas_ocupacion": ("2076", "Establecimientos, plazas, ocupación y personal"),
 }
 
-# 60 meses = cinco años, que es el horizonte del proyecto (ver docs/prd.md).
+# 60 meses = cinco años, que es el horizonte del proyecto (ver docs/fuentes.md).
 MESES = 72
 
 

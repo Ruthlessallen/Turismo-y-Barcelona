@@ -15,59 +15,46 @@ su salida sea un derivado.
 
 ## Orden de ejecución
 
+Los scripts que importan `geopandas` o `shapely` (`bronze/asignar_municipio.py`,
+`gold/preparar_hoteles_bcn.py`, `export/*`) se ejecutan con el entorno `.venv`; el resto, con Python normal.
+
 ```bash
 python pipeline/sources/descargar_fuentes.py
+python pipeline/sources/descargar_ine_barcelona.py     # serie del INE (la web lee la ocupación de data/raw/ine)
+python pipeline/sources/descargar_serie_vut.py         # serie trimestral de licencias
 python pipeline/bronze/unificar_registros.py
 python pipeline/bronze/reparar_geometria_municipios.py
 python pipeline/sources/geocodificar_registros.py      # horas, reanudable
 python pipeline/bronze/asignar_municipio.py            # verifica lo geocodificado
-python pipeline/bronze/cruzar_precios_hoteles.py
-python pipeline/bronze/enriquecer_hoteles_con_booking.py
-python pipeline/bronze/preparar_adr_por_categoria.py
+python pipeline/sources/geocodificar_hoteles.py
+python pipeline/bronze/preparar_adr_por_categoria.py   # ADR oficial por categoría: el precio de hotel
 python pipeline/bronze/unificar_airbnb.py
-# y despues, a mano: pipeline/notebooks/revisar_airbnb_v2.ipynb
+# y después, a mano: pipeline/notebooks/revisar_airbnb_v2.ipynb
+python pipeline/gold/separar_sin_registro.py           # saca los pisos sin registro acreditado
 python pipeline/gold/preparar_hoteles_bcn.py
-python pipeline/bronze/rescatar_precios_hoteles.py     # segundo pase del cruce
-python pipeline/gold/preparar_hoteles_bcn.py           # recoge lo rescatado
-python pipeline/gold/modelar_precios_hoteles_bcn.py
 python pipeline/gold/preparar_alojamientos_provincia.py
 python pipeline/gold/preparar_restauracion_bcn.py
-python pipeline/gold/separar_sin_registro.py           # saca los pisos sin registro acreditado
-python pipeline/gold/modelar_sustitucion.py            # solo lo lee /mapa-anterior
 python pipeline/export/preparar_geometria_web.py
-python pipeline/export/export_mapa.py                  # con .venv: usa shapely
-python pipeline/export/export_mapa_limpio.py           # el que lee la web actual (llama a modelar_flujos_banda)
-python pipeline/generar_criba.py && python pipeline/generar_linaje.py
+python pipeline/export/export_criba.py
+python pipeline/export/export_mapa_limpio.py           # llama a gold/modelar_flujos_banda
+python pipeline/generar_criba.py && python pipeline/generar_linaje.py && python pipeline/generar_diccionario.py
 ```
 
-`gold/modelar_flujos_banda.py` no se ejecuta aparte: lo importa `export_mapa_limpio.py`.
+`gold/modelar_flujos_banda.py` no se ejecuta aparte: lo importa `export_mapa_limpio.py`. Las
+ocupaciones del modelo (hotel 80,2 %, pisos 38,3 %) y el radio de 200 m viven en `gold/modelo.py`
+y viajan a la web por `parametros.json`.
 
-`preparar_alojamientos_provincia` va al final de `gold` porque necesita el precio ya estimado: es
-lo que lleva la banda economica desde la ciudad al censo provincial para que el export la publique.
-
-`preparar_hoteles_bcn` aparece dos veces a propósito. El rescate de precios necesita saber a quién
-le falta, así que se ejecuta después; y su resultado hay que recogerlo. No es circular —el rescate
-solo devuelve pares de licencia y precio— y es idempotente: la segunda vuelta no encuentra nada
-nuevo que hacer.
+**El precio de hotel es el ADR del INE de su categoría** (`gold/bandas.py`): no hay precios por
+hotel ni modelo de estimación. `preparar_alojamientos_provincia` va después de `preparar_hoteles_bcn`
+porque es lo que lleva la banda al censo que lee el export.
 
 ## Notebooks
 
 `notebooks/revisar_airbnb_v2.ipynb` es donde vive la limpieza de Airbnb: clasificación de licencias
 contra el registro oficial, deduplicación, criba y construcción de `df_v2`, el conjunto que va a la
-web. Sus salidas son `data/gold/airbnb_para_web.csv` y `data/gold/airbnb_excluidos_web.csv`.
-
-Lee `data/bronze/airbnb_anuncios.csv` y escribe `data/gold/airbnb_para_web.csv` y
-`airbnb_excluidos_web.csv`, que son los que consumen `export/export_mapa.py` y `generar_criba.py`.
-
-**Después del notebook** se ejecuta `gold/separar_sin_registro.py`, que saca de `airbnb_para_web.csv` los
-pisos sin registro acreditado y los deja en `airbnb_excluidos_web.csv` con su motivo (es idempotente).
-Orden: notebook → `separar_sin_registro.py` → `gold/modelar_sustitucion.py` → exports. Los exports de
-`export_mapa.py` necesitan el entorno `.venv` (usa `shapely`).
-
-**Es la única cadena de Airbnb del proyecto.** Hubo dos: `pipeline/gold/preparar_airbnb_bcn.py`
-aplicaba su propia criba y el mapa publicaba desde ella, no desde el notebook. Ese script está
-retirado en `scraps/pipeline_gold/`, y su cálculo de precio por plaza y banda económica vive ahora
-en el notebook.
+web. Lee `data/bronze/airbnb_anuncios.csv` y escribe `data/gold/airbnb_para_web.csv` y
+`airbnb_excluidos_web.csv`, que consumen `separar_sin_registro.py`, `export/export_criba.py` y
+`generar_criba.py`. **Después del notebook** se ejecuta `separar_sin_registro.py` (idempotente).
 
 ## Diagramas
 
@@ -81,15 +68,3 @@ el pipeline acaba de producir.
 script.**
 
 Ninguno se edita a mano.
-
-## Linaje
-
-`python pipeline/generar_linaje.py` regenera `docs/linaje.md`: un diagrama Mermaid y una tabla de
-qué lee y qué escribe cada script, construidos recorriendo el AST del código.
-
-**Ejecutarlo después de cualquier cambio de rutas.** No se edita a mano: un diagrama dibujado
-describe el pipeline del día en que se dibujó, y este describe el que hay.
-
-Lo que no alcanza a ver queda listado en el propio documento —rutas que se componen en tiempo de
-ejecución, como las de `unificar_registros.py` y `preparar_geometria_web.py`—, para que el hueco se
-vea en vez de pasar por completo.

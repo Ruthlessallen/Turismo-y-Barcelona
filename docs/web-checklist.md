@@ -85,12 +85,12 @@ eliminar 10.000 licencias no elimina la oferta, porque una parte ya opera sin de
 
 ## 1 · Qué hay hoy
 
-- [ ] Mapa con tres capas conmutables: **apartamentos turísticos**, **hoteles**, **bares y
+- [x] Mapa con tres capas conmutables: **apartamentos turísticos**, **hoteles**, **bares y
       restaurantes**
 - [ ] Filtro por barrio (`FilterBar`)
 - [ ] Clustering por densidad — en Ciutat Vella los puntos se solapan (117 hoteles en un solo CP)
-- [ ] Capa de zonas **PEUAT**, que enseña dónde no pueden abrir hoteles nuevos
-- [ ] `StatTile` por categoría, con **plazas además de establecimientos**: un hotel de 400
+- [x] Capa de zonas **PEUAT**, que enseña dónde no pueden abrir hoteles nuevos
+- [x] `StatTile` por categoría, con **plazas además de establecimientos**: un hotel de 400
       habitaciones y un VUT de 4 plazas no pesan igual
 
 **Alcance: la ciudad de Barcelona** (decidido 2026-09-15). Desde esa fecha el export publica solo
@@ -142,11 +142,11 @@ Traslada el embudo del notebook 03. Cada cifra **por anuncios y por anfitriones*
 - [x] ~~Embudo completo, con lo descartado en cada paso a la vista~~ **Hecho 2026-09-16**, en
       `/airbnb`: barra de 0 a 6 filtros, con los anuncios y las plazas que quedan en cada paso y el
       porqué de cada descarte. De 15.406 / 56.420 plazas a 6.834 / 30.067.
-- [ ] Desglose por situación: verificada / no declara / número imposible / plausible inexistente /
+- [x] Desglose por situación: verificada / no declara / número imposible / plausible inexistente /
       otro régimen / se asume por el anfitrión
 - [ ] Top barrios **por volumen y por tasa** — solo por volumen siempre gana el Eixample
-- [ ] Concentración por anfitrión
-- [ ] Mapa **agregado por barrio**, nunca por anuncio
+- [x] Concentración por anfitrión
+- [x] Mapa **agregado por barrio**, nunca por anuncio
 
 **Hay dos cifras y no se contradicen: cuentan universos distintos.** Conviene tener las dos a mano
 antes de publicar ninguna.
@@ -206,9 +206,9 @@ días o menos: no son anuncios dormidos.
 
 ## 4 · Quién puede absorberlo
 
-- [ ] Capacidad hotelera frente a las plazas que se liberan
-- [ ] **Habitaciones necesarias, no plazas** — ver abajo
-- [ ] El límite del PEUAT sobre el mapa: en 3 de sus 4 zonas no se conceden licencias nuevas
+- [x] Capacidad hotelera frente a las plazas que se liberan
+- [x] **Habitaciones necesarias, no plazas** — ver abajo
+- [x] El límite del PEUAT sobre el mapa: en 3 de sus 4 zonas no se conceden licencias nuevas
 - [x] ~~Restauración que quedaría afectada~~ **Hecho 2026-09-16.** Botón de Restauración en el
       mapa, con las dos vistas: dónde están los 9.479 locales y cuántos comensales gana o pierde
       cada barrio. 40 barrios pierden y 25 ganan; la Sagrada Família pierde 2.137 y el Raval gana
